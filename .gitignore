@@ -12,6 +12,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Vitest
+__coverage__/
+
 
 # environment variables
 .env
