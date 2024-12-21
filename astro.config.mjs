@@ -8,14 +8,14 @@ import starlightViewModes from 'starlight-view-modes'
 import partytown from '@astrojs/partytown'
 import sitemap from '@astrojs/sitemap';
 
+const site = 'https://starter.obytes.com/';
 //@see: https://astro.build/config
 export default defineConfig({
   integrations: [
     starlight({
-      title: 'My Docs',
-      social: {
-        github: 'https://github.com/withastro/starlight',
-      },
+      components: {
+				Header: './src/components/Header.astro',
+			},
       customCss: [
         // Relative path to your custom CSS file
         "./src/styles/custom.css",
@@ -48,6 +48,53 @@ export default defineConfig({
         //@see: https://expressive-code.com/guides/themes/
         themes: ['dracula', 'catppuccin-latte'],
       },
+      title: 'My Docs',
+      social: {
+        github: 'https://github.com/withastro/starlight',
+      },
+      head: [
+        {
+          tag: 'meta',
+          attrs: { property: 'og:image', content: site + 'og.jpg?v=1' },
+        },
+        {
+          tag: 'meta',
+          attrs: { property: 'twitter:image', content: site + 'og.jpg?v=1' },
+        },
+        {
+          tag: 'link',
+          attrs: { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        },
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'preconnect',
+            href: 'https://fonts.gstatic.com',
+            crossorigin: true,
+          },
+        },
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'stylesheet',
+            href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap',
+          },
+        },
+        {
+          tag: 'script',
+          attrs: {
+            src: 'https://cdn.jsdelivr.net/npm/@minimal-analytics/ga4/dist/index.js',
+            async: true,
+          },
+        },
+        {
+          tag: 'script',
+          content: ` window.minimalAnalytics = {
+            trackingId: 'G-GQ45JJD1JC',
+            autoTrack: true,
+          };`,
+        },
+      ],
 
       // Set English as the default language for this site.
       defaultLocale: "en",
