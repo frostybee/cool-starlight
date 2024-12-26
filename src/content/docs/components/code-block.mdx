@@ -1,0 +1,64 @@
+---
+title: Styled Code Block
+description: Styling Code Block
+sidebar:
+  label: 'Code Block'
+  order: 1
+---
+import CodeBlock from '../../../components/CodeBlock.astro'
+
+## Code Block
+
+```php  title="tsconfig.json"
+try {
+    // Outer try block
+    echo "Outer try block <br/>";
+
+    try {
+        // Inner try block
+        echo "Inner try block";
+        throw new RuntimeException("An error occurred in the inner block");
+    } catch (RuntimeException $e) {
+        // Handle inner exception
+        echo "Caught in inner catch: " . $e->getMessage() . "<br/>";
+    }
+
+    // This code will still run even if inner block throws an exception
+    echo "Continuing in outer try block <br/>";
+    
+    // Simulate another error
+    throw new Exception("An error occurred in the outer block");
+    
+} catch (Exception $e) {
+    // Handle outer exception
+    echo "Caught in outer catch: " . $e->getMessage() . " <br/>";
+}
+```
+
+<CodeBlock title="Example: "> 
+```php
+try {
+    // Outer try block
+    echo "Outer try block <br/>";
+
+    try {
+        // Inner try block
+        echo "Inner try block";
+        throw new RuntimeException("An error occurred in the inner block");
+    } catch (RuntimeException $e) {
+        // Handle inner exception
+        echo "Caught in inner catch: " . $e->getMessage() . "<br/>";
+    }
+
+    // This code will still run even if inner block throws an exception
+    echo "Continuing in outer try block <br/>";
+    
+    // Simulate another error
+    throw new Exception("An error occurred in the outer block");
+    
+} catch (Exception $e) {
+    // Handle outer exception
+    echo "Caught in outer catch: " . $e->getMessage() . " <br/>";
+}
+```
+</CodeBlock>  

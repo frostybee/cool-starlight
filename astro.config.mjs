@@ -14,12 +14,14 @@ export default defineConfig({
   integrations: [
     starlight({
       components: {
-				Header: './src/components/Header.astro',
-			},
+        Header: './src/components/Header.astro',
+      },
       customCss: [
         // Relative path to your custom CSS file
         "./src/styles/custom.css",
+        // "./src/styles/custom_old.css",
       ],
+      lastUpdated: true,
       plugins: [
         starlightImageZoom(),
         starlightViewModes()
@@ -47,10 +49,6 @@ export default defineConfig({
         // For more themes:
         //@see: https://expressive-code.com/guides/themes/
         themes: ['dracula', 'catppuccin-latte'],
-      },
-      title: 'My Docs',
-      social: {
-        github: 'https://github.com/withastro/starlight',
       },
       head: [
         {
@@ -95,7 +93,11 @@ export default defineConfig({
           };`,
         },
       ],
-
+      title: 'My Docs',
+      social: {
+        github: 'https://github.com/withastro/starlight',
+      },
+      //TODO: add the head property.
       // Set English as the default language for this site.
       defaultLocale: "en",
 
@@ -106,6 +108,10 @@ export default defineConfig({
             // Each item here is one entry in the navigation menu.
             { label: 'Example Guide', slug: 'guides/example' },
           ],
+        },
+        {
+          label: 'Components',
+          autogenerate: { directory: 'components' },
         },
         {
           label: 'Reference',

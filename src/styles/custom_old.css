@@ -2,7 +2,7 @@
 :root,
 ::backdrop {
   /* --sl-font: 'IBM Plex Serif', serif;; */
-  --sl-font: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  --sl-font: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   /* Text size and line height */
   /* @link https://utopia.fyi/type/calculator?c=300,16,1.125,1440,16,1.2,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
   --step--2: clamp(0.6944rem, 0.8153rem + -0.1343vi, 0.7901rem);
@@ -32,11 +32,12 @@
   --sl-text-h3: var(--step-1);
   --sl-text-h4: var(--step-1);
   --sl-text-h5: var(--step-1);
-
+  --sl-shadow-sm: 110px 111px 111px hsla(0, 0%, 0%, 0.06),
+    0px 2px 1px hsla(0, 0%, 0%, 0.06);
   --sl-line-height: 1.5;
   --sl-line-height-headings: 1.2;
   --sl-nav-pad-x: var(--space-s);
-  --border-radius: 6px;
+  --border-radius: 8px;
   /* Custom backdrop background color in dark mode. */
   --starlight-image-zoom-backdrop-bg: oklch(0 0 0);
 }
@@ -44,11 +45,16 @@
 :root[data-theme='light'],
 [data-theme='light'] ::backdrop {
   /* Colors (light mode) */
-  --sl-color-orange-low: hsl(var(--sl-hue-orange), 90%, 95%); /* lightest */
-  --sl-color-blue-low: hsl(var(--sl-hue-blue), 88%, 97%); /* lightest */
-  --sl-color-purple-low: hsl(var(--sl-hue-purple), 80%, 96%); /* lightest */
-  --sl-color-red-low: hsl(var(--sl-hue-red), 80%, 96%); /* lightest */
-  --sl-color-green-low: hsl(var(--sl-hue-green), 85%, 96%); /* lightest */
+  --sl-color-orange-low: hsl(var(--sl-hue-orange), 90%, 95%);
+  /* lightest */
+  --sl-color-blue-low: hsl(var(--sl-hue-blue), 88%, 97%);
+  /* lightest */
+  --sl-color-purple-low: hsl(var(--sl-hue-purple), 80%, 96%);
+  /* lightest */
+  --sl-color-red-low: hsl(var(--sl-hue-red), 80%, 96%);
+  /* lightest */
+  --sl-color-green-low: hsl(var(--sl-hue-green), 85%, 96%);
+  /* lightest */
   /* Custom backdrop background color in light mode. */
   --starlight-image-zoom-backdrop-bg: oklch(95% 0 0);
 }
@@ -226,11 +232,11 @@
 
 /* Stylized title and headings */
 @media screen and (min-width: 500px) {
-  .sl-container > h1:first-of-type {
+  .sl-container>h1:first-of-type {
     width: max-content;
   }
 
-  .sl-container > h1:first-of-type::after {
+  .sl-container>h1:first-of-type::after {
     background-color: var(--color-accent-highlight);
     height: 12px;
     top: -12px;
@@ -260,42 +266,38 @@
 }
 
 /* Element spacing styles */
-.content-panel:where(.astro-qhy5epp2) + .content-panel:where(.astro-qhy5epp2) {
+.content-panel:where(.astro-qhy5epp2)+.content-panel:where(.astro-qhy5epp2) {
   /* border-top: 1px solid var(--sl-color-hairline) */
 }
 
-.sl-banner + .content-panel,
+.sl-banner+.content-panel,
 .content-panel:first-of-type {
   padding: var(--space-m) var(--space-l) 0 var(--space-l);
 }
 
-.content-panel + .content-panel {
+.content-panel+.content-panel {
   border-block-start: 0;
   padding: var(--space-m) var(--space-l);
   border-top: 1px solid var(--sl-color-hairline);
   border-right: 1px solid var(--sl-color-hairline);
 }
 
-.sl-markdown-content.sl-markdown-content
-  :not(a, strong, em, del, span, label, input)
-  + :not(a, strong, em, del, span, label, input, :where(.not-content *)) {
+.sl-markdown-content.sl-markdown-content :not(a, strong, em, del, span, label, input)+ :not(a, strong, em, del, span, label, input, :where(.not-content *)) {
   margin-block-start: var(--space-s);
 }
 
-.sl-markdown-content.sl-markdown-content
-  :not(h1, h2, h3, h4, h5, h6)
-  + :is(h1, h2, h3, h4, h5, h6, .heading):not(:where(.not-content *)) {
+.sl-markdown-content.sl-markdown-content :not(h1, h2, h3, h4, h5, h6)+ :is(h1, h2, h3, h4, h5, h6, .heading):not(:where(.not-content *)) {
   margin-block-start: var(--space-m);
 }
 
-.sl-markdown-content.sl-markdown-content li > ul,
-.sl-markdown-content.sl-markdown-content li > ol,
-.sl-markdown-content.sl-markdown-content li + li:not(:where(.not-content *)) {
+.sl-markdown-content.sl-markdown-content li>ul,
+.sl-markdown-content.sl-markdown-content li>ol,
+.sl-markdown-content.sl-markdown-content li+li:not(:where(.not-content *)) {
   margin-block-start: var(--space-2xs);
 }
 
-.sl-markdown-content.sl-markdown-content aside + div,
-.sl-markdown-content.sl-markdown-content div + div {
+.sl-markdown-content.sl-markdown-content aside+div,
+.sl-markdown-content.sl-markdown-content div+div {
   margin-block-start: var(--space-m);
 }
 
@@ -318,7 +320,7 @@ img {
   box-shadow: var(--box-shadow);
 }
 
-.mermaid > svg {
+.mermaid>svg {
   background-color: white;
   border-radius: var(--border-radius);
 }
@@ -328,10 +330,12 @@ aside.starlight-aside {
   padding: var(--space-xs) var(--space-s);
   border-inline-start: 0;
 }
+
 p.starlight-aside__title {
   text-transform: uppercase;
 }
-p.starlight-aside__title + section.starlight-aside__content {
+
+p.starlight-aside__title+section.starlight-aside__content {
   margin-block-start: var(--space-2xs);
 }
 
@@ -348,7 +352,7 @@ starlight-tabs pre {
   box-shadow: none;
 }
 
-starlight-tabs .tab > [role='tab'] {
+starlight-tabs .tab>[role='tab'] {
   color: var(--sl-color-accent);
   text-decoration: underline;
   padding-block-end: var(--space-3xs);
@@ -380,17 +384,11 @@ thead tr:first-of-type th:last-of-type {
   border-start-end-radius: var(--border-radius);
 }
 
-.sl-markdown-content
-  thead
-  + tbody
-  tr:nth-child(2n):not(:where(.not-content *)) {
+.sl-markdown-content thead+tbody tr:nth-child(2n):not(:where(.not-content *)) {
   background-color: var(--sl-color-gray-7, var(--sl-color-gray-6));
 }
 
-.sl-markdown-content
-  thead
-  + tbody
-  tr:nth-child(2n + 1):not(:where(.not-content *)) {
+.sl-markdown-content thead+tbody tr:nth-child(2n + 1):not(:where(.not-content *)) {
   background-color: initial;
 }
 
@@ -407,57 +405,31 @@ thead tr:first-of-type th:last-of-type {
   padding-block: var(--space-2xs);
 }
 
-.sl-markdown-content
-  :is(th:first-child, td:first-child):not(:where(.not-content *)) {
+.sl-markdown-content :is(th:first-child, td:first-child):not(:where(.not-content *)) {
   padding-inline-start: var(--space-xs);
 }
 
-.sl-markdown-content
-  :is(th:last-child, td:last-child):not(:where(.not-content *)) {
+.sl-markdown-content :is(th:last-child, td:last-child):not(:where(.not-content *)) {
   padding-inline-end: var(--space-xs);
 }
 
-.sl-markdown-content
-  tbody
-  tr:first-of-type:not(:where(.not-content *))
-  th:first-child,
-.sl-markdown-content
-  tbody
-  tr:first-of-type:not(:where(.not-content *))
-  td:first-child {
+.sl-markdown-content tbody tr:first-of-type:not(:where(.not-content *)) th:first-child,
+.sl-markdown-content tbody tr:first-of-type:not(:where(.not-content *)) td:first-child {
   border-start-start-radius: var(--border-radius);
 }
 
-.sl-markdown-content
-  tbody
-  tr:first-of-type:not(:where(.not-content *))
-  th:last-child,
-.sl-markdown-content
-  tbody
-  tr:first-of-type:not(:where(.not-content *))
-  td:last-child {
+.sl-markdown-content tbody tr:first-of-type:not(:where(.not-content *)) th:last-child,
+.sl-markdown-content tbody tr:first-of-type:not(:where(.not-content *)) td:last-child {
   border-start-end-radius: var(--border-radius);
 }
 
-.sl-markdown-content
-  tbody
-  tr:last-of-type:not(:where(.not-content *))
-  th:first-child,
-.sl-markdown-content
-  tbody
-  tr:last-of-type:not(:where(.not-content *))
-  td:first-child {
+.sl-markdown-content tbody tr:last-of-type:not(:where(.not-content *)) th:first-child,
+.sl-markdown-content tbody tr:last-of-type:not(:where(.not-content *)) td:first-child {
   border-end-start-radius: var(--border-radius);
 }
 
-.sl-markdown-content
-  tbody
-  tr:last-of-type:not(:where(.not-content *))
-  th:last-child,
-.sl-markdown-content
-  tbody
-  tr:last-of-type:not(:where(.not-content *))
-  td:last-child {
+.sl-markdown-content tbody tr:last-of-type:not(:where(.not-content *)) th:last-child,
+.sl-markdown-content tbody tr:last-of-type:not(:where(.not-content *)) td:last-child {
   border-end-end-radius: var(--border-radius);
 }
 
@@ -476,7 +448,7 @@ thead tr:first-of-type th:last-of-type {
   border-radius: var(--border-radius);
 }
 
-.pagination-links a > span {
+.pagination-links a>span {
   color: var(--sl-color-text-accent);
   font-size: var(--sl-text-body-sm);
   font-weight: 600;
@@ -530,7 +502,7 @@ input:not([type='submit']):not([type='file']):focus {
 }
 
 /* Misc tweaks, overrides and fixes */
-.sl-markdown-content button[aria-expanded='false'] + div {
+.sl-markdown-content button[aria-expanded='false']+div {
   margin-block-start: 0;
 }
 
