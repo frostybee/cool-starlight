@@ -2,6 +2,7 @@
 import type { Props } from '@astrojs/starlight/props';
 import Default from '@astrojs/starlight/components/Header.astro';
 import ProgressScroll from './ProgressScroll.astro';
+import ThemeSelect from "./ThemeSelect.astro";
 
 const displayProgressScroll =
 	Astro.props.slug.startsWith('guides') ||
@@ -11,8 +12,11 @@ const displayProgressScroll =
 		!Astro.props.slug.match('articles/[0-9]*$'));
 ---
 
-<Default {...Astro.props}>
-	<slot />
+<Default {...Astro.props}>        
+	<slot />    
 </Default>
+<ThemeSelect {...Astro.props} />
 
+<!-- {displayProgressScroll && <ProgressScroll />} -->
 {displayProgressScroll && <ProgressScroll />}
+

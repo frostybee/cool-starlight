@@ -7,10 +7,28 @@ import starlightImageZoom from 'starlight-image-zoom'
 import starlightViewModes from 'starlight-view-modes'
 import partytown from '@astrojs/partytown'
 import sitemap from '@astrojs/sitemap';
+import rehypeExternalLinks from "rehype-external-links";
 
-const site = 'https://starter.obytes.com/';
+const site = 'https://frostybee.github.io/better-starlight';
 //@see: https://astro.build/config
 export default defineConfig({
+  markdown: {
+    rehypePlugins: [
+        [
+            rehypeExternalLinks,
+            {
+                content: {
+                    type: "text",
+                    value: " ↗",
+                },
+                properties: {
+                    target: "_blank",
+                },
+                rel: ["noopener"],
+            },
+        ],
+    ],
+},
   integrations: [
     starlight({
       components: {
@@ -19,7 +37,7 @@ export default defineConfig({
       customCss: [
         // Relative path to your custom CSS file
         "./src/styles/custom.css",
-        // "./src/styles/custom_old.css",
+         "./src/styles/theme.css",
         // "./src/styles/custom_slint.css",
       ],
       lastUpdated: true,
@@ -31,69 +49,8 @@ export default defineConfig({
       //   starlightLinksValidator({
       //     errorOnFallbackPages: false,
       //   }),
-      // ],
-
-      // Code block style
-      // @doc: https://expressive-code.com/installation/
-      expressiveCode: {
-        defaultProps: {
-          wrap: true
-        },
-        styleOverrides: {
-          borderColor: 'transparent',
-          borderRadius: 'var(--border-radius)',
-          // frames: {
-          //   shadowColor: '#e0f7fa',
-          // }
-        },
-
-        // For more themes:
-        //@see: https://expressive-code.com/guides/themes/
-        themes: ['dracula', 'catppuccin-latte'],
-      },
-      head: [
-        {
-          tag: 'meta',
-          attrs: { property: 'og:image', content: site + 'og.jpg?v=1' },
-        },
-        {
-          tag: 'meta',
-          attrs: { property: 'twitter:image', content: site + 'og.jpg?v=1' },
-        },
-        {
-          tag: 'link',
-          attrs: { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        },
-        {
-          tag: 'link',
-          attrs: {
-            rel: 'preconnect',
-            href: 'https://fonts.gstatic.com',
-            crossorigin: true,
-          },
-        },
-        {
-          tag: 'link',
-          attrs: {
-            rel: 'stylesheet',
-            href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap',
-          },
-        },
-        {
-          tag: 'script',
-          attrs: {
-            src: 'https://cdn.jsdelivr.net/npm/@minimal-analytics/ga4/dist/index.js',
-            async: true,
-          },
-        },
-        {
-          tag: 'script',
-          content: ` window.minimalAnalytics = {
-            trackingId: 'G-GQ45JJD1JC',
-            autoTrack: true,
-          };`,
-        },
-      ],
+      // ],            
+     
       title: 'My Docs',
       social: {
         github: 'https://github.com/withastro/starlight',

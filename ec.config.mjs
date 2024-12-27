@@ -9,7 +9,7 @@ function sideBorder() {
     baseStyles: `
         .sideBar {
             position: absolute;
-            top: calc(var(--button-spacing) - 16px);
+            top: calc(var(--button-spacing) - 6px);
             bottom: 0;
             left: 0;
             width: 100px;
@@ -24,7 +24,7 @@ function sideBorder() {
       postprocessRenderedBlock: async (context) => {
         if (
           context.renderData.blockAst.children[1].properties
-            .dataLanguage !== "slint"
+            .dataLanguage !== "php"
         ) {
           return;
         }
@@ -103,13 +103,20 @@ export default {
   ],
   defaultProps: {
     showLineNumbers: false,
+    wrap: true,
   },
-  themes: ["dark-plus", "light-plus"],
+  // Code block style
+  // @doc: https://expressive-code.com/installation/
+  // themes: ["dark-plus", "light-plus"],
+  themes: ['dracula', 'catppuccin-latte'],
   styleOverrides: {
     borderRadius: "0.4rem",
-    borderColor: "var(--slint-code-background)",
-    frames: { shadowColor: "transparent" },
-    codeBackground: "var(--slint-code-background)",
+    borderColor: "var(--custom-ec-code-background)",
+    borderColor: "transparent",
+    frames: {
+      shadowColor: "transparent"
+    },
+    codeBackground: "var(--custom-ec-code-background)",
   },
   frames: {
     extractFileNameFromCode: false,
