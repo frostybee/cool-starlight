@@ -1,5 +1,5 @@
-import starlight from '@astrojs/starlight';
 import { defineConfig } from "astro/config";
+import starlight from '@astrojs/starlight';
 import react from '@astrojs/react'
 import mdx from "@astrojs/mdx";
 import starlightLinksValidator from 'starlight-links-validator'
@@ -20,6 +20,7 @@ export default defineConfig({
         // Relative path to your custom CSS file
         "./src/styles/custom.css",
         // "./src/styles/custom_old.css",
+        // "./src/styles/custom_slint.css",
       ],
       lastUpdated: true,
       plugins: [

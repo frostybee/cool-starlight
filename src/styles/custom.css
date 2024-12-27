@@ -143,7 +143,6 @@ pre.astro-code {
   }
 }
 
-
 .expressive-code pre[data-language]::before {
   content: attr(data-language);
   font-family: var(--font-mono);
