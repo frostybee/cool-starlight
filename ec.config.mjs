@@ -17,14 +17,14 @@ function sideBorder() {
             border-left-style: solid;
             border-color: #2479f4;
             border-top-left-radius: 0.4rem;
-            border-bottom-left-radius: 0.4rem; 
+            border-bottom-left-radius: 0.4rem;
         }
         `,
     hooks: {
       postprocessRenderedBlock: async (context) => {
         if (
           context.renderData.blockAst.children[1].properties
-            .dataLanguage !== "php"
+            .dataLanguage !== "css"
         ) {
           return;
         }
@@ -66,7 +66,7 @@ function languageLabel() {
             inset-inline-end: calc(var(--ec-brdWd) + var(--ec-uiPadInl) );
             direction: ltr;
             font-size: 0.8rem;
-            color:rgb(169, 169, 169);            
+            color:rgb(169, 169, 169);
             font-weight: 600;
             opacity: 1;
             transition: opacity 0.3s;
@@ -107,14 +107,14 @@ export default {
   },
   // Code block style
   // @doc: https://expressive-code.com/installation/
-  // themes: ["dark-plus", "light-plus"],
-  themes: ['dracula', 'catppuccin-latte'],
+  themes: ["dark-plus", "light-plus"],
+  // themes: ['dracula', 'catppuccin-latte'],
   styleOverrides: {
     borderRadius: "0.4rem",
     borderColor: "var(--custom-ec-code-background)",
     borderColor: "transparent",
     frames: {
-      shadowColor: "transparent"
+      shadowColor: "var(--sl-shadow-sm)"
     },
     codeBackground: "var(--custom-ec-code-background)",
   },
