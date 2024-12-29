@@ -8,27 +8,39 @@ import starlightViewModes from 'starlight-view-modes'
 import partytown from '@astrojs/partytown'
 import sitemap from '@astrojs/sitemap';
 import rehypeExternalLinks from "rehype-external-links";
+import { rehypeHeadingIds } from "@astrojs/markdown-remark";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+
 
 const site = 'https://frostybee.github.io/better-starlight';
 //@see: https://astro.build/config
 export default defineConfig({
   markdown: {
     rehypePlugins: [
-        [
-            rehypeExternalLinks,
-            {
-                content: {
-                    type: "text",
-                    value: " ↗",
-                },
-                properties: {
-                    target: "_blank",
-                },
-                rel: ["noopener"],
-            },
-        ],
+      [
+        rehypeExternalLinks,
+        {
+          content: {
+            type: "text",
+            value: " ↗",
+          },
+          properties: {
+            target: "_blank",
+          },
+          rel: ["noopener"],
+        },
+      ],
     ],
-},
+    rehypePlugins: [
+      rehypeHeadingIds,
+      [
+        rehypeAutolinkHeadings,
+        {
+          behavior: "wrap",
+        },
+      ],
+    ],
+  },
   integrations: [
     starlight({
       components: {
@@ -36,9 +48,10 @@ export default defineConfig({
       },
       customCss: [
         // Relative path to your custom CSS file
-        "./src/styles/custom.css",
-         "./src/styles/theme.css",
         // "./src/styles/custom_slint.css",
+        "./src/styles/custom.css",
+        "./src/styles/theme.css",
+        "./src/styles/heading.css",
       ],
       lastUpdated: true,
       plugins: [
@@ -49,8 +62,8 @@ export default defineConfig({
       //   starlightLinksValidator({
       //     errorOnFallbackPages: false,
       //   }),
-      // ],            
-     
+      // ],
+
       title: 'My Docs',
       social: {
         github: 'https://github.com/withastro/starlight',
