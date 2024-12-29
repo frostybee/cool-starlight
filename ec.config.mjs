@@ -107,8 +107,9 @@ export default {
   },
   // Code block style
   // @doc: https://expressive-code.com/installation/
-  themes: ["dark-plus", "light-plus"],
-  // themes: ['dracula', 'catppuccin-latte'],
+  // themes: ["dark-plus", "light-plus"],
+  themes: ['dracula', 'catppuccin-latte'],
+  // themes: ['aurora-x', 'catppuccin-latte'],
   styleOverrides: {
     borderRadius: "0.4rem",
     borderColor: "var(--custom-ec-code-background)",

@@ -140,3 +140,19 @@ pre.astro-code {
     max-width: 48rem;
   }
 }
+
+
+ /* starlight steps component */
+.sl-steps {
+  --sl-color-hairline-light: var(--sl-color-accent);
+
+  >li:before {
+    background-color: var(--sl-color-accent) !important;
+    color: rgb(255, 255, 255) !important;
+    /* border-color: rgb(3, 189, 245); */
+    border-width: 2px;
+    /* border-style: dotted; */
+    font-family: 'Days One', sans-serif;
+    /* box-shadow: none !important; */
+  }
+}
