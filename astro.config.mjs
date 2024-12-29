@@ -10,6 +10,7 @@ import sitemap from '@astrojs/sitemap';
 import rehypeExternalLinks from "rehype-external-links";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeSlug from 'rehype-slug';
 
 
 const site = 'https://frostybee.github.io/better-starlight';
@@ -17,8 +18,10 @@ const site = 'https://frostybee.github.io/better-starlight';
 export default defineConfig({
   markdown: {
     rehypePlugins: [
-      [
-        rehypeExternalLinks,
+      rehypeSlug,
+      rehypeHeadingIds,
+      [rehypeAutolinkHeadings, { behavior: 'wrap' }],
+      [rehypeExternalLinks,
         {
           content: {
             type: "text",
@@ -28,15 +31,6 @@ export default defineConfig({
             target: "_blank",
           },
           rel: ["noopener"],
-        },
-      ],
-    ],
-    rehypePlugins: [
-      rehypeHeadingIds,
-      [
-        rehypeAutolinkHeadings,
-        {
-          behavior: "wrap",
         },
       ],
     ],
@@ -51,6 +45,7 @@ export default defineConfig({
         // "./src/styles/custom_slint.css",
         "./src/styles/custom.css",
         "./src/styles/theme.css",
+        // "./src/styles/markdown.css",
         "./src/styles/heading.css",
       ],
       lastUpdated: true,
