@@ -36,7 +36,9 @@
     "sharp": "^0.33.5",
     "starlight-image-zoom": "^0.8.0",
     "starlight-links-validator": "^0.10.1",
-    "starlight-view-modes": "^0.6.0"
+    "starlight-view-modes": "^0.6.0",
+    "starlight-sidebar-topics": "^0.2.1"
+
   },
   "devDependencies": {
     "typescript": "^5.7.2"

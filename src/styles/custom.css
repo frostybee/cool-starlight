@@ -18,6 +18,7 @@
   --sl-color-accent-high: hsl(228, 90%, 85%);
   --sl-scrollbar-color: var(--sl-color-accent-high);
   --custom-ec-code-background: #151517;
+  --sl-color-text: #f4f0f0;
 }
 
 /* Light mode colors. */
@@ -34,6 +35,7 @@
   --sl-scrollbar-color: var(--sl-color-accent);
   --custom-ec-code-background: #f6f7f9;
   --purple-hsl: 255, 85%, 65%;
+  --sl-color-text: #1c1e21;
 }
 
 :root {
@@ -86,34 +88,6 @@
   }
 }
 
-.card-grid>.card {
-  border-radius: 10px;
-}
-
-.card>.title {
-  font-size: 1.3rem;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-.embed-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  max-width: 100%;
-}
-
-.embed-container iframe,
-.embed-container object,
-.embed-container embed {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
 /* --------------------- */
 /* - Code block style  - */
 /* --------------------- */
@@ -156,3 +130,24 @@ pre.astro-code {
     /* box-shadow: none !important; */
   }
 }
+
+/* Code markers */
+.expressive-code  figcaption  {
+  /* border-bottom: 1px solid #dadde1 !important; */
+  background: var(--custom-ec-code-background) !important;
+}
+
+.expressive-code .frame.has-title:not(.is-terminal) .title {
+  position: relative;
+  color: var(--sl-color-text) !important;
+  background: none !important;
+  border-bottom: 1px solid #dadde1 !important;
+  /* border-bottom: none; */
+  font-size: 90%;
+  padding: .6em  1rem !important;
+  overflow: hidden;
+  font-weight: 600;
+}
+
+
+
