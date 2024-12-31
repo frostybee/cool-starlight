@@ -8,13 +8,10 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from 'rehype-slug';
 import starlightSidebarTopics from "starlight-sidebar-topics";
-
 // TODO: clean the following imports
-import react from '@astrojs/react'
 import mdx from "@astrojs/mdx";
 import starlightLinksValidator from 'starlight-links-validator'
-import partytown from '@astrojs/partytown'
-import sitemap from '@astrojs/sitemap';
+
 
 const site = 'https://frostybee.github.io/better-starlight';
 //@see: https://astro.build/config

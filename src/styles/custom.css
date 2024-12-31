@@ -7,20 +7,18 @@
   --sl-text-h3: var(--sl-text-2xl);
   --sl-text-h4: 1.2rem;
   --sl-content-width: 50rem;
-  --sl-color-bg: #1b1b1f;
-  --sl-color-gray-6: #161618;
-  --sl-color-hairline: #212329;
+  --sl-color-bg: #1b1b1d;
+  --sl-color-gray-6: rgb(14, 14, 15);
+  --sl-color-hairline: #212929;
   --sl-color-hairline-shade: var(--sl-color-hairline);
   --badge-border-color: --sl-color-hairline;
-
   --sl-color-accent-low: hsl(228, 70%, 30%);
   --sl-color-accent: hsl(228, 100%, 70%);
   --sl-color-accent-high: hsl(228, 90%, 85%);
   --sl-scrollbar-color: var(--sl-color-accent-high);
-
   --sl-color-text: #e3e3e3;
   /* Custom variables */
-  --custom-ec-code-background: #03031a;
+  --custom-ec-code-background: #111112;
 }
 
 /* Light mode colors. */
