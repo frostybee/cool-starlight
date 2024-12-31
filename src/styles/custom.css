@@ -17,8 +17,10 @@
   --sl-color-accent: hsl(228, 100%, 70%);
   --sl-color-accent-high: hsl(228, 90%, 85%);
   --sl-scrollbar-color: var(--sl-color-accent-high);
-  --custom-ec-code-background: #151517;
-  --sl-color-text: #f4f0f0;
+
+  --sl-color-text: #e3e3e3;
+  /* Custom variables */
+  --custom-ec-code-background: #03031a;
 }
 
 /* Light mode colors. */
@@ -33,22 +35,28 @@
   --sl-color-accent: hsl(222, 89%, 55%);
   --sl-color-accent-low: hsl(222, 89%, 85%);
   --sl-scrollbar-color: var(--sl-color-accent);
-  --custom-ec-code-background: #f6f7f9;
   --purple-hsl: 255, 85%, 65%;
-  --sl-color-text: #1c1e21;
+  --sl-color-text: #1C1E21;
+  /* Custom variables */
+  --custom-ec-code-background: #f4f6f8;
 }
 
 :root {
   /* Customize the font style here */
   /* --sl-font: 'IBM Plex Mono', sans-serif; */
+
   /* --sl-font: 'IBM Plex Mono', sans-serif; */
+
   /*--sl-font: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol',sans-serif;--font-mono:Noto Mono,Menlo,Monaco,Consolas,monospace;*/
 
   --sl-font: "Roboto Flex", sans-serif;
+
+  /* --sl-font: "Fira", sans-serif; */
   /* MDN font */
   /* --sl-font: Inter, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; */
+
   /* Docusaurus font */
-  /* --sl-font: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; */
+   /* --sl-font: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; */
   --font-mono: Noto Mono, Menlo, Monaco, Consolas, monospace;
   font-weight: 400;
   --sl-scrollbar-height: 0.3rem;
@@ -57,6 +65,7 @@
   /* Add this it will make the underline far below the text*/
   text-underline-offset: .25em;
   --border-radius: 8px;
+  /* --sl-line-height: 1.65; */
 }
 
 
@@ -131,9 +140,11 @@ pre.astro-code {
   }
 }
 
+/* Style for the expressive code block component */
+
 /* Code markers */
 .expressive-code  figcaption  {
-  /* border-bottom: 1px solid #dadde1 !important; */
+  border-bottom: 0.1px solid #dadde1 !important;
   background: var(--custom-ec-code-background) !important;
 }
 
@@ -141,13 +152,16 @@ pre.astro-code {
   position: relative;
   color: var(--sl-color-text) !important;
   background: none !important;
-  border-bottom: 1px solid #dadde1 !important;
+  /* border-bottom: 1px solid #dadde1 !important; */
   /* border-bottom: none; */
   font-size: 90%;
-  padding: .6em  1rem !important;
+  padding: .55rem  1rem !important;
   overflow: hidden;
   font-weight: 600;
 }
 
-
+.expressive-code .frame.has-title:not(.is-terminal) .language-label,
+.expressive-code .frame.has-title:not(.is-terminal) .copy {
+  margin-top: 0.4rem;
+}
 

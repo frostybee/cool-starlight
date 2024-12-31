@@ -49,7 +49,7 @@ export default defineConfig({
         "./src/styles/custom.css",
         "./src/styles/theme.css",
         // "./src/styles/markdown.css",
-        "./src/styles/heading.css",
+        "./src/styles/Linkable_headings.css",
       ],
       lastUpdated: true,
       plugins: [

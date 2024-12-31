@@ -3,7 +3,7 @@
  *
  * Exclude links that are custom created, like the blog post list links.
  */
-.sl-markdown-content :is(h1, h2, h3, h4, h5, h6) > a:not([class]) {
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6)>a:not([class]) {
   text-decoration: none;
   cursor: none;
   color: var(--color-text);
@@ -25,10 +25,10 @@
     transform-origin: left bottom;
     display: inline-block;
     margin-left: 0.25em;
-    color: var(--color-text-dimmed);
+    color: var(--sl-color-accent-high);
     width: auto;
     height: auto;
     background-color: transparent;
-    font-weight: normal;
+    font-weight: bold;
   }
 }
