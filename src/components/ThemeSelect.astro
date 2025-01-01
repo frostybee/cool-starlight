@@ -25,98 +25,33 @@ import HeaderButton from './ui/HeaderButton.astro';
   </HeaderButton>
 
   <script>
-    customElements.define(
-      'theme-toggle',
-      class ThemeToggle extends HTMLElement {
-        constructor() {
-          super()
-
-          this.querySelector('button')?.addEventListener('click', () => {
-            ThemeProvider.updateTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark')
-          })
-        }
-      },
-    )
+     class ThemeSwitcher extends HTMLElement {
+    constructor() {
+      super();
+      const storedTheme =
+        typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+      const theme =
+        storedTheme ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+      this.handleMouseDown = this.handleMouseDown.bind(this);
+    }
+    connectedCallback() {
+      this.addEventListener('click', this.handleMouseDown);
+    }
+    disconnectedCallback() {
+      this.removeEventListener('click', this.handleMouseDown);
+    }
+    private handleMouseDown() {
+      const theme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      document.documentElement.dataset.theme = theme;
+      localStorage.setItem('starlight-theme', theme);
+    }
+  }
+  customElements.define('theme-toggle', ThemeSwitcher);
   </script>
 
-<script is:inline>
-  window.ThemeProvider = (() => {
-    const preferDarkTheme = globalThis.matchMedia('(prefers-color-scheme: dark)')
-    const themes = { dark: 'dark', light: 'light' }
-    const localStorageThemeKey = 'theme'
-    let theme = getTheme()
-
-
-
-    function getTheme() {
-      try {
-        const persistedTheme = localStorage.getItem(localStorageThemeKey)
-
-        if (persistedTheme === themes.dark || (!persistedTheme && preferDarkTheme.matches)) {
-          return themes.dark
-        }
-
-        return themes.light
-      } catch {
-        return themes.light
-      }
-    }
-
-    function applyTheme() {
-      document.documentElement.dataset.transitionDisabled = true
-      document.documentElement.dataset.theme = theme
-      document.querySelector('#theme-toggle')?.setAttribute('aria-label', `${theme} theme`)
-
-      const themesColors = document.querySelectorAll('meta[name=theme-color]')
-
-      for (const themesColor of themesColors) {
-        themesColor.remove()
-      }
-
-      const meta = document.createElement('meta')
-      meta.name = 'theme-color'
-      meta.content = theme === themes.dark ? 'hsl(240 11% 9%)' : 'hsl(240 26% 95%)'
-
-      requestAnimationFrame(() => {
-        document.head.append(meta)
-          //alert("Trying to animate");
-        requestAnimationFrame(() => {
-          delete document.documentElement.dataset.transitionDisabled
-        })
-      })
-    }
-
-    function updateTheme(newThemeName) {
-      theme = newThemeName
-
-      applyTheme()
-
-      try {
-        localStorage.setItem(localStorageThemeKey, newThemeName)
-      } catch {
-        //
-      }
-    }
-
-    applyTheme()
-
-    window.addEventListener('load', () => {
-      applyTheme()
-    })
-
-    preferDarkTheme.addEventListener('change', (event) => {
-      theme = event.matches ? themes.dark : themes.light
-
-      applyTheme()
-    })
-
-    return { updateTheme }
-  })()
-</script>
-
 <style>
-
-
   theme-toggle {
     --animation-duration: var(--duration-400);
     display: grid;
