@@ -47,6 +47,7 @@ export default defineConfig({
         "./src/styles/theme.css",
         // "./src/styles/markdown.css",
         "./src/styles/Linkable_headings.css",
+        "./src/styles/sidebar-topics.css",
       ],
       lastUpdated: true,
       plugins: [

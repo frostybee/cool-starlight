@@ -54,7 +54,7 @@
   /* --sl-font: Inter, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; */
 
   /* Docusaurus font */
-   /* --sl-font: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; */
+  /* --sl-font: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; */
   --font-mono: Noto Mono, Menlo, Monaco, Consolas, monospace;
   font-weight: 400;
   --sl-scrollbar-height: 0.3rem;
@@ -123,7 +123,7 @@ pre.astro-code {
 }
 
 
- /* starlight steps component */
+/* starlight steps component */
 .sl-steps {
   --sl-color-hairline-light: var(--sl-color-accent);
 
@@ -141,7 +141,7 @@ pre.astro-code {
 /* Style for the expressive code block component */
 
 /* Code markers */
-.expressive-code  figcaption  {
+.expressive-code figcaption {
   border-bottom: 0.1px solid #dadde1 !important;
   background: var(--custom-ec-code-background) !important;
 }
@@ -153,7 +153,7 @@ pre.astro-code {
   /* border-bottom: 1px solid #dadde1 !important; */
   /* border-bottom: none; */
   font-size: 90%;
-  padding: .55rem  1rem !important;
+  padding: .55rem 1rem !important;
   overflow: hidden;
   font-weight: 600;
 }
@@ -161,5 +161,10 @@ pre.astro-code {
 .expressive-code .frame.has-title:not(.is-terminal) .language-label,
 .expressive-code .frame.has-title:not(.is-terminal) .copy {
   margin-top: 0.4rem;
+}
+
+.sidebar-content ul:first-child {
+  /* background-color: red; */
+
 }
 
