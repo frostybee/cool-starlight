@@ -64,9 +64,10 @@
 
 /* Style a selected item in the topics list */
 .sidebar-content ul:first-child li a:is(.starlight-sidebar-topics-current, :hover, :focus-visible) {
-  color: var(--sl-color-accent-high);
+  /* color: var(--sl-color-accent-high); */
   border-color: var(--tab-switcher-border-color);
-  color: var(--tab-switcher-text-color-active);
+  /* color: var(--tab-switcher-text-color-active); */
+  color: var(--sl-color-accent-high);
   background-color: var(--tab-item-background-color-active);
 }
 
