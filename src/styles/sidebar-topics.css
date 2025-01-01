@@ -9,28 +9,22 @@
   --tab-switcher-border-color: var(--sl-color-hairline-light);
   --tab-switcher-background-color: var(--sl-color-gray-7, var(--sl-color-gray-6));
   --tab-switcher-text-color: var(--sl-color-gray-3);
-  --tab-switcher-text-color--active: var(--sl-color-white);
+  --tab-switcher-text-color-active: var(--sl-color-white);
   --tab-switcher-icon-color: var(--sl-color-gray-4);
-  --tab-switcher-icon-color--active: var(--sl-color-text-accent);
-  --tab-item-background-color--hover: var(--sl-color-gray-6);
-  --tab-item-background-color--active: var(--sl-color-black);
+  --tab-switcher-icon-color-active: var(--sl-color-text-accent);
+  --tab-item-background-color-hover: var(--sl-color-gray-6);
+  --tab-item-background-color-active: var(--sl-color-black);
 }
 
 /* Dark theme variations */
-:global([data-theme='dark']) .sidebar-content ul:first-child {
+[data-theme='dark'] .sidebar-content {
   --tab-switcher-text-color: var(--sl-color-gray-2);
+  /* --tab-switcher-text-color: blue; */
   --tab-switcher-icon-color: var(--sl-color-gray-3);
-  --tab-item-background-color--hover: var(--sl-color-gray-5);
-}
+  --tab-item-background-color-hover: var(--sl-color-gray-6);
+  --tab-item-background-color-active: var(--sl-color-gray-5);
+  --tab-switcher-background-color: var(--sl-color-black);
 
-@media (min-width: 50rem) {
-
-  /* Dark theme variations with the desktop sidebar visible */
-  :global([data-theme='dark']) .sidebar-content ul:first-child {
-    --tab-switcher-background-color: var(--sl-color-black);
-    --tab-item-background-color--hover: var(--sl-color-gray-6);
-    --tab-item-background-color--active: var(--sl-color-gray-6);
-  }
 }
 
 .sidebar-content ul:first-child {
@@ -46,6 +40,7 @@
   padding-top: 0.7rem;
   margin-bottom: 1.5rem;
   /* margin-top: 1rem; */
+  box-shadow: var(--sl-shadow-sm);
 }
 
 .sidebar-content ul:first-child::after {
@@ -63,7 +58,7 @@
   background-clip: padding-box;
   line-height: var(--sl-line-height-headings);
   text-decoration: none;
-  /* color: var(--tab-switcher-text-color); */
+  color: var(--tab-switcher-text-color);
   font-weight: 600;
 }
 
@@ -71,14 +66,19 @@
 .sidebar-content ul:first-child li a:is(.starlight-sidebar-topics-current, :hover, :focus-visible) {
   color: var(--sl-color-accent-high);
   border-color: var(--tab-switcher-border-color);
-  /* color: var(--tab-switcher-text-color--active); */
-  background-color: var(--tab-item-background-color--active);
+  color: var(--tab-switcher-text-color-active);
+  background-color: var(--tab-item-background-color-active);
 }
 
 .sidebar-content div.starlight-sidebar-topics-icon {
   border: none;
-  font-size: 1.7rem;
+  font-size: 1.4rem;
   /* margin: 0.25rem; */
   /* color: var(--tab-switcher-icon-color); */
   /* color: black; */
+}
+
+.sidebar-content ul.top-level{
+  border-top: 1px solid var(--tab-switcher-border-color);
+  padding-top: 1rem;
 }
