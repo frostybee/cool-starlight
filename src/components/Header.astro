@@ -18,13 +18,12 @@ import ThemeSelect from "./ThemeSelect.astro";
 		<Search {...Astro.props} />
 	</div>
 	<div class="sl-hidden md:sl-flex right-group">
-	<div class="sl-flex social-icons">
-	</div>
-		<div class="sl-flex social-icons">
-			<SocialIcons {...Astro.props} />
-		</div>
-		<ThemeSelect {...Astro.props} />
-		<LanguageSelect {...Astro.props} />
+
+    <div class="sl-flex social-icons">
+        <ThemeSelect {...Astro.props} />
+    </div>
+       <SocialIcons {...Astro.props} />
+		<!-- <LanguageSelect {...Astro.props} /> -->
 	</div>
 </div>
 
