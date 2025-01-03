@@ -19,7 +19,7 @@
   --badge-border-color: --sl-color-hairline;
   --sl-color-accent-low: hsl(228, 70%, 30%);
   --sl-color-accent: hsl(228, 100%, 70%);
-  --sl-color-accent-high: hsl(228, 90%, 85%);
+  --sl-color-accent-high: #b6c4fb;
   --sl-scrollbar-color: var(--sl-color-accent-high);
   /* SL's main text color  */
   --sl-color-text: #e3e3e3;
@@ -30,8 +30,8 @@
   /* EC border bottom color */
   --fb-ec-caption-bb-color: #464747;
   --fb-ec-language-color: #c1c2c9;
-
-  /* --color-white: hsl(0 0% 98%); */
+  --fb-steps-bg-color: #b6c4fb;
+  --fb-steps-text-color: #070d55;
 }
 
 body {
@@ -59,6 +59,8 @@ body {
   --fb-code-block-bg-color: #f6f6f7;
   --fb-ec-language-color: #636467;
   --sl-scrollbar-color: var(--sl-color-accent);
+  --fb-steps-bg-color: #5035eb;
+  --fb-steps-text-color: #f6f6f4f9;
 }
 
 :root {
@@ -107,6 +109,8 @@ body {
   --fb-toc-current-item-color: var(--sl-color-accent-high);
   --fb-font-weight-semibold: 500;
   --fb-h5-font-size: .875rem;
+  /* Steps component: */
+  --steps-hairline-color: var(--sl-color-accent-high);
 }
 
 
@@ -165,24 +169,7 @@ pre.astro-code {
   }
 }
 
-
-/* starlight steps component */
-.sl-steps {
-  --sl-color-hairline-light: var(--sl-color-accent);
-
-  >li:before {
-    background-color: var(--sl-color-accent) !important;
-    color: rgb(255, 255, 255) !important;
-    /* border-color: rgb(3, 189, 245); */
-    border-width: 2px;
-    /* border-style: dotted; */
-    font-family: 'Days One', sans-serif;
-    /* box-shadow: none !important; */
-  }
-}
-
 /* Style for the expressive code block component */
-
 /* Code markers */
 .expressive-code figcaption {
   border-bottom: 1px solid var(--fb-ec-caption-bb-color) !important;
@@ -211,8 +198,7 @@ pre.astro-code {
 }
 
 /* Style overrides: Right sidebar, items of the table of content */
-.right-sidebar-panel starlight-toc ul li[class^=astro-] a[aria-current='true'],
-.right-sidebar-panel starlight-toc ul li[class^=astro-] a:hover {
+.right-sidebar-panel starlight-toc ul li[class^=astro-] :where([aria-current='true'], a:hover) {
   border-left: 3px solid var(--fb-toc-current-item-color);
   /* Optional: space the content from the border */
   padding-left: 8px;
@@ -222,29 +208,58 @@ pre.astro-code {
 
 /* Pagination override styles */
 .pagination-links {
+
   /* border-block-start: 2px solid var(--sl-color-gray-6); */
+  a {
+    /* border: 0; */
+    box-shadow: initial;
+  }
+
+  :hover {
+    box-shadow: initial;
+    border-color: var(--sl-color-accent-high);
+    box-shadow: var(--sl-shadow-sm);
+  }
+
+  a>span {
+    font-size: var(--fb-h5-font-size);
+    font-weight: 600;
+  }
+
+  a .link-title {
+    color: var(--sl-color-text-accent);
+    font-size: 1rem;
+    font-weight: 600;
+    transition: color 300ms ease-out;
+  }
 }
 
-.pagination-links a {
-  /* border: 0; */
-  box-shadow: initial;
-}
+/* starlight steps component */
+.sl-steps {
+  --sl-color-hairline-light: var(--steps-hairline-color);
+  --bullet-size: calc(var(--sl-line-height) * 1rem);
+  --bullet-margin: .375rem;
 
-.pagination-links :hover {
-  /* border: 0; */
-  box-shadow: initial;
-  border-color: var(--sl-color-accent-high);
-  box-shadow: var(--sl-shadow-sm);
-}
+  li {
+    /* position: relative; */
+    /* margin-bottom: 20px; */
+    /* Space between steps */
+    padding-left: 45px;
+    /* Add space for the circle */
+  }
 
-.pagination-links a>span {
-  font-size: var(--fb-h5-font-size);
-  font-weight: 600;
-}
-
-.pagination-links a .link-title {
-  color: var(--sl-color-text-accent);
-  font-size: 1rem;
-  font-weight: 600;
-  transition: color 300ms ease-out;
+  >li:before {
+    --fb-steps-dimension: 33px;
+    /* background-color: var(--sl-color-accent) !important; */
+    background-color: var(--fb-steps-bg-color);
+    /* color: #000000 !important; */
+    color: var(--fb-steps-text-color) !important;
+    box-shadow: none !important;
+    font-size: .9rem;
+    width: var(--fb-steps-dimension);
+    height: var(--fb-steps-dimension);
+    text-align: center;
+    line-height: var(--fb-steps-dimension);
+    border: 1px solid rgb(170, 172, 172);
+  }
 }
