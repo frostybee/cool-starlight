@@ -30,8 +30,11 @@
   /* EC border bottom color */
   --fb-ec-caption-bb-color: #464747;
   --fb-ec-language-color: #c1c2c9;
-  --fb-steps-bg-color: #b6c4fb;
-  --fb-steps-text-color: #070d55;
+  --fb-steps-bg-color: var(--sl-color-accent-high);
+  /* --fb-steps-bg-color: var(--sl-color-accent-high); */
+  --fb-steps-text-color: #010319;
+  /* Custom backdrop background color in dark mode. */
+  --starlight-image-zoom-backdrop-bg: oklch(0 0 0);
 }
 
 body {
@@ -59,34 +62,24 @@ body {
   --fb-code-block-bg-color: #f6f6f7;
   --fb-ec-language-color: #636467;
   --sl-scrollbar-color: var(--sl-color-accent);
-  --fb-steps-bg-color: #5035eb;
+  --fb-steps-bg-color: var(--sl-color-accent);
   --fb-steps-text-color: #f6f6f4f9;
+  /* Custom backdrop background color in light mode. */
+  --starlight-image-zoom-backdrop-bg: oklch(95% 0 0);
 }
 
 :root {
   /* Customize the font style here */
-  /* --sl-font: 'IBM Plex Mono', sans-serif; */
 
-  /* --sl-font: 'IBM Plex Mono', sans-serif; */
-
-  /*--sl-font: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol',sans-serif;--font-mono:Noto Mono,Menlo,Monaco,Consolas,monospace;*/
   --sl-font: "Roboto Flex", sans-serif;
-  /* --sl-font: "Fira", sans-serif; */
-  /* MDN font */
-  /* --sl-font: Inter, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; */
-  /* Docusaurus font */
-  /* --sl-font: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; */
-
   --font-mono: Noto Mono, Menlo, Monaco, Consolas, monospace;
   font-weight: 400;
   --sl-scrollbar-height: 0.3rem;
   --purple-hsl: 205, 60%, 60%;
   --overlay-blurple: hsla(var(--purple-hsl), 0.4);
-  /* Add this it will make the underline far below the text*/
   text-underline-offset: .25em;
   --border-radius: 8px;
-  /* --sl-line-height: 1.65; */
-
+  --space-xs: clamp(0.75rem, 0.75rem + 0vi, 0.75rem);
   /* Style for theme toggle switch */
   --duration-300: 300ms;
   --duration-400: 400ms;
@@ -249,17 +242,92 @@ pre.astro-code {
   }
 
   >li:before {
-    --fb-steps-dimension: 33px;
+    --fb-steps-dimension: 30px;
     /* background-color: var(--sl-color-accent) !important; */
     background-color: var(--fb-steps-bg-color);
     /* color: #000000 !important; */
     color: var(--fb-steps-text-color) !important;
     box-shadow: none !important;
-    font-size: .9rem;
+    font-size: .8rem;
     width: var(--fb-steps-dimension);
     height: var(--fb-steps-dimension);
     text-align: center;
     line-height: var(--fb-steps-dimension);
-    border: 1px solid rgb(170, 172, 172);
+    /* border: 1px solid #b60f03; */
   }
+}
+
+/* Table style overrides */
+.sl-markdown-content table {
+  display: table;
+  width: 100%;
+
+  table code {
+    word-break: break-all;
+  }
+
+  thead {
+    background-color: var(--sl-color-gray-5);
+  }
+
+  thead tr:first-of-type th:first-of-type {
+    border-start-start-radius: var(--border-radius);
+  }
+
+  thead tr:first-of-type th:last-of-type {
+    border-start-end-radius: var(--border-radius);
+  }
+
+  thead+tbody tr:nth-child(2n):not(:where(.not-content *)) {
+    background-color: var(--sl-color-gray-7, var(--sl-color-gray-6));
+  }
+
+  thead+tbody tr:nth-child(2n + 1):not(:where(.not-content *)) {
+    background-color: initial;
+  }
+
+  tr:nth-child(2n):not(:where(.not-content *)) {
+    background-color: initial;
+  }
+
+  tr:nth-child(2n + 1):not(:where(.not-content *)) {
+    /* background-color: var(--sl-color-gray-7, var(--sl-color-gray-6)); */
+  }
+
+  :is(th, td):not(:where(.not-content *)) {
+    /* border: 0; */
+    --space-2xs: clamp(0.5rem, 0.5rem + 0vi, 0.5rem);
+    padding-block: var(--space-2xs);
+  }
+
+  :is(th:first-child, td:first-child):not(:where(.not-content *)) {
+    padding-inline-start: var(--space-xs);
+    /* padding-inline-start: 0.6rem; */
+  }
+
+  :is(th:last-child, td:last-child):not(:where(.not-content *)) {
+    padding-inline-end: var(--space-xs);
+    /* padding-inline-start: 0.6rem; */
+  }
+
+}
+
+.sl-markdown-content tbody tr:first-of-type:not(:where(.not-content *)) th:first-child,
+.sl-markdown-content tbody tr:first-of-type:not(:where(.not-content *)) td:first-child {
+  border-start-start-radius: var(--border-radius);
+}
+
+.sl-markdown-content tbody tr:first-of-type:not(:where(.not-content *)) th:last-child,
+.sl-markdown-content tbody tr:first-of-type:not(:where(.not-content *)) td:last-child {
+  border-start-end-radius: var(--border-radius);
+}
+
+.sl-markdown-content tbody tr:last-of-type:not(:where(.not-content *)) th:first-child,
+.sl-markdown-content tbody tr:last-of-type:not(:where(.not-content *)) td:first-child {
+  border-end-start-radius: var(--border-radius);
+}
+
+.sl-markdown-content tbody tr:last-of-type:not(:where(.not-content *)) th:last-child,
+.sl-markdown-content tbody tr:last-of-type:not(:where(.not-content *)) td:last-child {
+  border-end-end-radius: var(--border-radius);
 }

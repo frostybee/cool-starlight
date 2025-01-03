@@ -41,15 +41,10 @@ export default defineConfig({
         Header: './src/components/Header.astro',
       },
       customCss: [
-        // Relative path to your custom CSS file
-        // "./src/styles/custom_slint.css",
         "./src/styles/custom.css",
-        "./src/styles/theme.css",
-        // "./src/styles/markdown.css",
         "./src/styles/Linkable_headings.css",
         "./src/styles/sidebar-topics.css",
         "./src/styles/asides.css",
-        // "./src/styles/custom_old.css",
       ],
       lastUpdated: true,
       plugins: [
