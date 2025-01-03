@@ -29,6 +29,7 @@
   --fb-code-block-bg-color: #151517;
   /* EC border bottom color */
   --fb-ec-caption-bb-color: #464747;
+  --fb-ec-language-color: #c1c2c9;
 
   /* --color-white: hsl(0 0% 98%); */
 }
@@ -48,15 +49,16 @@ body {
   --sl-color-accent-high: hsl(222, 80%, 35%);
   --sl-color-accent: hsl(222, 89%, 55%);
   --sl-color-accent-low: hsl(222, 89%, 85%);
-  --sl-scrollbar-color: var(--sl-color-accent);
   --purple-hsl: 255, 85%, 65%;
   --sl-color-text: #1C1E21;
 
   /* Custom variablesf4f6f8 */
-  --fb-ec-caption-bg-color: #eceef0;
+  --fb-ec-caption-bg-color: #eff2f3;
   /* EC border bottom color */
   --fb-ec-caption-bb-color: #dadde1;
   --fb-code-block-bg-color: #f6f6f7;
+  --fb-ec-language-color: #636467;
+  --sl-scrollbar-color: var(--sl-color-accent);
 }
 
 :root {
@@ -103,6 +105,8 @@ body {
   --size-1: 0.25rem;
   --size-npx: -1px;
   --fb-toc-current-item-color: var(--sl-color-accent-high);
+  --fb-font-weight-semibold: 500;
+  --fb-h5-font-size: .875rem;
 }
 
 
@@ -216,5 +220,31 @@ pre.astro-code {
   font-weight: 600;
 }
 
-/* Asides style */
+/* Pagination override styles */
+.pagination-links {
+  /* border-block-start: 2px solid var(--sl-color-gray-6); */
+}
 
+.pagination-links a {
+  /* border: 0; */
+  box-shadow: initial;
+}
+
+.pagination-links :hover {
+  /* border: 0; */
+  box-shadow: initial;
+  border-color: var(--sl-color-accent-high);
+  box-shadow: var(--sl-shadow-sm);
+}
+
+.pagination-links a>span {
+  font-size: var(--fb-h5-font-size);
+  font-weight: 600;
+}
+
+.pagination-links a .link-title {
+  color: var(--sl-color-text-accent);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: color 300ms ease-out;
+}

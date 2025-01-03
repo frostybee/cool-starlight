@@ -49,10 +49,11 @@ export default defineConfig({
         "./src/styles/Linkable_headings.css",
         "./src/styles/sidebar-topics.css",
         "./src/styles/asides.css",
+        // "./src/styles/custom_old.css",
       ],
       lastUpdated: true,
       plugins: [
-        starlightImageZoom(),
+        // starlightImageZoom(),
         starlightViewModes(),
         starlightSidebarTopics(
           [
@@ -72,7 +73,7 @@ export default defineConfig({
             },
             {
               label: "Components",
-              link: "components",
+              link: "components/",
               icon: "puzzle",
               items: [
                 {

@@ -12,31 +12,10 @@
 /* Aside style overrides */
 .starlight-aside {
 	padding: 1rem;
-	border-inline-start: 0.25rem solid var(--sl-color-asides-border);
+	border-inline-start: 0.25rem solid var(--sl-color-asides-border) !important;
 	color: var(--sl-color-white);
   border-radius: var(--csl-global-radius);
   box-shadow: var(--csl-alert-shadow);
-  border: var(--ifm-alert-border-width) solid var(--ifm-alert-border-color);
-}
-.starlight-aside--note {
-	--sl-color-asides-text-accent: var(--sl-color-blue-high);
-	--sl-color-asides-border: var(--sl-color-blue);
-	background-color: var(--sl-color-blue-low);
-}
-.starlight-aside--tip {
-	--sl-color-asides-text-accent: var(--sl-color-purple-high);
-	--sl-color-asides-border: var(--sl-color-purple);
-	background-color: var(--sl-color-purple-low);
-}
-.starlight-aside--caution {
-	--sl-color-asides-text-accent: var(--sl-color-orange-high);
-	--sl-color-asides-border: var(--sl-color-orange);
-	background-color: var(--sl-color-orange-low);
-}
-.starlight-aside--danger {
-	--sl-color-asides-text-accent: var(--sl-color-red-high);
-	--sl-color-asides-border: var(--sl-color-red);
-	background-color: var(--sl-color-red-low);
 }
 
 .starlight-aside__title {
@@ -50,16 +29,5 @@
   text-transform: uppercase;
 }
 
-.starlight-aside__icon {
-	font-size: 1.333em;
-	width: 1em;
-	height: 1em;
-}
 
-.starlight-aside__title + .starlight-aside__content {
-	margin-top: 0.5rem;
-}
 
-.starlight-aside__content a {
-	color: var(--sl-color-asides-text-accent);
-}
