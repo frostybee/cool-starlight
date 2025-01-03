@@ -112,11 +112,11 @@ export default {
   themes: ["dracula", "light-plus"],
   styleOverrides: {
     borderRadius: "0.4rem",
-    borderColor: "var(--color-bg-code-block)",
+    borderColor: "var(--fb-code-block-bg-color)",
     frames: {
       shadowColor: "var(--sl-shadow-sm)"
     },
-    codeBackground: "var(--color-bg-code-block)",
+    codeBackground: "var(--fb-code-block-bg-color)",
   },
   frames: {
     extractFileNameFromCode: false,
