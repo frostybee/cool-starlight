@@ -15,12 +15,12 @@
   &:hover {
     cursor: pointer;
     text-decoration: none;
+    border-bottom: 1px dotted var(--sl-color-accent-high);
     color: var(--color-text);
   }
 
   &:hover::after {
     content: '#';
-    /* content: '\1F517'; */
     transform: scale(0.9);
     transform-origin: left bottom;
     display: inline-block;
