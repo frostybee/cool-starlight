@@ -313,3 +313,15 @@ pre.astro-code {
     padding-inline-end: var(--space-xs);
   }
 }
+
+.sl-markdown-content:not(h1, h2, h3, h4, h5, h6)+ :is(h1, h2, h3, h4, h5, h6):not(:where(.not-content *)) {
+  margin-top: 1.2em;
+}
+
+/* Styles for markdown content headings  */
+/* .sl-markdown-content :is(h1, h2, h3, h4, h5, h6):not(:where(.not-content *)) {
+  color: var(--sl-color-white);
+  line-height: var(--sl-line-height-headings);
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: 600;
+} */
