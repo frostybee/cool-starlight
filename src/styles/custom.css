@@ -5,7 +5,7 @@
 
 /* NOTE: fb short for frostybee: */
 
-/* Dark mode colors. */
+/* Colors (dark mode) */
 :root {
   color-scheme: dark;
   --sl-hue-blue: 222;
@@ -13,7 +13,13 @@
   --sl-text-h4: 1.2rem;
   --sl-content-width: 50rem;
   --sl-color-bg: #1b1b1f;
-  --sl-color-gray-6: rgb(14, 14, 15);
+  --sl-color-white: hsl(0, 0%, 100%);
+  --sl-color-gray-7: hsl(224, 10%, 10%);
+  /* --sl-color-gray-7: #060606; */
+  --sl-color-black: hsl(224, 10%, 10%);
+  --sl-color-bg-sidebar: #161618;
+  --sl-color-bg-nav: var(--sl-color-bg-sidebar);
+
   --sl-color-hairline: #212929;
   --sl-color-hairline-shade: var(--sl-color-hairline);
   --badge-border-color: --sl-color-hairline;
@@ -35,6 +41,8 @@
   --fb-steps-text-color: #010319;
   /* Custom backdrop background color in dark mode. */
   --starlight-image-zoom-backdrop-bg: oklch(0 0 0);
+  --fb-table-header-bg-color: hsl(240, 5%, 8%);
+
 }
 
 body {
@@ -52,10 +60,21 @@ body {
   --sl-color-accent-high: hsl(222, 80%, 35%);
   --sl-color-accent: hsl(222, 89%, 55%);
   --sl-color-accent-low: hsl(222, 89%, 85%);
+
+  --sl-color-white: hsl(224, 10%, 10%);
+  --sl-color-gray-1: hsl(224, 14%, 16%);
+  --sl-color-gray-2: hsl(224, 10%, 23%);
+  --sl-color-gray-3: hsl(224, 7%, 36%);
+  --sl-color-gray-4: hsl(224, 6%, 56%);
+  --sl-color-gray-5: hsl(224, 6%, 77%);
+  --sl-color-gray-6: hsl(224, 20%, 94%);
+  --sl-color-gray-7: hsl(224, 19%, 97%);
+  --sl-color-black: hsl(0, 0%, 100%);
+
   --purple-hsl: 255, 85%, 65%;
   --sl-color-text: #1C1E21;
 
-  /* Custom variablesf4f6f8 */
+  /* Custom variables f4f6f8 */
   --fb-ec-caption-bg-color: #eff2f3;
   /* EC border bottom color */
   --fb-ec-caption-bb-color: #dadde1;
@@ -64,6 +83,7 @@ body {
   --sl-scrollbar-color: var(--sl-color-accent);
   --fb-steps-bg-color: var(--sl-color-accent);
   --fb-steps-text-color: #f6f6f4f9;
+  --fb-table-header-bg-color: var(--sl-color-gray-6);
   /* Custom backdrop background color in light mode. */
   --starlight-image-zoom-backdrop-bg: oklch(95% 0 0);
 }
@@ -99,13 +119,12 @@ body {
   --header-button-size: 2rem;
   --size-1: 0.25rem;
   --size-npx: -1px;
-  --fb-toc-current-item-color: var(--sl-color-accent-high);
+  --fb-toc-current-text-color: var(--sl-color-accent-high);
   --fb-font-weight-semibold: 500;
   --fb-h5-font-size: .875rem;
   /* Steps component: */
   --steps-hairline-color: var(--sl-color-accent-high);
 }
-
 
 [data-has-hero] .page {
   background: linear-gradient(215deg, var(--overlay-blurple), transparent 40%),
@@ -186,15 +205,12 @@ pre.astro-code {
   margin-top: 0.4rem;
 }
 
-.sidebar-content ul:first-child {
-  /* background-color: red; */
-}
-
 /* Style overrides: Right sidebar, items of the table of content */
 .right-sidebar-panel starlight-toc ul li[class^=astro-] :where([aria-current='true'], a:hover) {
-  border-left: 3px solid var(--fb-toc-current-item-color);
+  border-radius: 0%;
+  border-left: 3px solid var(--fb-toc-current-text-color);
   /* Optional: space the content from the border */
-  padding-left: 8px;
+  padding-left: 10px;
   color: var(--sl-color-accent-high);
   font-weight: 600;
 }
@@ -257,42 +273,36 @@ pre.astro-code {
   }
 }
 
-/* Table style overrides */
+/*--TABLES:
+   Table style overrides */
 .sl-markdown-content table {
   width: 100%;
   border-radius: var(--border-radius);
+  box-shadow: var(--sl-shadow-sm);
 
   table code {
     word-break: break-all;
   }
 
-  thead {
-    background-color: var(--sl-color-gray-6);
+  thead th {
+    background-color: var(--fb-table-header-bg-color);
+    border-bottom: 2px solid var(--sl-color-gray-5);
+    text-align: center !important;
+  }
+
+  thead th:not(th:last-child) {
+    border-right: 2px solid var(--sl-color-gray-5);
   }
 
   :is(th, td):not(:where(.not-content *)) {
-    /* border: 0; */
     --space-2xs: clamp(0.5rem, 0.5rem + 0vi, 0.5rem);
     padding-block: var(--space-2xs);
     border: 1px solid var(--sl-color-gray-6);
+    /* padding: var(--space-2xs); */
   }
 
   thead+tbody tr:nth-child(2n):not(:where(.not-content *)) {
-    /* background-color: var(--sl-color-gray-7, var(--sl-color-gray-6)); */
-    /* TODO: Defined the following variable in dark mode section. */
     background-color: var(--sl-color-gray-7);
-  }
-
-  thead+tbody tr:nth-child(2n + 1):not(:where(.not-content *)) {
-    background-color: initial;
-  }
-
-  tr:nth-child(2n):not(:where(.not-content *)) {
-    background-color: initial;
-  }
-
-  tr:nth-child(2n + 1):not(:where(.not-content *)) {
-    background-color: var(--sl-color-gray-7, var(--sl-color-gray-6));
   }
 
   :is(th:first-child, td:first-child):not(:where(.not-content *)) {

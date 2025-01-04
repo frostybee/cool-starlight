@@ -13,7 +13,7 @@ import mdx from "@astrojs/mdx";
 import starlightLinksValidator from 'starlight-links-validator'
 
 
-const site = 'https://frostybee.github.io/better-starlight';
+const site = 'https://frostybee.github.io/cool-starlight';
 //@see: https://astro.build/config
 export default defineConfig({
   markdown: {
@@ -37,6 +37,12 @@ export default defineConfig({
   },
   integrations: [
     starlight({
+      title: 'Cool Starlight',
+      social: {
+        github: 'https://github.com/withastro/starlight',
+      },
+      //TODO: add the head property.
+      defaultLocale: "en",
       components: {
         Header: './src/components/Header.astro',
       },
@@ -101,13 +107,6 @@ export default defineConfig({
       //   }),
       // ],
 
-      title: 'My Docs',
-      social: {
-        github: 'https://github.com/withastro/starlight',
-      },
-      //TODO: add the head property.
-      // Set English as the default language for this site.
-      defaultLocale: "en",
 
       // sidebar: [
       //   {
