@@ -24,10 +24,10 @@
     transform: scale(0.9);
     transform-origin: left bottom;
     display: inline-block;
-    margin-left: 0.25em;
+    margin-left: 0.35em;
     color: var(--sl-color-accent-high);
-    width: auto;
-    height: auto;
+    width: 24px;
+    height: 24px;
     background-color: transparent;
     font-weight: bold;
   }

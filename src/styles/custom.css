@@ -42,6 +42,9 @@
   /* Custom backdrop background color in dark mode. */
   --starlight-image-zoom-backdrop-bg: oklch(0 0 0);
   --fb-table-header-bg-color: hsl(240, 5%, 8%);
+  /* --fb-toc-color-border: #0069c2; */
+  --fb-toc-color-border: red;
+  --fb-toc-color-current-bg: #0085f230;
 
 }
 
@@ -205,14 +208,37 @@ pre.astro-code {
   margin-top: 0.4rem;
 }
 
-/* Style overrides: Right sidebar, items of the table of content */
+/* Table of contents:
+ Style overrides: Right sidebar, items of the table of content */
 .right-sidebar-panel starlight-toc ul li[class^=astro-] :where([aria-current='true'], a:hover) {
-  border-radius: 0%;
-  border-left: 3px solid var(--fb-toc-current-text-color);
+  /* border-radius: 0%; */
+  border-left: 3px solid var(--fb-toc-color-border);
   /* Optional: space the content from the border */
+  padding-left: 10px;
+  color: var(--sl-color-black);
+  background-color: var(--fb-toc-color-current-bg);
+  width: fit-content;
+  font-weight: 600;
+  border-bottom-right-radius: .25rem !important;
+  border-top-right-radius: .25rem !important;
+}
+
+.right-sidebar-panel starlight-toc ul li[class^=astro-] :where(a) {
+  border-radius: 0%;
+
+  /* border-left: 3px solid var(--fb-toc-current-text-color);
   padding-left: 10px;
   color: var(--sl-color-accent-high);
   font-weight: 600;
+  background-color: var(--sl-color-accent);
+  width: fit-content; */
+  /* border-left: 2px solid var(--sl-color-gray-5); */
+  color: var(--sl-color-text);
+  /* display: inline-block; */
+  padding: .3em 1.3rem;
+  text-decoration: none;
+  width: fit-content;
+
 }
 
 /* Pagination override styles */
@@ -318,10 +344,36 @@ pre.astro-code {
   margin-top: 1.2em;
 }
 
+.main-pane {
+  /* padding: 0 1rem; */
+}
+
+.right-sidebar {
+  /* Remove the  left-side border from the TOC */
+  border-inline-start: 0;
+  /* border-inline-start: 1px solid var(--sl-color-gray-6); */
+}
+
+
+
 /* Styles for markdown content headings  */
 /* .sl-markdown-content :is(h1, h2, h3, h4, h5, h6):not(:where(.not-content *)) {
   color: var(--sl-color-white);
   line-height: var(--sl-line-height-headings);
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-weight: 600;
+} */
+
+
+/*
+@media (min-width: 170rem) {
+  :global([data-has-sidebar]) .header {
+    padding-inline-end: var(--sl-nav-pad-x);
+  }
+  .sidebar-pane {
+    --sl-sidebar-visibility: visible !important;
+    width: var(--sl-sidebar-width);
+    background-color: var(--sl-color-bg-sidebar);
+    border-inline-end: 1px solid var(--sl-color-hairline-shade);
+  }
 } */
