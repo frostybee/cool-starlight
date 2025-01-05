@@ -41,15 +41,20 @@
   --fb-steps-text-color: #010319;
   /* Custom backdrop background color in dark mode. */
   --starlight-image-zoom-backdrop-bg: oklch(0 0 0);
-  --fb-table-header-bg-color: hsl(240, 5%, 8%);
+  --fb-table-header-bg-color: hsl(240, 91%, 5%);
   --fb-toc-color-border: var(--sl-color-accent-high);
   --fb-toc-color-current-bg: #0085f230;
   --list-marker-color: var(--sl-color-gray-2);
   --divider-color: var(--sl-color-gray-3);
+  --fb-table-border-color: var(--sl-color-gray-4);
 }
 
 body {
   font-weight: 400;
+}
+
+* {
+  scrollbar-color: #e5e4e4 transparent;
 }
 
 /* Light mode colors. */
@@ -86,13 +91,20 @@ body {
   /* --fb-steps-bg-color: var(--sl-color-accent); */
   --fb-steps-bg-color: #0069c2;
   --fb-steps-text-color: #f6f6f4f9;
-  --fb-table-header-bg-color: var(--sl-color-gray-6);
+  --fb-table-header-bg-color: #e8e7e7;
   /* Custom backdrop background color in light mode. */
   --starlight-image-zoom-backdrop-bg: oklch(95% 0 0);
   --fb-toc-color-border: #0069c2;
   --fb-toc-color-current-bg: #0085f230;
   --list-marker-color: var(--sl-color-gray-3);
   --divider-color: var(--sl-color-gray-3);
+  --fb-table-border-color: rgba(0, 0, 0, .1);
+
+  --border-xlight: rgb(0 0 0/5%);
+  --border-light: rgba(0, 0, 0, .1);
+  --border-medium: rgba(0, 0, 0, .15);
+  --border-heavy: rgba(0, 0, 0, .2);
+  --border-xheavy: rgba(0, 0, 0, .25);
 }
 
 :root {
@@ -132,6 +144,7 @@ body {
   /* Steps component: */
   --steps-hairline-color: var(--sl-color-accent-high);
   --paragraph-spacing: 1.5rem;
+  --fb-table-border-radius: .375rem;
 }
 
 [data-has-hero] .page {
@@ -302,8 +315,12 @@ pre.astro-code {
  */
 .sl-markdown-content table {
   width: 100%;
-  border-radius: var(--border-radius);
-  box-shadow: var(--sl-shadow-sm);
+  table-layout: auto;
+  --tw-border-spacing-x: 0px;
+  --tw-border-spacing-y: 0px;
+  border-collapse: separate;
+  border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
+  line-height: 1.6;
 
   table code {
     word-break: break-all;
@@ -311,22 +328,18 @@ pre.astro-code {
 
   thead th {
     background-color: var(--fb-table-header-bg-color);
-    border-bottom: 2px solid var(--sl-color-gray-5);
     text-align: center !important;
   }
 
-  thead th:not(th:last-child) {
-    border-right: 2px solid var(--sl-color-gray-5);
-  }
 
   :is(th, td):not(:where(.not-content *)) {
     --space-2xs: clamp(0.5rem, 0.5rem + 0vi, 0.5rem);
     padding-block: var(--space-2xs);
-    border: 1px solid var(--sl-color-gray-6);
-    /* padding: var(--space-2xs); */
+    border: 1px solid var(--fb-table-border-color);
   }
 
   thead+tbody tr:nth-child(2n):not(:where(.not-content *)) {
+    /* Apply alt stripes. */
     background-color: var(--sl-color-gray-7);
   }
 
@@ -337,6 +350,28 @@ pre.astro-code {
   :is(th:last-child, td:last-child):not(:where(.not-content *)) {
     padding-inline-end: var(--space-xs);
   }
+
+  /* Apply rounded corners to the four sides of the table. */
+  thead tr:last-of-type:not(:where(.not-content *)) th:first-child {
+    border-top-left-radius: var(--fb-table-border-radius);
+  }
+
+  thead tr:last-of-type:not(:where(.not-content *)) th:last-child {
+    border-top-right-radius: var(--fb-table-border-radius);
+  }
+
+  tbody tr:last-of-type:not(:where(.not-content *)) th:last-child {
+    border-top-right-radius: var(--fb-table-border-radius);
+  }
+
+  tbody tr:last-of-type:not(:where(.not-content *)) td:last-child {
+    border-bottom-right-radius: var(--fb-table-border-radius);
+  }
+
+  tbody tr:last-of-type:not(:where(.not-content *)) td:first-child {
+    border-bottom-left-radius: var(--fb-table-border-radius);
+  }
+
 }
 
 .sl-markdown-content:not(h1, h2, h3, h4, h5, h6)+ :is(h1, h2, h3, h4, h5, h6):not(:where(.not-content *)) {
@@ -368,27 +403,23 @@ pre.astro-code {
   counter-reset: listitem;
 }
 
-.sl-markdown-content ol:not(:where(.sl-steps,.not-content *))>li,
-.sl-markdown-content ul:not(:where(.sl-steps,.not-content *))>li {
+.sl-markdown-content ol:not(:where(.sl-steps, .not-content *))>li,
+.sl-markdown-content ul:not( :where(.sl-steps, .not-content *))>li {
   position: relative;
-  padding-left: 1.85rem;
+  padding-left: 2rem;
 }
 
 .sl-markdown-content li:not(:where(.not-content *))>ol,
 .sl-markdown-content li:not(:where(.not-content *))>ul,
-.sl-markdown-content li+li:not(:where(.not-content *))
-.sl-markdown-content li:not(:where(.sl-steps))>ol
-{
+.sl-markdown-content li+li:not(:where(.not-content *)) .sl-markdown-content li:not(:where(.sl-steps))>ol {
   margin-top: 0.625rem;
 }
 
-.sl-markdown-content li> :last-child:not(li, ul, ol):not(a, strong, em, del, span, input,:where(.not-content *))
-
-{
+.sl-markdown-content li> :last-child:not(li, ul, ol):not(a, strong, em, del, span, input, :where(.not-content *)) {
   /* margin-bottom: calc(var(--paragraph-spacing) + 0.5rem); */
 }
 
-.sl-markdown-content ul:not(:where(.sl-steps,.not-content *))>li:before {
+.sl-markdown-content ul:not(:where(.sl-steps, .not-content *))>li:before {
   content: "";
   position: absolute;
   left: 2px;
