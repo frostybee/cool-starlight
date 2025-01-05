@@ -5,6 +5,14 @@ import Search from "@astrojs/starlight/components/Search.astro";
 import SiteTitle from "@astrojs/starlight/components/SiteTitle.astro";
 import SocialIcons from "@astrojs/starlight/components/SocialIcons.astro";
 import ThemeSelect from "./ThemeSelect.astro";
+import ProgressScroll from './ProgressScroll.astro';
+
+const displayProgressScroll = true;
+	// Astro.props.slug.startsWith('guides') ||
+	// (Astro.props.slug.startsWith('articles/') &&
+	// 	!Astro.props.slug.startsWith('articles/tags') &&
+	// 	!Astro.props.slug.startsWith('articles/authors') &&
+	// 	!Astro.props.slug.match('articles/[0-9]*$'));
 ---
 
 <div class="header sl-flex">
@@ -22,6 +30,7 @@ import ThemeSelect from "./ThemeSelect.astro";
        <SocialIcons {...Astro.props} />
 	</div>
 </div>
+{displayProgressScroll && <ProgressScroll />}
 
 <style>
 	.header {

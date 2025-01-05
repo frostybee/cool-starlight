@@ -53,10 +53,6 @@ body {
   font-weight: 400;
 }
 
-* {
-  scrollbar-color: #e5e4e4 transparent;
-}
-
 /* Light mode colors. */
 :root[data-theme='light'] {
   color-scheme: light;

@@ -54,7 +54,7 @@ export default defineConfig({
       ],
       lastUpdated: true,
       plugins: [
-        // starlightImageZoom(),
+        starlightImageZoom(),
         starlightViewModes(),
         starlightSidebarTopics(
           [
