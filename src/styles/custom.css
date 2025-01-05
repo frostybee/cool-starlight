@@ -42,10 +42,10 @@
   /* Custom backdrop background color in dark mode. */
   --starlight-image-zoom-backdrop-bg: oklch(0 0 0);
   --fb-table-header-bg-color: hsl(240, 5%, 8%);
-  /* --fb-toc-color-border: #0069c2; */
-  --fb-toc-color-border: red;
+  --fb-toc-color-border: var(--sl-color-accent-high);
   --fb-toc-color-current-bg: #0085f230;
-
+  --list-marker-color: var(--sl-color-gray-2);
+  --divider-color: var(--sl-color-gray-3);
 }
 
 body {
@@ -63,7 +63,6 @@ body {
   --sl-color-accent-high: hsl(222, 80%, 35%);
   --sl-color-accent: hsl(222, 89%, 55%);
   --sl-color-accent-low: hsl(222, 89%, 85%);
-
   --sl-color-white: hsl(224, 10%, 10%);
   --sl-color-gray-1: hsl(224, 14%, 16%);
   --sl-color-gray-2: hsl(224, 10%, 23%);
@@ -84,11 +83,16 @@ body {
   --fb-code-block-bg-color: #f6f6f7;
   --fb-ec-language-color: #636467;
   --sl-scrollbar-color: var(--sl-color-accent);
-  --fb-steps-bg-color: var(--sl-color-accent);
+  /* --fb-steps-bg-color: var(--sl-color-accent); */
+  --fb-steps-bg-color: #0069c2;
   --fb-steps-text-color: #f6f6f4f9;
   --fb-table-header-bg-color: var(--sl-color-gray-6);
   /* Custom backdrop background color in light mode. */
   --starlight-image-zoom-backdrop-bg: oklch(95% 0 0);
+  --fb-toc-color-border: #0069c2;
+  --fb-toc-color-current-bg: #0085f230;
+  --list-marker-color: var(--sl-color-gray-3);
+  --divider-color: var(--sl-color-gray-3);
 }
 
 :root {
@@ -127,6 +131,7 @@ body {
   --fb-h5-font-size: .875rem;
   /* Steps component: */
   --steps-hairline-color: var(--sl-color-accent-high);
+  --paragraph-spacing: 1.5rem;
 }
 
 [data-has-hero] .page {
@@ -210,35 +215,29 @@ pre.astro-code {
 
 /* Table of contents:
  Style overrides: Right sidebar, items of the table of content */
-.right-sidebar-panel starlight-toc ul li[class^=astro-] :where([aria-current='true'], a:hover) {
-  /* border-radius: 0%; */
-  border-left: 3px solid var(--fb-toc-color-border);
-  /* Optional: space the content from the border */
-  padding-left: 10px;
-  color: var(--sl-color-black);
-  background-color: var(--fb-toc-color-current-bg);
-  width: fit-content;
-  font-weight: 600;
-  border-bottom-right-radius: .25rem !important;
-  border-top-right-radius: .25rem !important;
-}
-
-.right-sidebar-panel starlight-toc ul li[class^=astro-] :where(a) {
+.right-sidebar-panel starlight-toc ul li[class^=astro-] a {
   border-radius: 0%;
-
-  /* border-left: 3px solid var(--fb-toc-current-text-color);
-  padding-left: 10px;
-  color: var(--sl-color-accent-high);
-  font-weight: 600;
-  background-color: var(--sl-color-accent);
-  width: fit-content; */
-  /* border-left: 2px solid var(--sl-color-gray-5); */
-  color: var(--sl-color-text);
-  /* display: inline-block; */
-  padding: .3em 1.3rem;
+  display: inline-block;
+  padding: .5rem 1.1rem;
   text-decoration: none;
   width: fit-content;
+  border-left: 2px solid var(--sl-color-gray-5);
+  font-weight: 400;
 
+  /* Current selected item in the TOC */
+  &:where([aria-current='true']) {
+    border-left: 3px solid var(--fb-toc-color-border);
+    color: var(--sl-color-white);
+    background-color: var(--fb-toc-color-current-bg);
+    width: fit-content;
+    font-weight: 600;
+    border-bottom-right-radius: .25rem !important;
+    border-top-right-radius: .25rem !important;
+  }
+
+  &:hover {
+    font-weight: 600;
+  }
 }
 
 /* Pagination override styles */
@@ -273,14 +272,12 @@ pre.astro-code {
 .sl-steps {
   --sl-color-hairline-light: var(--steps-hairline-color);
   --bullet-size: calc(var(--sl-line-height) * 1rem);
-  --bullet-margin: .375rem;
+  --bullet-margin: .2rem !important;
 
   li {
-    /* position: relative; */
     /* margin-bottom: 20px; */
     /* Space between steps */
     padding-left: 45px;
-    /* Add space for the circle */
   }
 
   >li:before {
@@ -299,8 +296,10 @@ pre.astro-code {
   }
 }
 
-/*--TABLES:
-   Table style overrides */
+/**
+ * TABLES:
+ * Table style overrides
+ */
 .sl-markdown-content table {
   width: 100%;
   border-radius: var(--border-radius);
@@ -345,13 +344,77 @@ pre.astro-code {
 }
 
 .main-pane {
-  /* padding: 0 1rem; */
+  padding: 0 1rem;
 }
 
 .right-sidebar {
   /* Remove the  left-side border from the TOC */
   border-inline-start: 0;
   /* border-inline-start: 1px solid var(--sl-color-gray-6); */
+}
+
+
+/**
+ * Lists
+ */
+.sl-markdown-content ol:not(:where(.not-content *)),
+.sl-markdown-content ul:not(:where(.not-content *)) {
+  list-style-type: none;
+  padding-left: 0;
+  /* margin-bottom: 2rem; */
+}
+
+.sl-markdown-content ol:not(:where(.not-content *)) {
+  counter-reset: listitem;
+}
+
+.sl-markdown-content ol:not(:where(.not-content *))>li,
+.sl-markdown-content ul:not(:where(.not-content *))>li {
+  position: relative;
+  padding-left: 1.85rem;
+}
+
+.sl-markdown-content li:not(:where(.not-content *))>ol,
+.sl-markdown-content li:not(:where(.not-content *))>ul,
+.sl-markdown-content li+li:not(:where(.not-content *)) {
+  margin-top: 0.625rem;
+}
+
+.sl-markdown-content li> :last-child:not(li, ul, ol):not(a, strong, em, del, span, input, :where(.not-content *)) {
+  margin-bottom: calc(var(--paragraph-spacing) + 0.5rem);
+}
+
+.sl-markdown-content ul:not(:where(.not-content *))>li:before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 13px;
+  width: 12px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--list-marker-color);
+}
+
+.sl-markdown-content ol:not(:where(.not-content *))>li:before {
+  counter-increment: listitem;
+  content: counter(listitem);
+  position: absolute;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.3rem;
+  text-align: center;
+  height: 22px;
+  width: 22px;
+  min-width: 22px;
+  padding-inline: 4px;
+  left: 0;
+  top: 3px;
+  border-radius: 4px;
+  color: var(--sl-color-text);
+  font-family: var(--sl-font-mono);
+  border: 1px solid var(--divider-color);
+  box-shadow: var(--sl-shadow-sm);
+
 }
 
 

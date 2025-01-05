@@ -48,7 +48,7 @@ export default defineConfig({
       },
       customCss: [
         "./src/styles/custom.css",
-        "./src/styles/Linkable_headings.css",
+        "./src/styles/Linkable-headings.css",
         "./src/styles/sidebar-topics.css",
         "./src/styles/asides.css",
       ],
