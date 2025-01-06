@@ -8,6 +8,8 @@
 /* Colors (dark mode) */
 :root {
   color-scheme: dark;
+
+  --fb-blacks: 255, 255, 255;
   --sl-hue-blue: 222;
   --sl-text-h3: var(--sl-text-2xl);
   --sl-text-h4: 1.2rem;
@@ -47,6 +49,11 @@
   --list-marker-color: var(--sl-color-gray-2);
   --divider-color: var(--sl-color-gray-3);
   --fb-table-border-color: var(--sl-color-gray-4);
+  --fb-typeface-color: 255, 255, 255;
+  --fb-title-color: rgba(var(--fb-typeface-color), 1);
+  --fb-level-2-bg: #2c3139;
+  --sl-color-bg-nav: var(--fb-level-2-bg);
+  --sl-color-bg-sidebar: var(--fb-level-2-bg);
 }
 
 body {
@@ -56,6 +63,7 @@ body {
 /* Light mode colors. */
 :root[data-theme='light'] {
   color-scheme: light;
+  --fb-blacks: 0, 0, 0;
   --sl-text-h3: var(--sl-text-2xl);
   --sl-content-width: 50rem;
   --sl-color-bg: #ffffff;
@@ -101,6 +109,12 @@ body {
   --border-medium: rgba(0, 0, 0, .15);
   --border-heavy: rgba(0, 0, 0, .2);
   --border-xheavy: rgba(0, 0, 0, .25);
+  --fb-typeface-color: 38, 50, 56;
+  --fb-level-2-bg: #ffffff;
+  --fb-level-0-bg: #f5f7f8;
+  --sl-color-bg-nav: var(--fb-level-0-bg);
+  /* --sl-color-bg-sidebar: var(--fb-level-0-bg); */
+  --fb-title-color: rgba(var(--fb-typeface-color), 1);
 }
 
 :root {
@@ -109,7 +123,7 @@ body {
   --sl-font: "Roboto Flex", sans-serif;
   --font-mono: Noto Mono, Menlo, Monaco, Consolas, monospace;
   font-weight: 400;
-  --sl-scrollbar-height: 0.3rem;
+  --fb-scrollbar-height: 0.195rem;
   --purple-hsl: 205, 60%, 60%;
   --overlay-blurple: hsla(var(--purple-hsl), 0.4);
   text-underline-offset: .25em;
@@ -143,26 +157,7 @@ body {
   --fb-table-border-radius: .375rem;
 }
 
-[data-has-hero] .page {
-  background: linear-gradient(215deg, var(--overlay-blurple), transparent 40%),
-    radial-gradient(var(--overlay-blurple), transparent 40%) no-repeat -60vw -40vh / 105vw 200vh,
-    radial-gradient(var(--overlay-blurple), transparent 65%) no-repeat 50% calc(100% + 20rem) / 60rem 30rem;
-}
 
-[data-has-hero] header {
-  border-bottom: 1px solid transparent;
-  background-color: transparent;
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-}
-
-[data-has-hero] .hero>img {
-  filter: drop-shadow(0 0 3rem var(--overlay-blurple));
-}
-
-[data-page-title] {
-  font-size: 3rem;
-}
 
 /* date page title onl 2.5rem on mobile devices */
 @media (max-width: 768px) {
@@ -447,7 +442,72 @@ pre.astro-code {
   box-shadow: var(--sl-shadow-sm);
 }
 
+/* Sidebars */
+.sidebar-content {
 
+  [aria-current='page'],
+  [aria-current='page']:hover,
+  [aria-current='page']:focus {
+    color: var(--fb-title-color);
+    /* background-color: var(--fb-level-2-bg); */
+    background-color: var(--fb-toc-color-current-bg);
+    border-radius: 6px;
+    box-shadow: 2px 2px 4px 2px rgba(var(--fb-blacks), .04);
+    position: relative;
+
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 5px;
+      border-radius: 0 4px 4px 0;
+      background: var(--sl-color-text-accent);
+      top: 5px;
+      left: 0;
+      bottom: 5px;
+    }
+  }
+
+  li a {
+    padding: .4em var(--sl-sidebar-item-padding-inline) .5em 1em;
+    color: var(--fb-body-color);
+
+    &:hover {
+      color: var(--fb-title-color);
+      font-weight: 600;
+    }
+  }
+
+  summary+ul {
+    margin: .25rem 0;
+  }
+
+  details {
+    margin-bottom: .5rem;
+  }
+}
+
+/* Clean up */
+[data-has-hero] .page {
+  background: linear-gradient(215deg, var(--overlay-blurple), transparent 40%),
+    radial-gradient(var(--overlay-blurple), transparent 40%) no-repeat -60vw -40vh / 105vw 200vh,
+    radial-gradient(var(--overlay-blurple), transparent 65%) no-repeat 50% calc(100% + 20rem) / 60rem 30rem;
+}
+
+[data-has-hero] header {
+  border-bottom: 1px solid transparent;
+  background-color: transparent;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+[data-has-hero] .hero>img {
+  filter: drop-shadow(0 0 3rem var(--overlay-blurple));
+}
+
+[data-page-title] {
+  font-size: 3rem;
+}
 
 /* Styles for markdown content headings  */
 /* .sl-markdown-content :is(h1, h2, h3, h4, h5, h6):not(:where(.not-content *)) {
