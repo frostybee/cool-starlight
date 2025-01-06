@@ -52,8 +52,8 @@
   --fb-typeface-color: 255, 255, 255;
   --fb-title-color: rgba(var(--fb-typeface-color), 1);
   --fb-level-2-bg: #2c3139;
-  --sl-color-bg-nav: var(--fb-level-2-bg);
-  --sl-color-bg-sidebar: var(--fb-level-2-bg);
+  /* --sl-color-bg-nav: var(--fb-level-2-bg); */
+  /* --sl-color-bg-sidebar: var(--fb-level-2-bg); */
 }
 
 body {

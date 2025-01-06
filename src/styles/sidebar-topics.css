@@ -8,7 +8,7 @@
   /* Color variables */
   --tab-switcher-border-color: var(--sl-color-hairline-light);
   --tab-switcher-background-color: var(--sl-color-gray-7, var(--sl-color-gray-6));
-  --tab-switcher-text-color: var(--sl-color-gray-3);
+  --tab-switcher-text-color: var(--sl-color-gray-2);
   --tab-switcher-text-color-active: var(--sl-color-white);
   --tab-switcher-icon-color: var(--sl-color-gray-4);
   --tab-switcher-icon-color-active: var(--sl-color-text-accent);
