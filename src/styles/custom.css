@@ -132,7 +132,7 @@ color-scheme: light;
 --sl-font: "Roboto Flex", sans-serif;
 --font-mono: Noto Mono, Menlo, Monaco, Consolas, monospace;
 font-weight: 400;
---fb-scrollbar-height: 0.195rem;
+--fb-scrollbar-height: 0.250rem;
 --purple-hsl: 205, 60%, 60%;
 --overlay-blurple: hsla(var(--purple-hsl), 0.4);
 text-underline-offset: .25em;
