@@ -110,7 +110,7 @@ export default {
   // themes: ["dark-plus", "light-plus"],
   // themes: ['dracula', 'catppuccin-latte'],
   // themes: ['aurora-x', 'catppuccin-latte'],
-  themes: ["dracula", "light-plus"],
+  themes: ["github-dark-high-contrast", "light-plus"],
   styleOverrides: {
     borderRadius: "0.4rem",
     borderColor: "var(--fb-code-block-bg-color)",

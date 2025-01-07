@@ -34,6 +34,29 @@ button.textContent = 'Click me';
 document.body.appendChild(button);
 ```
 
+```php
+<?php
+
+use Frostybee\Geobee\Calculator;
+
+/*
+ * Calculate the distance from downtown Montreal to Laval.
+ * From: Ville-Marie 
+ *       postal code area: H3A
+ *       Latitude/Longitude: 45.4987, -73.5703
+ * To: Laval 
+ *     postal code area: H7T 
+ *     Latitude/Longitude: 45.55690, -73.7480
+ */
+$calculator = new Calculator();
+$distance = $calculator->calculate(
+    $from_latitude,
+    $from_longitude,
+    $to_latitude,
+    $to_longitude
+)->getDistance(); // Distance in meters.
+```
+
 ```php  title="example.php"
 try {
     // Outer try block

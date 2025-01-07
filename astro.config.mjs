@@ -45,6 +45,8 @@ export default defineConfig({
       defaultLocale: "en",
       components: {
         Header: './src/components/Header.astro',
+        // TwoColumnContent: './src/components/TwoColumn.astro',
+        // PageFrame: './src/components/PageFrame.astro',
       },
       customCss: [
         "./src/styles/custom.css",
