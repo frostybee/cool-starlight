@@ -8,6 +8,9 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from 'rehype-slug';
 import starlightSidebarTopics from "starlight-sidebar-topics";
+
+import guidesSidebar from './src/config/sidebars/guides.ts'
+import componentsSidebar from './src/config/sidebars/components.ts'
 // TODO: clean the following imports
 import mdx from "@astrojs/mdx";
 import starlightLinksValidator from 'starlight-links-validator'
@@ -45,8 +48,6 @@ export default defineConfig({
       defaultLocale: "en",
       components: {
         Header: './src/components/Header.astro',
-        // TwoColumnContent: './src/components/TwoColumn.astro',
-        // PageFrame: './src/components/PageFrame.astro',
       },
       customCss: [
         "./src/styles/custom.css",
@@ -65,26 +66,15 @@ export default defineConfig({
               link: "/guides/example",
               icon: "open-book",
               items: [
-                // Each item here is one entry in the navigation menu.
-                {
-                  label: "Basic Elements",
-                  autogenerate: {
-                    directory: "guides/",
-                  }
-                }
-              ],
+                ...guidesSidebar
+                ],
             },
             {
               label: "Components",
               link: "components/",
               icon: "puzzle",
               items: [
-                {
-                  label: "Components",
-                  autogenerate: {
-                    directory: "components/",
-                  }
-                }
+                ...componentsSidebar
               ],
             },
             {
@@ -107,25 +97,6 @@ export default defineConfig({
       //   starlightLinksValidator({
       //     errorOnFallbackPages: false,
       //   }),
-      // ],
-
-
-      // sidebar: [
-      //   {
-      //     label: 'Guides',
-      //     items: [
-      //       // Each item here is one entry in the navigation menu.
-      //       { label: 'Example Guide', slug: 'guides/example' },
-      //     ],
-      //   },
-      //   {
-      //     label: 'Components',
-      //     autogenerate: { directory: 'components' },
-      //   },
-      //   {
-      //     label: 'Reference',
-      //     autogenerate: { directory: 'reference' },
-      //   },
       // ],
     }
     ),
