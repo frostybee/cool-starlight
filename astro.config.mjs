@@ -19,25 +19,6 @@ import starlightLinksValidator from 'starlight-links-validator'
 const site = 'https://frostybee.github.io/cool-starlight';
 //@see: https://astro.build/config
 export default defineConfig({
-  markdown: {
-    rehypePlugins: [
-      rehypeSlug,
-      rehypeHeadingIds,
-      [rehypeAutolinkHeadings, { behavior: 'wrap' }],
-      [rehypeExternalLinks,
-        {
-          content: {
-            type: "text",
-            value: " ↗",
-          },
-          properties: {
-            target: "_blank",
-          },
-          rel: ["noopener"],
-        },
-      ],
-    ],
-  },
   integrations: [
     starlight({
       title: 'Cool Starlight',
@@ -101,4 +82,23 @@ export default defineConfig({
     }
     ),
   ],
+  markdown: {
+    rehypePlugins: [
+      rehypeSlug,
+      rehypeHeadingIds,
+      [rehypeAutolinkHeadings, { behavior: 'wrap' }],
+      [rehypeExternalLinks,
+        {
+          content: {
+            type: "text",
+            value: " ↗",
+          },
+          properties: {
+            target: "_blank",
+          },
+          rel: ["noopener"],
+        },
+      ],
+    ],
+  },
 });

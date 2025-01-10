@@ -12,7 +12,7 @@
   --sl-hue-blue: 222;
   --sl-text-h3: var(--sl-text-2xl);
   --sl-text-h4: 1.2rem;
-  --sl-content-width: 50rem;
+  --sl-content-width: 55rem;
   /* --sl-color-bg: #0d1117; */
   /* --sl-color-bg: #1b1b1f; */
   --sl-color-bg: hsl(224, 10%, 10%);
@@ -40,7 +40,8 @@
   --fb-ec-caption-bg-color: #020000;
   /* --fb-code-block-bg-color: #151517; */
   /* --fb-code-block-bg-color: #151b23; */
-  --fb-code-block-bg-color: #23262f;
+  /* --fb-code-block-bg-color: #23262f; */
+  --fb-code-block-bg-color: #020110;
   /* EC border bottom color */
   --fb-ec-caption-bb-color: #464747;
   --fb-ec-language-color: #c1c2c9;
@@ -70,7 +71,7 @@ body {
   color-scheme: light;
   --fb-blacks: 0, 0, 0;
   --sl-text-h3: var(--sl-text-2xl);
-  --sl-content-width: 50rem;
+  --sl-content-width: 55rem;
   --sl-color-bg: #ffffff;
   --badge-border-color: lightgrey;
   --sl-color-hairline: #edeef3;
@@ -126,7 +127,7 @@ body {
 :root {
   /* Customize the font style here */
 
-  /* --sl-font: "Roboto Flex", sans-serif; */
+  --sl-font: "Roboto Flex", sans-serif;
   --font-mono: Noto Mono, Menlo, Monaco, Consolas, monospace;
   font-weight: 400;
   --fb-scrollbar-height: 0.250rem;
@@ -282,23 +283,19 @@ Style overrides: Right sidebar, items of the table of content */
   }
 }
 
-/* starlight steps component */
+/* Steps starlight component */
 .sl-steps {
-  --sl-color-hairline-light: var(--steps-hairline-color);
+  /* --sl-color-hairline-light: var(--steps-hairline-color); */
   --bullet-size: calc(var(--sl-line-height) * 1rem);
   --bullet-margin: .2rem !important;
-
   li {
-    /* margin-bottom: 20px; */
-    /* Space between steps */
     padding-left: 45px;
   }
 
   >li:before {
     --fb-steps-dimension: 30px;
-    /* background-color: var(--sl-color-accent) !important; */
     background-color: var(--fb-steps-bg-color);
-    /* color: #000000 !important; */
+    /* background-color: var(--sl-color-gray-6); */
     color: var(--fb-steps-text-color) !important;
     box-shadow: none !important;
     font-size: .8rem;
@@ -306,7 +303,7 @@ Style overrides: Right sidebar, items of the table of content */
     height: var(--fb-steps-dimension);
     text-align: center;
     line-height: var(--fb-steps-dimension);
-    /* border: 1px solid #b60f03; */
+    /* box-shadow: inset 0 0 0 1px var(--sl-color-gray-5) !important; */
   }
 }
 
@@ -539,12 +536,7 @@ font-weight: 600;
   border-inline-end: 1px solid var(--sl-color-hairline-shade);
 }
 } */
-/* Steps */
 
-/* .sl-steps > li::before {
-background-color: var(--crowdin-gray-005) !important;
-box-shadow: inset 0 0 0 1px var(--crowdin-gray-01) !important;
-} */
 
 
 @media (max-width: 20em) {
