@@ -164,7 +164,12 @@ body {
   --fb-table-border-radius: .375rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Plus Jakarta Sans Variable', sans-serif;
   /* color: var(--sl-color-text); */
 }
@@ -288,6 +293,7 @@ Style overrides: Right sidebar, items of the table of content */
   /* --sl-color-hairline-light: var(--steps-hairline-color); */
   --bullet-size: calc(var(--sl-line-height) * 1rem);
   --bullet-margin: .2rem !important;
+
   li {
     padding-left: 45px;
   }
@@ -457,19 +463,21 @@ Style overrides: Right sidebar, items of the table of content */
   [aria-current='page']:focus {
     color: var(--fb-sidebar-color-text-current);
     background-color: var(--fb-sidebar-color-current-bg);
-    border-radius: 6px;
     box-shadow: 2px 1px 2px 1px rgba(var(--fb-blacks), .03);
     position: relative;
+    /* border-bottom-right-radius: .25rem !important; */
+    /* border-top-right-radius: .25rem !important; */
 
     &::before {
       position: absolute;
-      top: calc(50% - 12px);
+      top: 0;
       left: -10px;
-      width: 4px;
-      height: 24px;
+      width: 5px;
+      height: 33px;
       content: "";
       background-color: var(--sl-color-text-accent);
-      border-radius: 16px;
+      border-bottom-right-radius: .25rem !important;
+      border-top-right-radius: .25rem !important;
     }
   }
 
