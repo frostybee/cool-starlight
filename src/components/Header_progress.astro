@@ -1,5 +1,4 @@
 ---
-import type { Props } from '@astrojs/starlight/props';
 import Default from '@astrojs/starlight/components/Header.astro';
 import ProgressScroll from './ProgressScroll.astro';
 import ThemeSelect from "./ThemeSelect.astro";
@@ -12,10 +11,10 @@ const displayProgressScroll =
 		!Astro.props.slug.match('articles/[0-9]*$'));
 ---
 
-<Default {...Astro.props}>
+<Default>
 	<slot />
 </Default>
-<ThemeSelect {...Astro.props} />
+<ThemeSelect  />
 
 
 <!-- {displayProgressScroll && <ProgressScroll />} -->

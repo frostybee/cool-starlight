@@ -1,5 +1,4 @@
 ---
-import type { Props } from "@astrojs/starlight/props";
 
 import Search from "@astrojs/starlight/components/Search.astro";
 import SiteTitle from "@astrojs/starlight/components/SiteTitle.astro";
@@ -17,17 +16,17 @@ const displayProgressScroll = true;
 
 <div class="header sl-flex">
 	<div class="title-wrapper sl-flex">
-		<SiteTitle {...Astro.props} />
+		<SiteTitle  />
 	</div>
 	<div class="sl-flex">
-		<Search {...Astro.props} />
+		<Search />
 	</div>
 	<div class="sl-hidden md:sl-flex right-group">
 
     <div class="sl-flex social-icons">
-        <ThemeSelect {...Astro.props} />
+        <ThemeSelect  />
     </div>
-       <SocialIcons {...Astro.props} />
+       <SocialIcons  />
 	</div>
 </div>
 {displayProgressScroll && <ProgressScroll />}
