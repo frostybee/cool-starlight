@@ -16,9 +16,11 @@ import mdx from "@astrojs/mdx";
 import starlightLinksValidator from 'starlight-links-validator'
 
 
-const site = 'https://frostybee.github.io/cool-starlight';
+const siteURI = 'https://frostybee.github.io';
 //@see: https://astro.build/config
 export default defineConfig({
+  site: siteURI,
+  // base: "/cool-starlight",
   integrations: [
     starlight({
       title: 'Cool Starlight',
@@ -39,7 +41,7 @@ export default defineConfig({
       lastUpdated: true,
       plugins: [
         starlightImageZoom(),
-        // starlightViewModes(),
+        starlightViewModes(),
         starlightSidebarTopics(
           [
             {
