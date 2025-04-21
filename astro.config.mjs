@@ -15,7 +15,7 @@ import componentsSidebar from './src/config/sidebars/components.ts'
 import mdx from "@astrojs/mdx";
 import starlightLinksValidator from 'starlight-links-validator'
 
-
+//TODO: put siteURI in a config file.
 const siteURI = 'https://frostybee.github.io';
 //@see: https://astro.build/config
 export default defineConfig({
@@ -24,9 +24,10 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Cool Starlight',
-      social: {
-        github: 'https://github.com/withastro/starlight',
-      },
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/frostybee/cool-starlight' },
+      ],
+      tableOfContents: {minHeadingLevel: 2, maxHeadingLevel: 4},
       //TODO: add the head property.
       defaultLocale: "en",
       components: {
@@ -73,8 +74,12 @@ export default defineConfig({
                 }
               ],
             },
-          ]
+          ],
+          {
+            exclude: ["/zen-mode/**/*"],
+			    }
         )
+
       ],
       // plugins: [
       //   starlightLinksValidator({
