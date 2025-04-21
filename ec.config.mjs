@@ -12,12 +12,13 @@ function sideBorder() {
             top: calc(var(--button-spacing) - 6px);
             bottom: 0;
             left: 0;
-            width: 100px;
+            width: 100p x;
             border-left-width: 2px;
             border-left-style: solid;
             border-color: #2479f4;
             border-top-left-radius: 0.4rem;
             border-bottom-left-radius: 0.4rem;
+            pointer-events: none;
         }
         `,
     hooks: {
@@ -99,7 +100,7 @@ export default {
   plugins: [
     sideBorder(),
     languageLabel(),
-    pluginLineNumbers(),
+    pluginLineNumbers()
   ],
   defaultProps: {
     showLineNumbers: false,

@@ -114,6 +114,7 @@ body {
   --border-xheavy: rgba(0, 0, 0, .25);
   --fb-level-2-bg: #ffffff;
   --fb-level-0-bg: #f5f7f8;
+  --sl-color-bg-sidebar: #fcfcfc;
   --sl-color-bg-nav: #eff1f1;
   --fb-sidebar-color-text-current: rgba(38, 50, 56, 1);
   --fb-toc-color-current-bg: #0085f230;
@@ -254,6 +255,7 @@ Style overrides: Right sidebar, items of the table of content */
 
   &:hover {
     font-weight: 600;
+    border-left: 2px solid var(--fb-toc-color-border);
   }
 }
 
@@ -486,6 +488,8 @@ Style overrides: Right sidebar, items of the table of content */
       color: var(--fb-sidebar-color-text-current);
       background-color: var(--fb-sidebar-color-current-hover);
       font-weight: 600;
+      /* border-bottom-right-radius: .25rem !important;
+      border-top-right-radius: .25rem !important; */
     }
   }
 
