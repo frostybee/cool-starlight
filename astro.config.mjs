@@ -9,14 +9,14 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from 'rehype-slug';
 import starlightSidebarTopics from "starlight-sidebar-topics";
 
-import guidesSidebar from './src/config/sidebars/guides.ts'
-import componentsSidebar from './src/config/sidebars/components.ts'
+import leftSidebar from './src/config/sidebars/main-sidebar.ts'
+
 // TODO: clean the following imports
 import mdx from "@astrojs/mdx";
 import starlightLinksValidator from 'starlight-links-validator'
 
 //TODO: put siteURI in a config file.
-const siteURI = 'https://frostybee.github.io';
+const siteURI = 'https://frostybee.github.io/cool-starlight/';
 //@see: https://astro.build/config
 export default defineConfig({
   site: siteURI,
@@ -57,35 +57,7 @@ export default defineConfig({
         // }),
         starlightSidebarTopics(
           [
-            {
-              label: "Guides",
-              link: "/guides/example",
-              icon: "open-book",
-              items: [
-                ...guidesSidebar
-                ],
-            },
-            {
-              label: "Components",
-              link: "components/",
-              icon: "puzzle",
-              items: [
-                ...componentsSidebar
-              ],
-            },
-            {
-              label: "Reference",
-              link: "reference/example",
-              icon: "starlight",
-              items: [
-                {
-                  label: "Basic Elements",
-                  autogenerate: {
-                    directory: "reference/",
-                  }
-                }
-              ],
-            },
+            ...leftSidebar
           ],
           {
             exclude: ["/zen-mode/**/*"],
