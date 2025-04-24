@@ -5,20 +5,19 @@ import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 
 function sideBorder() {
   return definePlugin({
-    name: "Adds side border to slint code blocks",
+    name: "Adds side border to Starlight code blocks",
     baseStyles: `
-        .sideBar {
+       .sideBar {
             position: absolute;
             top: calc(var(--button-spacing) - 6px);
             bottom: 0;
             left: 0;
-            width: 100p x;
+            width: 100px;
             border-left-width: 2px;
             border-left-style: solid;
             border-color: #2479f4;
             border-top-left-radius: 0.4rem;
             border-bottom-left-radius: 0.4rem;
-            pointer-events: none;
         }
         `,
     hooks: {
@@ -100,7 +99,7 @@ export default {
   plugins: [
     sideBorder(),
     languageLabel(),
-    pluginLineNumbers()
+    pluginLineNumbers(),
   ],
   defaultProps: {
     showLineNumbers: false,
