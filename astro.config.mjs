@@ -20,7 +20,7 @@ const siteURI = 'https://frostybee.github.io';
 //@see: https://astro.build/config
 export default defineConfig({
   site: siteURI,
-  // base: "/cool-starlight",
+  base: "/cool-starlight",
   integrations: [
     starlight({
       title: 'Cool Starlight',
