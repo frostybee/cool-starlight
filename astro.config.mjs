@@ -20,7 +20,7 @@ const siteURI = 'https://frostybee.github.io';
 //@see: https://astro.build/config
 export default defineConfig({
   site: siteURI,
-  // base: "/cool-starlight",
+  base: "/cool-starlight",
   integrations: [
     starlight({
       title: 'Cool Starlight',
@@ -42,7 +42,19 @@ export default defineConfig({
       lastUpdated: true,
       plugins: [
         starlightImageZoom(),
-        starlightViewModes(),
+        // starlightViewModes({
+        //   zenModeSettings: {
+        //     enabled: true,
+        //     displayOptions: {
+        //       showHeader: true,
+        //       showSidebar: false,
+        //       showTableOfContents: true,
+        //       showFooter: true,
+        //     },
+        //     exclude: ["resources/*"],
+        //     keyboardShortcut: ["Ctrl+Shift+Z"],
+        //   },
+        // }),
         starlightSidebarTopics(
           [
             {
@@ -79,7 +91,6 @@ export default defineConfig({
             exclude: ["/zen-mode/**/*"],
 			    }
         )
-
       ],
       // plugins: [
       //   starlightLinksValidator({
@@ -109,3 +120,6 @@ export default defineConfig({
     ],
   },
 });
+
+
+
