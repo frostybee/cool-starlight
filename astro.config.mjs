@@ -26,13 +26,17 @@ export default defineConfig({
       tableOfContents: {minHeadingLevel: 2, maxHeadingLevel: 4},
       //TODO: add the head property.
       defaultLocale: "en",
+
+      // Load components overrides.
       components: {
         Header: './src/components/Header.astro',
       },
+
       // Load and apply the default custom styles.
       customCss: [
         "./src/styles/index.css",
       ],
+
       lastUpdated: true,
       plugins: [
         starlightImageZoom(),
