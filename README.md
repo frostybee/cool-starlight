@@ -2,46 +2,87 @@
 
 [![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
 
-```
-npm create astro@latest -- --template starlight
-```
-
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/starlight/tree/main/examples/basics)
 [![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/starlight/tree/main/examples/basics)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/withastro/starlight&create_from_path=examples/basics)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwithastro%2Fstarlight%2Ftree%2Fmain%2Fexamples%2Fbasics&project-name=my-starlight-docs&repository-name=my-starlight-docs)
 
+---
 > 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+---
+
+## Getting Started
+
+1. **Clone the repository**  
+    - Run the following command to clone the repository to your local machine:  
+
+        ```bash
+        git clone https://github.com/frostybee/cool-starlight.git
+        cd cool-starlight
+        ```
+
+    - Or download it as a .zip file) and run: `npm install`
+
+2. **Install dependencies**  
+    Use npm to install the required dependencies:  
+
+    ```bash
+    npm install
+    ```
+
+3. **Start the development server**  
+    Launch the local development server:  
+
+    ```bash
+    npm run dev
+    ```
+
+4. **Open in your browser**  
+    Navigate to `http://localhost:4321` in your browser to view your project.
+
+5. **Build for production** (optional if you are using CI to deploy your project)  
+    When you're ready to deploy, build the project with:  
+
+    ```bash
+    npm run build
+    ```
+
+    The output will be located in the `./dist/` directory.
 
 ## 🚀 Project Structure
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+Inside of your **Cool Starlight** project, you'll see the following folders and files:
 
 ```
 .
 ├── public/
 ├── src/
 │   ├── assets/
+│   ├── components/ 👈 Contains overrides of Astro components
 │   ├── content/
-│   │   ├── docs/
+│   │   ├── docs/   👈 Your website content goes here
 │   │   └── config.ts
+│   ├── config
+│   ├── ├── sidebar/
+│   │   ├─────────  sidebar-items.ts   👈 Use this file to store the items/links to be displayed in the left sidebar.        
 │   └── env.d.ts
 ├── astro.config.mjs
 ├── package.json
 └── tsconfig.json
 ```
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+- Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+- Images can be added to `src/assets/` and embedded in Markdown with a relative link.
 
-Static assets, like favicons, can be placed in the `public/` directory.
+- Static assets, like favicons, can be placed in the `public/` directory.
+
+- The items to be displayed in the left sidebar are configured in the `src/config/sidebar` file.
 
 ## Features
 
 - Image zoom
-- Zen mode
-- Custom font
+- Sidebar topics (Organize items by topics)
+- Custom font (headings and markdown content)
+- Page scroll indicator  
 
 ## 🧞 Commands
 

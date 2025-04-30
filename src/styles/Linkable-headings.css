@@ -20,7 +20,7 @@
   }
 
   &:hover::after {
-    content: '#';
+    /* content: '#'; */
     transform: scale(0.9);
     transform-origin: left bottom;
     display: inline-block;

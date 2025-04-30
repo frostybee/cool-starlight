@@ -1,31 +1,27 @@
 import { defineConfig } from "astro/config";
 import starlight from '@astrojs/starlight';
 import starlightImageZoom from 'starlight-image-zoom'
-import starlightViewModes from 'starlight-view-modes'
-
 import rehypeExternalLinks from "rehype-external-links";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from 'rehype-slug';
 import starlightSidebarTopics from "starlight-sidebar-topics";
-
-import leftSidebar from './src/config/sidebars/main-sidebar.ts'
-
-// TODO: clean the following imports
-import mdx from "@astrojs/mdx";
 import starlightLinksValidator from 'starlight-links-validator'
+import starlightViewModes from 'starlight-view-modes'
 
-//TODO: put siteURI in a config file.
-const siteURI = 'https://frostybee.github.io/cool-starlight/';
+import leftSidebar from './src/config/sidebar/sidebar-items.ts'
+import websiteConfig from './src/config/website-config.ts'
+
 //@see: https://astro.build/config
 export default defineConfig({
-  site: siteURI,
-  base: "/cool-starlight",
+  site: websiteConfig.siteURI,
+  base: websiteConfig.baseDirectory,
   integrations: [
     starlight({
-      title: 'Cool Starlight',
+      title: websiteConfig.title,
+      favicon: websiteConfig.favicon,
       social: [
-        { icon: 'github', label: 'GitHub', href: 'https://github.com/frostybee/cool-starlight' },
+        { icon: 'github', label: 'GitHub', href: websiteConfig.gitHubRepoUri },
       ],
       tableOfContents: {minHeadingLevel: 2, maxHeadingLevel: 4},
       //TODO: add the head property.
@@ -33,37 +29,27 @@ export default defineConfig({
       components: {
         Header: './src/components/Header.astro',
       },
+      // Load and apply the default custom styles.
       customCss: [
-        "./src/styles/custom.css",
-        "./src/styles/Linkable-headings.css",
-        "./src/styles/sidebar-topics.css",
-        "./src/styles/asides.css",
+        "./src/styles/index.css",
       ],
       lastUpdated: true,
       plugins: [
         starlightImageZoom(),
-        // starlightViewModes({
-        //   zenModeSettings: {
-        //     enabled: true,
-        //     displayOptions: {
-        //       showHeader: true,
-        //       showSidebar: false,
-        //       showTableOfContents: true,
-        //       showFooter: true,
-        //     },
-        //     exclude: ["resources/*"],
-        //     keyboardShortcut: ["Ctrl+Shift+Z"],
-        //   },
-        // }),
         starlightSidebarTopics(
           [
+            // Load the sidebar items from the ./src/config/sidebar/sidebar-items.ts file.
             ...leftSidebar
           ],
-          {
-            exclude: ["/zen-mode/**/*"],
-			    }
+
+          //FIXME: the starlightViewModes plugin is buggy and it doesn't work as expected.
+          // {
+          //   exclude: ["/zen-mode/**/*"],
+			    // }
         )
       ],
+
+      //TODO: enable the links validator plugin when the site is ready for production or if you want to validate the links in the site.
       // plugins: [
       //   starlightLinksValidator({
       //     errorOnFallbackPages: false,
