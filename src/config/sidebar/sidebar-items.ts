@@ -3,7 +3,7 @@ import guidesTopic from "./guides-topic.ts";
 import referencesTopic from "./references-topic.ts";
 
 /*
-You can add more topics here as needed. Create a new file for each topic in the sidebar folder and import it here.
+ You can add more topics here as needed. Create a new file for each topic in the sidebar folder and import it here.
  Example:
  --------
  import anotherTopic from "./another-topic.ts";

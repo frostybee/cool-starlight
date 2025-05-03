@@ -10,18 +10,18 @@ import starlightLinksValidator from 'starlight-links-validator'
 import starlightViewModes from 'starlight-view-modes'
 
 import leftSidebar from './src/config/sidebar/sidebar-items.ts'
-import websiteConfig from './src/config/website-config.ts'
+import appConfig from './src/config/website-config.ts'
 
 //@see: https://astro.build/config
 export default defineConfig({
-  site: websiteConfig.siteURI,
-  base: websiteConfig.baseDirectory,
+  site: appConfig.siteURI,
+  base: appConfig.baseDirectory,
   integrations: [
     starlight({
-      title: websiteConfig.title,
-      favicon: websiteConfig.favicon,
+      title: appConfig.title,
+      favicon: appConfig.favicon,
       social: [
-        { icon: 'github', label: 'GitHub', href: websiteConfig.gitHubRepoUri },
+        { icon: 'github', label: 'GitHub', href: appConfig.gitHubRepoUri },
       ],
       tableOfContents: {minHeadingLevel: 2, maxHeadingLevel: 4},
       //TODO: add the head property.
