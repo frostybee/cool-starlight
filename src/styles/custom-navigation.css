@@ -1,0 +1,124 @@
+/* Import this file in your Starlight configuration or global styles */
+
+/* Enhanced styling for fixed viewport navigation arrows */
+.navigation-arrows {
+  /* Fixed positioning in the middle of the viewport */
+  position: fixed;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  z-index: 10;
+  pointer-events: none; /* Let clicks pass through the container */
+  padding: 0 1rem;
+}
+
+.navigation-arrow {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  text-decoration: none;
+  color: var(--sl-color-text);
+  background-color: var(--sl-color-bg-sidebar);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  max-width: 300px;
+  pointer-events: auto; /* Make links clickable */
+  opacity: 0.85;
+}
+
+.navigation-arrow:hover {
+  background-color: var(--sl-color-accent);
+  color: white;
+  opacity: 1;
+}
+
+.prev-arrow {
+  border-radius: 0 5px 5px 0;
+  transform: translateX(-15px);
+  padding-left: 0.75rem;
+}
+
+.prev-arrow:hover {
+  transform: translateX(0);
+}
+
+.next-arrow {
+  border-radius: 5px 0 0 5px;
+  flex-direction: row-reverse;
+  margin-left: auto;
+  transform: translateX(15px);
+  padding-right: 0.75rem;
+}
+
+.next-arrow:hover {
+  transform: translateX(0);
+}
+
+.arrow-icon {
+  font-size: 1.75rem;
+  padding: 0 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.arrow-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.arrow-direction {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  margin-bottom: 0.25rem;
+}
+
+.arrow-title {
+  font-weight: 600;
+  line-height: 1.3;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+  .navigation-arrows {
+    top: auto;
+    bottom: 10%;
+    transform: none;
+  }
+
+  .navigation-arrow {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+
+  .arrow-text {
+    display: none; /* Only show icons on mobile */
+  }
+
+  .prev-arrow, .next-arrow {
+    transform: translateX(0);
+  }
+
+  .arrow-icon {
+    padding: 0;
+  }
+}
+
+/* Hide arrows when printing */
+@media print {
+  .navigation-arrows {
+    display: none;
+  }
+}

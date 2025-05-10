@@ -1,0 +1,39 @@
+---
+title: Cheatsheet
+description: Cheatsheet
+sidebar:
+  label: 'Cheatsheet'
+  order: 6
+---
+
+import CheatsheetCard from '../../../components/pages/CheatsheetCard.astro';
+
+
+<CheatsheetCard 
+  title="JavaScript Array Methods" 
+  bgColor="#f7f7ff"
+  borderColor="#6366f1"
+  links={[
+    { text: "MDN Array Documentation", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" },
+    { text: "JavaScript.info Arrays", url: "https://javascript.info/array" }
+  ]}
+>
+
+```js
+  // Array creation
+  const array1 = [1, 2, 3, 4];
+  const array2 = new Array(1, 2, 3, 4);
+  
+  // Adding/removing elements
+  array1.push(5);       // Add to end: [1, 2, 3, 4, 5]
+  array1.pop();         // Remove from end: [1, 2, 3, 4]
+  array1.unshift(0);    // Add to beginning: [0, 1, 2, 3, 4]
+  array1.shift();       // Remove from beginning: [1, 2, 3, 4]
+  
+  // Finding elements
+  array1.indexOf(3);    // Returns 2
+  array1.includes(5);   // Returns false
+```
+</CheatsheetCard>
+
+

@@ -1,0 +1,102 @@
+---
+// A component for rendering code cheatsheets with title, background color, border, and hyperlinks
+
+interface Props {
+  title: string;
+  bgColor?: string;
+  borderColor?: string;
+  links?: {
+    text: string;
+    url: string;
+  }[];
+}
+
+const {
+  title,
+  bgColor = "#f8f9fa",
+  borderColor = "#dee2e6",
+  links = []
+} = Astro.props;
+---
+
+<div class="cheatsheet-card">
+  <div class="cheatsheet-header">
+    <h3>{title}</h3>
+  </div>
+  <div class="cheatsheet-content">
+    <slot />
+  </div>
+  {links.length > 0 && (
+    <div class="cheatsheet-links">
+      <h4>Resources</h4>
+      <ul>
+        {links.map((link) => (
+          <li>
+            <a href={link.url} target="_blank" rel="noopener noreferrer">
+              {link.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</div>
+
+<style define:vars={{ bgColor, borderColor }}>
+  .cheatsheet-card {
+    background-color: var(--bgColor);
+    border-radius: 0.5rem;
+    border: 1px solid var(--borderColor);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .cheatsheet-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--borderColor);
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  .cheatsheet-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .cheatsheet-content {
+    padding: 1rem;
+  }
+
+  .cheatsheet-content :global(pre) {
+    border-radius: 0.25rem;
+    margin-bottom: 0;
+  }
+
+  .cheatsheet-links {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--borderColor);
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  .cheatsheet-links h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .cheatsheet-links ul {
+    margin: 0;
+    padding-left: 1.5rem;
+    list-style-type: disc;
+  }
+
+  .cheatsheet-links a {
+    text-decoration: none;
+    color: var(--theme-accent);
+  }
+
+  .cheatsheet-links a:hover {
+    text-decoration: underline;
+  }
+</style>

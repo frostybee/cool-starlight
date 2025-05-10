@@ -30,6 +30,7 @@ export default defineConfig({
       // Load components overrides.
       components: {
         Header: './src/components/Header.astro',
+        Pagination: './src/components/pages/NavigationArrows.astro',
       },
 
       // Load and apply the default custom styles.
