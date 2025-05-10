@@ -1,5 +1,6 @@
 ---
-import Default from "@astrojs/starlight/components/Pagination.astro";
+import Pagination from "@astrojs/starlight/components/Pagination.astro";
+import Default from "@astrojs/starlight/components/TwoColumnContent.astro";
 interface Props {
   dir: 'ltr' | 'rtl';
   locale: string;
@@ -12,6 +13,7 @@ interface Props {
 const { dir, locale, pagination } = Astro.locals.starlightRoute;
 const { prev, next } = pagination;
 ---
+
 
 <div class="navigation-arrows">
   {prev && (
@@ -43,12 +45,16 @@ const { prev, next } = pagination;
     </div>
   </a>
   )}
+
+
+
 </div>
 
 <Default  {...Astro.props}/>
     <slot />
-</Default>
+<slot name="right-sidebar" slot="right-sidebar" />
 
+</Default>
 
 <script>
   // Add keyboard navigation
@@ -88,17 +94,11 @@ const { prev, next } = pagination;
   });
 </script>
 
+
 <style>
-  @layer starlight.core {
+	@layer starlight.core {
 
-    .navigation-arrows {
-      position: relative;
-      width: 100%;
-      /* height: 400px; */
-      overflow: hidden;
-    }
-
-  /* Base button styling shared by both buttons */
+    /* Base button styling shared by both buttons */
   .nav-button {
     display: flex;
     align-items: center;
@@ -109,7 +109,7 @@ const { prev, next } = pagination;
     transition: all 0.3s ease;
     z-index: 999 !important; /* Extremely high z-index to overcome any conflicts */
     opacity: 0.85;
-    position: absolute !important; Fixed positioning relative to viewport
+    position: fixed !important; /* Fixed positioning relative to viewport */
     top: 50% !important; /* Center vertically */
     transform: translateY(-50%) !important; /* Adjust for button height */
   }
@@ -123,7 +123,6 @@ const { prev, next } = pagination;
   /* Previous button specific styling */
   .prev-button {
     left: 0 !important; /* Anchor to left edge of viewport */
-    right: auto !important; /* Reset right positioning */
     border-radius: 0 5px 5px 0;
     padding: 1rem 1.25rem 1rem 0.5rem;
   }
@@ -135,7 +134,6 @@ const { prev, next } = pagination;
   /* Next button specific styling */
   .next-button {
     right: 0 !important; /* Anchor to right edge of viewport */
-    left: auto !important; /* Reset left positioning */
     border-radius: 5px 0 0 5px;
     flex-direction: row-reverse;
     padding: 1rem 0.5rem 1rem 1.25rem;
@@ -200,5 +198,4 @@ const { prev, next } = pagination;
     }
   }
 }
-
 </style>

@@ -1,5 +1,7 @@
 ---
-import Default from "@astrojs/starlight/components/Pagination.astro";
+import Default from "@astrojs/starlight/components/PageFrame.astro";
+const { hasSidebar } = Astro.locals.starlightRoute;
+
 interface Props {
   dir: 'ltr' | 'rtl';
   locale: string;
@@ -13,6 +15,12 @@ const { dir, locale, pagination } = Astro.locals.starlightRoute;
 const { prev, next } = pagination;
 ---
 
+<Default>
+
+    <!-- <slot name="sidebar-content" slot="sidebar-content" /> -->
+    <!-- <slot name="sidebar-content-right" slot="sidebar-content-right" /> -->
+    <!-- <slot name="sidebar-content-left" slot="sidebar-content-left" /> -->
+    <!-- <slot name="sidebar-content-bottom" slot="sidebar-content-bottom" /> -->
 <div class="navigation-arrows">
   {prev && (
     <a href={prev.href} rel="prev" class="nav-button prev-button" id="prev-page-link">
@@ -45,9 +53,12 @@ const { prev, next } = pagination;
   )}
 </div>
 
-<Default  {...Astro.props}/>
+
     <slot />
+    <slot name="sidebar" slot="sidebar" />
+    <slot name="header" slot="header" />
 </Default>
+
 
 
 <script>
@@ -94,7 +105,7 @@ const { prev, next } = pagination;
     .navigation-arrows {
       position: relative;
       width: 100%;
-      /* height: 400px; */
+      height: 120px;
       overflow: hidden;
     }
 
@@ -107,11 +118,15 @@ const { prev, next } = pagination;
     background-color: var(--sl-color-bg-sidebar);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
-    z-index: 999 !important; /* Extremely high z-index to overcome any conflicts */
+    /* Extremely high z-index to overcome any conflicts */
+    z-index: 999 !important;
     opacity: 0.85;
-    position: absolute !important; Fixed positioning relative to viewport
-    top: 50% !important; /* Center vertically */
-    transform: translateY(-50%) !important; /* Adjust for button height */
+    position: fixed !important;
+    /* Center vertically */
+    top: 50% !important;
+    /* Adjust for button height */
+    transform: translateY(-50%) !important;
+    opacity: 1;
   }
 
   .nav-button:hover {
@@ -122,7 +137,7 @@ const { prev, next } = pagination;
 
   /* Previous button specific styling */
   .prev-button {
-    left: 0 !important; /* Anchor to left edge of viewport */
+    left: 1 !important; /* Anchor to left edge of viewport */
     right: auto !important; /* Reset right positioning */
     border-radius: 0 5px 5px 0;
     padding: 1rem 1.25rem 1rem 0.5rem;
@@ -130,7 +145,7 @@ const { prev, next } = pagination;
 
   .prev-button .arrow-icon {
     margin-right: 0.5rem;
-  }
+    }
 
   /* Next button specific styling */
   .next-button {
