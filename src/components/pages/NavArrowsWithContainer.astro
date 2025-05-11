@@ -2,24 +2,16 @@
 import Default from "@astrojs/starlight/components/PageFrame.astro";
 const { hasSidebar } = Astro.locals.starlightRoute;
 
-interface Props {
-  dir: 'ltr' | 'rtl';
-  locale: string;
-  pagination: {
-    prev: { href: string; label: string } | undefined;
-    next: { href: string; label: string } | undefined;
-  };
-}
 
 const { dir, locale, pagination } = Astro.locals.starlightRoute;
 const { prev, next } = pagination;
+
 ---
 
 <Default>
-
 <div class="navigation-arrows">
   {prev && (
-    <a href={prev.href} rel="prev" class="nav-button prev-button" id="prev-page-link">
+    <a href={prev.href} class="navigation-arrow prev-arrow" id="prev-page-link">
       <div class="arrow-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M19 12H5"></path>
@@ -27,33 +19,33 @@ const { prev, next } = pagination;
         </svg>
       </div>
       <div class="arrow-text">
-        <div class="arrow-direction">{Astro.locals.t('page.previousLink')}</div>
-        <div class="arrow-title">{prev.label || 'Previous Page'}</div>
+        <div class="arrow-direction">previous</div>
+        <div class="arrow-title">{prev.label}</div>
       </div>
     </a>
   )}
 
   {next && (
-    <a href={next.href} class="nav-button next-button" id="next-page-link">
+    <a href={next.href} class="navigation-arrow next-arrow" id="next-page-link">
       <div class="arrow-text">
-        <div class="arrow-direction">{Astro.locals.t('page.nextLink')}</div>
-        <div class="arrow-title">{next.label || 'Next Page'}</div>
-    </div>
-    <div class="arrow-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M5 12h14"></path>
-        <path d="m12 5 7 7-7 7"></path>
-      </svg>
-    </div>
-  </a>
+        <div class="arrow-direction">next</div>
+        <div class="arrow-title">{next.label}</div>
+      </div>
+      <div class="arrow-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </div>
+    </a>
   )}
 </div>
-
 
     <slot />
     <slot name="sidebar" slot="sidebar" />
     <slot name="header" slot="header" />
 </Default>
+
 
 <script>
   // Add keyboard navigation
@@ -94,40 +86,27 @@ const { prev, next } = pagination;
 </script>
 
 <style>
-  @layer starlight.core {
-
-    .navigation-arrows {
-      position: relative;
-      width: 100%;
-      height: 0;
-      margin: 2rem 0;
-      overflow: hidden;
-    }
-
-  /* Base button styling shared by both buttons */
-  .nav-button {
-    position: fixed !important;
-    /* Center vertically */
-    top: 50% !important;
-    /* Adjust for button height */
-    transform: translateY(-50%) !important;
+    @layer starlight.core {
+  .navigation-arrows {
+    /* Fixed positioning in the middle of the viewport */
+    position: sticky;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
     display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: var(--sl-color-text);
-    background-color: var(--sl-color-bg-sidebar);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-    transition: all .7s ease;
-    z-index: 999 !important;
-    /* padding: 0.75rem 1rem; */
-    padding: 1rem 1.25rem;
-    max-width: 300px;
-    transition: all 0.3s ease;
-    opacity: 1;
-
-    /* Make links clickable */
-    pointer-events: auto;
+    justify-content: space-between;
+    z-index: 100;
+    /* Let clicks pass through the container */
+    pointer-events: none;
+    padding: 0;
+    /* Add margin instead of padding */
+    margin: 0 10px;
+    transition: opacity 0.3s ease;
+    /* Ensure width accounts for margin */
+    width: calc(100% - 20px);
   }
+
   .nav-hidden {
     opacity: 0;
   }
@@ -136,58 +115,62 @@ const { prev, next } = pagination;
     opacity: 0.7;
   }
 
-  .nav-button:hover {
+  .navigation-arrow {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    text-decoration: none;
+    color: var(--sl-color-text);
+    background-color: var(--sl-color-bg-sidebar);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    max-width: 300px;
+    /* Make links clickable */
+    pointer-events: auto;
+    opacity: 0.85;
+  }
+
+  .navigation-arrow:hover {
     background-color: var(--sl-color-accent);
     color: white;
     opacity: 1;
   }
 
-  /* Previous button specific styling */
-  .prev-button {
-    left: 1 !important; /* Anchor to left edge of viewport */
-    right: auto !important;
+  .prev-arrow {
     border-radius: 0 5px 5px 0;
-    /* padding: 1rem 1.25rem 1rem 0.5rem; */
     /* Reduced from -15px to ensure visibility */
     transform: translateX(-5px);
-     transition: transform 0.3s ease; /* This ensures smooth movement */
     padding-left: 0.75rem;
+    left: 0;
     /* Use absolute positioning within the fixed container */
     position: absolute;
   }
-  .prev-button:hover {
+
+  .prev-arrow:hover {
     transform: translateX(0);
   }
 
-  .prev-button .arrow-icon {
-    margin-right: 0.5rem;
-  }
-
-  /* Next button specific styling */
-  .next-button {
-    right: 0 !important; /* Anchor to right edge of viewport */
-    left: auto !important; /* Reset left positioning */
+  .next-arrow {
     border-radius: 5px 0 0 5px;
     flex-direction: row-reverse;
-    padding: 1rem 0.5rem 1rem 1.25rem;
-    margin-right: 1rem;
+    /* Use absolute positioning within the fixed container */
+    position: absolute;
+    right: 0;
+    /* Reduced from 15px to ensure visibility */
+    transform: translateX(5px);
+    padding-right: 0.75rem;
   }
-  .next-button:hover {
+
+  .next-arrow:hover {
     transform: translateX(0);
   }
 
-  .next-button .arrow-icon {
-    margin-left: 0.5rem;
-  }
-
-  /* Icon styling */
   .arrow-icon {
-    display: flex;
     padding: 0 0.75rem;
+    display: flex;
     align-items: center;
   }
 
-  /* Text container */
   .arrow-text {
     display: flex;
     flex-direction: column;
@@ -212,35 +195,39 @@ const { prev, next } = pagination;
 
   /* For mobile responsiveness */
   @media (max-width: 768px) {
-    .nav-button {
-      top: 70vh !important;
-      bottom: 30vh !important;
-      transform: none !important;
+    .navigation-arrows {
+      top: 90%;
+      bottom: 0;
+      transform: none;
+    }
+
+    .navigation-arrow {
       width: 46px;
       height: 46px;
       border-radius: 50%;
       justify-content: center;
       align-items: center;
-      padding: 0 !important;
+      padding: 0;
     }
 
     .arrow-text {
       display: none; /* Only show icons on mobile */
     }
-    .prev-button, .next-button {
+
+    .prev-arrow, .next-arrow {
       transform: translateX(0);
     }
+
     .arrow-icon {
       padding: 0;
     }
   }
 
-  /* Hide buttons when printing */
+  /* Hide arrows when printing */
   @media print {
-    .nav-button {
-      display: none !important;
+    .navigation-arrows {
+      display: none;
     }
   }
 }
-
 </style>
