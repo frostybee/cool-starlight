@@ -8,6 +8,7 @@ import rehypeSlug from 'rehype-slug';
 import starlightSidebarTopics from "starlight-sidebar-topics";
 import starlightLinksValidator from 'starlight-links-validator'
 import starlightViewModes from 'starlight-view-modes'
+import starlightScrollToTop from 'starlight-scroll-to-top';
 
 import leftSidebar from './src/config/sidebar/sidebar-items.ts'
 import appConfig from './src/config/website-config.ts'
@@ -33,7 +34,6 @@ export default defineConfig({
         // Pagination: './src/components/pages/NavigationArrows.astro',
         PageFrame: './src/components/pages/CustomPageFrame.astro',
         // PageFrame: './src/components/pages/NavArrowsWithContainer.astro',
-
         // TwoColumnContent: './src/components/pages/CustomTwoColumnContent.astro',
       },
 
@@ -44,6 +44,7 @@ export default defineConfig({
 
       lastUpdated: true,
       plugins: [
+        starlightScrollToTop(),
         starlightImageZoom(),
         starlightSidebarTopics(
           [
