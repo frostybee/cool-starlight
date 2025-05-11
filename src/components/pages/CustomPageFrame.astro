@@ -96,44 +96,34 @@ const { prev, next } = pagination;
 <style>
   @layer starlight.core {
 
-    .navigation-arrows {
-      position: relative;
-      width: 100%;
-      height: 0;
-      margin: 2rem 0;
-      overflow: hidden;
-    }
+      .navigation-arrows {
+    position: relative;
+    width: 100%;
+    height: 0;
+    margin: 2rem 0;
+    overflow: hidden;
+  }
 
   /* Base button styling shared by both buttons */
   .nav-button {
-    position: fixed !important;
-    /* Center vertically */
-    top: 50% !important;
-    /* Adjust for button height */
-    transform: translateY(-50%) !important;
+    position: fixed;
+    top: 50%;
     display: flex;
     align-items: center;
     text-decoration: none;
     color: var(--sl-color-text);
     background-color: var(--sl-color-bg-sidebar);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-    transition: all .7s ease;
-    z-index: 999 !important;
-    /* padding: 0.75rem 1rem; */
     padding: 1rem 1.25rem;
     max-width: 300px;
-    transition: all 0.3s ease;
-    opacity: 1;
-
-    /* Make links clickable */
+    border-radius: 5px;
+    z-index: 999;
     pointer-events: auto;
-  }
-  .nav-hidden {
-    opacity: 0;
-  }
-
-  .nav-hidden:hover {
-    opacity: 0.7;
+    /* Combine transforms for vertical centering and initial offset */
+    transform: translateY(-50%);
+    /* Single transition for all animatable properties */
+    transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+    opacity: 1;
   }
 
   .nav-button:hover {
@@ -142,21 +132,29 @@ const { prev, next } = pagination;
     opacity: 1;
   }
 
+  /* Hidden state for buttons */
+  .nav-hidden {
+    opacity: 0;
+    pointer-events: none; /* Prevent interaction when hidden */
+  }
+
+  .nav-hidden:hover {
+    opacity: 0.7;
+  }
+
   /* Previous button specific styling */
   .prev-button {
-    left: 1 !important; /* Anchor to left edge of viewport */
-    right: auto !important;
+    left: 1;
+    right: auto;
     border-radius: 0 5px 5px 0;
-    /* padding: 1rem 1.25rem 1rem 0.5rem; */
-    /* Reduced from -15px to ensure visibility */
-    transform: translateX(-5px);
-     transition: transform 0.3s ease; /* This ensures smooth movement */
     padding-left: 0.75rem;
-    /* Use absolute positioning within the fixed container */
-    position: absolute;
+    margin-left: 0.5rem;;
+    /* Add initial offset to base transform */
+    transform: translateY(-50%) translateX(-5px);
   }
+
   .prev-button:hover {
-    transform: translateX(0);
+    transform: translateY(-50%) translateX(0); /* Preserve vertical centering */
   }
 
   .prev-button .arrow-icon {
@@ -165,16 +163,20 @@ const { prev, next } = pagination;
 
   /* Next button specific styling */
   .next-button {
-    right: 0 !important; /* Anchor to right edge of viewport */
-    left: auto !important; /* Reset left positioning */
+    right: 0;
+    left: auto;
     border-radius: 5px 0 0 5px;
     flex-direction: row-reverse;
-    padding: 1rem 0.5rem 1rem 1.25rem;
     margin-right: 1rem;
+    padding: 1rem 0.5rem 1rem 1.25rem;
+    /* Add initial offset to base transform */
+    transform: translateY(-50%) translateX(5px);
   }
+
   .next-button:hover {
-    transform: translateX(0);
+    transform: translateY(-50%) translateX(0); /* Preserve vertical centering */
   }
+
 
   .next-button .arrow-icon {
     margin-left: 0.5rem;
