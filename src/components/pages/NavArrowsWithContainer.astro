@@ -1,0 +1,233 @@
+---
+import Default from "@astrojs/starlight/components/PageFrame.astro";
+const { hasSidebar } = Astro.locals.starlightRoute;
+
+
+const { dir, locale, pagination } = Astro.locals.starlightRoute;
+const { prev, next } = pagination;
+
+---
+
+<Default>
+<div class="navigation-arrows">
+  {prev && (
+    <a href={prev.href} class="navigation-arrow prev-arrow" id="prev-page-link">
+      <div class="arrow-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="m12 19-7-7 7-7"></path>
+        </svg>
+      </div>
+      <div class="arrow-text">
+        <div class="arrow-direction">previous</div>
+        <div class="arrow-title">{prev.label}</div>
+      </div>
+    </a>
+  )}
+
+  {next && (
+    <a href={next.href} class="navigation-arrow next-arrow" id="next-page-link">
+      <div class="arrow-text">
+        <div class="arrow-direction">next</div>
+        <div class="arrow-title">{next.label}</div>
+      </div>
+      <div class="arrow-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </div>
+    </a>
+  )}
+</div>
+
+    <slot />
+    <slot name="sidebar" slot="sidebar" />
+    <slot name="header" slot="header" />
+</Default>
+
+
+<script>
+  // Add keyboard navigation
+  document.addEventListener('keydown', (event) => {
+    // Navigate with arrow keys
+    if (event.key === 'ArrowLeft') {
+      const prevLink = document.getElementById('prev-page-link');
+      if (prevLink) prevLink.click();
+    } else if (event.key === 'ArrowRight') {
+      const nextLink = document.getElementById('next-page-link');
+      if (nextLink) nextLink.click();
+    }
+  });
+
+  // Show/hide navigation on scroll
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+
+  const navArrows = document.querySelector('.navigation-arrows');
+
+  window.addEventListener('scroll', () => {
+    lastScrollY = window.scrollY;
+
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        // Hide arrows when scrolling down, show when scrolling up
+        if (lastScrollY > 100) {
+          navArrows?.classList.add('nav-hidden');
+        } else {
+          navArrows?.classList.remove('nav-hidden');
+        }
+        ticking = false;
+      });
+
+      ticking = true;
+    }
+  });
+</script>
+
+<style>
+    @layer starlight.core {
+  .navigation-arrows {
+    /* Fixed positioning in the middle of the viewport */
+    position: sticky;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    z-index: 100;
+    /* Let clicks pass through the container */
+    pointer-events: none;
+    padding: 0;
+    /* Add margin instead of padding */
+    margin: 0 10px;
+    transition: opacity 0.3s ease;
+    /* Ensure width accounts for margin */
+    width: calc(100% - 20px);
+  }
+
+  .nav-hidden {
+    opacity: 0;
+  }
+
+  .nav-hidden:hover {
+    opacity: 0.7;
+  }
+
+  .navigation-arrow {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    text-decoration: none;
+    color: var(--sl-color-text);
+    background-color: var(--sl-color-bg-sidebar);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    max-width: 300px;
+    /* Make links clickable */
+    pointer-events: auto;
+    opacity: 0.85;
+  }
+
+  .navigation-arrow:hover {
+    background-color: var(--sl-color-accent);
+    color: white;
+    opacity: 1;
+  }
+
+  .prev-arrow {
+    border-radius: 0 5px 5px 0;
+    /* Reduced from -15px to ensure visibility */
+    transform: translateX(-5px);
+    padding-left: 0.75rem;
+    left: 0;
+    /* Use absolute positioning within the fixed container */
+    position: absolute;
+  }
+
+  .prev-arrow:hover {
+    transform: translateX(0);
+  }
+
+  .next-arrow {
+    border-radius: 5px 0 0 5px;
+    flex-direction: row-reverse;
+    /* Use absolute positioning within the fixed container */
+    position: absolute;
+    right: 0;
+    /* Reduced from 15px to ensure visibility */
+    transform: translateX(5px);
+    padding-right: 0.75rem;
+  }
+
+  .next-arrow:hover {
+    transform: translateX(0);
+  }
+
+  .arrow-icon {
+    padding: 0 0.75rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .arrow-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .arrow-direction {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+    margin-bottom: 0.25rem;
+  }
+
+  .arrow-title {
+    font-weight: 600;
+    line-height: 1.3;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* For mobile responsiveness */
+  @media (max-width: 768px) {
+    .navigation-arrows {
+      top: 90%;
+      bottom: 0;
+      transform: none;
+    }
+
+    .navigation-arrow {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+    }
+
+    .arrow-text {
+      display: none; /* Only show icons on mobile */
+    }
+
+    .prev-arrow, .next-arrow {
+      transform: translateX(0);
+    }
+
+    .arrow-icon {
+      padding: 0;
+    }
+  }
+
+  /* Hide arrows when printing */
+  @media print {
+    .navigation-arrows {
+      display: none;
+    }
+  }
+}
+</style>
