@@ -26,6 +26,7 @@
     "sharp": "^0.32.5",
     "starlight-image-zoom": "^0.8.0",
     "starlight-links-validator": "^0.14.3",
+    "starlight-scroll-to-top": "^0.1.1",
     "starlight-sidebar-topics": "^0.6.0",
     "starlight-view-modes": "^0.8.1"
   },
