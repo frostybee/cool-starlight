@@ -1,0 +1,104 @@
+---
+---
+
+<div class="font-size-adjuster">
+  <button id="decrease-font" aria-label="Decrease font size">A-</button>
+  <button id="reset-font" aria-label="Reset font size">A</button>
+  <button id="increase-font" aria-label="Increase font size">A+</button>
+</div>
+
+<style>
+  .font-size-adjuster {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+    align-items: center;
+  }
+
+  .font-size-adjuster button {
+    background-color: var(--sl-color-gray-5);
+    border: none;
+    border-radius: 0.25rem;
+    color: var(--sl-color-white);
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    transition: background-color 0.2s;
+  }
+
+  .font-size-adjuster button:hover {
+    background-color: var(--sl-color-gray-4);
+  }
+
+  #decrease-font {
+    font-size: 0.8rem;
+  }
+
+  #reset-font {
+    font-size: 1rem;
+  }
+
+  #increase-font {
+    font-size: 1.2rem;
+  }
+</style>
+
+<script>
+  // Font size adjustment logic
+  const FONT_SIZE_KEY = 'starlight-font-size';
+  const DEFAULT_FONT_SIZE = 100; // 100% as baseline
+  const STEP_SIZE = 10; // Percent change per click
+  const MIN_SIZE = 80; // Minimum font size (80%)
+  const MAX_SIZE = 200; // Maximum font size (200%)
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    initFontSizeAdjuster();
+  });
+
+  // Re-initialize on page navigation (for SPA-like behavior)
+  document.addEventListener('astro:page-load', () => {
+    initFontSizeAdjuster();
+  });
+
+  function initFontSizeAdjuster() {
+    const decreaseBtn = document.getElementById('decrease-font');
+    const resetBtn = document.getElementById('reset-font');
+    const increaseBtn = document.getElementById('increase-font');
+
+    if (!decreaseBtn || !resetBtn || !increaseBtn) return;
+
+    // Apply saved font size on load
+    applyFontSize(getSavedFontSize());
+
+    // Set up event listeners
+    decreaseBtn.addEventListener('click', () => adjustFontSize(-STEP_SIZE));
+    resetBtn.addEventListener('click', () => resetFontSize());
+    increaseBtn.addEventListener('click', () => adjustFontSize(STEP_SIZE));
+  }
+
+  function adjustFontSize(change: number) {
+    const currentSize = getSavedFontSize();
+    const newSize = Math.max(MIN_SIZE, Math.min(MAX_SIZE, currentSize + change));
+    applyFontSize(newSize);
+    saveFontSize(newSize);
+  }
+
+  function resetFontSize() {
+    applyFontSize(DEFAULT_FONT_SIZE);
+    saveFontSize(DEFAULT_FONT_SIZE);
+  }
+
+  function applyFontSize(sizePercent: number) {
+    document.documentElement.style.fontSize = `${sizePercent}%`;
+  }
+
+  function saveFontSize(size: number) {
+    localStorage.setItem(FONT_SIZE_KEY, size.toString());
+  }
+
+  function getSavedFontSize() {
+    const saved = localStorage.getItem(FONT_SIZE_KEY);
+    return saved ? parseInt(saved, 10) : DEFAULT_FONT_SIZE;
+  }
+</script>
