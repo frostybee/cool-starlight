@@ -11,6 +11,8 @@ import starlightViewModes from 'starlight-view-modes'
 
 import leftSidebar from './src/config/sidebar/sidebar-items.ts'
 import appConfig from './src/config/website-config.ts'
+import solidJs from '@astrojs/solid-js';
+
 
 //@see: https://astro.build/config
 export default defineConfig({
@@ -30,6 +32,7 @@ export default defineConfig({
       // Load components overrides.
       components: {
         Header: './src/components/Header.astro',
+        Head: './src/components/TelescopeProvider.astro',
       },
 
       // Load and apply the default custom styles.
@@ -61,6 +64,7 @@ export default defineConfig({
       // ],
     }
     ),
+     solidJs(),
   ],
   markdown: {
     rehypePlugins: [
