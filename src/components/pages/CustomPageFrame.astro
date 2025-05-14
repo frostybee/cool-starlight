@@ -2,15 +2,6 @@
 import Default from "@astrojs/starlight/components/PageFrame.astro";
 const { hasSidebar } = Astro.locals.starlightRoute;
 
-interface Props {
-  dir: 'ltr' | 'rtl';
-  locale: string;
-  pagination: {
-    prev: { href: string; label: string } | undefined;
-    next: { href: string; label: string } | undefined;
-  };
-}
-
 const { dir, locale, pagination } = Astro.locals.starlightRoute;
 const { prev, next } = pagination;
 ---

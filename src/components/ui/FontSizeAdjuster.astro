@@ -41,7 +41,7 @@
     increaseBtn.addEventListener('click', () => adjustFontSize(STEP_SIZE));
   }
 
-  function adjustFontSize(change) {
+  function adjustFontSize(change: number) {
     const currentSize = getSavedFontSize();
     const newSize = Math.max(MIN_SIZE, Math.min(MAX_SIZE, currentSize + change));
     applyFontSize(newSize);
@@ -53,16 +53,17 @@
     saveFontSize(DEFAULT_FONT_SIZE);
   }
 
-  function applyFontSize(sizePercent) {
+  function applyFontSize(sizePercent : number) {
     // document.body.style.fontSize = `${sizePercent}%`;
-    const container = document.querySelector('.sl-markdown-content');
+    const container: HTMLElement | null = document.querySelector('.sl-markdown-content');
+    // const container = document.querySelector('.sl-markdown-content');
     //console.log('Container:', container);
     if (container) {
       container.style.fontSize = `${sizePercent}%`;
     }
   }
 
-  function saveFontSize(size) {
+  function saveFontSize(size : number) {
     localStorage.setItem(FONT_SIZE_KEY, size.toString());
   }
 
