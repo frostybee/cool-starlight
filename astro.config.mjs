@@ -17,6 +17,9 @@ import appConfig from './src/config/website-config.ts'
 export default defineConfig({
   site: appConfig.siteURI,
   base: appConfig.baseDirectory,
+  scripts: [
+    { src: 'https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js', defer: true }
+  ],
   integrations: [
     starlight({
       title: appConfig.title,
@@ -33,6 +36,7 @@ export default defineConfig({
         Header: './src/components/Header.astro',
         // Pagination: './src/components/pages/NavigationArrows.astro',
         PageFrame: './src/components/pages/CustomPageFrame.astro',
+        // TableOfContents: './src/components/ui/CustomToC.astro',
         // PageFrame: './src/components/pages/NavArrowsWithContainer.astro',
         // TwoColumnContent: './src/components/pages/CustomTwoColumnContent.astro',
       },

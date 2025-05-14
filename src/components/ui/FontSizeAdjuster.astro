@@ -1,0 +1,144 @@
+---
+---
+
+<div class="font-size-adjuster">
+  <button id="decrease-font" aria-label="Decrease font size" title="Decrease font size">A-</button>
+  <button id="reset-font" aria-label="Reset font size" title="Reset font size">A</button>
+  <button id="increase-font" aria-label="Increase font size" title="Increase font size">A+</button>
+</div>
+
+<script>
+  // Font size adjustment logic (unchanged)
+  const FONT_SIZE_KEY = 'starlight-font-size';
+  const DEFAULT_FONT_SIZE = 100; // 100% as baseline
+  const STEP_SIZE = 20; // Percent change per click
+  const MIN_SIZE = 80; // Minimum font size (80%)
+  const MAX_SIZE = 200; // Maximum font size (200%)
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    initFontSizeAdjuster();
+  });
+
+  // Re-initialize on page navigation (for SPA-like behavior)
+  document.addEventListener('astro:page-load', () => {
+    initFontSizeAdjuster();
+  });
+
+  function initFontSizeAdjuster() {
+    const decreaseBtn = document.getElementById('decrease-font');
+    const resetBtn = document.getElementById('reset-font');
+    const increaseBtn = document.getElementById('increase-font');
+
+    if (!decreaseBtn || !resetBtn || !increaseBtn) return;
+
+    // Apply saved font size on load
+    applyFontSize(getSavedFontSize());
+
+    // Set up event listeners
+    decreaseBtn.addEventListener('click', () => adjustFontSize(-STEP_SIZE));
+    resetBtn.addEventListener('click', () => resetFontSize());
+    increaseBtn.addEventListener('click', () => adjustFontSize(STEP_SIZE));
+  }
+
+  function adjustFontSize(change) {
+    const currentSize = getSavedFontSize();
+    const newSize = Math.max(MIN_SIZE, Math.min(MAX_SIZE, currentSize + change));
+    applyFontSize(newSize);
+    saveFontSize(newSize);
+  }
+
+  function resetFontSize() {
+    applyFontSize(DEFAULT_FONT_SIZE);
+    saveFontSize(DEFAULT_FONT_SIZE);
+  }
+
+  function applyFontSize(sizePercent) {
+    // document.body.style.fontSize = `${sizePercent}%`;
+    const container = document.querySelector('.sl-markdown-content');
+    //console.log('Container:', container);
+    if (container) {
+      container.style.fontSize = `${sizePercent}%`;
+    }
+  }
+
+  function saveFontSize(size) {
+    localStorage.setItem(FONT_SIZE_KEY, size.toString());
+  }
+
+  function getSavedFontSize() {
+    const saved = localStorage.getItem(FONT_SIZE_KEY);
+    return saved ? parseInt(saved, 10) : DEFAULT_FONT_SIZE;
+  }
+</script>
+
+<style>
+  .font-size-adjuster {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+    align-items: center;
+  }
+
+  .font-size-adjuster button {
+    background-color: var(--sl-color-gray-5);
+    border: none;
+    border-radius: 0.25rem;
+    color: var(--sl-color-white);
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    transition: background-color 0.2s;
+    position: relative; /* Required for positioning the tooltip */
+  }
+
+  .font-size-adjuster button:hover {
+    background-color: var(--sl-color-gray-4);
+  }
+
+  /* Tooltip styles */
+  .font-size-adjuster button::after {
+    /* Use the title attribute for tooltip text */
+    content: attr(title);
+    position: absolute;
+    /* Position below the button */
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    /* Fallback to #333 if variable undefined */
+    background-color: var(--sl-color-gray-6, #333);
+    color: var(--sl-color-white, #fff);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .font-size-adjuster button:hover::after {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Adjust tooltip position for better spacing */
+  .font-size-adjuster button::after {
+
+    margin-top: 0.625rem;
+  }
+
+  #decrease-font {
+    font-size: 0.8rem;
+  }
+
+  #reset-font {
+    font-size: 1rem;
+  }
+
+  #increase-font {
+    font-size: 1.2rem;
+  }
+</style>
