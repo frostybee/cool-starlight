@@ -92,8 +92,12 @@ export default class TelescopeSearch {
 			this.filteredPages = [...this.allPages];
 		} else {
 			this.filteredPages = this.allPages.filter((page) => {
+        // const fullBaseUrl = `${import.meta.env.SITE}${import.meta.env.BASE_URL}`;
+        // const fullBaseUrl = `${Astro.url.origin}`;
+        // console.log('Base URL:', fullBaseUrl);
+
 				const title = (page.title || '').toLowerCase();
-				const path = (page.path || '').toLowerCase();
+				const path = ( page.path || '').toLowerCase();
 
 				return title.includes(query) || path.includes(query);
 			});

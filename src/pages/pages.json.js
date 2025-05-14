@@ -9,7 +9,7 @@ export async function GET() {
     const formattedPages = allPages.map(page => {
       return {
         title: page.data.title,
-        path: `http://localhost:4321/cool-starlight/docs/${page.slug}`,
+        path: `http://localhost:4321/cool-starlight/${page.slug}`,
         description: page.data.description || '',
         // You can add more metadata as needed
         tags: page.data.tags || [],
