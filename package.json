@@ -33,6 +33,7 @@
     "starlight-view-modes": "^0.8.1"
   },
   "devDependencies": {
+    "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.7.2"
   }
 }
