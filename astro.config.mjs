@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import { passthroughImageService } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightImageZoom from 'starlight-image-zoom'
 import rehypeExternalLinks from "rehype-external-links";
@@ -8,6 +9,7 @@ import rehypeSlug from 'rehype-slug';
 import starlightSidebarTopics from "starlight-sidebar-topics";
 import starlightLinksValidator from 'starlight-links-validator'
 import starlightViewModes from 'starlight-view-modes'
+import starlightScrollToTop from 'starlight-scroll-to-top';
 
 import leftSidebar from './src/config/sidebar/sidebar-items.ts'
 import appConfig from './src/config/website-config.ts'
@@ -18,6 +20,9 @@ import solidJs from '@astrojs/solid-js';
 export default defineConfig({
   site: appConfig.siteURI,
   base: appConfig.baseDirectory,
+  scripts: [
+    { src: 'https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js', defer: true }
+  ],
   integrations: [
     starlight({
       title: appConfig.title,
@@ -32,6 +37,11 @@ export default defineConfig({
       // Load components overrides.
       components: {
         Header: './src/components/Header.astro',
+        // Pagination: './src/components/pages/NavigationArrows.astro',
+        PageFrame: './src/components/pages/CustomPageFrame.astro',
+        // TableOfContents: './src/components/ui/CustomToC.astro',
+        // PageFrame: './src/components/pages/NavArrowsWithContainer.astro',
+        // TwoColumnContent: './src/components/pages/CustomTwoColumnContent.astro',
         Head: './src/components/TelescopeProvider.astro',
       },
 
@@ -42,6 +52,7 @@ export default defineConfig({
 
       lastUpdated: true,
       plugins: [
+        starlightScrollToTop(),
         starlightImageZoom(),
         starlightSidebarTopics(
           [
@@ -85,6 +96,9 @@ export default defineConfig({
       ],
     ],
   },
+  image: {
+    service: passthroughImageService()
+  }
 });
 
 
