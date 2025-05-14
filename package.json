@@ -1,5 +1,5 @@
 {
-  "name": "super-starlight",
+  "name": "cool-starlight",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -32,6 +32,7 @@
     "starlight-sidebar-topics": "^0.6.0",
     "starlight-view-modes": "^0.8.1"
   },
+  "packageManager": "pnpm@10.11.0",
   "devDependencies": {
     "typescript": "^5.7.2"
   }

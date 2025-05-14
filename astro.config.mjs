@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import { passthroughImageService } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightImageZoom from 'starlight-image-zoom'
 import rehypeExternalLinks from "rehype-external-links";
@@ -91,6 +92,9 @@ export default defineConfig({
       ],
     ],
   },
+  image: {
+    service: passthroughImageService()
+  }
 });
 
 
