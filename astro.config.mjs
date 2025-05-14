@@ -17,6 +17,9 @@ import appConfig from './src/config/website-config.ts'
 export default defineConfig({
   site: appConfig.siteURI,
   base: appConfig.baseDirectory,
+  scripts: [
+    { src: 'https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js', defer: true }
+  ],
   integrations: [
     starlight({
       title: appConfig.title,
