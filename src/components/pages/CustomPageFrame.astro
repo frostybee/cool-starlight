@@ -1,5 +1,7 @@
 ---
 import Default from "@astrojs/starlight/components/PageFrame.astro";
+// import TelescopeSearch from '../TelescopeSearch.astro';
+import TelescopeSearch from '../GTelescopeSearch.astro';
 const { hasSidebar } = Astro.locals.starlightRoute;
 
 interface Props {
@@ -49,6 +51,7 @@ const { prev, next } = pagination;
     )}
   </div>
 
+  <TelescopeSearch />
 
     <slot />
     <slot name="sidebar" slot="sidebar" />

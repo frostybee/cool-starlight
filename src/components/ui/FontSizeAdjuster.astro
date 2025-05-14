@@ -90,7 +90,14 @@
   }
 
   function applyFontSize(sizePercent: number) {
-    document.documentElement.style.fontSize = `${sizePercent}%`;
+    // document.documentElement.style.fontSize = `${sizePercent}%`;
+     document.body.style.fontSize = `${sizePercent}%`;
+    // sl-container astro-7nkwcw3z
+
+    // const container = document.querySelector('.sl-container');
+    // if (container) {
+    //   container.style.fontSize = '18px';
+    // }
   }
 
   function saveFontSize(size: number) {
