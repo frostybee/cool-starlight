@@ -13,8 +13,6 @@ import starlightScrollToTop from 'starlight-scroll-to-top';
 
 import leftSidebar from './src/config/sidebar/sidebar-items.ts'
 import appConfig from './src/config/website-config.ts'
-import solidJs from '@astrojs/solid-js';
-
 
 //@see: https://astro.build/config
 export default defineConfig({
@@ -75,7 +73,6 @@ export default defineConfig({
       // ],
     }
     ),
-     solidJs(),
   ],
   markdown: {
     rehypePlugins: [
