@@ -1,4 +1,3 @@
-// src/components/telescope-search.js
 export default class TelescopeSearch {
   constructor() {
     this.isOpen = false;
