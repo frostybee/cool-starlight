@@ -19,6 +19,7 @@
     "@fontsource-variable/plus-jakarta-sans": "^5.1.0",
     "@fontsource-variable/roboto-flex": "^5.1.1",
     "astro": "^5.7.4",
+    "fuse": "^0.12.1",
     "prettier": "^3.3.3",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-external-links": "3.0.0",

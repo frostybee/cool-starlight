@@ -6,7 +6,6 @@ import ThemeSelect from "./ThemeSelect.astro";
 import ProgressScroll from './ProgressScroll.astro';
 import FontSizeAdjuster from './ui/FontSizeAdjuster.astro';
 
-
 const displayProgressScroll = true;
 	// Astro.props.slug.startsWith('guides') ||
 	// (Astro.props.slug.startsWith('articles/') &&
@@ -21,6 +20,12 @@ const displayProgressScroll = true;
 	</div>
 	<div class="sl-flex">
 		<Search />
+		<button class="telescope-trigger" title="Quick navigation (Ctrl+P)">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<circle cx="11" cy="11" r="8"></circle>
+				<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+			</svg>
+		</button>
 	</div>
 	<div class="sl-hidden md:sl-flex right-group">
         <FontSizeAdjuster />
@@ -57,6 +62,31 @@ const displayProgressScroll = true;
 		border-inline-end: 1px solid var(--sl-color-gray-5);
 	}
 
+	.telescope-trigger {
+		background: none;
+		border: none;
+		padding: 0.5rem;
+		cursor: pointer;
+		color: var(--sl-color-gray-5);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 4px;
+		margin-left: 0.5rem;
+	}
+
+	.telescope-trigger:hover {
+		background: var(--sl-color-gray-2);
+		color: var(--sl-color-gray-7);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.telescope-trigger:hover {
+			background: var(--sl-color-gray-7);
+			color: var(--sl-color-gray-2);
+		}
+	}
+
 	@media (min-width: 50rem) {
 		:global(:root[data-has-sidebar]) {
 			--__sidebar-pad: calc(2 * var(--sl-nav-pad-x));
@@ -75,7 +105,7 @@ const displayProgressScroll = true;
 			);
 			display: grid;
 			grid-template-columns:
-        /* 1 (site title): runs up until the main content column’s left edge or the width of the title, whichever is the largest  */
+        /* 1 (site title): runs up until the main content column's left edge or the width of the title, whichever is the largest  */
 				minmax(
 					calc(var(--__sidebar-width) + max(0rem, var(--__main-column-fr) - var(--sl-nav-gap))),
 					auto
@@ -88,3 +118,14 @@ const displayProgressScroll = true;
 		}
 	}
 </style>
+
+<script>
+  const telescopeTrigger = document.querySelector('.telescope-trigger');
+  const telescopeNav = document.getElementById('telescope-nav');
+
+  telescopeTrigger?.addEventListener('click', () => {
+    telescopeNav?.classList.remove('hidden');
+    const input = document.getElementById('telescope-input') as HTMLInputElement;
+    input?.focus();
+  });
+</script>
