@@ -716,8 +716,5 @@ export default class TelescopeSearch {
 
 // Initialize the TelescopeSearch when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-  const basePath = import.meta.env.BASE_URL || '/';
-  console.log(`Base path: ${basePath}`);
-
   new TelescopeSearch();
 });
