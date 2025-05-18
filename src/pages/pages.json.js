@@ -1,6 +1,6 @@
 import { getCollection } from 'astro:content';
 
-export async function GET({ request }) {
+export async function GET() {
   try {
     // Get all doc pages from Starlight collection
     const allPages = await getCollection('docs');
