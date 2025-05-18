@@ -37,11 +37,11 @@ export default defineConfig({
         Header: './src/components/Header.astro',
         // Pagination: './src/components/pages/NavigationArrows.astro',
         // PageFrame: './src/components/pages/CustomPageFrame.astro',
+        // PageFrame: './src/components/search/TelescopeProvider.astro',
         // TableOfContents: './src/components/ui/CustomToC.astro',
         // PageFrame: './src/components/pages/NavArrowsWithContainer.astro',
         // TwoColumnContent: './src/components/pages/CustomTwoColumnContent.astro',
         Head: './src/components/search/TelescopeProvider.astro',
-        // Head: './src/components/search/TelescopeProvider.astro',
       },
 
       // Load and apply the default custom styles.

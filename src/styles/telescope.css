@@ -1,20 +1,4 @@
 /* Telescope Search Modal Styles */
- button {
-   background-color: #7aa2f7;
-   color: #1a1b26;
-   border: none;
-   padding: 10px 15px;
-   border-radius: 4px;
-   cursor: pointer;
-   font-size: 14px;
-   margin-top: 20px;
-   font-weight: 500;
- }
-
- button:hover {
-   background-color: #89b4fa;
- }
-
  kbd {
    background-color: #414868;
    border-radius: 3px;
@@ -62,7 +46,7 @@
 
  .telescope-close-button {
    position: absolute;
-   top: -10px;
+   top: 10px;
    right: 8px;
    width: 32px;
    height: 32px;
@@ -130,12 +114,27 @@
 
  .telescope-search-header {
    padding: 12px;
-   border-bottom: 1px solid #414868;
-   background-color: #1f2335;
+   border-bottom: 2px solid var(--sl-color-gray-2);
  }
 
+  .telescope-tab button {
+    background-color: #7aa2f7;
+    color: #1a1b26;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 20px;
+    font-weight: 500;
+  }
+
+  .telescope-tab button:hover {
+    background-color: #89b4fa;
+  }
+
  .telescope-search-input {
-   width: 95%;
+   width: 100%;
    padding: 12px;
    border: none;
    border-radius: 4px;
@@ -187,6 +186,8 @@
    background-color: #414868;
    border-left: 3px solid #7aa2f7;
    padding-left: 7px;
+   border-top-left-radius: 5px;
+   border-bottom-left-radius: 5px;
  }
 
  .telescope-result-content-row {
@@ -282,7 +283,7 @@
    display: flex;
    justify-content: center;
    gap: 16px;
-   font-size: 12px;
+   font-size: 14px;
    color: #565f89;
  }
 

@@ -38,6 +38,9 @@ importers:
       fuse:
         specifier: ^0.12.1
         version: 0.12.1(@types/node@22.15.18)(crossws@0.3.5)(next@15.3.2(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
+      fuse.js:
+        specifier: ^7.1.0
+        version: 7.1.0
       prettier:
         specifier: ^3.3.3
         version: 3.5.3
@@ -2701,6 +2704,10 @@ packages:
 
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
+
+  fuse.js@7.1.0:
+    resolution: {integrity: sha512-trLf4SzuuUxfusZADLINj+dE8clK1frKdmqiJNb1Es75fmI5oY6X2mxLVUciLLjxqw/xr72Dhy+lER6dGd02FQ==}
+    engines: {node: '>=10'}
 
   fuse@0.12.1:
     resolution: {integrity: sha512-B9HVDkw63Oqlm/Ntrrt0n294JX9dFW1toURBWNZrBreElsFkwKjJnaV+OG+3oCPWUAbpZCf87WjdKmznrYBnoQ==}
@@ -7897,6 +7904,8 @@ snapshots:
     optional: true
 
   function-bind@1.1.2: {}
+
+  fuse.js@7.1.0: {}
 
   fuse@0.12.1(@types/node@22.15.18)(crossws@0.3.5)(next@15.3.2(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(typescript@5.8.3):
     dependencies:

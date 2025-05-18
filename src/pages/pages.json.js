@@ -1,6 +1,6 @@
 import { getCollection } from 'astro:content';
 
-export async function GET() {
+export async function GET({ request }) {
   try {
     // Get all doc pages from Starlight collection
     const allPages = await getCollection('docs');
@@ -9,7 +9,8 @@ export async function GET() {
     const formattedPages = allPages.map(page => {
       return {
         title: page.data.title,
-        path: `http://localhost:4321/cool-starlight/${page.slug}`,
+        // Use the current origin and base path instead of hardcoding
+        path: `${page.slug}`,
         description: page.data.description || '',
         // You can add more metadata as needed
         tags: page.data.tags || [],
