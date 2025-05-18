@@ -41,6 +41,7 @@ export default defineConfig({
         // PageFrame: './src/components/pages/NavArrowsWithContainer.astro',
         // TwoColumnContent: './src/components/pages/CustomTwoColumnContent.astro',
         Head: './src/components/search/TelescopeProvider.astro',
+        // Head: './src/components/search/TelescopeProvider.astro',
       },
 
       // Load and apply the default custom styles.

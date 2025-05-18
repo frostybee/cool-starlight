@@ -158,7 +158,7 @@ export default class TelescopeSearch {
 
   handleKeyDown(event) {
     // Ctrl+P or Cmd+P to open
-    if ((event.ctrlKey || event.metaKey) && event.key === 'p') {
+    if ((event.ctrlKey || event.metaKey) && event.key === '/') {
       event.preventDefault();
       this.open();
     }
@@ -294,11 +294,9 @@ export default class TelescopeSearch {
     if (page) {
       this.saveRecentPage(page);
     }
-    // this.close();
-    // For demo, just alert instead of navigating
-    // alert(`Navigating to: ${path}`);
+    this.close();
     console.log(`Navigating to: ${path}`);
-    // window.location.href = path;
+    window.location.href = path;
   }
 
   open() {
