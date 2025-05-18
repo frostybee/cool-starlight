@@ -7,7 +7,8 @@ export default class TelescopeSearch {
     this.selectedIndex = 0;
     this.fuseInstance = null;
     this.recentPages = this.loadRecentPages();
-    this.currentTab = 'search';
+    this.pinnedPages = this.loadPinnedPages();
+    this.currentTab = 'search';``
 
     // DOM elements
     this.modalElement = document.getElementById('telescope-modal-overlay');
@@ -23,19 +24,20 @@ export default class TelescopeSearch {
     this.handleSearchInput = this.handleSearchInput.bind(this);
     this.close = this.close.bind(this);
     this.switchTab = this.switchTab.bind(this);
+    this.togglePinPage = this.togglePinPage.bind(this);
 
     // Initialize
     this.fetchPages();
-    // this.initializeFuse();
     this.setupListeners();
   }
-    async fetchPages() {
+  async fetchPages() {
     try {
       const response = await fetch('/pages.json');
       if (!response.ok) {
         throw new Error(`Failed to fetch pages: ${response.status}`);
       }
       this.allPages = await response.json();
+      console.log('Fetched pages:', this.allPages);
 
       // Initialize Fuse.js after fetching pages
       this.initializeFuse();
@@ -50,6 +52,11 @@ export default class TelescopeSearch {
     return recent ? JSON.parse(recent) : [];
   }
 
+  loadPinnedPages() {
+    const pinned = localStorage.getItem('telescopePinnedPages');
+    return pinned ? JSON.parse(pinned) : [];
+  }
+
   saveRecentPage(page) {
     // Remove if already exists
     this.recentPages = this.recentPages.filter(p => p.path !== page.path);
@@ -59,6 +66,32 @@ export default class TelescopeSearch {
     this.recentPages = this.recentPages.slice(0, 5);
     // Save to localStorage
     localStorage.setItem('telescopeRecentPages', JSON.stringify(this.recentPages));
+  }
+
+  savePinnedPages() {
+    localStorage.setItem('telescopePinnedPages', JSON.stringify(this.pinnedPages));
+  }
+
+  isPagePinned(path) {
+    return this.pinnedPages.some(page => page.path === path);
+  }
+
+  togglePinPage(page) {
+    const pageIndex = this.pinnedPages.findIndex(p => p.path === page.path);
+
+    if (pageIndex > -1) {
+      // Remove from pinned
+      this.pinnedPages.splice(pageIndex, 1);
+    } else {
+      // Add to pinned
+      this.pinnedPages.push(page);
+    }
+
+    this.savePinnedPages();
+
+    // Refresh the UI
+    this.renderSearchResults();
+    this.renderRecentResults();
   }
 
   initializeFuse() {
@@ -148,21 +181,39 @@ export default class TelescopeSearch {
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
-        // Account for potential recent items at the top when calculating total length
-        const totalItems = (this.currentTab === 'search' && this.recentPages.length > 0)
-          ? this.filteredPages.length + Math.min(this.recentPages.length, 5)
+        // Account for all items in the search view
+        const pinnedCount = this.currentTab === 'search' ? this.pinnedPages.length : 0;
+        const recentCount = this.currentTab === 'search'
+          ? Math.min(this.recentPages.filter(p => !this.isPagePinned(p.path)).length, 5)
+          : 0;
+        const searchCount = this.currentTab === 'search'
+          ? this.filteredPages.filter(p =>
+            !this.pinnedPages.some(pp => pp.path === p.path) &&
+            !this.recentPages.some(rp => rp.path === p.path)
+          ).length
           : this.filteredPages.length;
-        this.selectedIndex = (this.selectedIndex + 1) % totalItems;
+
+        const totalItems = pinnedCount + recentCount + searchCount;
+        this.selectedIndex = (this.selectedIndex + 1) % (totalItems || 1);
         this.updateSelectedResult();
         break;
 
       case 'ArrowUp':
         event.preventDefault();
-        // Account for potential recent items at the top
-        const total = (this.currentTab === 'search' && this.recentPages.length > 0)
-          ? this.filteredPages.length + Math.min(this.recentPages.length, 5)
+        // Similar calculation for up arrow
+        const pCount = this.currentTab === 'search' ? this.pinnedPages.length : 0;
+        const rCount = this.currentTab === 'search'
+          ? Math.min(this.recentPages.filter(p => !this.isPagePinned(p.path)).length, 5)
+          : 0;
+        const sCount = this.currentTab === 'search'
+          ? this.filteredPages.filter(p =>
+            !this.pinnedPages.some(pp => pp.path === p.path) &&
+            !this.recentPages.some(rp => rp.path === p.path)
+          ).length
           : this.filteredPages.length;
-        this.selectedIndex = (this.selectedIndex - 1 + total) % total;
+
+        const total = pCount + rCount + sCount;
+        this.selectedIndex = (this.selectedIndex - 1 + (total || 1)) % (total || 1);
         this.updateSelectedResult();
         break;
 
@@ -243,10 +294,11 @@ export default class TelescopeSearch {
     if (page) {
       this.saveRecentPage(page);
     }
-    this.close();
+    // this.close();
     // For demo, just alert instead of navigating
-    alert(`Navigating to: ${path}`);
-    // In a real app: window.location.href = path;
+    // alert(`Navigating to: ${path}`);
+    console.log(`Navigating to: ${path}`);
+    // window.location.href = path;
   }
 
   open() {
@@ -361,6 +413,31 @@ export default class TelescopeSearch {
     listItem.className = `telescope-result-item ${index === this.selectedIndex ? 'telescope-selected' : ''}`;
     listItem.setAttribute('data-index', index);
 
+    // Add pin button
+    const isPinned = this.isPagePinned(page.path);
+    const pinButton = document.createElement('button');
+    pinButton.className = `telescope-pin-button ${isPinned ? 'pinned' : ''}`;
+    pinButton.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"></path>
+                </svg>`;
+    pinButton.title = isPinned ? 'Unpin page' : 'Pin page';
+
+    // Stop event propagation to prevent navigation and flickering
+    pinButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      event.preventDefault();
+      this.togglePinPage(page);
+    });
+
+    // Prevent hover events from bubbling and causing flickering
+    pinButton.addEventListener('mouseenter', (event) => {
+      event.stopPropagation();
+    });
+
+    pinButton.addEventListener('mouseleave', (event) => {
+      event.stopPropagation();
+    });
+
     // Title Column
     const titleColumn = document.createElement('div');
     titleColumn.className = 'telescope-result-title-column';
@@ -404,6 +481,7 @@ export default class TelescopeSearch {
     // Add columns to list item
     listItem.appendChild(titleColumn);
     listItem.appendChild(previewColumn);
+    listItem.appendChild(pinButton);
 
     // Add event listeners
     listItem.addEventListener('click', () => {
@@ -471,31 +549,71 @@ export default class TelescopeSearch {
 
     this.resultsContainerElement.innerHTML = '';
 
+    // Show pinned pages section
+    if (this.pinnedPages.length > 0) {
+      const pinnedSection = document.createElement('div');
+      pinnedSection.className = 'telescope-pinned-section';
+
+      const pinnedHeader = document.createElement('div');
+      pinnedHeader.className = 'telescope-pinned-header';
+      pinnedHeader.textContent = 'Pinned Pages';
+      pinnedSection.appendChild(pinnedHeader);
+
+      const pinnedList = document.createElement('ul');
+      pinnedList.className = 'telescope-result-list';
+
+      this.pinnedPages.forEach((page, index) => {
+        const listItem = this.createResultItem(page, index, false);
+        pinnedList.appendChild(listItem);
+      });
+
+      pinnedSection.appendChild(pinnedList);
+      this.resultsContainerElement.appendChild(pinnedSection);
+    }
+
     // Always show recent pages section at the top
     if (this.recentPages.length > 0) {
-      const recentSection = document.createElement('div');
-      recentSection.className = 'telescope-recent-section';
+      // Add a separator before recent if we have pinned pages
+      if (this.pinnedPages.length > 0) {
+        const separator = document.createElement('div');
+        separator.className = 'telescope-section-separator';
+        separator.textContent = 'Recently Visited';
+        this.resultsContainerElement.appendChild(separator);
+      } else {
+        // Otherwise add a normal header
+        const recentSection = document.createElement('div');
+        recentSection.className = 'telescope-recent-section';
 
-      const recentHeader = document.createElement('div');
-      recentHeader.className = 'telescope-recent-header';
-      recentHeader.textContent = 'Recently Visited';
-      recentSection.appendChild(recentHeader);
+        const recentHeader = document.createElement('div');
+        recentHeader.className = 'telescope-recent-header';
+        recentHeader.textContent = 'Recently Visited';
+        recentSection.appendChild(recentHeader);
+
+        this.resultsContainerElement.appendChild(recentSection);
+      }
 
       const recentList = document.createElement('ul');
       recentList.className = 'telescope-result-list';
 
+      // Get recent pages that aren't pinned
+      const nonPinnedRecent = this.recentPages.filter(
+        page => !this.isPagePinned(page.path)
+      );
+
       // Change from 3 to 5 recent items
-      this.recentPages.slice(0, 5).forEach((page, index) => {
-        const listItem = this.createResultItem(page, index, true);
+      nonPinnedRecent.slice(0, 5).forEach((page, index) => {
+        // Calculate real index to account for pinned pages
+        const realIndex = this.pinnedPages.length + index;
+        const listItem = this.createResultItem(page, realIndex, true);
         recentList.appendChild(listItem);
       });
 
-      recentSection.appendChild(recentList);
-      this.resultsContainerElement.appendChild(recentSection);
+      this.resultsContainerElement.appendChild(recentList);
     }
 
-    // Add a separator if we have both recent pages and search results
-    if (this.recentPages.length > 0 && this.filteredPages.length > 0) {
+    // Add a separator if we have both recent/pinned pages and search results
+    if ((this.recentPages.length > 0 || this.pinnedPages.length > 0) &&
+      this.filteredPages.length > 0) {
       const separator = document.createElement('div');
       separator.className = 'telescope-section-separator';
       separator.textContent = 'Search Results';
@@ -515,9 +633,22 @@ export default class TelescopeSearch {
     const resultsList = document.createElement('ul');
     resultsList.className = 'telescope-result-list';
 
-    this.filteredPages.forEach((page, index) => {
-      // Calculate real index to account for recent items, now up to 5
-      const realIndex = this.recentPages.length > 0 ? index + Math.min(this.recentPages.length, 5) : index;
+    // Filter out pinned and recent pages from search results to avoid duplicates
+    const pinnedPaths = this.pinnedPages.map(p => p.path);
+    const recentPaths = this.recentPages.map(p => p.path);
+    const filteredResults = this.filteredPages.filter(
+      page => !pinnedPaths.includes(page.path) && !recentPaths.includes(page.path)
+    );
+
+    filteredResults.forEach((page, index) => {
+      // Calculate real index to account for pinned and recent items
+      const pinnedCount = this.pinnedPages.length;
+      const recentCount = Math.min(
+        this.recentPages.filter(p => !this.isPagePinned(p.path)).length,
+        5
+      );
+
+      const realIndex = pinnedCount + recentCount + index;
       const listItem = this.createResultItem(page, realIndex, false);
       resultsList.appendChild(listItem);
     });
@@ -526,19 +657,43 @@ export default class TelescopeSearch {
   }
 
   selectCurrentItem() {
-    if (this.currentTab === 'search' && this.recentPages.length > 0 && this.selectedIndex < 5) {
-      // Selected a recent item
-      if (this.selectedIndex < this.recentPages.length) {
-        this.navigateToPage(this.recentPages[this.selectedIndex].path);
+    if (this.currentTab === 'search') {
+      const pinnedCount = this.pinnedPages.length;
+      const nonPinnedRecentCount = Math.min(
+        this.recentPages.filter(p => !this.isPagePinned(p.path)).length,
+        5
+      );
+
+      if (this.selectedIndex < pinnedCount) {
+        // Selected a pinned item
+        this.navigateToPage(this.pinnedPages[this.selectedIndex].path);
+      } else if (this.selectedIndex < (pinnedCount + nonPinnedRecentCount)) {
+        // Selected a recent item
+        const nonPinnedRecent = this.recentPages.filter(
+          page => !this.isPagePinned(page.path)
+        );
+        const recentIndex = this.selectedIndex - pinnedCount;
+
+        if (recentIndex < nonPinnedRecent.length) {
+          this.navigateToPage(nonPinnedRecent[recentIndex].path);
+        }
+      } else {
+        // Selected a regular search result
+        const filteredResults = this.filteredPages.filter(
+          page => !this.pinnedPages.some(p => p.path === page.path) &&
+            !this.recentPages.some(p => p.path === page.path)
+        );
+
+        const searchIndex = this.selectedIndex - pinnedCount - nonPinnedRecentCount;
+
+        if (searchIndex < filteredResults.length) {
+          this.navigateToPage(filteredResults[searchIndex].path);
+        }
       }
     } else {
-      // Selected a regular search result
-      const adjustedIndex = this.currentTab === 'search' ?
-        this.selectedIndex - Math.min(this.recentPages.length, 5) :
-        this.selectedIndex;
-
-      if (this.filteredPages[adjustedIndex]) {
-        this.navigateToPage(this.filteredPages[adjustedIndex].path);
+      // Recent tab logic - remains the same
+      if (this.selectedIndex < this.recentPages.length) {
+        this.navigateToPage(this.recentPages[this.selectedIndex].path);
       }
     }
   }
@@ -546,7 +701,5 @@ export default class TelescopeSearch {
 
 // Initialize the TelescopeSearch when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Initializing TelescopeSearch');
-
   new TelescopeSearch();
 });
