@@ -43,7 +43,9 @@ export default class TelescopeSearch {
       this.initializeFuse();
     } catch (error) {
       console.error('Error fetching pages:', error);
-      this.allPages = [];
+      this.allPages = [];/**
+       *
+       */
     }
   }
 
@@ -186,10 +188,13 @@ export default class TelescopeSearch {
         const recentCount = this.currentTab === 'search'
           ? Math.min(this.recentPages.filter(p => !this.isPagePinned(p.path)).length, 5)
           : 0;
+
+        // Use the same filtering approach as in renderSearchResults and selectCurrentItem
+        const pinnedPaths = this.pinnedPages.map(p => p.path);
+        const recentPaths = this.recentPages.map(p => p.path);
         const searchCount = this.currentTab === 'search'
           ? this.filteredPages.filter(p =>
-            !this.pinnedPages.some(pp => pp.path === p.path) &&
-            !this.recentPages.some(rp => rp.path === p.path)
+            !pinnedPaths.includes(p.path) && !recentPaths.includes(p.path)
           ).length
           : this.filteredPages.length;
 
@@ -205,10 +210,13 @@ export default class TelescopeSearch {
         const rCount = this.currentTab === 'search'
           ? Math.min(this.recentPages.filter(p => !this.isPagePinned(p.path)).length, 5)
           : 0;
+
+        // Use the same filtering approach as in renderSearchResults and selectCurrentItem
+        const pPaths = this.pinnedPages.map(p => p.path);
+        const rPaths = this.recentPages.map(p => p.path);
         const sCount = this.currentTab === 'search'
           ? this.filteredPages.filter(p =>
-            !this.pinnedPages.some(pp => pp.path === p.path) &&
-            !this.recentPages.some(rp => rp.path === p.path)
+            !pPaths.includes(p.path) && !rPaths.includes(p.path)
           ).length
           : this.filteredPages.length;
 
@@ -410,6 +418,7 @@ export default class TelescopeSearch {
     const listItem = document.createElement('li');
     listItem.className = `telescope-result-item ${index === this.selectedIndex ? 'telescope-selected' : ''}`;
     listItem.setAttribute('data-index', index);
+    listItem.setAttribute('data-path', page.path);
 
     // Add pin button
     const isPinned = this.isPagePinned(page.path);
@@ -436,32 +445,26 @@ export default class TelescopeSearch {
       event.stopPropagation();
     });
 
-    // Title Column
-    const titleColumn = document.createElement('div');
-    titleColumn.className = 'telescope-result-title-column';
+    // Single row content
+    const contentRow = document.createElement('div');
+    contentRow.className = 'telescope-result-content-row';
 
+    // Title
     const titleDiv = document.createElement('div');
     titleDiv.className = 'telescope-result-title';
     titleDiv.textContent = page.title || '';
 
-    const pathDiv = document.createElement('div');
-    pathDiv.className = 'telescope-result-path';
-    pathDiv.textContent = page.path || '';
+    contentRow.appendChild(titleDiv);
 
-    titleColumn.appendChild(titleDiv);
-    titleColumn.appendChild(pathDiv);
-
-    // Preview Column
-    const previewColumn = document.createElement('div');
-    previewColumn.className = 'telescope-result-preview-column';
-
+    // Description (if available)
     if (page.description) {
       const descriptionDiv = document.createElement('div');
       descriptionDiv.className = 'telescope-result-description';
       descriptionDiv.textContent = page.description;
-      previewColumn.appendChild(descriptionDiv);
+      contentRow.appendChild(descriptionDiv);
     }
 
+    // Tags (if available)
     if (page.tags && page.tags.length > 0) {
       const tagsDiv = document.createElement('div');
       tagsDiv.className = 'telescope-result-tags';
@@ -473,12 +476,11 @@ export default class TelescopeSearch {
         tagsDiv.appendChild(tagSpan);
       });
 
-      previewColumn.appendChild(tagsDiv);
+      contentRow.appendChild(tagsDiv);
     }
 
-    // Add columns to list item
-    listItem.appendChild(titleColumn);
-    listItem.appendChild(previewColumn);
+    // Add content row to list item
+    listItem.appendChild(contentRow);
     listItem.appendChild(pinButton);
 
     // Add event listeners
@@ -553,7 +555,7 @@ export default class TelescopeSearch {
       pinnedSection.className = 'telescope-pinned-section';
 
       const pinnedHeader = document.createElement('div');
-      pinnedHeader.className = 'telescope-pinned-header';
+      pinnedHeader.className = 'telescope-section-separator';
       pinnedHeader.textContent = 'Pinned Pages';
       pinnedSection.appendChild(pinnedHeader);
 
@@ -655,44 +657,13 @@ export default class TelescopeSearch {
   }
 
   selectCurrentItem() {
-    if (this.currentTab === 'search') {
-      const pinnedCount = this.pinnedPages.length;
-      const nonPinnedRecentCount = Math.min(
-        this.recentPages.filter(p => !this.isPagePinned(p.path)).length,
-        5
-      );
+    // Get the currently selected item directly from the DOM
+    const selectedItem = document.querySelector('.telescope-result-item.telescope-selected');
 
-      if (this.selectedIndex < pinnedCount) {
-        // Selected a pinned item
-        this.navigateToPage(this.pinnedPages[this.selectedIndex].path);
-      } else if (this.selectedIndex < (pinnedCount + nonPinnedRecentCount)) {
-        // Selected a recent item
-        const nonPinnedRecent = this.recentPages.filter(
-          page => !this.isPagePinned(page.path)
-        );
-        const recentIndex = this.selectedIndex - pinnedCount;
-
-        if (recentIndex < nonPinnedRecent.length) {
-          this.navigateToPage(nonPinnedRecent[recentIndex].path);
-        }
-      } else {
-        // Selected a regular search result
-        const filteredResults = this.filteredPages.filter(
-          page => !this.pinnedPages.some(p => p.path === page.path) &&
-            !this.recentPages.some(p => p.path === page.path)
-        );
-
-        const searchIndex = this.selectedIndex - pinnedCount - nonPinnedRecentCount;
-
-        if (searchIndex < filteredResults.length) {
-          this.navigateToPage(filteredResults[searchIndex].path);
-        }
-      }
-    } else {
-      // Recent tab logic - remains the same
-      if (this.selectedIndex < this.recentPages.length) {
-        this.navigateToPage(this.recentPages[this.selectedIndex].path);
-      }
+    if (selectedItem && selectedItem.hasAttribute('data-path')) {
+      // Navigate to the page using the path stored in the data-path attribute
+      const path = selectedItem.getAttribute('data-path');
+      this.navigateToPage(path);
     }
   }
 }
