@@ -36,7 +36,8 @@ export default class TelescopeSearch {
   }
   async fetchPages() {
     try {
-      const response = await fetch('/pages.json');
+       const basePath = import.meta.env.BASE_URL || '/';
+      const response = await fetch(`${basePath}/pages.json`);
       if (!response.ok) {
         throw new Error(`Failed to fetch pages: ${response.status}`);
       }
