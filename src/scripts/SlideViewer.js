@@ -4,6 +4,7 @@ class SlideViewer {
     this.currentSlide = 0;
     this.fontSize = this.loadFontSize(); // Load saved font size or use default
 
+
     this.modal = document.getElementById('slide-viewer-modal');
     this.slideContent = document.getElementById('slide-content');
     this.currentSlideEl = document.getElementById('current-slide');
@@ -399,6 +400,12 @@ class SlideViewer {
       setTimeout(() => {
         slideCounter.classList.remove('animating');
       }, 2000);
+
+      // Animate the slide number indicator
+      this.slideNumberIndicator.classList.add('animating');
+      setTimeout(() => {
+        this.slideNumberIndicator.classList.remove('animating');
+      }, 600);
 
       // Update navigation buttons
       this.prevBtn.disabled = index === 0;
