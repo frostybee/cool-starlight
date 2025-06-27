@@ -268,30 +268,46 @@ class SlideViewer {
   }
 
   scrollTocToActiveItem(activeItem) {
-    if (!activeItem || this.tocSidebar.classList.contains('collapsed')) {
+    if (!activeItem) {
       return;
     }
 
+    // Always calculate and store the scroll position for the active item
     const tocContainer = this.tocContent;
-    const containerRect = tocContainer.getBoundingClientRect();
-    const itemRect = activeItem.getBoundingClientRect();
+    const containerHeight = tocContainer.offsetHeight || 300; // Fallback height
+    const itemHeight = activeItem.offsetHeight || 60; // Fallback height
+    const scrollOffset = activeItem.offsetTop - (containerHeight / 2) + (itemHeight / 2);
     
-    // Calculate if the item is visible in the container
-    const isVisible = itemRect.top >= containerRect.top && 
-                     itemRect.bottom <= containerRect.bottom;
-    
-    if (!isVisible) {
-      // Calculate the scroll position to center the active item
-      const containerHeight = containerRect.height;
-      const itemHeight = itemRect.height;
-      const scrollOffset = activeItem.offsetTop - (containerHeight / 2) + (itemHeight / 2);
-      
-      // Smooth scroll to the calculated position
-      tocContainer.scrollTo({
-        top: Math.max(0, scrollOffset),
-        behavior: 'smooth'
-      });
+    // Store the calculated scroll position
+    this.pendingTocScrollPosition = Math.max(0, scrollOffset);
+
+    // Only perform the actual scroll if TOC is expanded
+    if (this.tocSidebar.classList.contains('collapsed')) {
+      return;
     }
+
+    // Use a small delay to ensure the DOM has updated after any transitions
+    setTimeout(() => {
+      // Double-check that TOC is still expanded
+      if (this.tocSidebar.classList.contains('collapsed')) {
+        return;
+      }
+      
+      const containerRect = tocContainer.getBoundingClientRect();
+      const itemRect = activeItem.getBoundingClientRect();
+      
+      // Calculate if the item is visible in the container
+      const isVisible = itemRect.top >= containerRect.top && 
+                       itemRect.bottom <= containerRect.bottom;
+      
+      if (!isVisible) {
+        // Smooth scroll to the calculated position
+        tocContainer.scrollTo({
+          top: this.pendingTocScrollPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 50);
   }
 
   bindEvents() {
@@ -331,23 +347,23 @@ class SlideViewer {
     });
 
     // Fallback: Also add event listener using direct onclick
-    this.nextBtn.onclick = (e) => {
+    this.nextBtn.onclick = (event) => {
       console.log('Next button onclick fired');
-      e.preventDefault();
-      e.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
       this.nextSlide();
     };
 
     // Try to intercept ESC key at document level before any other handlers
-    const escHandler = (e) => {
-      if (e.key === 'Escape' && !this.modal.classList.contains('hidden')) {
+    const escHandler = (event) => {
+      if (event.key === 'Escape' && !this.modal.classList.contains('hidden')) {
         const gotoModalOpen = !this.gotoModal.classList.contains('hidden');
         const slideInputActive = !this.slideInput.hasAttribute('readonly');
         
         if (gotoModalOpen || slideInputActive) {
-          e.preventDefault();
-          e.stopPropagation();
-          e.stopImmediatePropagation();
+          event.preventDefault();
+          event.stopPropagation();
+          event.stopImmediatePropagation();
           
           // Close the modal/input
           if (gotoModalOpen) {
@@ -374,35 +390,35 @@ class SlideViewer {
     document.documentElement.addEventListener('keydown', escHandler, true);
 
     // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', (event) => {
       if (!this.modal.classList.contains('hidden')) {
-        switch(e.key) {
+        switch(event.key) {
           case 'Escape':
             // Only close slideshow if no goto inputs are open
             if (this.gotoModal.classList.contains('hidden') && 
                 this.slideInput.hasAttribute('readonly')) {
-              e.preventDefault();
+              event.preventDefault();
               this.closeSlideshow();
             }
             break;
           case 'ArrowLeft':
           case 'PageUp':
             if (this.gotoModal.classList.contains('hidden')) {
-              e.preventDefault();
+              event.preventDefault();
               this.previousSlide();
             }
             break;
           case 'ArrowRight':
           case 'PageDown':
             if (this.gotoModal.classList.contains('hidden')) {
-              e.preventDefault();
+              event.preventDefault();
               this.nextSlide();
             }
             break;
           case 'g':
           case 'G':
             if (this.gotoModal.classList.contains('hidden')) {
-              e.preventDefault();
+              event.preventDefault();
               this.openGotoModal();
             }
             break;
@@ -432,29 +448,50 @@ class SlideViewer {
 
     // TOC toggle functionality
     this.tocToggleBtn.addEventListener('click', () => {
+      const wasCollapsed = this.tocSidebar.classList.contains('collapsed');
       this.tocSidebar.classList.toggle('collapsed');
+      
+      // If expanding and we have a pending scroll position, apply it
+      if (wasCollapsed && this.pendingTocScrollPosition !== undefined) {
+        setTimeout(() => {
+          this.tocContent.scrollTo({
+            top: this.pendingTocScrollPosition,
+            behavior: 'smooth'
+          });
+        }, 300); // Wait for expansion animation
+      }
     });
 
     // Click on collapsed sidebar to expand
-    this.tocSidebar.addEventListener('click', (e) => {
+    this.tocSidebar.addEventListener('click', (event) => {
       if (this.tocSidebar.classList.contains('collapsed')) {
         // Don't toggle if clicking on the toggle button itself (prevent double toggle)
-        if (!this.tocToggleBtn.contains(e.target)) {
+        if (!this.tocToggleBtn.contains(event.target)) {
           this.tocSidebar.classList.remove('collapsed');
+          
+          // Apply pending scroll position when expanding
+          if (this.pendingTocScrollPosition !== undefined) {
+            setTimeout(() => {
+              this.tocContent.scrollTo({
+                top: this.pendingTocScrollPosition,
+                behavior: 'smooth'
+              });
+            }, 300); // Wait for expansion animation
+          }
         }
       }
     });
 
     // Clickable counter functionality
-    this.slideCounter.addEventListener('click', (e) => {
-      if (e.target === this.slideCounter || this.slideCounter.contains(e.target)) {
+    this.slideCounter.addEventListener('click', (event) => {
+      if (event.target === this.slideCounter || this.slideCounter.contains(event.target)) {
         this.activateSlideInput();
       }
     });
 
     // Right-click context menu for counter
-    this.slideCounter.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
+    this.slideCounter.addEventListener('contextmenu', (event) => {
+      event.preventDefault();
       this.openGotoModal();
     });
 
