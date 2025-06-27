@@ -439,7 +439,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 0.5rem 2rem;
     background: var(--sl-color-bg-nav);
     border-top: 1px solid var(--sl-color-gray-5);
     flex-shrink: 0;
@@ -473,6 +473,25 @@
     color: var(--sl-color-gray-2);
     cursor: not-allowed;
     transform: none;
+  }
+
+  /* Different colors for previous and next buttons */
+  #prev-slide {
+    background: #ef4444;
+    color: white;
+  }
+
+  #prev-slide:hover:not(:disabled) {
+    background: #dc2626;
+  }
+
+  #next-slide {
+    background: #10b981;
+    color: white;
+  }
+
+  #next-slide:hover:not(:disabled) {
+    background: #059669;
   }
 
   .close-btn {
