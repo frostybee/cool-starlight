@@ -393,6 +393,13 @@ class SlideViewer {
       this.currentSlideEl.textContent = (index + 1).toString();
       this.slideNumberIndicator.textContent = (index + 1).toString();
 
+      // Animate the slide counter
+      const slideCounter = this.currentSlideEl.parentElement;
+      slideCounter.classList.add('animating');
+      setTimeout(() => {
+        slideCounter.classList.remove('animating');
+      }, 2000);
+
       // Update navigation buttons
       this.prevBtn.disabled = index === 0;
       this.nextBtn.disabled = index === this.slides.length - 1;

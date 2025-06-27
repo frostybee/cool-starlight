@@ -202,7 +202,7 @@
     width: 98%;
     max-width: 100vw;
     height: 100vh;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--sl-color-bg);
     display: flex;
     flex-direction: row;
     overflow: hidden;
@@ -430,6 +430,34 @@
     font-size: 2.1rem;
     font-weight: 600;
     color: var(--sl-color-text);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+  }
+
+  .slide-counter.animating {
+    animation: scaleNumber 2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes scaleNumber {
+    0% {
+      transform: scale(1);
+      color: var(--sl-color-text);
+      background: transparent;
+      box-shadow: none;
+    }
+    50% {
+      transform: scale(1.2);
+      color: white;
+      background: var(--sl-color-accent);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 20px var(--sl-color-accent-low);
+    }
+    100% {
+      transform: scale(1);
+      color: var(--sl-color-text);
+      background: transparent;
+      box-shadow: none;
+    }
   }
 
   .slide-content-wrapper {
@@ -578,7 +606,7 @@
   /* Font size adjuster styles */
   .slide-font-adjuster {
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
     align-items: center;
   }
 
@@ -590,13 +618,14 @@
     cursor: pointer;
     font-weight: bold;
     padding: 0.25rem 0.5rem;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
     position: relative;
     min-width: 80px;
   }
 
   .font-adj-btn:hover {
     background-color: var(--sl-color-gray-4);
+    transform: scale(1.3);
   }
 
   .font-adj-btn::after {
@@ -681,7 +710,7 @@
     font-size: 5rem;
     font-weight: 700;
     line-height: 1.2;
-    color: #222;
+    color: var(--sl-color-text);
     text-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
   }
 
@@ -698,7 +727,7 @@
     font-size: 4rem;
     font-weight: 600;
     line-height: 1.3;
-    color: #2a5298;
+    color: var(--sl-color-text);
   }
 
   .slide-content :global(h2 a),
@@ -714,7 +743,7 @@
     font-size: 3rem;
     font-weight: 600;
     line-height: 1.3;
-    color: #1e3c72;
+    color: var(--sl-color-text);
   }
 
   .slide-content :global(h3 a),
@@ -730,7 +759,7 @@
     font-size: 2.5rem;
     font-weight: 500;
     line-height: 1.4;
-    color: #444;
+    color: var(--sl-color-text);
   }
 
   .slide-content :global(h4 a),
@@ -745,7 +774,7 @@
     font-size: calc(1.8rem * var(--font-scale));
     line-height: 1.6;
     margin: 0 0 1.5rem 0;
-    color: #333;
+    color: var(--sl-color-text);
     width: 100%;
   }
 
@@ -753,7 +782,7 @@
     font-size: calc(1.8rem * var(--font-scale));
     line-height: 1.6;
     margin: 0.5rem 0;
-    color: #333;
+    color: var(--sl-color-text);
   }
 
   .slide-content :global(ul),
@@ -771,7 +800,7 @@
 
   .slide-content :global(ul li::before) {
     content: "▶";
-    color: #2a5298;
+    color: var(--sl-color-accent);
     font-weight: bold;
     display: inline-block;
     width: 1em;
@@ -779,12 +808,12 @@
   }
 
   .slide-content :global(strong) {
-    color: #1e3c72;
+    color: var(--sl-color-accent);
     font-weight: 700;
   }
 
   .slide-content :global(em) {
-    color: #2a5298;
+    color: var(--sl-color-accent);
     font-style: italic;
   }
 
@@ -823,12 +852,12 @@
   .slide-content :global(blockquote) {
     margin: 2rem 0;
     padding: 2rem;
-    border-left: 6px solid #2a5298;
-    background: rgba(42, 82, 152, 0.1);
+    border-left: 6px solid var(--sl-color-accent);
+    background: var(--sl-color-bg-accent);
     border-radius: 0 8px 8px 0;
     font-style: italic;
     font-size: calc(1.6rem * var(--font-scale));
-    color: #1e3c72;
+    color: var(--sl-color-text);
     width: 100%;
     position: relative;
   }
@@ -836,7 +865,7 @@
   .slide-content :global(blockquote::before) {
     content: """;
     font-size: 4rem;
-    color: #2a5298;
+    color: var(--sl-color-accent);
     position: absolute;
     top: -10px;
     left: 20px;
