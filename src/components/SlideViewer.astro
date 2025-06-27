@@ -83,7 +83,7 @@
     height: 100vh;
     background: rgba(255, 255, 255, 0.95);
     display: flex;
-    flex-direction: column;
+    flex-direction: column;    
     overflow: hidden;
     margin: 0 auto;
     border-radius: 8px;
@@ -92,7 +92,7 @@
 
 
   .slide-counter {
-    font-size: 1.1rem;
+    font-size: 2.1rem;
     font-weight: 600;
     color: var(--sl-color-text);
   }
@@ -123,10 +123,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     text-align: left;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    /*max-width: 1200px;*/
+    width: 100%;
     margin: 0 auto;
   }
 
@@ -317,7 +317,7 @@
     line-height: 1.6;
     margin: 0 0 1.5rem 0;
     color: #333;
-    max-width: calc(800px * var(--font-scale));
+    width: 100%;
   }
 
   .slide-content :global(li) {
@@ -372,9 +372,19 @@
     overflow-x: auto;
     margin: 2rem 0;
     text-align: left;
-    width: 100%;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
     line-height: 1.5;
+    box-sizing: border-box;
+    padding: 1rem;
+  }
+
+  .slide-content :global(div.expressive-code),
+  .slide-content :global(.expressive-code),
+  .slide-content :global(.astro-code) {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 2rem 0;
   }
 
   .slide-content :global(code) {
@@ -390,7 +400,7 @@
     font-style: italic;
     font-size: calc(1.6rem * var(--font-scale));
     color: #1e3c72;
-    max-width: 800px;
+    width: 100%;
     position: relative;
   }
 
@@ -465,27 +475,41 @@
       }
 
       const hrElements = content.querySelectorAll('hr');
+      const headingElements = content.querySelectorAll('h2, h3');
       console.log('Found HR elements:', hrElements.length);
+      console.log('Found H2/H3 elements:', headingElements.length);
       
-      if (hrElements.length === 0) {
-        // No HR elements, treat entire content as one slide
+      if (hrElements.length === 0 && headingElements.length === 0) {
+        // No separators found, treat entire content as one slide
         this.slides = [content];
       } else {
-        // Split content by HR elements
+        // Split content by both HR elements and H2/H3 headings
         this.slides = [];
         let currentSlideContent = document.createElement('div');
         
         Array.from(content.childNodes).forEach((node) => {
-          if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'HR') {
+          const isSlideBreak = (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'HR') ||
+                              (node.nodeType === Node.ELEMENT_NODE && (node.tagName === 'H2' || node.tagName === 'H3'));
+          
+          if (isSlideBreak) {
+            // Save previous slide if it has content (but not for HR elements as they're just separators)
             if (currentSlideContent.children.length > 0 || (currentSlideContent.textContent && currentSlideContent.textContent.trim())) {
               this.slides.push(currentSlideContent);
-              currentSlideContent = document.createElement('div');
+            }
+            
+            // Start new slide
+            currentSlideContent = document.createElement('div');
+            
+            // For headings, include them in the new slide; for HR, don't include them
+            if (node.tagName === 'H2' || node.tagName === 'H3') {
+              currentSlideContent.appendChild(node.cloneNode(true));
             }
           } else {
             currentSlideContent.appendChild(node.cloneNode(true));
           }
         });
         
+        // Add the last slide if it has content
         if (currentSlideContent.children.length > 0 || (currentSlideContent.textContent && currentSlideContent.textContent.trim())) {
           this.slides.push(currentSlideContent);
         }
