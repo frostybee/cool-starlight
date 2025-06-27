@@ -817,11 +817,6 @@
         const tocItemContainer = document.createElement('div');
         tocItemContainer.className = `toc-item-container ${headingLevel}`;
 
-        // Create number element (outside the button)
-        const numberElement = document.createElement('span');
-        numberElement.className = 'toc-item-number';
-        numberElement.textContent = (index + 1).toString();
-
         // Create the clickable item
         const tocItem = document.createElement('button');
         tocItem.className = `toc-item ${headingLevel}`;
@@ -842,14 +837,34 @@
           color: 'var(--sl-color-text)',
           textAlign: 'left',
           fontSize: '0.9rem',
-          fontWeight: '500'
+          fontWeight: '500',
+          gap: '12px'
         });
+
+        // Create number element (inside the button)
+        const numberElement = document.createElement('span');
+        numberElement.className = 'toc-item-number-inline';
+        numberElement.textContent = (index + 1).toString();
+        numberElement.style.cssText = `
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 24px;
+          height: 24px;
+          background: linear-gradient(135deg, #6366f1, #8b5cf6);
+          border-radius: 50%;
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: #ffffff;
+          flex-shrink: 0;
+        `;
 
         // Create title element
         const titleElement = document.createElement('span');
         titleElement.className = 'toc-item-title';
         titleElement.textContent = title;
 
+        tocItem.appendChild(numberElement);
         tocItem.appendChild(titleElement);
 
         tocItem.addEventListener('click', () => {
@@ -879,7 +894,6 @@
           }
         });
 
-        tocItemContainer.appendChild(numberElement);
         tocItemContainer.appendChild(tocItem);
 
         this.tocContent.appendChild(tocItemContainer);
