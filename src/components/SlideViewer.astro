@@ -135,6 +135,7 @@
     transform: translateX(20px);
   }
 
+
   .slide-navigation {
     display: flex;
     justify-content: space-between;
@@ -443,7 +444,7 @@
         startBtn: !!this.startBtn,
         decreaseFontBtn: !!this.decreaseFontBtn,
         resetFontBtn: !!this.resetFontBtn,
-        increaseFontBtn: !!this.increaseFontBtn
+        increaseFontBtn: !!this.increaseFontBtn,
       });
 
       this.init();
@@ -642,6 +643,7 @@
         this.slideContent.classList.remove('transitioning');
       }, 150);
     }
+
 
     nextSlide() {
       console.log('nextSlide called, current:', this.currentSlide, 'total:', this.slides.length);
