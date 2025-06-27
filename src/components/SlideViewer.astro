@@ -23,6 +23,11 @@
       <div class="slide-counter">
         <span id="current-slide">1</span> / <span id="total-slides">1</span>
       </div>
+      <div class="slide-font-adjuster">
+        <button id="slide-decrease-font" class="font-adj-btn" aria-label="Decrease font size" title="Decrease font size">A-</button>
+        <button id="slide-reset-font" class="font-adj-btn" aria-label="Reset font size" title="Reset font size">A</button>
+        <button id="slide-increase-font" class="font-adj-btn" aria-label="Increase font size" title="Increase font size">A+</button>
+      </div>
       <button id="close-slideshow" class="slide-nav-btn close-btn" aria-label="Close slideshow">
         ✕
       </button>
@@ -73,7 +78,8 @@
   }
 
   .slide-container {
-    width: 90%;
+    width: 98%;
+    max-width: 1800px;
     height: 100vh;
     background: rgba(255, 255, 255, 0.95);
     display: flex;
@@ -181,6 +187,66 @@
     background: var(--sl-color-red-high);
   }
 
+  /* Font size adjuster styles */
+  .slide-font-adjuster {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .font-adj-btn {
+    background-color: var(--sl-color-gray-5);
+    border: none;
+    border-radius: 0.25rem;
+    color: var(--sl-color-white);
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    transition: background-color 0.2s;
+    position: relative;
+  }
+
+  .font-adj-btn:hover {
+    background-color: var(--sl-color-gray-4);
+  }
+
+  .font-adj-btn::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--sl-color-gray-6, #333);
+    color: var(--sl-color-white, #fff);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+    pointer-events: none;
+    z-index: 10;
+    margin-bottom: 0.5rem;
+  }
+
+  .font-adj-btn:hover::after {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #slide-decrease-font {
+    font-size: 0.8rem;
+  }
+
+  #slide-reset-font {
+    font-size: 1rem;
+  }
+
+  #slide-increase-font {
+    font-size: 1.2rem;
+  }
+
   /* Mobile responsive */
   @media (max-width: 768px) {
     .slide-container {
@@ -209,9 +275,13 @@
   }
 
   /* Slide content styling - Reveal.js inspired */
+  .slide-content {
+    --font-scale: 1;
+  }
+
   .slide-content :global(h1) {
     margin: 0 0 1rem 0;
-    font-size: 5rem;
+    font-size: calc(5rem * var(--font-scale));
     font-weight: 700;
     line-height: 1.2;
     color: #222;
@@ -220,7 +290,7 @@
 
   .slide-content :global(h2) {
     margin: 0 0 1rem 0;
-    font-size: 4rem;
+    font-size: calc(4rem * var(--font-scale));
     font-weight: 600;
     line-height: 1.3;
     color: #2a5298;
@@ -228,7 +298,7 @@
 
   .slide-content :global(h3) {
     margin: 0 0 1rem 0;
-    font-size: 3rem;
+    font-size: calc(3rem * var(--font-scale));
     font-weight: 600;
     line-height: 1.3;
     color: #1e3c72;
@@ -236,14 +306,14 @@
 
   .slide-content :global(h4) {
     margin: 0 0 1rem 0;
-    font-size: 2.5rem;
+    font-size: calc(2.5rem * var(--font-scale));
     font-weight: 500;
     line-height: 1.4;
     color: #444;
   }
 
   .slide-content :global(p) {
-    font-size: 1.8rem;
+    font-size: calc(1.8rem * var(--font-scale));
     line-height: 1.6;
     margin: 0 0 1.5rem 0;
     color: #333;
@@ -251,7 +321,7 @@
   }
 
   .slide-content :global(li) {
-    font-size: 1.8rem;
+    font-size: calc(1.8rem * var(--font-scale));
     line-height: 1.6;
     margin: 0.5rem 0;
     color: #333;
@@ -259,7 +329,7 @@
 
   .slide-content :global(ul),
   .slide-content :global(ol) {
-    font-size: 1.8rem;
+    font-size: calc(1.8rem * var(--font-scale));
     text-align: left;
     margin: 1rem 0;
     width: 100%;
@@ -298,11 +368,17 @@
   }
 
   .slide-content :global(pre) {
-    font-size: 1.2rem;
+    font-size: calc(1.6rem * var(--font-scale));
     overflow-x: auto;
     margin: 2rem 0;
     text-align: left;
-    max-width: 900px;
+    width: 100%;
+    max-width: 100%;
+    line-height: 1.5;
+  }
+
+  .slide-content :global(code) {
+    font-size: calc(1.4rem * var(--font-scale));
   }
 
   .slide-content :global(blockquote) {
@@ -312,7 +388,7 @@
     background: rgba(42, 82, 152, 0.1);
     border-radius: 0 8px 8px 0;
     font-style: italic;
-    font-size: 1.6rem;
+    font-size: calc(1.6rem * var(--font-scale));
     color: #1e3c72;
     max-width: 800px;
     position: relative;
@@ -334,6 +410,7 @@
     constructor() {
       this.slides = [];
       this.currentSlide = 0;
+      this.fontSize = 100; // Default font size percentage
       
       this.modal = document.getElementById('slide-viewer-modal');
       this.slideContent = document.getElementById('slide-content');
@@ -343,6 +420,9 @@
       this.nextBtn = document.getElementById('next-slide');
       this.closeBtn = document.getElementById('close-slideshow');
       this.startBtn = document.getElementById('start-slideshow');
+      this.decreaseFontBtn = document.getElementById('slide-decrease-font');
+      this.resetFontBtn = document.getElementById('slide-reset-font');
+      this.increaseFontBtn = document.getElementById('slide-increase-font');
 
       console.log('SlideViewer elements found:', {
         modal: !!this.modal,
@@ -350,7 +430,10 @@
         prevBtn: !!this.prevBtn,
         nextBtn: !!this.nextBtn,
         closeBtn: !!this.closeBtn,
-        startBtn: !!this.startBtn
+        startBtn: !!this.startBtn,
+        decreaseFontBtn: !!this.decreaseFontBtn,
+        resetFontBtn: !!this.resetFontBtn,
+        increaseFontBtn: !!this.increaseFontBtn
       });
 
       this.init();
@@ -479,6 +562,19 @@
           this.closeSlideshow();
         }
       });
+
+      // Font size adjustment events
+      this.decreaseFontBtn.addEventListener('click', () => {
+        this.adjustFontSize(-20);
+      });
+
+      this.resetFontBtn.addEventListener('click', () => {
+        this.resetFontSize();
+      });
+
+      this.increaseFontBtn.addEventListener('click', () => {
+        this.adjustFontSize(20);
+      });
     }
 
     openSlideshow() {
@@ -537,6 +633,25 @@
       if (this.currentSlide > 0) {
         this.currentSlide--;
         this.showSlide(this.currentSlide);
+      }
+    }
+
+    adjustFontSize(change) {
+      const newSize = Math.max(60, Math.min(500, this.fontSize + change));
+      this.fontSize = newSize;
+      this.applyFontSize();
+    }
+
+    resetFontSize() {
+      this.fontSize = 100;
+      this.applyFontSize();
+    }
+
+    applyFontSize() {
+      const slideContainer = this.modal.querySelector('.slide-content');
+      if (slideContainer) {
+        const scale = this.fontSize / 100;
+        slideContainer.style.setProperty('--font-scale', scale);
       }
     }
   }
