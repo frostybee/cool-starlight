@@ -1,0 +1,471 @@
+---
+// SlideViewer.astro - A component that provides slide presentation functionality
+---
+
+<div id="slide-viewer-trigger">
+  <button id="start-slideshow" class="slide-viewer-button">
+    📽️ View as Slides
+  </button>
+</div>
+
+<div id="slide-viewer-modal" class="slide-modal hidden">
+  <div class="slide-container">
+    <div class="slide-header">
+      <button id="close-slideshow" class="slide-nav-btn close-btn" aria-label="Close slideshow">
+        ✕
+      </button>
+    </div>
+    
+    <div class="slide-content-wrapper">
+      <div id="slide-content" class="slide-content">
+        <!-- Slides will be inserted here -->
+      </div>
+    </div>
+    
+    <div class="slide-navigation">
+      <button id="prev-slide" class="slide-nav-btn" aria-label="Previous slide">
+        ← Previous
+      </button>
+      <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">1</span>
+      </div>
+      <button id="next-slide" class="slide-nav-btn" aria-label="Next slide">
+        Next →
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .slide-viewer-button {
+    background: var(--sl-color-accent);
+    color: var(--sl-color-accent-text);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 1rem 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .slide-viewer-button:hover {
+    background: var(--sl-color-accent-high);
+    transform: translateY(-1px);
+  }
+
+  .slide-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--sl-color-bg);
+    z-index: 2147483647 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slide-modal.hidden {
+    display: none;
+  }
+
+  .slide-container {
+    width: 90%;
+    height: 100vh;
+    background: var(--sl-color-bg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  .slide-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: var(--sl-color-bg-nav);
+    border-bottom: 1px solid var(--sl-color-gray-5);
+  }
+
+  .slide-counter {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--sl-color-text);
+  }
+
+  .slide-content-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--sl-color-gray-3) transparent;
+  }
+
+  .slide-content-wrapper::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .slide-content-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .slide-content-wrapper::-webkit-scrollbar-thumb {
+    background: var(--sl-color-gray-3);
+    border-radius: 4px;
+  }
+
+  .slide-content {
+    padding: 2rem;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .slide-content.transitioning {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  .slide-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: var(--sl-color-bg-nav);
+    border-top: 1px solid var(--sl-color-gray-5);
+  }
+
+  .slide-nav-btn {
+    background: var(--sl-color-accent);
+    color: var(--sl-color-accent-text);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 120px;
+  }
+
+  .slide-nav-btn:hover:not(:disabled) {
+    background: var(--sl-color-accent-high);
+    transform: translateY(-1px);
+  }
+
+  .slide-nav-btn:disabled {
+    background: var(--sl-color-gray-4);
+    color: var(--sl-color-gray-2);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .close-btn {
+    background: var(--sl-color-red);
+    color: white;
+    min-width: auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    padding: 0;
+  }
+
+  .close-btn:hover {
+    background: var(--sl-color-red-high);
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .slide-container {
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+    }
+
+    .slide-header,
+    .slide-navigation {
+      padding: 1rem;
+    }
+
+    .slide-content {
+      padding: 1.5rem;
+    }
+
+    .slide-nav-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      min-width: 100px;
+    }
+
+    .slide-counter {
+      font-size: 1rem;
+    }
+  }
+
+  /* Slide content styling */
+  .slide-content :global(h1),
+  .slide-content :global(h2),
+  .slide-content :global(h3) {
+    margin-top: 0;
+  }
+
+  .slide-content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+
+  .slide-content :global(pre) {
+    font-size: 0.9rem;
+    overflow-x: auto;
+  }
+
+  .slide-content :global(blockquote) {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border-left: 4px solid var(--sl-color-accent);
+    background: var(--sl-color-bg-sidebar);
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
+</style>
+
+<script>
+  class SlideViewer {
+    constructor() {
+      this.slides = [];
+      this.currentSlide = 0;
+      
+      this.modal = document.getElementById('slide-viewer-modal');
+      this.slideContent = document.getElementById('slide-content');
+      this.currentSlideEl = document.getElementById('current-slide');
+      this.totalSlidesEl = document.getElementById('total-slides');
+      this.prevBtn = document.getElementById('prev-slide');
+      this.nextBtn = document.getElementById('next-slide');
+      this.closeBtn = document.getElementById('close-slideshow');
+      this.startBtn = document.getElementById('start-slideshow');
+
+      console.log('SlideViewer elements found:', {
+        modal: !!this.modal,
+        slideContent: !!this.slideContent,
+        prevBtn: !!this.prevBtn,
+        nextBtn: !!this.nextBtn,
+        closeBtn: !!this.closeBtn,
+        startBtn: !!this.startBtn
+      });
+
+      this.init();
+    }
+
+    init() {
+      this.parseSlides();
+      this.bindEvents();
+      
+      if (this.slides.length === 0) {
+        this.startBtn.style.display = 'none';
+      }
+    }
+
+    parseSlides() {
+      const articleContent = document.querySelector('.sl-markdown-content, main .content, article');
+      
+      if (!articleContent) {
+        console.warn('SlideViewer: Could not find article content');
+        return;
+      }
+
+      const content = articleContent.cloneNode(true);
+      
+      // Remove the slide viewer component itself
+      const slideViewerTrigger = content.querySelector('#slide-viewer-trigger');
+      if (slideViewerTrigger) {
+        slideViewerTrigger.remove();
+      }
+
+      const hrElements = content.querySelectorAll('hr');
+      console.log('Found HR elements:', hrElements.length);
+      
+      if (hrElements.length === 0) {
+        // No HR elements, treat entire content as one slide
+        this.slides = [content];
+      } else {
+        // Split content by HR elements
+        this.slides = [];
+        let currentSlideContent = document.createElement('div');
+        
+        Array.from(content.childNodes).forEach((node) => {
+          if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'HR') {
+            if (currentSlideContent.children.length > 0 || (currentSlideContent.textContent && currentSlideContent.textContent.trim())) {
+              this.slides.push(currentSlideContent);
+              currentSlideContent = document.createElement('div');
+            }
+          } else {
+            currentSlideContent.appendChild(node.cloneNode(true));
+          }
+        });
+        
+        if (currentSlideContent.children.length > 0 || (currentSlideContent.textContent && currentSlideContent.textContent.trim())) {
+          this.slides.push(currentSlideContent);
+        }
+      }
+
+      console.log('Parsed slides:', this.slides.length);
+      console.log('Slides content preview:', this.slides.map((slide, index) => ({
+        index: index,
+        childCount: slide.children.length,
+        textLength: slide.textContent ? slide.textContent.length : 0,
+        firstChild: slide.children[0] ? slide.children[0].tagName : 'none'
+      })));
+      this.totalSlidesEl.textContent = this.slides.length.toString();
+    }
+
+    bindEvents() {
+      console.log('Binding events to buttons...');
+      
+      this.startBtn.addEventListener('click', () => {
+        console.log('Start button clicked');
+        this.openSlideshow();
+      });
+      
+      this.closeBtn.addEventListener('click', () => {
+        console.log('Close button clicked');
+        this.closeSlideshow();
+      });
+      
+      this.prevBtn.addEventListener('click', (e) => {
+        console.log('Prev button clicked');
+        e.preventDefault();
+        e.stopPropagation();
+        this.previousSlide();
+      });
+      
+      this.nextBtn.addEventListener('click', (e) => {
+        console.log('Next button clicked');
+        e.preventDefault();
+        e.stopPropagation();
+        this.nextSlide();
+      });
+
+      // Fallback: Also add event listener using direct onclick
+      this.nextBtn.onclick = (e) => {
+        console.log('Next button onclick fired');
+        e.preventDefault();
+        e.stopPropagation();
+        this.nextSlide();
+      };
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (!this.modal.classList.contains('hidden')) {
+          switch(e.key) {
+            case 'Escape':
+              this.closeSlideshow();
+              break;
+            case 'ArrowLeft':
+              e.preventDefault();
+              this.previousSlide();
+              break;
+            case 'ArrowRight':
+              e.preventDefault();
+              this.nextSlide();
+              break;
+          }
+        }
+      });
+
+      // Close modal when clicking outside
+      this.modal.addEventListener('click', (e) => {
+        if (e.target === this.modal) {
+          this.closeSlideshow();
+        }
+      });
+    }
+
+    openSlideshow() {
+      if (this.slides.length === 0) return;
+      
+      this.currentSlide = 0;
+      // Move modal to document body to escape stacking context
+      document.body.appendChild(this.modal);
+      this.modal.classList.remove('hidden');
+      this.showSlide(0);
+      document.body.style.overflow = 'hidden';
+      
+      // Small delay to ensure DOM is ready for interactions
+      setTimeout(() => {
+        this.nextBtn.style.pointerEvents = 'auto';
+        this.prevBtn.style.pointerEvents = 'auto';
+      }, 200);
+    }
+
+    closeSlideshow() {
+      this.modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    showSlide(index) {
+      this.slideContent.classList.add('transitioning');
+      
+      setTimeout(() => {
+        this.slideContent.innerHTML = '';
+        this.slideContent.appendChild(this.slides[index].cloneNode(true));
+        this.currentSlideEl.textContent = (index + 1).toString();
+        
+        // Update navigation buttons
+        this.prevBtn.disabled = index === 0;
+        this.nextBtn.disabled = index === this.slides.length - 1;
+        
+        // Scroll to top of slide
+        const slideWrapper = this.slideContent.parentElement;
+        slideWrapper.scrollTop = 0;
+        
+        this.slideContent.classList.remove('transitioning');
+      }, 150);
+    }
+
+    nextSlide() {
+      console.log('nextSlide called, current:', this.currentSlide, 'total:', this.slides.length);
+      if (this.currentSlide < this.slides.length - 1) {
+        this.currentSlide++;
+        this.showSlide(this.currentSlide);
+      } else {
+        console.log('Cannot go to next slide - already at last slide');
+      }
+    }
+
+    previousSlide() {
+      if (this.currentSlide > 0) {
+        this.currentSlide--;
+        this.showSlide(this.currentSlide);
+      }
+    }
+  }
+
+  // Initialize the SlideViewer
+  function initSlideViewer() {
+    try {
+      new SlideViewer();
+    } catch (error) {
+      console.error('SlideViewer initialization failed:', error);
+    }
+  }
+
+  // Initialize when DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSlideViewer);
+  } else {
+    // DOM is already loaded, initialize immediately
+    initSlideViewer();
+  }
+</script>
