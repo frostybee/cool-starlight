@@ -10,9 +10,35 @@
 
 <div id="slide-viewer-modal" class="slide-modal hidden">
   <div class="slide-container">
-    <div class="slide-content-wrapper">
-      <div id="slide-content" class="slide-content">
-        <!-- Slides will be inserted here -->
+    <div class="slide-toc-sidebar" id="slide-toc-sidebar">
+      <div class="slide-toc-header">
+        <h3>Table of Contents</h3>
+        <button id="toggle-toc" class="toc-toggle-btn" aria-label="Toggle table of contents">
+          ←
+        </button>
+      </div>
+      <div class="slide-toc-content" id="slide-toc-content">
+        <!-- TOC items will be inserted here -->
+      </div>
+    </div>
+    
+    <div class="slide-main-area">
+      <div class="slide-content-wrapper">
+        <div id="slide-content" class="slide-content">
+          <!-- Slides will be inserted here -->
+        </div>
+      </div>
+    </div>
+    
+    <div class="slide-filmstrip-sidebar" id="slide-filmstrip-sidebar">
+      <div class="slide-filmstrip-header">
+        <button id="toggle-filmstrip" class="filmstrip-toggle-btn" aria-label="Toggle filmstrip">
+          →
+        </button>
+        <h3>Slides</h3>
+      </div>
+      <div class="slide-filmstrip-content" id="slide-filmstrip-content">
+        <!-- Filmstrip thumbnails will be inserted here -->
       </div>
     </div>
     
@@ -88,6 +114,227 @@
     margin: 0 auto;
     border-radius: 8px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .slide-toc-sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100%;
+    background: var(--sl-color-bg-sidebar);
+    border-right: 1px solid var(--sl-color-gray-5);
+    z-index: 10;
+    transform: translateX(-250px);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slide-toc-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .slide-toc-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--sl-color-gray-5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--sl-color-bg-nav);
+  }
+
+  .slide-toc-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--sl-color-text);
+  }
+
+  .toc-toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--sl-color-text);
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+
+  .toc-toggle-btn:hover {
+    background: var(--sl-color-gray-6);
+  }
+
+  .slide-toc-sidebar.open .toc-toggle-btn {
+    transform: rotate(180deg);
+  }
+
+  .slide-toc-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem 0;
+  }
+
+  .toc-item {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: var(--sl-color-text);
+    text-decoration: none;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .toc-item:hover {
+    background: var(--sl-color-gray-6);
+  }
+
+  .toc-item.active {
+    background: var(--sl-color-accent-low);
+    color: var(--sl-color-accent);
+    font-weight: 600;
+  }
+
+  .toc-item.h3 {
+    padding-left: 2rem;
+    font-size: 0.85rem;
+    color: var(--sl-color-gray-2);
+  }
+
+  .slide-main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .slide-filmstrip-sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 100%;
+    background: var(--sl-color-bg-sidebar);
+    border-left: 1px solid var(--sl-color-gray-5);
+    z-index: 10;
+    transform: translateX(150px);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slide-filmstrip-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .slide-filmstrip-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--sl-color-gray-5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--sl-color-bg-nav);
+  }
+
+  .slide-filmstrip-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--sl-color-text);
+  }
+
+  .filmstrip-toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--sl-color-text);
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+
+  .filmstrip-toggle-btn:hover {
+    background: var(--sl-color-gray-6);
+  }
+
+  .slide-filmstrip-sidebar.open .filmstrip-toggle-btn {
+    transform: rotate(180deg);
+  }
+
+  .slide-filmstrip-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filmstrip-thumbnail {
+    width: 100%;
+    height: 100px;
+    background: #f8f9fa;
+    border: 2px solid var(--sl-color-gray-4);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .filmstrip-thumbnail:hover {
+    border-color: var(--sl-color-accent);
+    transform: translateX(-2px);
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .filmstrip-thumbnail.active {
+    border-color: var(--sl-color-accent);
+    border-width: 3px;
+    background: var(--sl-color-accent-low);
+  }
+
+  .filmstrip-thumbnail-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: scale(0.12);
+    transform-origin: top left;
+    pointer-events: none;
+    overflow: hidden;
+    background: white;
+    opacity: 0.8;
+  }
+
+  .filmstrip-thumbnail-content > div {
+    width: 833%;
+    height: 833%;
+    padding: 2rem;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .filmstrip-thumbnail-number {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: bold;
   }
 
 
@@ -434,6 +681,12 @@
       this.decreaseFontBtn = document.getElementById('slide-decrease-font');
       this.resetFontBtn = document.getElementById('slide-reset-font');
       this.increaseFontBtn = document.getElementById('slide-increase-font');
+      this.tocSidebar = document.getElementById('slide-toc-sidebar');
+      this.tocContent = document.getElementById('slide-toc-content');
+      this.tocToggleBtn = document.getElementById('toggle-toc');
+      this.filmstripSidebar = document.getElementById('slide-filmstrip-sidebar');
+      this.filmstripContent = document.getElementById('slide-filmstrip-content');
+      this.filmstripToggleBtn = document.getElementById('toggle-filmstrip');
 
       console.log('SlideViewer elements found:', {
         modal: !!this.modal,
@@ -524,6 +777,95 @@
         firstChild: slide.children[0] ? slide.children[0].tagName : 'none'
       })));
       this.totalSlidesEl.textContent = this.slides.length.toString();
+      this.createTableOfContents();
+      this.createFilmstrip();
+    }
+
+    createTableOfContents() {
+      this.tocContent.innerHTML = '';
+      
+      this.slides.forEach((slide, index) => {
+        // Extract the first heading from each slide
+        const heading = slide.querySelector('h1, h2, h3, h4, h5, h6');
+        let title = `Slide ${index + 1}`;
+        let headingLevel = 'h2';
+        
+        if (heading) {
+          title = heading.textContent.trim();
+          headingLevel = heading.tagName.toLowerCase();
+        }
+        
+        const tocItem = document.createElement('button');
+        tocItem.className = `toc-item ${headingLevel}`;
+        tocItem.textContent = title;
+        tocItem.setAttribute('data-slide-index', index);
+        
+        tocItem.addEventListener('click', () => {
+          this.goToSlide(index);
+        });
+        
+        this.tocContent.appendChild(tocItem);
+      });
+      
+      this.updateTocSelection();
+    }
+
+    goToSlide(index) {
+      if (index >= 0 && index < this.slides.length) {
+        this.currentSlide = index;
+        this.showSlide(index);
+        this.updateTocSelection();
+        this.updateFilmstripSelection();
+      }
+    }
+
+    createFilmstrip() {
+      this.filmstripContent.innerHTML = '';
+      
+      this.slides.forEach((slide, index) => {
+        const thumbnail = document.createElement('div');
+        thumbnail.className = 'filmstrip-thumbnail';
+        thumbnail.setAttribute('data-slide-index', index);
+        
+        // Create thumbnail content
+        const thumbnailContent = document.createElement('div');
+        thumbnailContent.className = 'filmstrip-thumbnail-content';
+        
+        const slideClone = slide.cloneNode(true);
+        const contentDiv = document.createElement('div');
+        contentDiv.appendChild(slideClone);
+        thumbnailContent.appendChild(contentDiv);
+        
+        // Create slide number
+        const thumbnailNumber = document.createElement('div');
+        thumbnailNumber.className = 'filmstrip-thumbnail-number';
+        thumbnailNumber.textContent = (index + 1).toString();
+        
+        thumbnail.appendChild(thumbnailContent);
+        thumbnail.appendChild(thumbnailNumber);
+        
+        thumbnail.addEventListener('click', () => {
+          this.goToSlide(index);
+        });
+        
+        this.filmstripContent.appendChild(thumbnail);
+      });
+      
+      this.updateFilmstripSelection();
+    }
+
+    updateTocSelection() {
+      const tocItems = this.tocContent.querySelectorAll('.toc-item');
+      tocItems.forEach((item, index) => {
+        item.classList.toggle('active', index === this.currentSlide);
+      });
+    }
+
+    updateFilmstripSelection() {
+      const filmstripItems = this.filmstripContent.querySelectorAll('.filmstrip-thumbnail');
+      filmstripItems.forEach((item, index) => {
+        item.classList.toggle('active', index === this.currentSlide);
+      });
     }
 
     bindEvents() {
@@ -600,6 +942,16 @@
       this.increaseFontBtn.addEventListener('click', () => {
         this.adjustFontSize(20);
       });
+
+      // TOC toggle functionality
+      this.tocToggleBtn.addEventListener('click', () => {
+        this.tocSidebar.classList.toggle('open');
+      });
+
+      // Filmstrip toggle functionality
+      this.filmstripToggleBtn.addEventListener('click', () => {
+        this.filmstripSidebar.classList.toggle('open');
+      });
     }
 
     openSlideshow() {
@@ -641,6 +993,8 @@
         slideWrapper.scrollTop = 0;
         
         this.slideContent.classList.remove('transitioning');
+        this.updateTocSelection();
+        this.updateFilmstripSelection();
       }, 150);
     }
 
