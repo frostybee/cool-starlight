@@ -7,9 +7,7 @@ class SlideViewer {
 
     this.modal = document.getElementById('slide-viewer-modal');
     this.slideContent = document.getElementById('slide-content');
-    this.currentSlideEl = document.getElementById('current-slide');
     this.totalSlidesEl = document.getElementById('total-slides');
-    this.slideNumberIndicator = document.getElementById('slide-number-indicator');
     this.prevBtn = document.getElementById('prev-slide');
     this.nextBtn = document.getElementById('next-slide');
     this.closeBtn = document.getElementById('close-slideshow');
@@ -35,9 +33,9 @@ class SlideViewer {
       nextBtn: !!this.nextBtn,
       closeBtn: !!this.closeBtn,
       startBtn: !!this.startBtn,
-      decreaseFontBtn: !!this.decreaseFontBtn,
-      resetFontBtn: !!this.resetFontBtn,
-      increaseFontBtn: !!this.increaseFontBtn,
+      slideInput: !!this.slideInput,
+      gotoModal: !!this.gotoModal,
+      gotoInput: !!this.gotoInput,
     });
 
     this.init();
@@ -119,8 +117,8 @@ class SlideViewer {
     this.totalSlidesEl.textContent = this.slides.length.toString();
     
     // Update input max values
-    this.slideInput.max = this.slides.length;
-    this.gotoInput.max = this.slides.length;
+    this.slideInput.setAttribute('max', this.slides.length.toString());
+    this.gotoInput.setAttribute('max', this.slides.length.toString());
     
     this.createTableOfContents();
   }
@@ -278,8 +276,12 @@ class SlideViewer {
       this.closeSlideshow();
     });
 
-    this.fullscreenBtn.addEventListener('click', () => {
+    this.fullscreenBtn.addEventListener('click', (e) => {
       console.log('Fullscreen button clicked');
+      // Prevent if this was triggered by ESC key somehow
+      if (e.detail === 0 && (e.key === 'Escape' || e.code === 'Escape')) {
+        return;
+      }
       this.toggleFullscreen();
     });
 
@@ -305,23 +307,49 @@ class SlideViewer {
       this.nextSlide();
     };
 
-    // High priority ESC handler for goto modal (capture phase)
-    document.addEventListener('keydown', (e) => {
-      if (!this.modal.classList.contains('hidden') && 
-          e.key === 'Escape' && 
-          !this.gotoModal.classList.contains('hidden')) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        this.closeGotoModal();
+    // Try to intercept ESC key at document level before any other handlers
+    const escHandler = (e) => {
+      if (e.key === 'Escape' && !this.modal.classList.contains('hidden')) {
+        const gotoModalOpen = !this.gotoModal.classList.contains('hidden');
+        const slideInputActive = !this.slideInput.hasAttribute('readonly');
+        
+        if (gotoModalOpen || slideInputActive) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          
+          // Close the modal/input
+          if (gotoModalOpen) {
+            this.closeGotoModal();
+          } else if (slideInputActive) {
+            this.deactivateSlideInput();
+          }
+          
+          // Immediately re-enter fullscreen if it was exited
+          setTimeout(() => {
+            if (!this.isFullscreen()) {
+              this.requestFullscreen();
+            }
+          }, 100);
+          
+          return false;
+        }
       }
-    }, true); // Use capture phase for higher priority
+    };
+    
+    // Add multiple event listeners with different priorities
+    document.addEventListener('keydown', escHandler, true);
+    window.addEventListener('keydown', escHandler, true);
+    document.documentElement.addEventListener('keydown', escHandler, true);
 
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (!this.modal.classList.contains('hidden')) {
         switch(e.key) {
           case 'Escape':
-            if (this.gotoModal.classList.contains('hidden')) {
+            // Only close slideshow if no goto inputs are open
+            if (this.gotoModal.classList.contains('hidden') && 
+                this.slideInput.hasAttribute('readonly')) {
               e.preventDefault();
               this.closeSlideshow();
             }
@@ -408,7 +436,26 @@ class SlideViewer {
       }
     });
 
+    // Handle spinner buttons and direct input changes
+    this.slideInput.addEventListener('input', (e) => {
+      if (!this.slideInput.hasAttribute('readonly')) {
+        // Small delay to allow for rapid clicking of spinner buttons
+        clearTimeout(this.slideInputTimeout);
+        this.slideInputTimeout = setTimeout(() => {
+          this.goToSlideFromInput(this.slideInput);
+        }, 500);
+      }
+    });
+
+    this.slideInput.addEventListener('change', (e) => {
+      if (!this.slideInput.hasAttribute('readonly')) {
+        clearTimeout(this.slideInputTimeout);
+        this.goToSlideFromInput(this.slideInput);
+      }
+    });
+
     this.slideInput.addEventListener('blur', () => {
+      clearTimeout(this.slideInputTimeout);
       this.deactivateSlideInput();
     });
 
@@ -435,6 +482,7 @@ class SlideViewer {
         this.closeGotoModal();
       }
     });
+
   }
 
   openSlideshow() {
@@ -482,21 +530,14 @@ class SlideViewer {
       }
       
       this.slideContent.appendChild(slideClone);
-      this.currentSlideEl.textContent = (index + 1).toString();
-      this.slideNumberIndicator.textContent = (index + 1).toString();
+      this.slideInput.value = (index + 1).toString();
 
       // Animate the slide counter
-      const slideCounter = this.currentSlideEl.parentElement;
+      const slideCounter = this.slideInput.parentElement;
       slideCounter.classList.add('animating');
       setTimeout(() => {
         slideCounter.classList.remove('animating');
       }, 2000);
-
-      // Animate the slide number indicator
-      this.slideNumberIndicator.classList.add('animating');
-      setTimeout(() => {
-        this.slideNumberIndicator.classList.remove('animating');
-      }, 600);
 
       // Update navigation buttons
       this.prevBtn.disabled = index === 0;
@@ -641,34 +682,67 @@ class SlideViewer {
   }
 
   goToSlideFromInput(inputElement) {
-    const slideNumber = inputElement.value;
-    if (slideNumber && this.goToSlideNumber(slideNumber)) {
-      this.deactivateSlideInput();
-      this.closeGotoModal();
-    } else {
-      // Show error feedback
+    const slideNumber = parseInt(inputElement.value);
+    
+    // Custom validation
+    if (isNaN(slideNumber) || slideNumber < 1 || slideNumber > this.slides.length) {
+      // Show error feedback with helpful message
+      console.log(`Invalid slide number: ${inputElement.value}. Must be between 1 and ${this.slides.length}`);
       inputElement.style.borderColor = '#ef4444';
       inputElement.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.3)';
+      
+      // Show tooltip with error message
+      const existingTooltip = inputElement.parentElement.querySelector('.error-tooltip');
+      if (existingTooltip) existingTooltip.remove();
+      
+      const tooltip = document.createElement('div');
+      tooltip.className = 'error-tooltip';
+      tooltip.textContent = `Enter a number between 1 and ${this.slides.length}`;
+      tooltip.style.cssText = `
+        position: absolute;
+        top: -35px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #ef4444;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        white-space: nowrap;
+        z-index: 1000;
+      `;
+      inputElement.parentElement.style.position = 'relative';
+      inputElement.parentElement.appendChild(tooltip);
+      
       setTimeout(() => {
         inputElement.style.borderColor = '';
         inputElement.style.boxShadow = '';
-      }, 1000);
+        if (tooltip.parentElement) {
+          tooltip.remove();
+        }
+      }, 2000);
+      
       inputElement.select();
+      return;
+    }
+    
+    // Valid input - proceed with navigation
+    if (this.goToSlideNumber(slideNumber)) {
+      this.deactivateSlideInput();
+      this.closeGotoModal();
     }
   }
 
   activateSlideInput() {
-    this.currentSlideEl.classList.add('hidden');
-    this.slideInput.classList.remove('hidden');
+    this.slideInput.removeAttribute('readonly');
     this.slideInput.value = this.currentSlide + 1;
     this.slideInput.focus();
     this.slideInput.select();
   }
 
   deactivateSlideInput() {
-    this.slideInput.classList.add('hidden');
-    this.currentSlideEl.classList.remove('hidden');
-    this.slideInput.value = '';
+    this.slideInput.setAttribute('readonly', 'true');
+    this.slideInput.value = this.currentSlide + 1;
   }
 
   openGotoModal() {
@@ -682,6 +756,7 @@ class SlideViewer {
     this.gotoModal.classList.add('hidden');
     this.gotoInput.value = '';
   }
+
 }
 
 // Initialize the SlideViewer
