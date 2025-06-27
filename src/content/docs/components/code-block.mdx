@@ -7,6 +7,10 @@ sidebar:
 ---
 import { Steps, Aside } from '@astrojs/starlight/components';
 
+import SlideViewer from '../../../components/SlideViewer.astro';
+
+
+<SlideViewer />
 
 
 ## 1. Selectors
@@ -33,6 +37,8 @@ const button = document.createElement('button');
 button.textContent = 'Click me';
 document.body.appendChild(button);
 ```
+
+--- 
 
 ```php
 <?php
@@ -83,6 +89,7 @@ try {
 }
 ```
 
+---
 
 ```php title="Example: Handling exceptions in PHP"
 try {
