@@ -118,6 +118,8 @@
     --toc-number-bg: var(--sl-color-accent);
     --toc-number-text: var(--sl-color-accent-text);
     --toc-number-shadow: rgba(79, 70, 229, 0.4);
+    --slide-text-color: #ffffff;
+    --slide-heading-color: #ffffff;
   }
 
   /* Additional dark theme support for common dark mode patterns */
@@ -136,6 +138,8 @@
       --toc-number-bg: var(--sl-color-accent);
       --toc-number-text: var(--sl-color-accent-text);
       --toc-number-shadow: rgba(79, 70, 229, 0.4);
+      --slide-text-color: #ffffff;
+      --slide-heading-color: #ffffff;
     }
   }
 
@@ -463,7 +467,7 @@
 
   .slide-input {
     display: inline-block;
-    width: 4ch;
+    width: 6ch;
     background: var(--sl-color-bg);
     border: 2px solid var(--sl-color-accent);
     border-radius: 0.25rem;
@@ -471,7 +475,7 @@
     font-size: 2.1rem;
     font-weight: 600;
     color: var(--sl-color-text);
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 0.75rem;
     margin: 0;
     vertical-align: baseline;
   }
@@ -887,7 +891,7 @@
     font-size: 5rem;
     font-weight: 700;
     line-height: 1.2;
-    color: var(--sl-color-text);
+    color: var(--slide-heading-color, var(--sl-color-text));
     text-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
   }
 
@@ -904,7 +908,7 @@
     font-size: 4rem;
     font-weight: 600;
     line-height: 1.3;
-    color: var(--sl-color-text);
+    color: var(--slide-heading-color, var(--sl-color-text));
   }
 
   .slide-content :global(h2 a),
@@ -920,7 +924,7 @@
     font-size: 3rem;
     font-weight: 600;
     line-height: 1.3;
-    color: var(--sl-color-text);
+    color: var(--slide-heading-color, var(--sl-color-text));
   }
 
   .slide-content :global(h3 a),
@@ -936,7 +940,7 @@
     font-size: 2.5rem;
     font-weight: 500;
     line-height: 1.4;
-    color: var(--sl-color-text);
+    color: var(--slide-heading-color, var(--sl-color-text));
   }
 
   .slide-content :global(h4 a),
@@ -951,7 +955,7 @@
     font-size: calc(1.8rem * var(--font-scale));
     line-height: 1.6;
     margin: 0 0 1.5rem 0;
-    color: var(--sl-color-text);
+    color: var(--slide-text-color, var(--sl-color-text));
     width: 100%;
   }
 
@@ -959,7 +963,7 @@
     font-size: calc(1.8rem * var(--font-scale));
     line-height: 1.6;
     margin: 0.5rem 0;
-    color: var(--sl-color-text);
+    color: var(--slide-text-color, var(--sl-color-text));
   }
 
   .slide-content :global(ul),
@@ -1034,7 +1038,7 @@
     border-radius: 0 8px 8px 0;
     font-style: italic;
     font-size: calc(1.6rem * var(--font-scale));
-    color: var(--sl-color-text);
+    color: var(--slide-text-color, var(--sl-color-text));
     width: 100%;
     position: relative;
   }
