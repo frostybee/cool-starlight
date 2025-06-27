@@ -13,6 +13,7 @@ class SlideViewer {
     this.prevBtn = document.getElementById('prev-slide');
     this.nextBtn = document.getElementById('next-slide');
     this.closeBtn = document.getElementById('close-slideshow');
+    this.fullscreenBtn = document.getElementById('toggle-fullscreen');
     this.startBtn = document.getElementById('start-slideshow');
     this.decreaseFontBtn = document.getElementById('slide-decrease-font');
     this.resetFontBtn = document.getElementById('slide-reset-font');
@@ -20,6 +21,12 @@ class SlideViewer {
     this.tocSidebar = document.getElementById('slide-toc-sidebar');
     this.tocContent = document.getElementById('slide-toc-content');
     this.tocToggleBtn = document.getElementById('toggle-toc');
+    this.slideCounter = document.getElementById('slide-counter');
+    this.slideInput = document.getElementById('slide-input');
+    this.gotoModal = document.getElementById('goto-slide-modal');
+    this.gotoInput = document.getElementById('goto-slide-input');
+    this.gotoConfirm = document.getElementById('goto-confirm');
+    this.gotoCancel = document.getElementById('goto-cancel');
 
     console.log('SlideViewer elements found:', {
       modal: !!this.modal,
@@ -110,6 +117,11 @@ class SlideViewer {
       firstChild: slide.children[0] ? slide.children[0].tagName : 'none'
     })));
     this.totalSlidesEl.textContent = this.slides.length.toString();
+    
+    // Update input max values
+    this.slideInput.max = this.slides.length;
+    this.gotoInput.max = this.slides.length;
+    
     this.createTableOfContents();
   }
 
@@ -266,6 +278,11 @@ class SlideViewer {
       this.closeSlideshow();
     });
 
+    this.fullscreenBtn.addEventListener('click', () => {
+      console.log('Fullscreen button clicked');
+      this.toggleFullscreen();
+    });
+
     this.prevBtn.addEventListener('click', (e) => {
       console.log('Prev button clicked');
       e.preventDefault();
@@ -288,23 +305,47 @@ class SlideViewer {
       this.nextSlide();
     };
 
+    // High priority ESC handler for goto modal (capture phase)
+    document.addEventListener('keydown', (e) => {
+      if (!this.modal.classList.contains('hidden') && 
+          e.key === 'Escape' && 
+          !this.gotoModal.classList.contains('hidden')) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        this.closeGotoModal();
+      }
+    }, true); // Use capture phase for higher priority
+
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (!this.modal.classList.contains('hidden')) {
         switch(e.key) {
           case 'Escape':
-            e.preventDefault();
-            this.closeSlideshow();
+            if (this.gotoModal.classList.contains('hidden')) {
+              e.preventDefault();
+              this.closeSlideshow();
+            }
             break;
           case 'ArrowLeft':
           case 'PageUp':
-            e.preventDefault();
-            this.previousSlide();
+            if (this.gotoModal.classList.contains('hidden')) {
+              e.preventDefault();
+              this.previousSlide();
+            }
             break;
           case 'ArrowRight':
           case 'PageDown':
-            e.preventDefault();
-            this.nextSlide();
+            if (this.gotoModal.classList.contains('hidden')) {
+              e.preventDefault();
+              this.nextSlide();
+            }
+            break;
+          case 'g':
+          case 'G':
+            if (this.gotoModal.classList.contains('hidden')) {
+              e.preventDefault();
+              this.openGotoModal();
+            }
             break;
         }
       }
@@ -342,6 +383,56 @@ class SlideViewer {
         if (!this.tocToggleBtn.contains(e.target)) {
           this.tocSidebar.classList.remove('collapsed');
         }
+      }
+    });
+
+    // Clickable counter functionality
+    this.slideCounter.addEventListener('click', (e) => {
+      if (e.target === this.slideCounter || this.slideCounter.contains(e.target)) {
+        this.activateSlideInput();
+      }
+    });
+
+    // Right-click context menu for counter
+    this.slideCounter.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      this.openGotoModal();
+    });
+
+    // Slide input functionality
+    this.slideInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        this.goToSlideFromInput(this.slideInput);
+      } else if (e.key === 'Escape') {
+        this.deactivateSlideInput();
+      }
+    });
+
+    this.slideInput.addEventListener('blur', () => {
+      this.deactivateSlideInput();
+    });
+
+    // Goto modal functionality
+    this.gotoConfirm.addEventListener('click', () => {
+      this.goToSlideFromInput(this.gotoInput);
+    });
+
+    this.gotoCancel.addEventListener('click', () => {
+      this.closeGotoModal();
+    });
+
+    this.gotoInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        this.goToSlideFromInput(this.gotoInput);
+      } else if (e.key === 'Escape') {
+        this.closeGotoModal();
+      }
+    });
+
+    // Close goto modal when clicking outside
+    this.gotoModal.addEventListener('click', (e) => {
+      if (e.target === this.gotoModal) {
+        this.closeGotoModal();
       }
     });
   }
@@ -482,6 +573,21 @@ class SlideViewer {
     }
   }
 
+  toggleFullscreen() {
+    if (this.isFullscreen()) {
+      this.exitFullscreen();
+    } else {
+      this.requestFullscreen();
+    }
+  }
+
+  isFullscreen() {
+    return !!(document.fullscreenElement || 
+              document.mozFullScreenElement || 
+              document.webkitFullscreenElement || 
+              document.msFullscreenElement);
+  }
+
   requestFullscreen() {
     const element = document.documentElement;
     
@@ -522,6 +628,59 @@ class SlideViewer {
         console.log('Error attempting to exit fullscreen:', err);
       });
     }
+  }
+
+  // Go to slide functionality
+  goToSlideNumber(slideNumber) {
+    const index = parseInt(slideNumber) - 1; // Convert to 0-based index
+    if (index >= 0 && index < this.slides.length) {
+      this.goToSlide(index);
+      return true;
+    }
+    return false;
+  }
+
+  goToSlideFromInput(inputElement) {
+    const slideNumber = inputElement.value;
+    if (slideNumber && this.goToSlideNumber(slideNumber)) {
+      this.deactivateSlideInput();
+      this.closeGotoModal();
+    } else {
+      // Show error feedback
+      inputElement.style.borderColor = '#ef4444';
+      inputElement.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.3)';
+      setTimeout(() => {
+        inputElement.style.borderColor = '';
+        inputElement.style.boxShadow = '';
+      }, 1000);
+      inputElement.select();
+    }
+  }
+
+  activateSlideInput() {
+    this.currentSlideEl.classList.add('hidden');
+    this.slideInput.classList.remove('hidden');
+    this.slideInput.value = this.currentSlide + 1;
+    this.slideInput.focus();
+    this.slideInput.select();
+  }
+
+  deactivateSlideInput() {
+    this.slideInput.classList.add('hidden');
+    this.currentSlideEl.classList.remove('hidden');
+    this.slideInput.value = '';
+  }
+
+  openGotoModal() {
+    this.gotoModal.classList.remove('hidden');
+    this.gotoInput.value = this.currentSlide + 1;
+    this.gotoInput.focus();
+    this.gotoInput.select();
+  }
+
+  closeGotoModal() {
+    this.gotoModal.classList.add('hidden');
+    this.gotoInput.value = '';
   }
 }
 
