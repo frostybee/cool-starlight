@@ -163,13 +163,13 @@ class SlideViewer {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 24px;
-        height: 24px;
-        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        width: 32px;
+        height: 32px;
+        background: var(--sl-color-accent);
         border-radius: 50%;
-        font-size: 0.75rem;
+        font-size: 1rem;
         font-weight: 700;
-        color: #ffffff;
+        color: var(--sl-color-accent-text);
         flex-shrink: 0;
       `;
 
