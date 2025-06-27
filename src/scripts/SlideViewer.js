@@ -2,7 +2,7 @@ class SlideViewer {
   constructor() {
     this.slides = [];
     this.currentSlide = 0;
-    this.fontSize = 100; // Default font size percentage
+    this.fontSize = this.loadFontSize(); // Load saved font size or use default
 
     this.modal = document.getElementById('slide-viewer-modal');
     this.slideContent = document.getElementById('slide-content');
@@ -292,6 +292,7 @@ class SlideViewer {
       if (!this.modal.classList.contains('hidden')) {
         switch(e.key) {
           case 'Escape':
+            e.preventDefault();
             this.closeSlideshow();
             break;
           case 'ArrowLeft':
@@ -344,6 +345,12 @@ class SlideViewer {
     this.showSlide(0);
     document.body.style.overflow = 'hidden';
 
+    // Apply saved font size when slideshow opens
+    this.applyFontSize();
+
+    // Request fullscreen mode
+    this.requestFullscreen();
+
     // Small delay to ensure DOM is ready for interactions
     setTimeout(() => {
       this.nextBtn.style.pointerEvents = 'auto';
@@ -354,6 +361,9 @@ class SlideViewer {
   closeSlideshow() {
     this.modal.classList.add('hidden');
     document.body.style.overflow = '';
+    
+    // Exit fullscreen if currently in fullscreen
+    this.exitFullscreen();
   }
 
   showSlide(index) {
@@ -406,11 +416,13 @@ class SlideViewer {
   adjustFontSize(change) {
     const newSize = Math.max(60, Math.min(500, this.fontSize + change));
     this.fontSize = newSize;
+    this.saveFontSize();
     this.applyFontSize();
   }
 
   resetFontSize() {
     this.fontSize = 100;
+    this.saveFontSize();
     this.applyFontSize();
   }
 
@@ -419,6 +431,72 @@ class SlideViewer {
     if (slideContainer) {
       const scale = this.fontSize / 100;
       slideContainer.style.setProperty('--font-scale', scale);
+    }
+  }
+
+  loadFontSize() {
+    try {
+      const savedSize = localStorage.getItem('slideViewer-fontSize');
+      if (savedSize) {
+        const parsedSize = parseInt(savedSize, 10);
+        // Validate the saved size is within acceptable bounds
+        if (parsedSize >= 60 && parsedSize <= 500) {
+          return parsedSize;
+        }
+      }
+    } catch (error) {
+      console.log('Error loading font size from localStorage:', error);
+    }
+    return 100; // Default font size percentage
+  }
+
+  saveFontSize() {
+    try {
+      localStorage.setItem('slideViewer-fontSize', this.fontSize.toString());
+    } catch (error) {
+      console.log('Error saving font size to localStorage:', error);
+    }
+  }
+
+  requestFullscreen() {
+    const element = document.documentElement;
+    
+    if (element.requestFullscreen) {
+      element.requestFullscreen().catch(err => {
+        console.log('Error attempting to enable fullscreen:', err);
+      });
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen().catch(err => {
+        console.log('Error attempting to enable fullscreen:', err);
+      });
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen().catch(err => {
+        console.log('Error attempting to enable fullscreen:', err);
+      });
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen().catch(err => {
+        console.log('Error attempting to enable fullscreen:', err);
+      });
+    }
+  }
+
+  exitFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen().catch(err => {
+        console.log('Error attempting to exit fullscreen:', err);
+      });
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen().catch(err => {
+        console.log('Error attempting to exit fullscreen:', err);
+      });
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen().catch(err => {
+        console.log('Error attempting to exit fullscreen:', err);
+      });
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen().catch(err => {
+        console.log('Error attempting to exit fullscreen:', err);
+      });
     }
   }
 }
