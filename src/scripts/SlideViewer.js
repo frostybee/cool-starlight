@@ -8,6 +8,7 @@ class SlideViewer {
     this.modal = document.getElementById('slide-viewer-modal');
     this.slideContent = document.getElementById('slide-content');
     this.totalSlidesEl = document.getElementById('total-slides');
+    this.slideNumberIndicator = document.getElementById('slide-number-indicator');
     this.prevBtn = document.getElementById('prev-slide');
     this.nextBtn = document.getElementById('next-slide');
     this.closeBtn = document.getElementById('close-slideshow');
@@ -531,6 +532,7 @@ class SlideViewer {
       
       this.slideContent.appendChild(slideClone);
       this.slideInput.value = (index + 1).toString();
+      this.slideNumberIndicator.textContent = (index + 1).toString();
 
       // Animate the slide counter
       const slideCounter = this.slideInput.parentElement;
@@ -538,6 +540,12 @@ class SlideViewer {
       setTimeout(() => {
         slideCounter.classList.remove('animating');
       }, 2000);
+
+      // Animate the slide number indicator
+      this.slideNumberIndicator.classList.add('animating');
+      setTimeout(() => {
+        this.slideNumberIndicator.classList.remove('animating');
+      }, 600);
 
       // Update navigation buttons
       this.prevBtn.disabled = index === 0;
