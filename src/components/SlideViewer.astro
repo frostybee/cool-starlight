@@ -557,12 +557,28 @@
     text-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
   }
 
+  .slide-content :global(h1 a),
+  .slide-content :global(h1 a:hover),
+  .slide-content :global(h1 a:visited) {
+    color: inherit;
+    text-decoration: none;
+    pointer-events: none;
+  }
+
   .slide-content :global(h2) {
     margin: 0 0 1rem 0;
     font-size: calc(4rem * var(--font-scale));
     font-weight: 600;
     line-height: 1.3;
     color: #2a5298;
+  }
+
+  .slide-content :global(h2 a),
+  .slide-content :global(h2 a:hover),
+  .slide-content :global(h2 a:visited) {
+    color: inherit;
+    text-decoration: none;
+    pointer-events: none;
   }
 
   .slide-content :global(h3) {
@@ -573,12 +589,28 @@
     color: #1e3c72;
   }
 
+  .slide-content :global(h3 a),
+  .slide-content :global(h3 a:hover),
+  .slide-content :global(h3 a:visited) {
+    color: inherit;
+    text-decoration: none;
+    pointer-events: none;
+  }
+
   .slide-content :global(h4) {
     margin: 0 0 1rem 0;
     font-size: calc(2.5rem * var(--font-scale));
     font-weight: 500;
     line-height: 1.4;
     color: #444;
+  }
+
+  .slide-content :global(h4 a),
+  .slide-content :global(h4 a:hover),
+  .slide-content :global(h4 a:visited) {
+    color: inherit;
+    text-decoration: none;
+    pointer-events: none;
   }
 
   .slide-content :global(p) {
@@ -1049,7 +1081,15 @@
 
       setTimeout(() => {
         this.slideContent.innerHTML = '';
-        this.slideContent.appendChild(this.slides[index].cloneNode(true));
+        const slideClone = this.slides[index].cloneNode(true);
+        
+        // Remove Starlight anchor links from headings
+        const anchorLinks = slideClone.querySelectorAll('.sl-anchor-link');
+        if (anchorLinks.length > 0) {
+          anchorLinks.forEach(link => link.remove());
+        }
+        
+        this.slideContent.appendChild(slideClone);
         this.currentSlideEl.textContent = (index + 1).toString();
 
         // Update navigation buttons
