@@ -333,6 +333,16 @@ class SlideViewer {
     this.tocToggleBtn.addEventListener('click', () => {
       this.tocSidebar.classList.toggle('collapsed');
     });
+
+    // Click on collapsed sidebar to expand
+    this.tocSidebar.addEventListener('click', (e) => {
+      if (this.tocSidebar.classList.contains('collapsed')) {
+        // Don't toggle if clicking on the toggle button itself (prevent double toggle)
+        if (!this.tocToggleBtn.contains(e.target)) {
+          this.tocSidebar.classList.remove('collapsed');
+        }
+      }
+    });
   }
 
   openSlideshow() {
