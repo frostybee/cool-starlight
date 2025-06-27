@@ -252,6 +252,9 @@ class SlideViewer {
           transform: 'translateY(0)',
           boxShadow: '0 4px 12px var(--toc-active-shadow)'
         });
+        
+        // Auto-scroll the TOC to show the active item
+        this.scrollTocToActiveItem(item);
       } else {
         Object.assign(item.style, {
           background: 'var(--toc-bg)',
@@ -262,6 +265,33 @@ class SlideViewer {
         });
       }
     });
+  }
+
+  scrollTocToActiveItem(activeItem) {
+    if (!activeItem || this.tocSidebar.classList.contains('collapsed')) {
+      return;
+    }
+
+    const tocContainer = this.tocContent;
+    const containerRect = tocContainer.getBoundingClientRect();
+    const itemRect = activeItem.getBoundingClientRect();
+    
+    // Calculate if the item is visible in the container
+    const isVisible = itemRect.top >= containerRect.top && 
+                     itemRect.bottom <= containerRect.bottom;
+    
+    if (!isVisible) {
+      // Calculate the scroll position to center the active item
+      const containerHeight = containerRect.height;
+      const itemHeight = itemRect.height;
+      const scrollOffset = activeItem.offsetTop - (containerHeight / 2) + (itemHeight / 2);
+      
+      // Smooth scroll to the calculated position
+      tocContainer.scrollTo({
+        top: Math.max(0, scrollOffset),
+        behavior: 'smooth'
+      });
+    }
   }
 
   bindEvents() {
@@ -286,17 +316,17 @@ class SlideViewer {
       this.toggleFullscreen();
     });
 
-    this.prevBtn.addEventListener('click', (e) => {
+    this.prevBtn.addEventListener('click', (event) => {
       console.log('Prev button clicked');
-      e.preventDefault();
-      e.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
       this.previousSlide();
     });
 
-    this.nextBtn.addEventListener('click', (e) => {
+    this.nextBtn.addEventListener('click', (event) => {
       console.log('Next button clicked');
-      e.preventDefault();
-      e.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
       this.nextSlide();
     });
 
@@ -381,8 +411,8 @@ class SlideViewer {
     });
 
     // Close modal when clicking outside
-    this.modal.addEventListener('click', (e) => {
-      if (e.target === this.modal) {
+    this.modal.addEventListener('click', (event) => {
+      if (event.target === this.modal) {
         this.closeSlideshow();
       }
     });
@@ -478,8 +508,8 @@ class SlideViewer {
     });
 
     // Close goto modal when clicking outside
-    this.gotoModal.addEventListener('click', (e) => {
-      if (e.target === this.gotoModal) {
+    this.gotoModal.addEventListener('click', (event) => {
+      if (event.target === this.gotoModal) {
         this.closeGotoModal();
       }
     });
@@ -771,7 +801,7 @@ class SlideViewer {
 function initSlideViewer() {
   console.log('Initializing SlideViewer...');
   try {
-    const viewer = new SlideViewer();
+    new SlideViewer();
     console.log('SlideViewer initialized successfully');
   } catch (error) {
     console.error('SlideViewer initialization failed:', error);
