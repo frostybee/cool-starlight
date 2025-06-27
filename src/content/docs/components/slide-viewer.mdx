@@ -1,0 +1,221 @@
+---
+title: Slide Viewer
+description: Slide Viewer
+sidebar:
+  label: 'Slide Viewer'
+  order: 6
+---
+
+import SlideViewer from '../../../components/SlideViewer.astro';
+
+
+<SlideViewer />
+
+## 🛡️ User Authentication & Authorization in E-commerce (PHP)
+
+Building Secure User Registration, Login, and Admin Access Control
+
+
+---
+
+### Slide 2: User Registration System
+
+
+#### 📝 User Registration Form
+
+- Collect user data:
+  - Full name
+  - Email (must be unique)
+  - Password (min length, confirm password)
+- Client-side validation (JavaScript)
+- Server-side validation (PHP)
+
+**Example fields:**
+```html
+<input type="email" name="email" required>
+<input type="password" name="password" required>
+<input type="password" name="confirm_password" required>
+```
+
+---
+
+### Slide 3: Hashing Passwords
+
+
+## 🔐 Hashing Passwords with bcrypt
+
+Never store plain-text passwords!
+
+- Use PHP's `password_hash()` and `password_verify()`
+
+```php
+// Registration
+$hash = password_hash($password, PASSWORD_DEFAULT);
+
+// Login
+if (password_verify($enteredPassword, $hash)) {
+    // Success
+}
+```
+
+- Salt and cost are handled automatically
+
+
+---
+
+### Slide 4: Session Management
+
+## 🗂️ Session Management in PHP
+
+- Start session:
+```php
+session_start();
+```
+
+- Store user data after login:
+```php
+$_SESSION['user_id'] = $user['id'];
+$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
+```
+
+- Logout:
+
+```php
+session_destroy();
+```
+
+---
+
+## Slide 5: Admin Panel for Product Management
+
+### 🛠️ Admin Panel Overview
+
+Admin Dashboard Features:
+- Add/edit/delete products
+- View customer orders
+- Manage users
+
+Access control:
+- Only authenticated users with `admin` role can access
+
+**Route protection example:**
+```php
+if ($_SESSION['role'] !== 'admin') {
+    header('Location: unauthorized.php');
+    exit();
+}
+```
+
+---
+
+### Slide 6: Role-Based Access Control (RBAC)
+
+## 🔑 Role-Based Access Control (RBAC)
+
+- Users have assigned roles: `admin`, `customer`, `guest`
+- Define permissions based on role
+
+**Permissions Example:**
+| Role      | Action                |
+|-----------|------------------------|
+| Admin     | Manage all products     |
+| Customer  | View & buy products     |
+| Guest     | Browse products only    |
+
+- Use role checks in your controllers/pages
+
+
+---
+
+### Slide 7: Admin vs Customer Permissions
+
+## 👥 Admin vs Customer Permissions
+
+- **Admin**
+  - Can CRUD products
+  - View and manage orders
+  - Access dashboard
+
+- **Customer**
+  - Can browse and purchase
+  - View order history
+
+- Access Logic:
+
+```php
+if ($_SESSION['role'] === 'admin') {
+    // show admin panel
+} else {
+    // show customer content
+}
+```
+
+---
+
+### Slide 8: Security Considerations
+
+
+## 🛡️ Security Considerations
+
+Common threats in PHP apps:
+- Cross-site scripting (XSS)
+- SQL injection
+
+**✅ Best Practices:**
+- Use `htmlspecialchars()` to escape output
+- Use prepared statements (PDO or MySQLi)
+- Validate and sanitize all inputs
+- Use HTTPS and secure cookies
+
+---
+
+### Slide 9: Preventing SQL Injection
+
+
+## 🧱 Preventing SQL Injection
+
+❌ **Don't do this:**
+```php
+$query = "SELECT * FROM users WHERE email = '$email'";
+```
+
+✅ **Use Prepared Statements:**
+```php
+$stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+$stmt->execute([$email]);
+$user = $stmt->fetch();
+```
+
+- Prevents malicious input from altering SQL queries
+```
+
+---
+
+### Slide 10: Preventing XSS Attacks
+
+## 🧼 Preventing Cross-Site Scripting (XSS)
+
+XSS = Injecting malicious scripts into pages
+
+**How to prevent:**
+- Escape output using `htmlspecialchars()`
+```php
+echo htmlspecialchars($product['name']);
+```
+
+- Sanitize user inputs on forms
+- Use Content Security Policy (CSP) headers
+
+
+---
+
+### Slide 11: Summary
+
+## ✅ Summary
+
+- Built secure **user registration & login system**
+- Managed **user sessions**
+- Created **role-based access control** with admin/customer
+- Secured app against **SQL injection** and **XSS**
+
+🔐 Security is not optional—it's essential.
