@@ -138,8 +138,8 @@ class SlideViewer {
       
       // Apply card styling directly
       Object.assign(tocItem.style, {
-        background: '#f8fafc',
-        border: '2px solid #e2e8f0',
+        background: 'var(--toc-bg)',
+        border: '2px solid var(--toc-border)',
         borderRadius: '8px',
         margin: '8px',
         padding: '12px 16px',
@@ -148,10 +148,10 @@ class SlideViewer {
         width: 'calc(100% - 16px)',
         cursor: 'pointer',
         transition: 'all 0.2s ease',
-        color: 'var(--sl-color-text)',
+        color: 'var(--toc-text)',
         textAlign: 'left',
         fontSize: '0.9rem',
-        fontWeight: '500',
+        fontWeight: 'bold',
         gap: '12px'
       });
 
@@ -185,14 +185,14 @@ class SlideViewer {
         this.goToSlide(index);
       });
       
-      // Add hover effects
+      // Add hover effects using CSS variables
       tocItem.addEventListener('mouseenter', () => {
         if (!tocItem.classList.contains('active')) {
           Object.assign(tocItem.style, {
-            background: '#e0f2fe',
-            borderColor: '#3b82f6',
+            background: 'var(--toc-hover-bg)',
+            borderColor: 'var(--toc-hover-border)',
             transform: 'translateY(-2px)',
-            boxShadow: '0 4px 12px rgba(59, 130, 246, 0.2)'
+            boxShadow: '0 4px 12px var(--toc-hover-shadow)'
           });
         }
       });
@@ -200,8 +200,8 @@ class SlideViewer {
       tocItem.addEventListener('mouseleave', () => {
         if (!tocItem.classList.contains('active')) {
           Object.assign(tocItem.style, {
-            background: '#f8fafc',
-            borderColor: '#e2e8f0',
+            background: 'var(--toc-bg)',
+            borderColor: 'var(--toc-border)',
             transform: 'translateY(0)',
             boxShadow: 'none'
           });
@@ -234,17 +234,17 @@ class SlideViewer {
       
       if (isActive) {
         Object.assign(item.style, {
-          background: '#3b82f6',
-          color: 'white',
-          borderColor: '#1d4ed8',
+          background: 'var(--toc-active-bg)',
+          color: 'var(--toc-active-text)',
+          borderColor: 'var(--toc-active-border)',
           transform: 'translateY(0)',
-          boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)'
+          boxShadow: '0 4px 12px var(--toc-active-shadow)'
         });
       } else {
         Object.assign(item.style, {
-          background: '#f8fafc',
-          color: 'var(--sl-color-text)',
-          borderColor: '#e2e8f0',
+          background: 'var(--toc-bg)',
+          color: 'var(--toc-text)',
+          borderColor: 'var(--toc-border)',
           transform: 'translateY(0)',
           boxShadow: 'none'
         });

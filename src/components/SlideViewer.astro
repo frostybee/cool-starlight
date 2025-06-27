@@ -64,10 +64,66 @@
 </div>
 
 <style>
+  :root {
+    /* TOC Color Variables for Light Theme */
+    --toc-bg: #f8fafc;
+    --toc-border: #e2e8f0;
+    --toc-text: var(--sl-color-text);
+    --toc-hover-bg: #e0f2fe;
+    --toc-hover-border: #3b82f6;
+    --toc-hover-shadow: rgba(59, 130, 246, 0.2);
+    --toc-active-bg: linear-gradient(135deg, #3b82f6, #1e40af);
+    --toc-active-text: #ffffff;
+    --toc-active-border: #1d4ed8;
+    --toc-active-shadow: rgba(59, 130, 246, 0.4);
+    --toc-number-bg: var(--sl-color-accent);
+    --toc-number-text: var(--sl-color-accent-text);
+    --toc-number-shadow: rgba(99, 102, 241, 0.3);
+  }
+
+  /* Dark theme overrides - using multiple selectors for Starlight compatibility */
+  [data-theme="dark"],
+  :root[data-theme="dark"],
+  html[data-theme="dark"],
+  .sl-theme-dark {
+    --toc-bg: #1e293b;
+    --toc-border: #374151;
+    --toc-text: #e2e8f0;
+    --toc-hover-bg: #334155;
+    --toc-hover-border: #3b82f6;
+    --toc-hover-shadow: rgba(59, 130, 246, 0.3);
+    --toc-active-bg: linear-gradient(135deg, #1d4ed8, #1e40af);
+    --toc-active-text: #ffffff;
+    --toc-active-border: #2563eb;
+    --toc-active-shadow: rgba(29, 78, 216, 0.5);
+    --toc-number-bg: var(--sl-color-accent);
+    --toc-number-text: var(--sl-color-accent-text);
+    --toc-number-shadow: rgba(79, 70, 229, 0.4);
+  }
+
+  /* Additional dark theme support for common dark mode patterns */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --toc-bg: #1e293b;
+      --toc-border: #374151;
+      --toc-text: #e2e8f0;
+      --toc-hover-bg: #334155;
+      --toc-hover-border: #3b82f6;
+      --toc-hover-shadow: rgba(59, 130, 246, 0.3);
+      --toc-active-bg: linear-gradient(135deg, #1d4ed8, #1e40af);
+      --toc-active-text: #ffffff;
+      --toc-active-border: #2563eb;
+      --toc-active-shadow: rgba(29, 78, 216, 0.5);
+      --toc-number-bg: var(--sl-color-accent);
+      --toc-number-text: var(--sl-color-accent-text);
+      --toc-number-shadow: rgba(79, 70, 229, 0.4);
+    }
+  }
+
   @layer slide-toc-overrides {
     .toc-item {
-      background: #f8fafc;
-      border: 2px solid #e2e8f0;
+      background: var(--toc-bg);
+      border: 2px solid var(--toc-border);
       border-radius: 8px;
       margin: 8px;
       padding: 12px 16px;
@@ -76,7 +132,7 @@
       width: calc(100% - 16px);
       cursor: pointer;
       transition: all 0.2s ease;
-      color: var(--sl-color-text);
+      color: var(--toc-text);
       text-decoration: none;
       text-align: left;
       font-size: 0.9rem;
@@ -85,17 +141,17 @@
     }
 
     .toc-item:hover {
-      background: #e0f2fe;
-      border-color: #3b82f6;
+      background: var(--toc-hover-bg);
+      border-color: var(--toc-hover-border);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 4px 12px var(--toc-hover-shadow);
     }
 
     .toc-item.active {
-      background: #3b82f6;
-      color: white;
-      border-color: #1d4ed8;
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+      background: var(--toc-active-bg);
+      color: var(--toc-active-text);
+      border-color: var(--toc-active-border);
+      box-shadow: 0 4px 12px var(--toc-active-shadow);
     }
 
     .toc-item.h3 {
@@ -267,14 +323,14 @@
     justify-content: center;
     width: 28px;
     height: 28px;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: var(--toc-number-bg);
     border-radius: 50%;
     font-size: 0.75rem;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--toc-number-text);
     flex-shrink: 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 2px 10px var(--toc-number-shadow);
     border: 2px solid rgba(255, 255, 255, 0.2);
     position: relative;
     overflow: hidden;
