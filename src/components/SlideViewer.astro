@@ -79,7 +79,7 @@
 
   .slide-container {
     width: 98%;
-    max-width: 1800px;
+    max-width: 100vw;
     height: 100vh;
     background: rgba(255, 255, 255, 0.95);
     display: flex;
@@ -123,10 +123,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     text-align: left;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    max-width: 1200px;
+    /*max-width: 1200px;*/
     margin: 0 auto;
   }
 
@@ -317,7 +317,7 @@
     line-height: 1.6;
     margin: 0 0 1.5rem 0;
     color: #333;
-    max-width: 800px;
+    max-width: calc(800px * var(--font-scale));
   }
 
   .slide-content :global(li) {
