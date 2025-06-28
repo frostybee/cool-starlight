@@ -2,7 +2,7 @@ class SlideViewer {
   constructor() {
     this.slides = [];
     this.currentSlide = 0;
-    this.fontSize = this.loadFontSize(); // Load saved font size or use default
+    this.fontSize = this.loadFontSize(); // Load saved font size or use default.
 
 
     this.modal = document.getElementById('slide-viewer-modal');
@@ -65,7 +65,7 @@ class SlideViewer {
 
     const content = articleContent.cloneNode(true);
 
-    // Remove the slide viewer component itself
+    // Remove the slide viewer component itself.
     const slideViewerTrigger = content.querySelector('#slide-viewer-trigger');
     if (slideViewerTrigger) {
       slideViewerTrigger.remove();
