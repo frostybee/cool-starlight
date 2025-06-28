@@ -30,6 +30,7 @@ class SlideViewer {
     this.searchInput = document.getElementById('slide-search-input');
     this.clearSearchBtn = document.getElementById('clear-search');
     this.toggleReadingModeBtn = document.getElementById('toggle-reading-mode');
+    this.showThumbnailsBtn = document.getElementById('show-thumbnails');
 
     console.log('SlideViewer elements found:', {
       modal: !!this.modal,
@@ -44,6 +45,7 @@ class SlideViewer {
       searchInput: !!this.searchInput,
       clearSearchBtn: !!this.clearSearchBtn,
       toggleReadingModeBtn: !!this.toggleReadingModeBtn,
+      showThumbnailsBtn: !!this.showThumbnailsBtn,
     });
 
     this.init();
@@ -673,6 +675,19 @@ class SlideViewer {
       });
     } else {
       console.warn('Toggle reading mode button not found!');
+    }
+
+    // Show thumbnails button event
+    if (this.showThumbnailsBtn) {
+      console.log('Binding click event to show thumbnails button');
+      this.showThumbnailsBtn.addEventListener('click', (e) => {
+        console.log('Show thumbnails button clicked!', e);
+        e.preventDefault();
+        e.stopPropagation();
+        this.goToSlide(0); // Go to the first slide (thumbnails overview)
+      });
+    } else {
+      console.warn('Show thumbnails button not found!');
     }
 
   }
