@@ -26,6 +26,8 @@ class SlideViewer {
     this.gotoInput = document.getElementById('goto-slide-input');
     this.gotoConfirm = document.getElementById('goto-confirm');
     this.gotoCancel = document.getElementById('goto-cancel');
+    this.searchInput = document.getElementById('slide-search-input');
+    this.clearSearchBtn = document.getElementById('clear-search');
 
     console.log('SlideViewer elements found:', {
       modal: !!this.modal,
@@ -37,6 +39,8 @@ class SlideViewer {
       slideInput: !!this.slideInput,
       gotoModal: !!this.gotoModal,
       gotoInput: !!this.gotoInput,
+      searchInput: !!this.searchInput,
+      clearSearchBtn: !!this.clearSearchBtn,
     });
 
     this.init();
@@ -121,29 +125,29 @@ class SlideViewer {
       const previewSlide = this.createPreviewSlide();
       this.slides.unshift(previewSlide);
     }
-    
+
     this.totalSlidesEl.textContent = this.slides.length.toString();
-    
+
     // Update input max values
     this.slideInput.setAttribute('max', this.slides.length.toString());
     this.gotoInput.setAttribute('max', this.slides.length.toString());
-    
+
     this.createTableOfContents();
   }
 
   createPreviewSlide() {
     const previewContainer = document.createElement('div');
     previewContainer.className = 'slide-preview-container';
-    
+
     // Create title for preview slide
     const title = document.createElement('h1');
     title.textContent = 'Slide Overview';
     previewContainer.appendChild(title);
-    
+
     // Create grid container
     const grid = document.createElement('div');
     grid.className = 'slide-preview-grid';
-    
+
     // Ensure grid layout with inline styles as fallback
     grid.style.cssText = `
       display: grid !important;
@@ -153,14 +157,14 @@ class SlideViewer {
       padding: 1rem !important;
       width: 100% !important;
     `;
-    
+
     // Create thumbnails for each slide (excluding the preview slide itself)
     // Since preview slide will be inserted at index 0, content slides will be at indices 1, 2, 3...
     this.slides.forEach((slide, index) => {
       const thumbnail = this.createSlideThumbnail(slide, index + 1); // This will be the slide index after preview insertion
       grid.appendChild(thumbnail);
     });
-    
+
     previewContainer.appendChild(grid);
     return previewContainer;
   }
@@ -169,10 +173,10 @@ class SlideViewer {
     const thumbnail = document.createElement('div');
     thumbnail.className = 'slide-thumbnail';
     thumbnail.setAttribute('data-slide-number', slideNumber);
-    
+
     // Store reference to the slide viewer instance
     const slideViewer = this;
-    
+
     // Add inline styles to ensure proper display
     thumbnail.style.cssText = `
       border: 2px solid var(--sl-color-gray-5);
@@ -187,7 +191,7 @@ class SlideViewer {
       flex-direction: column !important;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     `;
-    
+
     // Add slide number badge
     const badge = document.createElement('div');
     badge.className = 'slide-thumbnail-badge';
@@ -209,7 +213,7 @@ class SlideViewer {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     `;
     thumbnail.appendChild(badge);
-    
+
     // Create content preview
     const content = document.createElement('div');
     content.className = 'slide-thumbnail-content';
@@ -219,11 +223,54 @@ class SlideViewer {
       font-size: 0.7rem;
       line-height: 1.3;
       color: var(--sl-color-text);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     `;
-    
-    // Clone and scale down the slide content
+
+    // Clone the slide content
     const slideClone = slide.cloneNode(true);
-    
+
+    // Extract the first heading for prominent display
+    const heading = slideClone.querySelector('h1, h2, h3, h4, h5, h6');
+    let headingText = '';
+    if (heading) {
+      headingText = heading.textContent.trim();
+      heading.remove(); // Remove from cloned content
+    }
+
+    // Create heading element for thumbnail
+    if (headingText) {
+      const thumbnailHeading = document.createElement('div');
+      thumbnailHeading.className = 'slide-thumbnail-heading';
+      thumbnailHeading.textContent = headingText;
+      thumbnailHeading.style.cssText = `
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--sl-color-accent);
+        line-height: 1.2;
+        margin-bottom: 8px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      `;
+      content.appendChild(thumbnailHeading);
+    }
+
+    // Create body content container
+    const bodyContent = document.createElement('div');
+    bodyContent.className = 'slide-thumbnail-body';
+    bodyContent.style.cssText = `
+      flex: 1;
+      overflow: hidden;
+      font-size: 0.6rem;
+      line-height: 1.3;
+      color: var(--sl-color-text-light);
+      opacity: 0.8;
+    `;
+
     // Remove or simplify complex elements for thumbnail
     const codeBlocks = slideClone.querySelectorAll('pre, code');
     codeBlocks.forEach(block => {
@@ -232,52 +279,53 @@ class SlideViewer {
       placeholder.className = 'code-placeholder';
       block.parentNode.replaceChild(placeholder, block);
     });
-    
-    // Limit content length for thumbnail
-    const textContent = slideClone.textContent || '';
-    if (textContent.length > 200) {
-      slideClone.textContent = textContent.substring(0, 200) + '...';
+
+    // Limit content length for thumbnail body
+    const remainingTextContent = slideClone.textContent || '';
+    if (remainingTextContent.length > 150) {
+      slideClone.textContent = remainingTextContent.substring(0, 150) + '...';
     }
-    
-    content.appendChild(slideClone);
+
+    bodyContent.appendChild(slideClone);
+    content.appendChild(bodyContent);
     thumbnail.appendChild(content);
-    
-    
+
+
     // Add click handler for navigation
     const clickHandler = (event) => {
       event.preventDefault();
       event.stopPropagation();
       slideViewer.goToSlide(slideNumber);
     };
-    
+
     // Try multiple event binding methods
     thumbnail.addEventListener('click', clickHandler);
     thumbnail.onclick = clickHandler;
-    
+
     // Also try binding to the badge and content separately
     badge.addEventListener('click', clickHandler);
     content.addEventListener('click', clickHandler);
-    
+
     // Ensure clickability with CSS
     thumbnail.style.pointerEvents = 'auto';
     thumbnail.style.cursor = 'pointer';
     thumbnail.style.userSelect = 'none';
     thumbnail.style.webkitUserSelect = 'none';
-    
-    
+
+
     // Add hover effects
     thumbnail.addEventListener('mouseenter', () => {
       thumbnail.style.transform = 'translateY(-5px)';
       thumbnail.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
       thumbnail.style.borderColor = 'var(--sl-color-accent)';
     });
-    
+
     thumbnail.addEventListener('mouseleave', () => {
       thumbnail.style.transform = 'translateY(0)';
       thumbnail.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
       thumbnail.style.borderColor = 'var(--sl-color-gray-5)';
     });
-    
+
     return thumbnail;
   }
 
@@ -308,7 +356,7 @@ class SlideViewer {
       const tocItem = document.createElement('button');
       tocItem.className = `toc-item ${headingLevel}`;
       tocItem.setAttribute('data-slide-index', index);
-      
+
       // Apply card styling directly
       Object.assign(tocItem.style, {
         background: 'var(--toc-bg)',
@@ -357,7 +405,7 @@ class SlideViewer {
       tocItem.addEventListener('click', () => {
         this.goToSlide(index);
       });
-      
+
       // Add hover effects using CSS variables
       tocItem.addEventListener('mouseenter', () => {
         if (!tocItem.classList.contains('active')) {
@@ -369,7 +417,7 @@ class SlideViewer {
           });
         }
       });
-      
+
       tocItem.addEventListener('mouseleave', () => {
         if (!tocItem.classList.contains('active')) {
           Object.assign(tocItem.style, {
@@ -404,7 +452,7 @@ class SlideViewer {
     tocItems.forEach((item, index) => {
       const isActive = index === this.currentSlide;
       item.classList.toggle('active', isActive);
-      
+
       if (isActive) {
         Object.assign(item.style, {
           background: 'var(--toc-active-bg)',
@@ -413,7 +461,7 @@ class SlideViewer {
           transform: 'translateY(0)',
           boxShadow: '0 4px 12px var(--toc-active-shadow)'
         });
-        
+
         // Auto-scroll the TOC to show the active item
         this.scrollTocToActiveItem(item);
       } else {
@@ -438,7 +486,7 @@ class SlideViewer {
     const containerHeight = tocContainer.offsetHeight || 300; // Fallback height
     const itemHeight = activeItem.offsetHeight || 60; // Fallback height
     const scrollOffset = activeItem.offsetTop - (containerHeight / 2) + (itemHeight / 2);
-    
+
     // Store the calculated scroll position
     this.pendingTocScrollPosition = Math.max(0, scrollOffset);
 
@@ -453,14 +501,14 @@ class SlideViewer {
       if (this.tocSidebar.classList.contains('collapsed')) {
         return;
       }
-      
+
       const containerRect = tocContainer.getBoundingClientRect();
       const itemRect = activeItem.getBoundingClientRect();
-      
+
       // Calculate if the item is visible in the container
-      const isVisible = itemRect.top >= containerRect.top && 
+      const isVisible = itemRect.top >= containerRect.top &&
                        itemRect.bottom <= containerRect.bottom;
-      
+
       if (!isVisible) {
         // Smooth scroll to the calculated position
         tocContainer.scrollTo({
@@ -520,31 +568,31 @@ class SlideViewer {
       if (event.key === 'Escape' && !this.modal.classList.contains('hidden')) {
         const gotoModalOpen = !this.gotoModal.classList.contains('hidden');
         const slideInputActive = !this.slideInput.hasAttribute('readonly');
-        
+
         if (gotoModalOpen || slideInputActive) {
           event.preventDefault();
           event.stopPropagation();
           event.stopImmediatePropagation();
-          
+
           // Close the modal/input
           if (gotoModalOpen) {
             this.closeGotoModal();
           } else if (slideInputActive) {
             this.deactivateSlideInput();
           }
-          
+
           // Immediately re-enter fullscreen if it was exited
           setTimeout(() => {
             if (!this.isFullscreen()) {
               this.requestFullscreen();
             }
           }, 100);
-          
+
           return false;
         }
       }
     };
-    
+
     // Add multiple event listeners with different priorities
     document.addEventListener('keydown', escHandler, true);
     window.addEventListener('keydown', escHandler, true);
@@ -553,10 +601,16 @@ class SlideViewer {
     // Keyboard navigation
     document.addEventListener('keydown', (event) => {
       if (!this.modal.classList.contains('hidden')) {
+        // Don't trigger shortcuts when search input or goto input is focused
+        if ((this.searchInput && document.activeElement === this.searchInput) ||
+            (this.gotoInput && document.activeElement === this.gotoInput)) {
+          return;
+        }
+
         switch(event.key) {
           case 'Escape':
             // Only close slideshow if no goto inputs are open
-            if (this.gotoModal.classList.contains('hidden') && 
+            if (this.gotoModal.classList.contains('hidden') &&
                 this.slideInput.hasAttribute('readonly')) {
               event.preventDefault();
               this.closeSlideshow();
@@ -623,7 +677,7 @@ class SlideViewer {
     this.tocToggleBtn.addEventListener('click', () => {
       const wasCollapsed = this.tocSidebar.classList.contains('collapsed');
       this.tocSidebar.classList.toggle('collapsed');
-      
+
       // If expanding and we have a pending scroll position, apply it
       if (wasCollapsed && this.pendingTocScrollPosition !== undefined) {
         setTimeout(() => {
@@ -641,7 +695,7 @@ class SlideViewer {
         // Don't toggle if clicking on the toggle button itself (prevent double toggle)
         if (!this.tocToggleBtn.contains(event.target)) {
           this.tocSidebar.classList.remove('collapsed');
-          
+
           // Apply pending scroll position when expanding
           if (this.pendingTocScrollPosition !== undefined) {
             setTimeout(() => {
@@ -724,6 +778,19 @@ class SlideViewer {
       }
     });
 
+    // Search functionality
+    if (this.searchInput) {
+      this.searchInput.addEventListener('input', (e) => {
+        this.performSearch(e.target.value);
+      });
+    }
+
+    if (this.clearSearchBtn) {
+      this.clearSearchBtn.addEventListener('click', () => {
+        this.clearSearch();
+      });
+    }
+
   }
 
   openSlideshow() {
@@ -757,7 +824,12 @@ class SlideViewer {
   closeSlideshow() {
     this.modal.classList.add('hidden');
     document.body.style.overflow = '';
-    
+
+    // Clear search when closing slideshow
+    if (this.searchInput && this.searchInput.value.trim()) {
+      this.clearSearch();
+    }
+
     // Exit fullscreen if currently in fullscreen
     this.exitFullscreen();
   }
@@ -768,17 +840,17 @@ class SlideViewer {
     setTimeout(() => {
       this.slideContent.innerHTML = '';
       const slideClone = this.slides[index].cloneNode(true);
-      
+
       // Remove Starlight anchor links from headings
       const anchorLinks = slideClone.querySelectorAll('.sl-anchor-link');
       if (anchorLinks.length > 0) {
         anchorLinks.forEach(link => link.remove());
       }
-      
+
       this.slideContent.appendChild(slideClone);
       this.slideInput.value = (index + 1).toString();
       this.slideNumberIndicator.textContent = (index + 1).toString();
-      
+
       // If this is the preview slide (index 0), rebind thumbnail events
       if (index === 0) {
         setTimeout(() => {
@@ -883,15 +955,15 @@ class SlideViewer {
   }
 
   isFullscreen() {
-    return !!(document.fullscreenElement || 
-              document.mozFullScreenElement || 
-              document.webkitFullscreenElement || 
+    return !!(document.fullscreenElement ||
+              document.mozFullScreenElement ||
+              document.webkitFullscreenElement ||
               document.msFullscreenElement);
   }
 
   requestFullscreen() {
     const element = document.documentElement;
-    
+
     if (element.requestFullscreen) {
       element.requestFullscreen().catch(err => {
         console.log('Error attempting to enable fullscreen:', err);
@@ -916,7 +988,7 @@ class SlideViewer {
     if (!this.isFullscreen()) {
       return;
     }
-    
+
     try {
       if (document.exitFullscreen) {
         document.exitFullscreen().catch(err => {
@@ -952,18 +1024,18 @@ class SlideViewer {
 
   goToSlideFromInput(inputElement) {
     const slideNumber = parseInt(inputElement.value);
-    
+
     // Custom validation
     if (isNaN(slideNumber) || slideNumber < 1 || slideNumber > this.slides.length) {
       // Show error feedback with helpful message
       console.log(`Invalid slide number: ${inputElement.value}. Must be between 1 and ${this.slides.length}`);
       inputElement.style.borderColor = '#ef4444';
       inputElement.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.3)';
-      
+
       // Show tooltip with error message
       const existingTooltip = inputElement.parentElement.querySelector('.error-tooltip');
       if (existingTooltip) existingTooltip.remove();
-      
+
       const tooltip = document.createElement('div');
       tooltip.className = 'error-tooltip';
       tooltip.textContent = `Enter a number between 1 and ${this.slides.length}`;
@@ -982,7 +1054,7 @@ class SlideViewer {
       `;
       inputElement.parentElement.style.position = 'relative';
       inputElement.parentElement.appendChild(tooltip);
-      
+
       setTimeout(() => {
         inputElement.style.borderColor = '';
         inputElement.style.boxShadow = '';
@@ -990,11 +1062,11 @@ class SlideViewer {
           tooltip.remove();
         }
       }, 2000);
-      
+
       inputElement.select();
       return;
     }
-    
+
     // Valid input - proceed with navigation
     if (this.goToSlideNumber(slideNumber)) {
       this.deactivateSlideInput();
@@ -1028,37 +1100,228 @@ class SlideViewer {
 
   rebindThumbnailEvents() {
     const thumbnails = document.querySelectorAll('.slide-thumbnail');
-    
+
     thumbnails.forEach((thumbnail) => {
       const slideNumber = parseInt(thumbnail.getAttribute('data-slide-number'));
-      
+
       // Remove existing listeners by cloning the element
       const newThumbnail = thumbnail.cloneNode(true);
       thumbnail.parentNode.replaceChild(newThumbnail, thumbnail);
-      
+
       // Add fresh click handler
       const clickHandler = (event) => {
         event.preventDefault();
         event.stopPropagation();
         this.goToSlide(slideNumber);
       };
-      
+
       newThumbnail.addEventListener('click', clickHandler);
       newThumbnail.onclick = clickHandler;
-      
+
       // Add hover effects
       newThumbnail.addEventListener('mouseenter', () => {
         newThumbnail.style.transform = 'translateY(-5px)';
         newThumbnail.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
         newThumbnail.style.borderColor = 'var(--sl-color-accent)';
       });
-      
+
       newThumbnail.addEventListener('mouseleave', () => {
         newThumbnail.style.transform = 'translateY(0)';
         newThumbnail.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
         newThumbnail.style.borderColor = 'var(--sl-color-gray-5)';
       });
     });
+  }
+
+  performSearch(query) {
+    // Only search if slideshow is open
+    if (this.modal.classList.contains('hidden')) {
+      return;
+    }
+
+    const trimmedQuery = query.trim().toLowerCase();
+
+    // Show/hide clear button based on query
+    if (this.clearSearchBtn) {
+      if (trimmedQuery) {
+        this.clearSearchBtn.classList.add('visible');
+      } else {
+        this.clearSearchBtn.classList.remove('visible');
+      }
+    }
+
+    if (!trimmedQuery) {
+      // Clear search results and show all TOC items
+      this.clearSearchResults();
+      return;
+    }
+
+    // Search across all slides
+    this.searchAllSlides(trimmedQuery);
+  }
+
+  searchAllSlides(query) {
+    const matchingSlides = [];
+
+    // Search through all slides
+    this.slides.forEach((slide, index) => {
+      const slideText = slide.textContent.toLowerCase();
+      if (slideText.includes(query)) {
+        matchingSlides.push(index);
+      }
+    });
+
+    console.log(`Found ${matchingSlides.length} slides matching "${query}":`, matchingSlides);
+
+    // Update TOC to show only matching slides
+    this.updateTOCWithSearchResults(matchingSlides, query);
+
+    // If we have matches and user is not on a matching slide, go to first match
+    if (matchingSlides.length > 0 && !matchingSlides.includes(this.currentSlide)) {
+      this.goToSlide(matchingSlides[0]);
+    }
+  }
+
+  updateTOCWithSearchResults(matchingSlides, query) {
+    // Filter TOC items
+    const tocItems = this.tocContent.querySelectorAll('.toc-item-container');
+    console.log('Found TOC items for filtering:', tocItems.length);
+
+    tocItems.forEach((item, index) => {
+      const isMatch = matchingSlides.includes(index);
+
+      if (isMatch) {
+        // Show matching slides with inline styles
+        item.style.display = '';
+        item.style.background = 'linear-gradient(135deg, #dbeafe, #bfdbfe)';
+        item.style.border = '2px solid #3b82f6';
+        item.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+        item.style.transform = 'translateY(-2px)';
+
+        // Highlight the search term in the title
+        const titleElement = item.querySelector('.toc-item-title');
+        if (titleElement) {
+          this.highlightText(titleElement, query);
+        }
+      } else {
+        // Hide non-matching slides with inline styles
+        item.style.display = 'none';
+        item.style.background = '';
+        item.style.border = '';
+        item.style.boxShadow = '';
+        item.style.transform = '';
+      }
+    });
+
+    // Also filter thumbnail grid if it exists
+    this.updateThumbnailGridWithSearchResults(matchingSlides);
+  }
+
+  updateThumbnailGridWithSearchResults(matchingSlides) {
+    // Find thumbnail grid (usually in the first slide if it's a preview slide)
+    const thumbnailGrid = this.slideContent.querySelector('.slide-preview-grid');
+    if (!thumbnailGrid) {
+      console.log('No thumbnail grid found to filter');
+      return;
+    }
+
+    const thumbnails = thumbnailGrid.querySelectorAll('.slide-thumbnail');
+    console.log('Found thumbnails for filtering:', thumbnails.length);
+
+    thumbnails.forEach((thumbnail, index) => {
+      // Note: thumbnail index might be offset by 1 if there's a preview slide
+      // Check if this thumbnail corresponds to a matching slide
+      const slideIndex = index + 1; // Adjust for preview slide offset
+      const isMatch = matchingSlides.includes(slideIndex);
+
+      if (isMatch) {
+        // Show matching thumbnail with highlight styling
+        thumbnail.style.display = '';
+        thumbnail.style.border = '3px solid #3b82f6';
+        thumbnail.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.4)';
+        thumbnail.style.transform = 'translateY(-5px) scale(1.02)';
+        thumbnail.style.background = 'linear-gradient(135deg, #dbeafe, #bfdbfe)';
+        console.log(`Thumbnail ${index} highlighted as match`);
+      } else {
+        // Hide non-matching thumbnail
+        thumbnail.style.display = 'none';
+        thumbnail.style.border = '';
+        thumbnail.style.boxShadow = '';
+        thumbnail.style.transform = '';
+        thumbnail.style.background = '';
+        console.log(`Thumbnail ${index} hidden`);
+      }
+    });
+  }
+
+  clearThumbnailGridSearchResults() {
+    const thumbnailGrid = this.slideContent.querySelector('.slide-preview-grid');
+    if (!thumbnailGrid) return;
+
+    const thumbnails = thumbnailGrid.querySelectorAll('.slide-thumbnail');
+    thumbnails.forEach(thumbnail => {
+      // Clear inline styles
+      thumbnail.style.display = '';
+      thumbnail.style.border = '';
+      thumbnail.style.boxShadow = '';
+      thumbnail.style.transform = '';
+      thumbnail.style.background = '';
+    });
+  }
+
+  clearSearchResults() {
+    const tocItems = this.tocContent.querySelectorAll('.toc-item-container');
+
+    tocItems.forEach(item => {
+      // Clear inline styles
+      item.style.display = '';
+      item.style.background = '';
+      item.style.border = '';
+      item.style.boxShadow = '';
+      item.style.transform = '';
+
+      // Remove highlights from title
+      const titleElement = item.querySelector('.toc-item-title');
+      if (titleElement) {
+        this.removeHighlights(item);
+      }
+    });
+
+    // Also clear thumbnail grid
+    this.clearThumbnailGridSearchResults();
+  }
+
+
+  highlightText(element, query) {
+    if (!query) return;
+
+    const originalText = element.dataset.originalText || element.textContent;
+    element.dataset.originalText = originalText;
+
+    const regex = new RegExp(`(${this.escapeRegex(query)})`, 'gi');
+    const highlightedText = originalText.replace(regex, '<span class="search-highlight">$1</span>');
+    element.innerHTML = highlightedText;
+  }
+
+  removeHighlights(container) {
+    const titleElement = container.querySelector('.toc-item-title');
+    if (!titleElement) return;
+
+    if (titleElement.dataset.originalText) {
+      titleElement.textContent = titleElement.dataset.originalText;
+      delete titleElement.dataset.originalText;
+    }
+  }
+
+  clearSearch() {
+    this.searchInput.value = '';
+    this.clearSearchBtn.classList.remove('visible');
+    this.clearSearchResults();
+    this.searchInput.focus();
+  }
+
+  escapeRegex(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
 }
