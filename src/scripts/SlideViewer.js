@@ -3,6 +3,7 @@ class SlideViewer {
     this.slides = [];
     this.currentSlide = 0;
     this.fontSize = this.loadFontSize(); // Load saved font size or use default.
+    this.isReadingMode = false; // Toggle between slide mode and reading mode in modal
 
 
     this.modal = document.getElementById('slide-viewer-modal');
@@ -28,6 +29,7 @@ class SlideViewer {
     this.gotoCancel = document.getElementById('goto-cancel');
     this.searchInput = document.getElementById('slide-search-input');
     this.clearSearchBtn = document.getElementById('clear-search');
+    this.toggleReadingModeBtn = document.getElementById('toggle-reading-mode');
 
     console.log('SlideViewer elements found:', {
       modal: !!this.modal,
@@ -41,6 +43,7 @@ class SlideViewer {
       gotoInput: !!this.gotoInput,
       searchInput: !!this.searchInput,
       clearSearchBtn: !!this.clearSearchBtn,
+      toggleReadingModeBtn: !!this.toggleReadingModeBtn,
     });
 
     this.init();
@@ -461,6 +464,20 @@ class SlideViewer {
           return;
         }
 
+        // Don't trigger navigation shortcuts when in reading mode
+        if (this.isReadingMode) {
+          // Only allow Escape to close slideshow in reading mode
+          if (event.key === 'Escape') {
+            // Only close slideshow if no goto inputs are open
+            if (this.gotoModal.classList.contains('hidden') &&
+                this.slideInput.hasAttribute('readonly')) {
+              event.preventDefault();
+              this.closeSlideshow();
+            }
+          }
+          return;
+        }
+
         switch(event.key) {
           case 'Escape':
             // Only close slideshow if no goto inputs are open
@@ -643,6 +660,19 @@ class SlideViewer {
       this.clearSearchBtn.addEventListener('click', () => {
         this.clearSearch();
       });
+    }
+
+    // Reading mode toggle event (inside modal)
+    if (this.toggleReadingModeBtn) {
+      console.log('Binding click event to reading mode toggle button');
+      this.toggleReadingModeBtn.addEventListener('click', (e) => {
+        console.log('Reading mode toggle clicked!', e);
+        e.preventDefault();
+        e.stopPropagation();
+        this.toggleReadingMode();
+      });
+    } else {
+      console.warn('Toggle reading mode button not found!');
     }
 
   }
@@ -1147,6 +1177,100 @@ class SlideViewer {
 
   escapeRegex(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  // Reading Mode Methods - removed old implementation
+
+  toggleReadingMode() {
+    console.log('toggleReadingMode called, current mode:', this.isReadingMode);
+    this.isReadingMode = !this.isReadingMode;
+    console.log('new mode:', this.isReadingMode);
+    this.applyReadingMode();
+  }
+
+  applyReadingMode() {
+    const toggleBtn = this.toggleReadingModeBtn;
+    
+    if (this.isReadingMode) {
+      // Reading mode: Show the entire original document content
+      this.showOriginalDocument();
+      if (toggleBtn) {
+        toggleBtn.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <path d="M9 3v18M15 3v18"/>
+          </svg>
+          📽️ Slide Mode
+        `;
+        toggleBtn.title = 'Switch to slide mode';
+      }
+      // Hide navigation controls in reading mode
+      this.prevBtn.style.display = 'none';
+      this.nextBtn.style.display = 'none';
+      this.slideCounter.style.display = 'none';
+      // Set slide number indicator to 1 in reading mode
+      this.slideNumberIndicator.textContent = '1';
+    } else {
+      // Slide mode: Reset slide content styling and show current slide
+      this.slideContent.style.height = '';
+      this.slideContent.style.overflow = '';
+      this.showSlide(this.currentSlide);
+      if (toggleBtn) {
+        toggleBtn.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+          📖 Reading Mode
+        `;
+        toggleBtn.title = 'Switch to reading mode';
+      }
+      // Show navigation controls in slide mode
+      this.prevBtn.style.display = '';
+      this.nextBtn.style.display = '';
+      this.slideCounter.style.display = '';
+    }
+  }
+
+  showOriginalDocument() {
+    this.slideContent.innerHTML = '';
+    this.slideContent.style.height = '100%';
+    this.slideContent.style.overflow = 'auto';
+    
+    // Get the original document content (before slide parsing)
+    const articleContent = document.querySelector('.sl-markdown-content, main .content, article');
+    if (!articleContent) {
+      console.warn('Could not find original article content');
+      return;
+    }
+    
+    // Clone the original content
+    const originalContent = articleContent.cloneNode(true);
+    
+    // Remove the slide viewer component itself from the clone
+    const slideViewerTrigger = originalContent.querySelector('#slide-viewer-trigger');
+    if (slideViewerTrigger) {
+      slideViewerTrigger.remove();
+    }
+    
+    // Remove any Starlight anchor links
+    const anchorLinks = originalContent.querySelectorAll('.sl-anchor-link');
+    if (anchorLinks.length > 0) {
+      anchorLinks.forEach(link => link.remove());
+    }
+    
+    // Create container for the original document
+    const readingContainer = document.createElement('div');
+    readingContainer.className = 'reading-mode-content';
+    readingContainer.style.cssText = `
+      padding: 20px;
+      max-width: none;
+      height: auto;
+      line-height: 1.6;
+    `;
+    
+    readingContainer.appendChild(originalContent);
+    this.slideContent.appendChild(readingContainer);
   }
 
 }
