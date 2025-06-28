@@ -496,8 +496,8 @@
 
   .slide-toc-content .toc-item-container.h3 {
     margin-left: 2rem !important;
-    background: #f8fafc !important;
-    border-color: #cbd5e1 !important;
+    background: var(--toc-bg) !important;
+    border-color: var(--toc-border) !important;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06) !important;
   }
 
@@ -506,10 +506,10 @@
   }
 
   .slide-toc-content .toc-item-container.h3:hover {
-    background: linear-gradient(135deg, #eef2ff, #e0e7ff) !important;
+    background: var(--toc-hover-bg) !important;
     transform: translateY(-3px) scale(1.01) !important;
-    box-shadow: 0 16px 32px rgba(99, 102, 241, 0.12), 0 6px 20px rgba(0, 0, 0, 0.08) !important;
-    border-color: #6366f1 !important;
+    box-shadow: 0 16px 32px var(--toc-hover-shadow), 0 6px 20px rgba(0, 0, 0, 0.08) !important;
+    border-color: var(--toc-hover-border) !important;
   }
 
   .toc-item-container.h3 .toc-item-number {
@@ -580,9 +580,6 @@
     box-shadow: 0 0 0 3px rgba(var(--sl-color-accent), 0.3);
   }
 
-  .slide-counter.animating {
-    /* Animation removed for cleaner input experience */
-  }
 
   @keyframes scaleNumber {
     0% {
@@ -1297,6 +1294,7 @@
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     text-align: left;
   }
