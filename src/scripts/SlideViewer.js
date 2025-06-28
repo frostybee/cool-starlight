@@ -148,15 +148,7 @@ class SlideViewer {
     const grid = document.createElement('div');
     grid.className = 'slide-preview-grid';
 
-    // Ensure grid layout with inline styles as fallback
-    grid.style.cssText = `
-      display: grid !important;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
-      gap: 20px !important;
-      margin: 2rem 0 !important;
-      padding: 1rem !important;
-      width: 100% !important;
-    `;
+    // Grid layout is now handled by global CSS
 
     // Create thumbnails for each slide (excluding the preview slide itself)
     // Since preview slide will be inserted at index 0, content slides will be at indices 1, 2, 3...
@@ -177,56 +169,19 @@ class SlideViewer {
     // Store reference to the slide viewer instance
     const slideViewer = this;
 
-    // Add inline styles to ensure proper display
-    thumbnail.style.cssText = `
-      border: 2px solid var(--sl-color-gray-5);
-      border-radius: 8px;
-      padding: 15px;
-      background: var(--sl-color-bg);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      min-height: 200px;
-      display: flex !important;
-      flex-direction: column !important;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    `;
+    // Class-based styling is now handled by global CSS
 
     // Add slide number badge
     const badge = document.createElement('div');
     badge.className = 'slide-thumbnail-badge';
     badge.textContent = slideNumber;
-    badge.style.cssText = `
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      width: 30px;
-      height: 30px;
-      background: var(--sl-color-accent);
-      color: var(--sl-color-accent-text);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 0.9rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    `;
+    // Badge styling handled by global CSS
     thumbnail.appendChild(badge);
 
     // Create content preview
     const content = document.createElement('div');
     content.className = 'slide-thumbnail-content';
-    content.style.cssText = `
-      flex: 1;
-      overflow: hidden;
-      font-size: 0.7rem;
-      line-height: 1.3;
-      color: var(--sl-color-text);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    `;
+    // Content styling handled by global CSS
 
     // Clone the slide content
     const slideClone = slide.cloneNode(true);
@@ -244,32 +199,14 @@ class SlideViewer {
       const thumbnailHeading = document.createElement('div');
       thumbnailHeading.className = 'slide-thumbnail-heading';
       thumbnailHeading.textContent = headingText;
-      thumbnailHeading.style.cssText = `
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: var(--sl-color-accent);
-        line-height: 1.2;
-        margin-bottom: 8px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-      `;
+      // Heading styling handled by global CSS
       content.appendChild(thumbnailHeading);
     }
 
     // Create body content container
     const bodyContent = document.createElement('div');
     bodyContent.className = 'slide-thumbnail-body';
-    bodyContent.style.cssText = `
-      flex: 1;
-      overflow: hidden;
-      font-size: 0.6rem;
-      line-height: 1.3;
-      color: var(--sl-color-text-light);
-      opacity: 0.8;
-    `;
+    // Body content styling handled by global CSS
 
     // Remove or simplify complex elements for thumbnail
     const codeBlocks = slideClone.querySelectorAll('pre, code');
@@ -306,25 +243,10 @@ class SlideViewer {
     badge.addEventListener('click', clickHandler);
     content.addEventListener('click', clickHandler);
 
-    // Ensure clickability with CSS
-    thumbnail.style.pointerEvents = 'auto';
-    thumbnail.style.cursor = 'pointer';
-    thumbnail.style.userSelect = 'none';
-    thumbnail.style.webkitUserSelect = 'none';
+    // Clickability is now handled by global CSS
 
 
-    // Add hover effects
-    thumbnail.addEventListener('mouseenter', () => {
-      thumbnail.style.transform = 'translateY(-5px)';
-      thumbnail.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
-      thumbnail.style.borderColor = 'var(--sl-color-accent)';
-    });
-
-    thumbnail.addEventListener('mouseleave', () => {
-      thumbnail.style.transform = 'translateY(0)';
-      thumbnail.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
-      thumbnail.style.borderColor = 'var(--sl-color-gray-5)';
-    });
+    // Hover effects are now handled by global CSS
 
     return thumbnail;
   }
@@ -357,42 +279,10 @@ class SlideViewer {
       tocItem.className = `toc-item ${headingLevel}`;
       tocItem.setAttribute('data-slide-index', index);
 
-      // Apply card styling directly
-      Object.assign(tocItem.style, {
-        background: 'var(--toc-bg)',
-        border: '2px solid var(--toc-border)',
-        borderRadius: '8px',
-        margin: '8px',
-        padding: '12px 16px',
-        display: 'flex',
-        alignItems: 'center',
-        width: 'calc(100% - 16px)',
-        cursor: 'pointer',
-        transition: 'all 0.2s ease',
-        color: 'var(--toc-text)',
-        textAlign: 'left',
-        fontSize: '0.9rem',
-        fontWeight: 'bold',
-        gap: '12px'
-      });
-
       // Create number element (inside the button)
       const numberElement = document.createElement('span');
-      numberElement.className = 'toc-item-number-inline';
+      numberElement.className = 'toc-item-number';
       numberElement.textContent = (index + 1).toString();
-      numberElement.style.cssText = `
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 32px;
-        height: 32px;
-        background: var(--sl-color-accent);
-        border-radius: 50%;
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--sl-color-accent-text);
-        flex-shrink: 0;
-      `;
 
       // Create title element
       const titleElement = document.createElement('span');
@@ -406,28 +296,7 @@ class SlideViewer {
         this.goToSlide(index);
       });
 
-      // Add hover effects using CSS variables
-      tocItem.addEventListener('mouseenter', () => {
-        if (!tocItem.classList.contains('active')) {
-          Object.assign(tocItem.style, {
-            background: 'var(--toc-hover-bg)',
-            borderColor: 'var(--toc-hover-border)',
-            transform: 'translateY(-2px)',
-            boxShadow: '0 4px 12px var(--toc-hover-shadow)'
-          });
-        }
-      });
-
-      tocItem.addEventListener('mouseleave', () => {
-        if (!tocItem.classList.contains('active')) {
-          Object.assign(tocItem.style, {
-            background: 'var(--toc-bg)',
-            borderColor: 'var(--toc-border)',
-            transform: 'translateY(0)',
-            boxShadow: 'none'
-          });
-        }
-      });
+      // Hover effects are now handled by global CSS
 
       tocItemContainer.appendChild(tocItem);
 
@@ -454,25 +323,10 @@ class SlideViewer {
       item.classList.toggle('active', isActive);
 
       if (isActive) {
-        Object.assign(item.style, {
-          background: 'var(--toc-active-bg)',
-          color: 'var(--toc-active-text)',
-          borderColor: 'var(--toc-active-border)',
-          transform: 'translateY(0)',
-          boxShadow: '0 4px 12px var(--toc-active-shadow)'
-        });
-
         // Auto-scroll the TOC to show the active item
         this.scrollTocToActiveItem(item);
-      } else {
-        Object.assign(item.style, {
-          background: 'var(--toc-bg)',
-          color: 'var(--toc-text)',
-          borderColor: 'var(--toc-border)',
-          transform: 'translateY(0)',
-          boxShadow: 'none'
-        });
       }
+      // Active/inactive styling is now handled by global CSS
     });
   }
 
@@ -1118,18 +972,7 @@ class SlideViewer {
       newThumbnail.addEventListener('click', clickHandler);
       newThumbnail.onclick = clickHandler;
 
-      // Add hover effects
-      newThumbnail.addEventListener('mouseenter', () => {
-        newThumbnail.style.transform = 'translateY(-5px)';
-        newThumbnail.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
-        newThumbnail.style.borderColor = 'var(--sl-color-accent)';
-      });
-
-      newThumbnail.addEventListener('mouseleave', () => {
-        newThumbnail.style.transform = 'translateY(0)';
-        newThumbnail.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
-        newThumbnail.style.borderColor = 'var(--sl-color-gray-5)';
-      });
+      // Hover effects are now handled by global CSS
     });
   }
 
@@ -1191,12 +1034,9 @@ class SlideViewer {
       const isMatch = matchingSlides.includes(index);
 
       if (isMatch) {
-        // Show matching slides with inline styles
+        // Show matching slides and add search match class
         item.style.display = '';
-        item.style.background = 'linear-gradient(135deg, #dbeafe, #bfdbfe)';
-        item.style.border = '2px solid #3b82f6';
-        item.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
-        item.style.transform = 'translateY(-2px)';
+        item.classList.add('search-match');
 
         // Highlight the search term in the title
         const titleElement = item.querySelector('.toc-item-title');
@@ -1204,12 +1044,9 @@ class SlideViewer {
           this.highlightText(titleElement, query);
         }
       } else {
-        // Hide non-matching slides with inline styles
+        // Hide non-matching slides
         item.style.display = 'none';
-        item.style.background = '';
-        item.style.border = '';
-        item.style.boxShadow = '';
-        item.style.transform = '';
+        item.classList.remove('search-match');
       }
     });
 
@@ -1235,20 +1072,14 @@ class SlideViewer {
       const isMatch = matchingSlides.includes(slideIndex);
 
       if (isMatch) {
-        // Show matching thumbnail with highlight styling
+        // Show matching thumbnail and add search match class
         thumbnail.style.display = '';
-        thumbnail.style.border = '3px solid #3b82f6';
-        thumbnail.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.4)';
-        thumbnail.style.transform = 'translateY(-5px) scale(1.02)';
-        thumbnail.style.background = 'linear-gradient(135deg, #dbeafe, #bfdbfe)';
+        thumbnail.classList.add('search-match');
         console.log(`Thumbnail ${index} highlighted as match`);
       } else {
         // Hide non-matching thumbnail
         thumbnail.style.display = 'none';
-        thumbnail.style.border = '';
-        thumbnail.style.boxShadow = '';
-        thumbnail.style.transform = '';
-        thumbnail.style.background = '';
+        thumbnail.classList.remove('search-match');
         console.log(`Thumbnail ${index} hidden`);
       }
     });
@@ -1260,12 +1091,9 @@ class SlideViewer {
 
     const thumbnails = thumbnailGrid.querySelectorAll('.slide-thumbnail');
     thumbnails.forEach(thumbnail => {
-      // Clear inline styles
+      // Clear search state
       thumbnail.style.display = '';
-      thumbnail.style.border = '';
-      thumbnail.style.boxShadow = '';
-      thumbnail.style.transform = '';
-      thumbnail.style.background = '';
+      thumbnail.classList.remove('search-match');
     });
   }
 
@@ -1273,12 +1101,9 @@ class SlideViewer {
     const tocItems = this.tocContent.querySelectorAll('.toc-item-container');
 
     tocItems.forEach(item => {
-      // Clear inline styles
+      // Clear search state
       item.style.display = '';
-      item.style.background = '';
-      item.style.border = '';
-      item.style.boxShadow = '';
-      item.style.transform = '';
+      item.classList.remove('search-match');
 
       // Remove highlights from title
       const titleElement = item.querySelector('.toc-item-title');

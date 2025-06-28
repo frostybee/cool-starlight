@@ -17,7 +17,7 @@ Building Secure User Registration, Login, and Admin Access Control
 
 ---
 
-### Slide 2: User Registration System
+## Slide 2: User Registration System
 
 
 #### 📝 User Registration Form
@@ -81,6 +81,28 @@ $_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
 
 ```php
 session_destroy();
+```
+
+---
+
+## Slide 5: Admin Panel for Product Management
+
+### 🛠️ Admin Panel Overview
+
+Admin Dashboard Features:
+- Add/edit/delete products
+- View customer orders
+- Manage users
+
+Access control:
+- Only authenticated users with `admin` role can access
+
+**Route protection example:**
+```php
+if ($_SESSION['role'] !== 'admin') {
+    header('Location: unauthorized.php');
+    exit();
+}
 ```
 
 ---
