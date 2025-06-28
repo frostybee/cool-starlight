@@ -96,7 +96,7 @@
   </div>
 </div>
 
-<style is:global>
+<style>
 
   @layer slide-toc-overrides {
     :root {
@@ -116,13 +116,13 @@
     --toc-number-shadow: rgba(99, 102, 241, 0.3);
 
     /* Search Highlight Colors for Light Theme */
-    --search-highlight-bg: linear-gradient(90deg, #e9d5ff, #ddd6fe);
-    --search-highlight-text: #581c87;
-    --search-highlight-border: #8b5cf6;
-    --search-highlight-shadow: rgba(139, 92, 246, 0.3);
-    --search-match-bg: rgb(223, 245, 151);
-    --search-match-border: #7c3aed;
-    --search-match-shadow: rgba(124, 58, 237, 0.25);
+    --search-highlight-bg: linear-gradient(90deg, #d1fae5, #a7f3d0);
+    --search-highlight-text: #065f46;
+    --search-highlight-border: #10b981;
+    --search-highlight-shadow: rgba(16, 185, 129, 0.3);
+    --search-match-bg: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    --search-match-border: #059669;
+    --search-match-shadow: rgba(5, 150, 105, 0.2);
   }
 
   /* Dark theme overrides - using multiple selectors for Starlight compatibility */
@@ -147,13 +147,13 @@
     --slide-heading-color: #ffffff;
 
     /* Search Highlight Colors for Dark Theme */
-    --search-highlight-bg: linear-gradient(90deg, #581c87, #6b21a8);
-    --search-highlight-text: #e9d5ff;
-    --search-highlight-border: #8b5cf6;
-    --search-highlight-shadow: rgba(139, 92, 246, 0.4);
-    --search-match-bg: rgb(223, 245, 151);
-    --search-match-border: #a855f7;
-    --search-match-shadow: rgba(168, 85, 247, 0.35);
+    --search-highlight-bg: linear-gradient(90deg, #064e3b, #047857);
+    --search-highlight-text: #a7f3d0;
+    --search-highlight-border: #10b981;
+    --search-highlight-shadow: rgba(16, 185, 129, 0.4);
+    --search-match-bg: linear-gradient(135deg, #065f46, #047857);
+    --search-match-border: #34d399;
+    --search-match-shadow: rgba(52, 211, 153, 0.3);
   }
 
   /* Additional dark theme support for common dark mode patterns */
@@ -176,13 +176,13 @@
       --slide-heading-color: #ffffff;
 
       /* Search Highlight Colors for Dark Theme */
-      --search-highlight-bg: linear-gradient(90deg, #581c87, #6b21a8);
-      --search-highlight-text: #e9d5ff;
-      --search-highlight-border: #8b5cf6;
-      --search-highlight-shadow: rgba(139, 92, 246, 0.4);
-      --search-match-bg: linear-gradient(135deg, #4c1d95, #581c87);
-      --search-match-border: #a855f7;
-      --search-match-shadow: rgba(168, 85, 247, 0.35);
+      --search-highlight-bg: linear-gradient(90deg, #064e3b, #047857);
+      --search-highlight-text: #a7f3d0;
+      --search-highlight-border: #10b981;
+      --search-highlight-shadow: rgba(16, 185, 129, 0.4);
+      --search-match-bg: linear-gradient(135deg, #065f46, #047857);
+      --search-match-border: #34d399;
+      --search-match-shadow: rgba(52, 211, 153, 0.3);
     }
   }
 
@@ -464,7 +464,7 @@
   }
 
   .slide-modal .slide-toc-sidebar .slide-toc-content .toc-item-container.search-match .toc-item-number {
-    background: linear-gradient(135deg, var(--search-match-border), #6b21a8) !important;
+    background: linear-gradient(135deg, var(--search-match-border), #047857) !important;
     color: white !important;
     animation: searchMatchPulse 1s ease-in-out !important;
   }
@@ -493,20 +493,20 @@
     animation: slideSearchPulse 0.5s ease-in-out;
   }
 
-      @keyframes slideSearchPulse {
-      0% {
-        background: var(--search-highlight-bg);
-        transform: scale(1);
-      }
-      50% {
-        background: linear-gradient(90deg, #8b5cf6, #a855f7);
-        transform: scale(1.05);
-      }
-      100% {
-        background: var(--search-highlight-bg);
-        transform: scale(1);
-      }
+  @keyframes slideSearchPulse {
+    0% {
+      background: var(--search-highlight-bg);
+      transform: scale(1);
     }
+    50% {
+      background: linear-gradient(90deg, #10b981, #34d399);
+      transform: scale(1.05);
+    }
+    100% {
+      background: var(--search-highlight-bg);
+      transform: scale(1);
+    }
+  }
 
 
   .toc-item-container:has(.toc-item.active) .toc-item-number {
@@ -1394,8 +1394,8 @@
   .slide-content :global(.slide-thumbnail-body) {
     flex: 1;
     overflow: hidden;
-    font-size: 0.8rem !important;
-    line-height: 1.4 !important;
+    font-size: 0.6rem !important;
+    line-height: 1.3 !important;
     color: var(--sl-color-text-light, var(--sl-color-text)) !important;
     opacity: 0.8;
   }
@@ -1427,7 +1427,7 @@
       min-height: 150px;
       padding: 10px;
     }
-}
+  }
 </style>
 
 <script src="/src/scripts/SlideViewer.js"></script>

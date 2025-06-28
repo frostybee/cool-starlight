@@ -265,8 +265,8 @@ class SlideViewer {
     bodyContent.style.cssText = `
       flex: 1;
       overflow: hidden;
-      font-size: 0.8rem;
-      line-height: 1.4;
+      font-size: 0.6rem;
+      line-height: 1.3;
       color: var(--sl-color-text-light);
       opacity: 0.8;
     `;
@@ -1191,11 +1191,11 @@ class SlideViewer {
       const isMatch = matchingSlides.includes(index);
 
       if (isMatch) {
-        // Show matching slides with CSS custom properties
+        // Show matching slides with inline styles
         item.style.display = '';
-        item.style.background = 'var(--search-match-bg)';
-        item.style.border = '2px solid var(--search-match-border)';
-        item.style.boxShadow = '0 4px 12px var(--search-match-shadow)';
+        item.style.background = 'linear-gradient(135deg, #dbeafe, #bfdbfe)';
+        item.style.border = '2px solid #3b82f6';
+        item.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
         item.style.transform = 'translateY(-2px)';
 
         // Highlight the search term in the title
@@ -1235,12 +1235,12 @@ class SlideViewer {
       const isMatch = matchingSlides.includes(slideIndex);
 
       if (isMatch) {
-        // Show matching thumbnail with CSS custom properties
+        // Show matching thumbnail with highlight styling
         thumbnail.style.display = '';
-        thumbnail.style.border = '3px solid var(--search-match-border)';
-        thumbnail.style.boxShadow = '0 8px 25px var(--search-match-shadow)';
+        thumbnail.style.border = '3px solid #3b82f6';
+        thumbnail.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.4)';
         thumbnail.style.transform = 'translateY(-5px) scale(1.02)';
-        thumbnail.style.background = 'var(--search-match-bg)';
+        thumbnail.style.background = 'linear-gradient(135deg, #dbeafe, #bfdbfe)';
         console.log(`Thumbnail ${index} highlighted as match`);
       } else {
         // Hide non-matching thumbnail

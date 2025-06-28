@@ -7,7 +7,9 @@
       "Bash(npm install:*)",
       "Bash(rm:*)",
       "Bash(npm uninstall:*)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(sed:*)",
+      "Bash(cp:*)"
     ],
     "deny": []
   }
