@@ -583,6 +583,18 @@ class SlideViewer {
               this.openGotoModal();
             }
             break;
+          case 'Home':
+            if (this.gotoModal.classList.contains('hidden')) {
+              event.preventDefault();
+              this.goToSlide(0); // Go to slide overview (first slide)
+            }
+            break;
+          case 'End':
+            if (this.gotoModal.classList.contains('hidden')) {
+              event.preventDefault();
+              this.goToSlide(this.slides.length - 1); // Go to last slide
+            }
+            break;
         }
       }
     });
