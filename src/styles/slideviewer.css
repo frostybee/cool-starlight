@@ -740,9 +740,9 @@
 
   .fb-slide__navigation {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 0.5rem 2rem;
+    padding: 0.75rem 1rem;
     background: var(--sl-color-bg-nav);
     border-top: 1px solid var(--sl-color-gray-5);
     flex-shrink: 0;
@@ -831,6 +831,75 @@
 
   .fb-slide__fullscreen-btn:hover {
     background: #15803d;
+  }
+
+  /* Compact toolbar styles */
+  .fb-slide__compact-btn {
+    background: var(--sl-color-gray-6);
+    color: var(--sl-color-text);
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 48px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .fb-slide__compact-btn:hover:not(:disabled) {
+    background: var(--sl-color-gray-5);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  .fb-slide__compact-btn:disabled {
+    background: var(--sl-color-gray-4);
+    color: var(--sl-color-gray-2);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .fb-slide__compact-font {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: var(--sl-color-gray-6);
+    border-radius: 8px;
+    padding: 0.25rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .fb-slide__compact-font .fb-slide__font-adj-btn {
+    background: transparent;
+    color: var(--sl-color-text);
+    border: none;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fb-slide__compact-font .fb-slide__font-adj-btn:hover {
+    background: var(--sl-color-gray-5);
+  }
+
+  /* Update slide counter for compact layout */
+  .fb-slide__nav-desktop .fb-slide__counter {
+    background: var(--sl-color-gray-6);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin: 0 1rem;
   }
 
   /* Go to slide modal styles */
@@ -1231,9 +1300,12 @@
   /* Mobile dropdown menu styles */
   .fb-slide__nav-desktop {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 100%;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
   }
 
   .fb-slide__nav-mobile {

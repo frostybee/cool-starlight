@@ -13,7 +13,6 @@ export class MobileMenuManager {
     
     // Mobile dropdown buttons
     this.decreaseFontBtnMobile = document.getElementById('slide-decrease-font-mobile');
-    this.resetFontBtnMobile = document.getElementById('slide-reset-font-mobile');
     this.increaseFontBtnMobile = document.getElementById('slide-increase-font-mobile');
     this.closeBtnMobile = document.getElementById('close-slideshow-mobile');
     
@@ -104,19 +103,12 @@ export class MobileMenuManager {
       });
     }
 
-    // Mobile dropdown buttons
+    // Mobile dropdown buttons - with double-click reset functionality
     if (this.decreaseFontBtnMobile) {
       this.decreaseFontBtnMobile.addEventListener('click', (e) => {
         e.preventDefault();
-        this.slideViewer.fontManager.adjustFontSize(-20);
-        this.closeMobileMenu();
-      });
-    }
-
-    if (this.resetFontBtnMobile) {
-      this.resetFontBtnMobile.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.slideViewer.fontManager.resetFontSize();
+        // Use the font manager's click handler which includes double-click detection
+        this.slideViewer.fontManager.decreaseFontBtn.click();
         this.closeMobileMenu();
       });
     }
@@ -124,7 +116,8 @@ export class MobileMenuManager {
     if (this.increaseFontBtnMobile) {
       this.increaseFontBtnMobile.addEventListener('click', (e) => {
         e.preventDefault();
-        this.slideViewer.fontManager.adjustFontSize(20);
+        // Use the font manager's click handler which includes double-click detection
+        this.slideViewer.fontManager.increaseFontBtn.click();
         this.closeMobileMenu();
       });
     }

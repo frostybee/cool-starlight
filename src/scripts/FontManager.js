@@ -4,24 +4,39 @@ export class FontManager {
     this.fontSize = this.loadFontSize(); // Load saved font size or use default
     
     this.decreaseFontBtn = document.getElementById('slide-decrease-font');
-    this.resetFontBtn = document.getElementById('slide-reset-font');
     this.increaseFontBtn = document.getElementById('slide-increase-font');
+    
+    // Track double-click for reset functionality
+    this.lastClickTime = 0;
+    this.resetThreshold = 500; // milliseconds for double-click
     
     this.bindEvents();
   }
 
   bindEvents() {
-    // Font size adjustment events
-    this.decreaseFontBtn.addEventListener('click', () => {
-      this.adjustFontSize(-20);
+    // Font size adjustment events with double-click reset
+    this.decreaseFontBtn.addEventListener('click', (e) => {
+      const currentTime = new Date().getTime();
+      if (currentTime - this.lastClickTime < this.resetThreshold) {
+        // Double-click detected - reset font size
+        this.resetFontSize();
+      } else {
+        // Single click - decrease font size
+        this.adjustFontSize(-20);
+      }
+      this.lastClickTime = currentTime;
     });
 
-    this.resetFontBtn.addEventListener('click', () => {
-      this.resetFontSize();
-    });
-
-    this.increaseFontBtn.addEventListener('click', () => {
-      this.adjustFontSize(20);
+    this.increaseFontBtn.addEventListener('click', (e) => {
+      const currentTime = new Date().getTime();
+      if (currentTime - this.lastClickTime < this.resetThreshold) {
+        // Double-click detected - reset font size
+        this.resetFontSize();
+      } else {
+        // Single click - increase font size
+        this.adjustFontSize(20);
+      }
+      this.lastClickTime = currentTime;
     });
   }
 
