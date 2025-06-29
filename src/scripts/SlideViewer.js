@@ -928,8 +928,11 @@ class SlideViewer {
     if (isNaN(slideNumber) || slideNumber < 1 || slideNumber > this.slides.length) {
       // Show error feedback with helpful message
       console.log(`Invalid slide number: ${inputElement.value}. Must be between 1 and ${this.slides.length}`);
-      inputElement.style.borderColor = '#ef4444';
-      inputElement.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.3)';
+      
+      // Add error styling using CSS classes
+      const isSlideInput = inputElement.classList.contains('slide-input');
+      const errorClass = isSlideInput ? 'slide-input-error' : 'goto-input-error';
+      inputElement.classList.add(errorClass);
 
       // Show tooltip with error message
       const existingTooltip = inputElement.parentElement.querySelector('.error-tooltip');
@@ -938,28 +941,17 @@ class SlideViewer {
       const tooltip = document.createElement('div');
       tooltip.className = 'error-tooltip';
       tooltip.textContent = `Enter a number between 1 and ${this.slides.length}`;
-      tooltip.style.cssText = `
-        position: absolute;
-        top: -35px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #ef4444;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 4px;
-        font-size: 12px;
-        white-space: nowrap;
-        z-index: 1000;
-      `;
-      inputElement.parentElement.style.position = 'relative';
+      
+      // Ensure parent container has relative positioning
+      inputElement.parentElement.classList.add('error-tooltip-container');
       inputElement.parentElement.appendChild(tooltip);
 
       setTimeout(() => {
-        inputElement.style.borderColor = '';
-        inputElement.style.boxShadow = '';
+        inputElement.classList.remove(errorClass);
         if (tooltip.parentElement) {
           tooltip.remove();
         }
+        inputElement.parentElement.classList.remove('error-tooltip-container');
       }, 2000);
 
       inputElement.select();
@@ -1227,8 +1219,7 @@ class SlideViewer {
       this.slideNumberIndicator.textContent = '1';
     } else {
       // Slide mode: Reset slide content styling and show current slide
-      this.slideContent.style.height = '';
-      this.slideContent.style.overflow = '';
+      this.slideContent.classList.remove('slide-content-reading-mode');
       this.showSlide(this.currentSlide);
       if (toggleBtn) {
         toggleBtn.innerHTML = `
@@ -1249,8 +1240,7 @@ class SlideViewer {
 
   showOriginalDocument() {
     this.slideContent.innerHTML = '';
-    this.slideContent.style.height = '100%';
-    this.slideContent.style.overflow = 'auto';
+    this.slideContent.classList.add('slide-content-reading-mode');
     
     // Get the original document content (before slide parsing)
     const articleContent = document.querySelector('.sl-markdown-content, main .content, article');
@@ -1277,12 +1267,6 @@ class SlideViewer {
     // Create container for the original document
     const readingContainer = document.createElement('div');
     readingContainer.className = 'reading-mode-content';
-    readingContainer.style.cssText = `
-      padding: 20px;
-      max-width: none;
-      height: auto;
-      line-height: 1.6;
-    `;
     
     readingContainer.appendChild(originalContent);
     this.slideContent.appendChild(readingContainer);

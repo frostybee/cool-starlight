@@ -1347,4 +1347,47 @@
       padding: 10px;
     }
   }
+
+  /* Input validation error styles */
+  .slide-input-error {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3) !important;
+  }
+
+  .goto-input-error {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3) !important;
+  }
+
+  .error-tooltip {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ef4444;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+  }
+
+  .error-tooltip-container {
+    position: relative;
+  }
+
+  /* Reading mode styles */
+  .slide-content-reading-mode {
+    height: 100% !important;
+    overflow: auto !important;
+  }
+
+  .reading-mode-content {
+    padding: 20px;
+    max-width: none;
+    height: auto;
+    line-height: 1.6;
+  }
 }
