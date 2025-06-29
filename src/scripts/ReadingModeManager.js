@@ -64,7 +64,7 @@ export class ReadingModeManager {
             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
             <path d="M9 3v18M15 3v18"/>
           </svg>
-          📽️ Slide Mode
+          Slide Mode
         `;
         toggleBtn.title = 'Switch to slide mode';
       }
@@ -94,7 +94,7 @@ export class ReadingModeManager {
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
           </svg>
-          📖 Reading Mode
+          Reading Mode
         `;
         toggleBtn.title = 'Switch to reading mode';
       }
