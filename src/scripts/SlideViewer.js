@@ -27,6 +27,7 @@ export class SlideViewer {
     this.gotoInput = document.getElementById('goto-slide-input');
     this.gotoConfirm = document.getElementById('goto-confirm');
     this.gotoCancel = document.getElementById('goto-cancel');
+    this.progressFill = document.getElementById('slide-progress-fill');
     
     // Initialize managers
     this.searchManager = new SearchManager(this);
@@ -154,7 +155,30 @@ export class SlideViewer {
       this.currentSlide = index;
       this.showSlide(index);
       this.tocManager.updateTocSelection();
+      this.updateProgress();
     }
+  }
+
+  updateProgress() {
+    if (!this.progressFill || this.slides.length === 0) return;
+    
+    let progress = 0;
+    
+    if (this.isReadingMode) {
+      // For reading mode, calculate based on scroll position
+      const slideContent = this.slideContent;
+      if (slideContent) {
+        const scrollTop = slideContent.scrollTop;
+        const scrollHeight = slideContent.scrollHeight;
+        const clientHeight = slideContent.clientHeight;
+        progress = scrollHeight > clientHeight ? (scrollTop / (scrollHeight - clientHeight)) * 100 : 0;
+      }
+    } else {
+      // For slide mode, calculate based on current slide
+      progress = ((this.currentSlide + 1) / this.slides.length) * 100;
+    }
+    
+    this.progressFill.style.width = `${Math.min(100, Math.max(0, progress))}%`;
   }
 
   bindEvents() {
@@ -394,6 +418,7 @@ export class SlideViewer {
     document.body.appendChild(this.modal);
     this.modal.classList.remove('hidden');
     this.showSlide(0);
+    this.updateProgress();
     document.body.style.overflow = 'hidden';
 
     // Apply saved font size when slideshow opens
@@ -483,6 +508,7 @@ export class SlideViewer {
     if (this.currentSlide < this.slides.length - 1) {
       this.currentSlide++;
       this.showSlide(this.currentSlide);
+      this.updateProgress();
     } else {
       console.log('Cannot go to next slide - already at last slide');
     }
@@ -492,6 +518,7 @@ export class SlideViewer {
     if (this.currentSlide > 0) {
       this.currentSlide--;
       this.showSlide(this.currentSlide);
+      this.updateProgress();
     }
   }
 

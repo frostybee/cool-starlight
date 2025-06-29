@@ -3,6 +3,7 @@ export class ReadingModeManager {
     this.slideViewer = slideViewer;
     this.toggleReadingModeBtn = document.getElementById('toggle-reading-mode');
     this.toggleReadingModeBtnMobile = document.getElementById('toggle-reading-mode-mobile');
+    this.scrollListener = null; // Store reference to scroll listener for cleanup
     
     this.bindEvents();
   }
@@ -53,6 +54,8 @@ export class ReadingModeManager {
       // Rebuild TOC for reading mode (must happen after showOriginalDocument)
       setTimeout(() => {
         this.slideViewer.tocManager.createTableOfContents();
+        this.slideViewer.updateProgress();
+        this.addReadingModeScrollListener();
       }, 100);
       
       if (toggleBtn) {
@@ -83,6 +86,8 @@ export class ReadingModeManager {
       
       // Rebuild TOC for slide mode
       this.slideViewer.tocManager.createTableOfContents();
+      this.removeReadingModeScrollListener();
+      this.slideViewer.updateProgress();
       
       if (toggleBtn) {
         toggleBtn.innerHTML = `
@@ -137,5 +142,40 @@ export class ReadingModeManager {
     
     readingContainer.appendChild(originalContent);
     this.slideViewer.slideContent.appendChild(readingContainer);
+  }
+
+  addReadingModeScrollListener() {
+    if (this.scrollListener) {
+      this.removeReadingModeScrollListener();
+    }
+    
+    // Create throttled scroll listener for better performance
+    this.scrollListener = this.throttle(() => {
+      if (this.slideViewer.isReadingMode) {
+        this.slideViewer.updateProgress();
+      }
+    }, 100); // Update every 100ms at most
+    
+    this.slideViewer.slideContent.addEventListener('scroll', this.scrollListener);
+  }
+
+  removeReadingModeScrollListener() {
+    if (this.scrollListener) {
+      this.slideViewer.slideContent.removeEventListener('scroll', this.scrollListener);
+      this.scrollListener = null;
+    }
+  }
+
+  throttle(func, limit) {
+    let inThrottle;
+    return function() {
+      const args = arguments;
+      const context = this;
+      if (!inThrottle) {
+        func.apply(context, args);
+        inThrottle = true;
+        setTimeout(() => inThrottle = false, limit);
+      }
+    }
   }
 }
