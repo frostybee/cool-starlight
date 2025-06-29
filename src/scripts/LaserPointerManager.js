@@ -10,6 +10,10 @@ export class LaserPointerManager {
     this.lastPoint = null;
     this.animationFrame = null;
     
+    // Shape drawing state
+    this.shapeStartPoint = null;
+    this.previewShape = null;
+    
     // Customizable settings with localStorage support
     this.settings = this.loadSettings();
     
@@ -31,7 +35,8 @@ export class LaserPointerManager {
       thickness: 3,
       glowThickness: 6,
       duration: 1500, // milliseconds
-      reverseFade: false
+      reverseFade: false,
+      shape: 'freehand' // freehand, circle, rectangle, line
     };
 
     try {
@@ -82,6 +87,17 @@ export class LaserPointerManager {
         </div>
         
         <div class="laser-pointer-setting-group">
+          <label class="laser-pointer-setting-label">Shape</label>
+          <select class="laser-pointer-shape-select">
+            <option value="freehand" ${this.settings.shape === 'freehand' ? 'selected' : ''}>✏️ Freehand</option>
+            <option value="circle" ${this.settings.shape === 'circle' ? 'selected' : ''}>⭕ Circle</option>
+            <option value="rectangle" ${this.settings.shape === 'rectangle' ? 'selected' : ''}>⬜ Rectangle</option>
+            <option value="line" ${this.settings.shape === 'line' ? 'selected' : ''}>📏 Line</option>
+          </select>
+          <div class="laser-pointer-setting-description">Choose drawing tool</div>
+        </div>
+        
+        <div class="laser-pointer-setting-group">
           <label class="laser-pointer-setting-label">Color</label>
           <input type="color" class="laser-pointer-color-picker" value="${this.settings.color}">
           <div class="laser-pointer-setting-description">Choose the laser pointer color</div>
@@ -114,7 +130,7 @@ export class LaserPointerManager {
         
         <div class="laser-pointer-preview">
           <div>Preview:</div>
-          <div class="laser-pointer-preview-line" style="background: ${this.settings.color}; height: ${this.settings.thickness}px; width: 200px;"></div>
+          <canvas class="laser-pointer-preview-canvas" width="200" height="60"></canvas>
         </div>
       </div>
     `;
@@ -127,15 +143,26 @@ export class LaserPointerManager {
       document.body.appendChild(this.settingsModal);
     }
     this.bindSettingsEvents();
+    
+    // Initialize preview
+    setTimeout(() => this.updatePreview(), 100);
   }
 
   bindSettingsEvents() {
+    const shapeSelect = this.settingsModal.querySelector('.laser-pointer-shape-select');
     const colorPicker = this.settingsModal.querySelector('.laser-pointer-color-picker');
     const thicknessSlider = this.settingsModal.querySelector('.laser-pointer-thickness-slider');
     const durationSlider = this.settingsModal.querySelector('.laser-pointer-duration-slider');
     const reverseFadeToggle = this.settingsModal.querySelector('.laser-pointer-reverse-fade');
     const closeBtn = this.settingsModal.querySelector('.laser-pointer-settings-close');
     const previewLine = this.settingsModal.querySelector('.laser-pointer-preview-line');
+
+    // Shape selector
+    shapeSelect.addEventListener('change', (e) => {
+      this.settings.shape = e.target.value;
+      this.updatePreview();
+      this.saveSettings();
+    });
 
     // Color picker
     colorPicker.addEventListener('change', (e) => {
@@ -199,9 +226,99 @@ export class LaserPointerManager {
   }
 
   updatePreview() {
-    const previewLine = this.settingsModal.querySelector('.laser-pointer-preview-line');
-    previewLine.style.background = this.settings.color;
-    previewLine.style.height = `${this.settings.thickness}px`;
+    const previewCanvas = this.settingsModal.querySelector('.laser-pointer-preview-canvas');
+    if (!previewCanvas) return;
+    
+    const ctx = previewCanvas.getContext('2d');
+    ctx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+    
+    // Set canvas styles
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    
+    // Draw preview based on selected shape
+    const centerX = previewCanvas.width / 2;
+    const centerY = previewCanvas.height / 2;
+    
+    if (this.settings.shape === 'freehand') {
+      // Draw a curved line for freehand
+      ctx.strokeStyle = this.settings.color;
+      ctx.lineWidth = this.settings.thickness;
+      ctx.globalAlpha = 0.9;
+      
+      ctx.beginPath();
+      ctx.moveTo(20, centerY);
+      ctx.quadraticCurveTo(centerX, centerY - 15, centerX + 50, centerY);
+      ctx.quadraticCurveTo(centerX + 100, centerY + 15, 180, centerY);
+      ctx.stroke();
+      
+      // Add glow
+      ctx.strokeStyle = this.settings.color;
+      ctx.lineWidth = this.settings.glowThickness;
+      ctx.globalAlpha = 0.4;
+      
+      ctx.beginPath();
+      ctx.moveTo(20, centerY);
+      ctx.quadraticCurveTo(centerX, centerY - 15, centerX + 50, centerY);
+      ctx.quadraticCurveTo(centerX + 100, centerY + 15, 180, centerY);
+      ctx.stroke();
+    } else if (this.settings.shape === 'line') {
+      // Draw a straight line
+      ctx.strokeStyle = this.settings.color;
+      ctx.lineWidth = this.settings.thickness;
+      ctx.globalAlpha = 0.9;
+      
+      ctx.beginPath();
+      ctx.moveTo(30, centerY - 10);
+      ctx.lineTo(170, centerY + 10);
+      ctx.stroke();
+      
+      // Add glow
+      ctx.strokeStyle = this.settings.color;
+      ctx.lineWidth = this.settings.glowThickness;
+      ctx.globalAlpha = 0.4;
+      
+      ctx.beginPath();
+      ctx.moveTo(30, centerY - 10);
+      ctx.lineTo(170, centerY + 10);
+      ctx.stroke();
+    } else if (this.settings.shape === 'rectangle') {
+      // Draw a rectangle
+      ctx.strokeStyle = this.settings.color;
+      ctx.lineWidth = this.settings.thickness;
+      ctx.globalAlpha = 0.9;
+      
+      ctx.beginPath();
+      ctx.rect(40, centerY - 15, 120, 30);
+      ctx.stroke();
+      
+      // Add glow
+      ctx.strokeStyle = this.settings.color;
+      ctx.lineWidth = this.settings.glowThickness;
+      ctx.globalAlpha = 0.4;
+      
+      ctx.beginPath();
+      ctx.rect(40, centerY - 15, 120, 30);
+      ctx.stroke();
+    } else if (this.settings.shape === 'circle') {
+      // Draw a circle
+      ctx.strokeStyle = this.settings.color;
+      ctx.lineWidth = this.settings.thickness;
+      ctx.globalAlpha = 0.9;
+      
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, 20, 0, 2 * Math.PI);
+      ctx.stroke();
+      
+      // Add glow
+      ctx.strokeStyle = this.settings.color;
+      ctx.lineWidth = this.settings.glowThickness;
+      ctx.globalAlpha = 0.4;
+      
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, 20, 0, 2 * Math.PI);
+      ctx.stroke();
+    }
   }
 
   adjustColor(hex, amount) {
@@ -346,11 +463,23 @@ export class LaserPointerManager {
     
     this.lastPoint = {x, y};
     
-    // Start a new continuous path
-    this.currentPath = {
-      points: [{x, y}],
-      timestamp: Date.now()
-    };
+    if (this.settings.shape === 'freehand') {
+      // Start a new continuous path for freehand drawing
+      this.currentPath = {
+        points: [{x, y}],
+        timestamp: Date.now(),
+        type: 'freehand'
+      };
+    } else {
+      // For shapes, store the start point
+      this.shapeStartPoint = {x, y};
+      this.previewShape = {
+        type: this.settings.shape,
+        startPoint: {x, y},
+        endPoint: {x, y},
+        timestamp: Date.now()
+      };
+    }
     
     // Start continuous rendering if not already running
     if (!this.animationFrame) {
@@ -362,11 +491,20 @@ export class LaserPointerManager {
     this.isDrawing = false;
     this.lastPoint = null;
     
-    // Finish the current path and add it to highlights
-    if (this.currentPath && this.currentPath.points.length > 1) {
-      this.highlights.push(this.currentPath);
+    if (this.settings.shape === 'freehand') {
+      // Finish the current path and add it to highlights
+      if (this.currentPath && this.currentPath.points.length > 1) {
+        this.highlights.push(this.currentPath);
+      }
+      this.currentPath = null;
+    } else {
+      // Finish the shape and add it to highlights
+      if (this.previewShape && this.shapeStartPoint) {
+        this.highlights.push(this.previewShape);
+      }
+      this.previewShape = null;
+      this.shapeStartPoint = null;
     }
-    this.currentPath = null;
   }
 
   updateTrail(e) {
@@ -374,17 +512,24 @@ export class LaserPointerManager {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
-    // Check if mouse moved enough to add a new point (for performance)
-    if (this.lastPoint) {
-      const distance = Math.sqrt(
-        Math.pow(x - this.lastPoint.x, 2) + Math.pow(y - this.lastPoint.y, 2)
-      );
-      if (distance < 3) return; // Skip if movement is too small
-    }
-    
-    // Add point to current continuous path
-    if (this.currentPath) {
-      this.currentPath.points.push({x, y});
+    if (this.settings.shape === 'freehand') {
+      // Check if mouse moved enough to add a new point (for performance)
+      if (this.lastPoint) {
+        const distance = Math.sqrt(
+          Math.pow(x - this.lastPoint.x, 2) + Math.pow(y - this.lastPoint.y, 2)
+        );
+        if (distance < 3) return; // Skip if movement is too small
+      }
+      
+      // Add point to current continuous path
+      if (this.currentPath) {
+        this.currentPath.points.push({x, y});
+      }
+    } else {
+      // Update shape preview
+      if (this.previewShape && this.shapeStartPoint) {
+        this.previewShape.endPoint = {x, y};
+      }
     }
     
     this.lastPoint = {x, y};
@@ -397,6 +542,15 @@ export class LaserPointerManager {
 
 
   drawPath(path) {
+    // Handle different path types
+    if (path.type === 'freehand') {
+      this.drawFreehandPath(path);
+    } else if (path.type === 'circle' || path.type === 'rectangle' || path.type === 'line') {
+      this.drawShape(path);
+    }
+  }
+
+  drawFreehandPath(path) {
     if (!path.points || path.points.length < 1) return;
     
     this.ctx.save();
@@ -493,6 +647,136 @@ export class LaserPointerManager {
     this.ctx.restore();
   }
 
+  drawShape(shape) {
+    if (!shape.startPoint || !shape.endPoint) return;
+    
+    this.ctx.save();
+    this.ctx.lineCap = 'round';
+    this.ctx.lineJoin = 'round';
+    
+    // Calculate age-based alpha for fading effect
+    const age = Date.now() - shape.timestamp;
+    const fadeTime = this.settings.duration;
+    
+    let alpha = 1;
+    const isCurrentShape = (shape === this.previewShape);
+    
+    if (!isCurrentShape) {
+      alpha = Math.max(0, 1 - (age / fadeTime));
+      if (alpha <= 0) return;
+    }
+    
+    const { startPoint, endPoint } = shape;
+    
+    // Draw shape based on type
+    if (shape.type === 'line') {
+      this.drawLine(startPoint, endPoint, alpha);
+    } else if (shape.type === 'rectangle') {
+      this.drawRectangle(startPoint, endPoint, alpha);
+    } else if (shape.type === 'circle') {
+      this.drawCircle(startPoint, endPoint, alpha);
+    }
+    
+    this.ctx.restore();
+  }
+
+  drawLine(start, end, alpha) {
+    // Draw main laser line
+    this.ctx.strokeStyle = this.settings.color;
+    this.ctx.lineWidth = this.settings.thickness;
+    this.ctx.globalAlpha = alpha * 0.9;
+    
+    this.ctx.beginPath();
+    this.ctx.moveTo(start.x, start.y);
+    this.ctx.lineTo(end.x, end.y);
+    this.ctx.stroke();
+    
+    // Add glow effect
+    this.ctx.strokeStyle = this.settings.color;
+    this.ctx.lineWidth = this.settings.glowThickness;
+    this.ctx.globalAlpha = alpha * 0.4;
+    
+    this.ctx.beginPath();
+    this.ctx.moveTo(start.x, start.y);
+    this.ctx.lineTo(end.x, end.y);
+    this.ctx.stroke();
+    
+    // Add bright center line
+    this.ctx.strokeStyle = this.settings.glowColor;
+    this.ctx.lineWidth = Math.max(1, this.settings.thickness / 3);
+    this.ctx.globalAlpha = alpha;
+    
+    this.ctx.beginPath();
+    this.ctx.moveTo(start.x, start.y);
+    this.ctx.lineTo(end.x, end.y);
+    this.ctx.stroke();
+  }
+
+  drawRectangle(start, end, alpha) {
+    const width = end.x - start.x;
+    const height = end.y - start.y;
+    
+    // Draw main laser line
+    this.ctx.strokeStyle = this.settings.color;
+    this.ctx.lineWidth = this.settings.thickness;
+    this.ctx.globalAlpha = alpha * 0.9;
+    
+    this.ctx.beginPath();
+    this.ctx.rect(start.x, start.y, width, height);
+    this.ctx.stroke();
+    
+    // Add glow effect
+    this.ctx.strokeStyle = this.settings.color;
+    this.ctx.lineWidth = this.settings.glowThickness;
+    this.ctx.globalAlpha = alpha * 0.4;
+    
+    this.ctx.beginPath();
+    this.ctx.rect(start.x, start.y, width, height);
+    this.ctx.stroke();
+    
+    // Add bright center line
+    this.ctx.strokeStyle = this.settings.glowColor;
+    this.ctx.lineWidth = Math.max(1, this.settings.thickness / 3);
+    this.ctx.globalAlpha = alpha;
+    
+    this.ctx.beginPath();
+    this.ctx.rect(start.x, start.y, width, height);
+    this.ctx.stroke();
+  }
+
+  drawCircle(start, end, alpha) {
+    const radius = Math.sqrt(
+      Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2)
+    );
+    
+    // Draw main laser line
+    this.ctx.strokeStyle = this.settings.color;
+    this.ctx.lineWidth = this.settings.thickness;
+    this.ctx.globalAlpha = alpha * 0.9;
+    
+    this.ctx.beginPath();
+    this.ctx.arc(start.x, start.y, radius, 0, 2 * Math.PI);
+    this.ctx.stroke();
+    
+    // Add glow effect
+    this.ctx.strokeStyle = this.settings.color;
+    this.ctx.lineWidth = this.settings.glowThickness;
+    this.ctx.globalAlpha = alpha * 0.4;
+    
+    this.ctx.beginPath();
+    this.ctx.arc(start.x, start.y, radius, 0, 2 * Math.PI);
+    this.ctx.stroke();
+    
+    // Add bright center line
+    this.ctx.strokeStyle = this.settings.glowColor;
+    this.ctx.lineWidth = Math.max(1, this.settings.thickness / 3);
+    this.ctx.globalAlpha = alpha;
+    
+    this.ctx.beginPath();
+    this.ctx.arc(start.x, start.y, radius, 0, 2 * Math.PI);
+    this.ctx.stroke();
+  }
+
   drawSmoothCurve(points) {
     if (points.length < 2) return;
     
@@ -531,13 +815,18 @@ export class LaserPointerManager {
         this.drawPath(path);
       });
       
-      // Draw current path being drawn
+      // Draw current path being drawn (freehand)
       if (this.currentPath && this.currentPath.points.length >= 2) {
         this.drawPath(this.currentPath);
       }
       
+      // Draw current shape preview
+      if (this.previewShape) {
+        this.drawPath(this.previewShape);
+      }
+      
       // Continue animation if there are highlights or if drawing is active
-      if (this.highlights.length > 0 || this.isDrawing || this.currentPath) {
+      if (this.highlights.length > 0 || this.isDrawing || this.currentPath || this.previewShape) {
         this.animationFrame = requestAnimationFrame(render);
       } else {
         this.animationFrame = null;
