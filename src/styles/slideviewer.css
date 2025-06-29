@@ -41,6 +41,10 @@
     --fb-slide__search-match-bg: linear-gradient(135deg, #ecfdf5, #d1fae5);
     --fb-slide__search-match-border: #059669;
     --fb-slide__search-match-shadow: rgba(5, 150, 105, 0.2);
+
+    /* Compact button colors for Light Theme */
+    --fb-compact-btn-bg: var(--sl-color-gray-6);
+    --fb-compact-btn-bg-hover: var(--sl-color-gray-5);
   }
 
   /* Dark theme overrides - using multiple selectors for Starlight compatibility */
@@ -77,6 +81,10 @@
     --fb-slide__search-match-bg: linear-gradient(135deg, #065f46, #047857);
     --fb-slide__search-match-border: #34d399;
     --fb-slide__search-match-shadow: rgba(52, 211, 153, 0.3);
+
+    /* Compact button colors for Dark Theme */
+    --fb-compact-btn-bg: var(--sl-color-gray-6);
+    --fb-compact-btn-bg-hover: var(--sl-color-gray-5);
   }
 
   /* Additional dark theme support for common dark mode patterns */
@@ -111,6 +119,10 @@
       --fb-slide__search-match-bg: linear-gradient(135deg, #065f46, #047857);
       --fb-slide__search-match-border: #34d399;
       --fb-slide__search-match-shadow: rgba(52, 211, 153, 0.3);
+
+      /* Compact button colors for Dark Theme */
+      --fb-compact-btn-bg: var(--sl-color-gray-6);
+      --fb-compact-btn-bg-hover: var(--sl-color-gray-5);
     }
   }
 
@@ -2126,7 +2138,7 @@
   }
 
   .fb-slide__help-btn {
-    background: var(--sl-color-gray-6) !important;
+    background: var(--fb-compact-btn-bg) !important;
     color: var(--sl-color-text) !important;
     border: none;
     padding: 0.75rem;
@@ -2137,7 +2149,7 @@
   }
 
   .fb-slide__help-btn:hover {
-    background: var(--sl-color-gray-5) !important;
+    background: var(--fb-compact-btn-bg-hover) !important;
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   }
