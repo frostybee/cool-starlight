@@ -51,6 +51,14 @@ export class TOCManager {
     console.log('Creating table of contents...');
     this.tocContent.innerHTML = '';
 
+    if (this.slideViewer.isReadingMode) {
+      this.createReadingModeTOC();
+    } else {
+      this.createSlideModeTOC();
+    }
+  }
+
+  createSlideModeTOC() {
     this.slideViewer.slides.forEach((slide, index) => {
       // Extract the first heading from each slide
       const heading = slide.querySelector('h1, h2, h3, h4, h5, h6');
@@ -102,6 +110,132 @@ export class TOCManager {
 
     console.log('TOC items created, total:', this.slideViewer.slides.length);
     this.updateTocSelection();
+  }
+
+  createReadingModeTOC() {
+    // Find all headings in the reading mode content
+    const readingContent = document.querySelector('.fb-slide__reading-mode-content');
+    if (!readingContent) {
+      console.warn('No reading mode content found for TOC generation');
+      return;
+    }
+
+    const headings = readingContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    console.log('Found headings in reading mode:', headings.length);
+
+    headings.forEach((heading, index) => {
+      const title = heading.textContent.trim();
+      const headingLevel = heading.tagName.toLowerCase();
+      
+      // Create unique ID for heading if it doesn't have one
+      if (!heading.id) {
+        // Create a more descriptive ID based on the heading text
+        const cleanTitle = title.toLowerCase()
+          .replace(/[^\w\s-]/g, '') // Remove special characters
+          .replace(/\s+/g, '-') // Replace spaces with hyphens
+          .slice(0, 50); // Limit length
+        heading.id = `reading-${cleanTitle}-${index}`;
+      }
+      
+      console.log('Processing heading:', title, 'with ID:', heading.id);
+
+      // Create container for number + item
+      const tocItemContainer = document.createElement('div');
+      tocItemContainer.className = `fb-slide__toc-item-container ${headingLevel}`;
+
+      // Create the clickable item
+      const tocItem = document.createElement('button');
+      tocItem.className = `fb-slide__toc-item ${headingLevel}`;
+      tocItem.setAttribute('data-heading-id', heading.id);
+
+      // Create number element (inside the button)
+      const numberElement = document.createElement('span');
+      numberElement.className = 'fb-slide__toc-item-number';
+      numberElement.textContent = (index + 1).toString();
+
+      // Create title element
+      const titleElement = document.createElement('span');
+      titleElement.className = 'fb-slide__toc-item-title';
+      titleElement.textContent = title;
+
+      tocItem.appendChild(numberElement);
+      tocItem.appendChild(titleElement);
+
+      tocItem.addEventListener('click', () => {
+        this.scrollToHeading(heading.id);
+      });
+
+      tocItemContainer.appendChild(tocItem);
+      this.tocContent.appendChild(tocItemContainer);
+      console.log('Added reading mode TOC item:', title, 'with ID:', heading.id);
+    });
+
+    console.log('Reading mode TOC items created, total:', headings.length);
+  }
+
+  scrollToHeading(headingId) {
+    console.log('Attempting to scroll to heading:', headingId);
+    const heading = document.getElementById(headingId);
+    
+    if (heading) {
+      console.log('Found heading element:', heading);
+      
+      // Find the scrollable container (the slide content area)
+      const slideContent = document.querySelector('.fb-slide__content');
+      
+      if (slideContent) {
+        // Get the heading's position relative to the document
+        const headingOffsetTop = this.getElementOffsetTop(heading, slideContent);
+        const targetPosition = headingOffsetTop - 20; // 20px offset from top
+        
+        console.log('Current scroll position:', slideContent.scrollTop);
+        console.log('Target scroll position:', targetPosition);
+        console.log('Heading offset from container:', headingOffsetTop);
+        
+        slideContent.scrollTo({
+          top: Math.max(0, targetPosition), // Ensure we don't scroll to negative position
+          behavior: 'smooth'
+        });
+      } else {
+        // Fallback to default scrollIntoView
+        console.log('Using fallback scrollIntoView');
+        heading.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }
+      
+      // Update active state
+      this.updateReadingModeTocSelection(headingId);
+    } else {
+      console.warn('Heading not found with ID:', headingId);
+    }
+  }
+
+  // Helper function to calculate element's offset relative to a container
+  getElementOffsetTop(element, container) {
+    let offsetTop = 0;
+    let currentElement = element;
+    
+    while (currentElement && currentElement !== container) {
+      offsetTop += currentElement.offsetTop;
+      currentElement = currentElement.offsetParent;
+    }
+    
+    return offsetTop;
+  }
+
+  updateReadingModeTocSelection(activeHeadingId) {
+    const tocItems = this.tocContent.querySelectorAll('.fb-slide__toc-item');
+    tocItems.forEach(item => {
+      const headingId = item.getAttribute('data-heading-id');
+      const isActive = headingId === activeHeadingId;
+      item.classList.toggle('active', isActive);
+      
+      if (isActive) {
+        this.scrollTocToActiveItem(item);
+      }
+    });
   }
 
   updateTocSelection() {

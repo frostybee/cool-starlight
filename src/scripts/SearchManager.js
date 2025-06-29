@@ -265,7 +265,7 @@ export class SearchManager {
     this.searchModalInput.focus();
     this.clearSearchModalResults();
     this.searchResultsCount.textContent = this.slideViewer.isReadingMode ? 
-      'Enter a search term to find content' : 'Enter a search term to find slides';
+      'Enter a search keyword to find content' : 'Enter a search keyword to find slides';
   }
 
   closeSearchModal() {
@@ -282,7 +282,7 @@ export class SearchManager {
     this.searchModalInput.value = '';
     this.searchModalInput.focus();
     this.clearSearchModalResults();
-    this.searchResultsCount.textContent = 'Enter a search term to find slides';
+    this.searchResultsCount.textContent = 'Enter a search keyword to find slides';
   }
 
   performSearchModal(query) {
@@ -291,7 +291,7 @@ export class SearchManager {
     if (!trimmedQuery) {
       this.clearSearchModalResults();
       this.searchResultsCount.textContent = this.slideViewer.isReadingMode ? 
-        'Enter a search term to find content' : 'Enter a search term to find slides';
+        'Enter a search keyword to find content' : 'Enter a search keyword to find slides';
       return;
     }
 

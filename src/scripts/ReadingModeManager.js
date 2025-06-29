@@ -49,6 +49,12 @@ export class ReadingModeManager {
     if (this.slideViewer.isReadingMode) {
       // Reading mode: Show the entire original document content
       this.showOriginalDocument();
+      
+      // Rebuild TOC for reading mode (must happen after showOriginalDocument)
+      setTimeout(() => {
+        this.slideViewer.tocManager.createTableOfContents();
+      }, 100);
+      
       if (toggleBtn) {
         toggleBtn.innerHTML = `
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -74,6 +80,10 @@ export class ReadingModeManager {
       // Slide mode: Reset slide content styling and show current slide
       this.slideViewer.slideContent.classList.remove('fb-slide__content-reading-mode');
       this.slideViewer.showSlide(this.slideViewer.currentSlide);
+      
+      // Rebuild TOC for slide mode
+      this.slideViewer.tocManager.createTableOfContents();
+      
       if (toggleBtn) {
         toggleBtn.innerHTML = `
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
