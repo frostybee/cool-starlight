@@ -31,6 +31,23 @@ class SlideViewer {
     this.clearSearchBtn = document.getElementById('clear-search');
     this.toggleReadingModeBtn = document.getElementById('toggle-reading-mode');
     this.showThumbnailsBtn = document.getElementById('show-thumbnails');
+    
+    // Mobile navigation elements
+    this.mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    this.mobileDropdownMenu = document.getElementById('mobile-dropdown-menu');
+    this.prevBtnMobile = document.getElementById('prev-slide-mobile');
+    this.nextBtnMobile = document.getElementById('next-slide-mobile');
+    this.slideCounterMobile = document.getElementById('slide-counter-mobile');
+    this.slideInputMobile = document.getElementById('slide-input-mobile');
+    this.totalSlidesMobile = document.getElementById('total-slides-mobile');
+    
+    // Mobile dropdown buttons
+    this.decreaseFontBtnMobile = document.getElementById('slide-decrease-font-mobile');
+    this.resetFontBtnMobile = document.getElementById('slide-reset-font-mobile');
+    this.increaseFontBtnMobile = document.getElementById('slide-increase-font-mobile');
+    this.showThumbnailsBtnMobile = document.getElementById('show-thumbnails-mobile');
+    this.toggleReadingModeBtnMobile = document.getElementById('toggle-reading-mode-mobile');
+    this.closeBtnMobile = document.getElementById('close-slideshow-mobile');
 
     console.log('SlideViewer elements found:', {
       modal: !!this.modal,
@@ -132,9 +149,15 @@ class SlideViewer {
     }
 
     this.totalSlidesEl.textContent = this.slides.length.toString();
+    if (this.totalSlidesMobile) {
+      this.totalSlidesMobile.textContent = this.slides.length.toString();
+    }
 
     // Update input max values
     this.slideInput.setAttribute('max', this.slides.length.toString());
+    if (this.slideInputMobile) {
+      this.slideInputMobile.setAttribute('max', this.slides.length.toString());
+    }
     this.gotoInput.setAttribute('max', this.slides.length.toString());
 
     this.createTableOfContents();
@@ -690,6 +713,134 @@ class SlideViewer {
       console.warn('Show thumbnails button not found!');
     }
 
+    // Mobile navigation events
+    if (this.mobileMenuToggle && this.mobileDropdownMenu) {
+      this.mobileMenuToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.toggleMobileMenu();
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!this.mobileMenuToggle.contains(e.target) && 
+            !this.mobileDropdownMenu.contains(e.target)) {
+          this.closeMobileMenu();
+        }
+      });
+    }
+
+    // Mobile navigation buttons
+    if (this.prevBtnMobile) {
+      this.prevBtnMobile.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.previousSlide();
+      });
+    }
+
+    if (this.nextBtnMobile) {
+      this.nextBtnMobile.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.nextSlide();
+      });
+    }
+
+    // Mobile slide counter
+    if (this.slideCounterMobile) {
+      this.slideCounterMobile.addEventListener('click', (e) => {
+        if (e.target === this.slideCounterMobile || this.slideCounterMobile.contains(e.target)) {
+          this.activateSlideInputMobile();
+        }
+      });
+
+      this.slideCounterMobile.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        this.openGotoModal();
+      });
+    }
+
+    // Mobile slide input
+    if (this.slideInputMobile) {
+      this.slideInputMobile.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          this.goToSlideFromInput(this.slideInputMobile);
+        } else if (e.key === 'Escape') {
+          this.deactivateSlideInputMobile();
+        }
+      });
+
+      this.slideInputMobile.addEventListener('input', () => {
+        if (!this.slideInputMobile.hasAttribute('readonly')) {
+          clearTimeout(this.slideInputMobileTimeout);
+          this.slideInputMobileTimeout = setTimeout(() => {
+            this.goToSlideFromInput(this.slideInputMobile);
+          }, 500);
+        }
+      });
+
+      this.slideInputMobile.addEventListener('change', () => {
+        if (!this.slideInputMobile.hasAttribute('readonly')) {
+          clearTimeout(this.slideInputMobileTimeout);
+          this.goToSlideFromInput(this.slideInputMobile);
+        }
+      });
+
+      this.slideInputMobile.addEventListener('blur', () => {
+        clearTimeout(this.slideInputMobileTimeout);
+        this.deactivateSlideInputMobile();
+      });
+    }
+
+    // Mobile dropdown buttons
+    if (this.decreaseFontBtnMobile) {
+      this.decreaseFontBtnMobile.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.adjustFontSize(-20);
+        this.closeMobileMenu();
+      });
+    }
+
+    if (this.resetFontBtnMobile) {
+      this.resetFontBtnMobile.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.resetFontSize();
+        this.closeMobileMenu();
+      });
+    }
+
+    if (this.increaseFontBtnMobile) {
+      this.increaseFontBtnMobile.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.adjustFontSize(20);
+        this.closeMobileMenu();
+      });
+    }
+
+    if (this.showThumbnailsBtnMobile) {
+      this.showThumbnailsBtnMobile.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.goToSlide(0);
+        this.closeMobileMenu();
+      });
+    }
+
+    if (this.toggleReadingModeBtnMobile) {
+      this.toggleReadingModeBtnMobile.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.toggleReadingMode();
+        this.closeMobileMenu();
+      });
+    }
+
+    if (this.closeBtnMobile) {
+      this.closeBtnMobile.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.closeSlideshow();
+      });
+    }
+
   }
 
   openSlideshow() {
@@ -748,6 +899,9 @@ class SlideViewer {
 
       this.slideContent.appendChild(slideClone);
       this.slideInput.value = (index + 1).toString();
+      if (this.slideInputMobile) {
+        this.slideInputMobile.value = (index + 1).toString();
+      }
       this.slideNumberIndicator.textContent = (index + 1).toString();
 
       // If this is the preview slide (index 0), rebind thumbnail events
@@ -1215,6 +1369,9 @@ class SlideViewer {
       this.prevBtn.style.display = 'none';
       this.nextBtn.style.display = 'none';
       this.slideCounter.style.display = 'none';
+      if (this.prevBtnMobile) this.prevBtnMobile.style.display = 'none';
+      if (this.nextBtnMobile) this.nextBtnMobile.style.display = 'none';
+      if (this.slideCounterMobile) this.slideCounterMobile.style.display = 'none';
       // Set slide number indicator to 1 in reading mode
       this.slideNumberIndicator.textContent = '1';
     } else {
@@ -1235,6 +1392,9 @@ class SlideViewer {
       this.prevBtn.style.display = '';
       this.nextBtn.style.display = '';
       this.slideCounter.style.display = '';
+      if (this.prevBtnMobile) this.prevBtnMobile.style.display = '';
+      if (this.nextBtnMobile) this.nextBtnMobile.style.display = '';
+      if (this.slideCounterMobile) this.slideCounterMobile.style.display = '';
     }
   }
 
@@ -1270,6 +1430,40 @@ class SlideViewer {
     
     readingContainer.appendChild(originalContent);
     this.slideContent.appendChild(readingContainer);
+  }
+
+  // Mobile menu methods
+  toggleMobileMenu() {
+    if (this.mobileDropdownMenu.classList.contains('hidden')) {
+      this.openMobileMenu();
+    } else {
+      this.closeMobileMenu();
+    }
+  }
+
+  openMobileMenu() {
+    this.mobileDropdownMenu.classList.remove('hidden');
+  }
+
+  closeMobileMenu() {
+    this.mobileDropdownMenu.classList.add('hidden');
+  }
+
+  // Mobile slide input methods
+  activateSlideInputMobile() {
+    if (this.slideInputMobile) {
+      this.slideInputMobile.removeAttribute('readonly');
+      this.slideInputMobile.value = this.currentSlide + 1;
+      this.slideInputMobile.focus();
+      this.slideInputMobile.select();
+    }
+  }
+
+  deactivateSlideInputMobile() {
+    if (this.slideInputMobile) {
+      this.slideInputMobile.setAttribute('readonly', 'true');
+      this.slideInputMobile.value = this.currentSlide + 1;
+    }
   }
 
 }
