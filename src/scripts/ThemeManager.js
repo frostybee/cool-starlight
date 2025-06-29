@@ -1,7 +1,6 @@
 export class ThemeManager {
   constructor(slideViewer) {
     this.slideViewer = slideViewer;
-    this.currentTheme = this.loadTheme();
     
     // Available themes with their display names
     this.themes = {
@@ -11,6 +10,8 @@ export class ThemeManager {
       'github': 'GitHub',
       'discord': 'Discord'
     };
+    
+    this.currentTheme = this.loadTheme();
     
     this.bindEvents();
   }
