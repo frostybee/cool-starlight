@@ -16,7 +16,7 @@
     /* TOC Color Variables for Light Theme */
     --fb-slide-toc-bg: #f8fafc;
     --fb-slide-toc-border: #e2e8f0;
-    --fb-slide-toc-text: var(--sl-color-text);
+    --fb-slide-toc-text: #1f2937;
     --fb-slide-toc-hover-bg: #e0f2fe;
     --fb-slide-toc-hover-border: #3b82f6;
     --fb-slide-toc-hover-shadow: rgba(59, 130, 246, 0.2);
@@ -24,8 +24,8 @@
     --fb-slide-toc-active-text: #1f2937;
     --fb-slide-toc-active-border: #f59e0b;
     --fb-slide-toc-active-shadow: rgba(251, 191, 36, 0.4);
-    --fb-slide-toc-number-bg: var(--sl-color-accent);
-    --fb-slide-toc-number-text: var(--sl-color-accent-text);
+    --fb-slide-toc-number-bg: #3b82f6;
+    --fb-slide-toc-number-text: #ffffff;
     --fb-slide-toc-number-shadow: rgba(99, 102, 241, 0.3);
 
     /* Progress Bar Colors for Light Theme */
@@ -42,9 +42,24 @@
     --fb-slide__search-match-border: #059669;
     --fb-slide__search-match-shadow: rgba(5, 150, 105, 0.2);
 
+    /* UI Colors for Light Theme */
+    --fb-slide-bg: #ffffff;
+    --fb-slide-bg-nav: #f8fafc;
+    --fb-slide-bg-sidebar: #f1f5f9;
+    --fb-slide-gray-1: #f8fafc;
+    --fb-slide-gray-2: #64748b;
+    --fb-slide-gray-3: #475569;
+    --fb-slide-gray-4: #334155;
+    --fb-slide-gray-5: #1e293b;
+    --fb-slide-gray-6: #0f172a;
+    --fb-slide-accent: #3b82f6;
+    --fb-slide-accent-text: #ffffff;
+    --fb-slide-accent-high: #2563eb;
+    --fb-slide-accent-low: rgba(59, 130, 246, 0.1);
+
     /* Compact button colors for Light Theme */
-    --fb-compact-btn-bg: var(--sl-color-gray-6);
-    --fb-compact-btn-bg-hover: var(--sl-color-gray-5);
+    --fb-compact-btn-bg: #e2e8f0;
+    --fb-compact-btn-bg-hover: #cbd5e1;
 
     /* Slide Number Indicator */
     --fb-slide-number-bg: #1e3a8a;
@@ -121,9 +136,24 @@
     --fb-slide__search-match-border: #34d399;
     --fb-slide__search-match-shadow: rgba(52, 211, 153, 0.3);
 
+    /* UI Colors for Dark Theme */
+    --fb-slide-bg: #0f172a;
+    --fb-slide-bg-nav: #1e293b;
+    --fb-slide-bg-sidebar: #334155;
+    --fb-slide-gray-1: #0f172a;
+    --fb-slide-gray-2: #64748b;
+    --fb-slide-gray-3: #94a3b8;
+    --fb-slide-gray-4: #cbd5e1;
+    --fb-slide-gray-5: #e2e8f0;
+    --fb-slide-gray-6: #334155;
+    --fb-slide-accent: #3b82f6;
+    --fb-slide-accent-text: #ffffff;
+    --fb-slide-accent-high: #2563eb;
+    --fb-slide-accent-low: rgba(59, 130, 246, 0.1);
+
     /* Compact button colors for Dark Theme */
-    --fb-compact-btn-bg: var(--sl-color-gray-6);
-    --fb-compact-btn-bg-hover: var(--sl-color-gray-5);
+    --fb-compact-btn-bg: #334155;
+    --fb-compact-btn-bg-hover: #475569;
 
     /* Slide Number Indicator - Dark Theme */
     --fb-slide-number-bg: #2563eb;
@@ -168,7 +198,7 @@
   .fb-slide__theme-light {
     --fb-slide-toc-bg: #f8fafc;
     --fb-slide-toc-border: #e2e8f0;
-    --fb-slide-toc-text: var(--sl-color-text);
+    --fb-slide-toc-text: #1f2937;
     --fb-slide-toc-hover-bg: #e0f2fe;
     --fb-slide-toc-hover-border: #3b82f6;
     --fb-slide-toc-hover-shadow: rgba(59, 130, 246, 0.2);
@@ -176,8 +206,8 @@
     --fb-slide-toc-active-text: #1f2937;
     --fb-slide-toc-active-border: #f59e0b;
     --fb-slide-toc-active-shadow: rgba(251, 191, 36, 0.4);
-    --fb-slide-toc-number-bg: var(--sl-color-accent);
-    --fb-slide-toc-number-text: var(--sl-color-accent-text);
+    --fb-slide-toc-number-bg: #3b82f6;
+    --fb-slide-toc-number-text: #ffffff;
     --fb-slide-toc-number-shadow: rgba(99, 102, 241, 0.3);
     --fb-slide-text-color: #000000;
     --fb-slide-heading-color: #000000;
@@ -235,6 +265,16 @@
     --fb-slide-laser-indicator-text: white;
   }
 
+
+  /* Force black text when Starlight is specifically in light mode */
+  [data-theme="light"] .fb-slide__content p,
+  [data-theme="light"] .fb-slide__content li,
+  [data-theme="light"] .fb-slide__content blockquote,
+  .sl-theme-light .fb-slide__content p,
+  .sl-theme-light .fb-slide__content li,
+  .sl-theme-light .fb-slide__content blockquote {
+    color: #000000 !important;
+  }
 
   /* 🧛 Dracula Theme */
   .fb-slide__theme-dracula {
@@ -306,6 +346,7 @@
     --fb-slide-laser-indicator-bg: rgba(255, 121, 198, 0.9);
     --fb-slide-laser-indicator-text: #282a36;
   }
+
 
   /* 🐙 GitHub Theme */
   .fb-slide__theme-github {
@@ -2122,12 +2163,12 @@
   }
 
   .fb-slide__content strong {
-    color: var(--sl-color-accent);
+    color: var(--fb-slide-accent);
     font-weight: 700;
   }
 
   .fb-slide__content em {
-    color: var(--sl-color-accent);
+    color: var(--fb-slide-accent);
     font-style: italic;
   }
 
@@ -2166,8 +2207,8 @@
   .fb-slide__content blockquote {
     margin: 2rem 0;
     padding: 2rem;
-    border-left: 6px solid var(--sl-color-accent);
-    background: var(--sl-color-bg-accent);
+    border-left: 6px solid #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
     border-radius: 0 8px 8px 0;
     font-style: italic;
     font-size: calc(1.6rem * var(--font-scale));
