@@ -192,7 +192,7 @@ export default class TelescopeSearch {
   }
 
   handleKeyDown(event) {
-    // Ctrl+P or Cmd+P to open
+    // Ctrl+/ or Cmd+/ to open
     if ((event.ctrlKey || event.metaKey) && event.key === '/') {
       event.preventDefault();
       this.open();
