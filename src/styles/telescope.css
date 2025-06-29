@@ -12,11 +12,11 @@
 
 @keyframes telescopeSlideIn {
   from {
-    transform: translateY(-20px) scale(0.95);
+    transform: translateY(-10px);
     opacity: 0;
   }
   to {
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
     opacity: 1;
   }
 }
@@ -82,8 +82,8 @@ kbd {
   display: flex;
   flex-direction: column;
   position: relative;
-  transform: translateY(-20px) scale(0.95);
-  animation: telescopeSlideIn 0.3s ease-out 0.1s forwards;
+  transform: translateY(-10px);
+  animation: telescopeSlideIn 0.2s ease-out forwards;
 }
 
 /* Close Button */
