@@ -32,11 +32,11 @@
 
 /* Keyboard styling */
 kbd {
-  background-color: #45475a;
+  background-color: #21262d;
   border-radius: 4px;
-  border: 1px solid #6c7086;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  color: #cdd6f4;
+  border: 1px solid #30363d;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  color: #e6edf3;
   display: inline-block;
   font-size: 12px;
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -52,7 +52,7 @@ kbd {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(1, 4, 9, 0.8);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
@@ -73,11 +73,11 @@ kbd {
   width: 900px;
   max-width: 95%;
   max-height: 85vh;
-  background-color: #1e1e2e;
+  background-color: #0d1117;
   border-radius: 16px;
   box-shadow: 
     0 25px 50px -12px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(148, 163, 184, 0.08);
+    0 0 0 1px rgba(48, 54, 61, 0.5);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -96,7 +96,7 @@ kbd {
   border-radius: 8px;
   background: none;
   border: none;
-  color: #6c7086;
+  color: #7d8590;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -115,16 +115,16 @@ kbd {
 }
 
 .telescope-close-button:hover {
-  background-color: #45475a;
-  color: #f38ba8;
+  background-color: #21262d;
+  color: #f85149;
   transform: scale(1.05);
 }
 
 /* Tabs */
 .telescope-tabs {
   display: flex;
-  border-bottom: 1px solid #313244;
-  background-color: #181825;
+  border-bottom: 1px solid #21262d;
+  background-color: #010409;
   padding: 0 16px;
 }
 
@@ -135,7 +135,7 @@ kbd {
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  color: #6c7086;
+  color: #7d8590;
   position: relative;
   transition: all 0.2s ease;
   border-radius: 8px 8px 0 0;
@@ -143,14 +143,14 @@ kbd {
 }
 
 .telescope-tab:hover {
-  color: #89b4fa;
-  background-color: rgba(137, 180, 250, 0.05);
+  color: #0969da;
+  background-color: rgba(9, 105, 218, 0.1);
 }
 
 .telescope-tab.active {
-  color: #89b4fa;
-  background-color: #1e1e2e;
-  border-bottom: 2px solid #89b4fa;
+  color: #0969da;
+  background-color: #0d1117;
+  border-bottom: 2px solid #0969da;
   margin-bottom: -1px;
 }
 
@@ -162,26 +162,26 @@ kbd {
   border-radius: 0;
   font-size: 18px;
   font-weight: 400;
-  background-color: #1e1e2e;
-  color: #cdd6f4;
+  background-color: #0d1117;
+  color: #e6edf3;
   outline: none;
   margin: 0;
   display: block;
   transition: all 0.2s ease;
   letter-spacing: 0.01em;
   line-height: 1.4;
-  border-bottom: 1px solid #313244;
+  border-bottom: 1px solid #21262d;
 }
 
 .telescope-search-input::placeholder {
-  color: #6c7086;
+  color: #7d8590;
   font-weight: 400;
 }
 
 .telescope-search-input:focus {
-  background-color: #1e1e2e;
-  border-bottom-color: #89b4fa;
-  box-shadow: 0 1px 0 #89b4fa;
+  background-color: #0d1117;
+  border-bottom-color: #0969da;
+  box-shadow: 0 1px 0 #0969da;
 }
 
 /* Results Container */
@@ -189,7 +189,7 @@ kbd {
   max-height: 60vh;
   overflow-y: auto;
   padding: 8px 0;
-  background-color: #1e1e2e;
+  background-color: #0d1117;
 }
 
 .telescope-result-list {
@@ -211,13 +211,13 @@ kbd {
 }
 
 .telescope-result-item:hover {
-  background-color: rgba(137, 180, 250, 0.08);
-  border-left-color: rgba(137, 180, 250, 0.3);
+  background-color: rgba(9, 105, 218, 0.1);
+  border-left-color: rgba(9, 105, 218, 0.4);
 }
 
 .telescope-result-item.telescope-selected {
-  background-color: rgba(137, 180, 250, 0.12);
-  border-left-color: #89b4fa;
+  background-color: rgba(9, 105, 218, 0.15);
+  border-left-color: #0969da;
 }
 
 .telescope-result-content-row {
@@ -231,7 +231,7 @@ kbd {
 
 .telescope-result-title {
   font-weight: 600;
-  color: #89b4fa;
+  color: #0969da;
   font-size: 15px;
   line-height: 1.3;
   flex: 0 0 auto;
@@ -243,7 +243,7 @@ kbd {
 
 .telescope-result-description {
   font-size: 14px;
-  color: #bac2de;
+  color: #e6edf3;
   flex: 1;
   line-height: 1.3;
   white-space: nowrap;
@@ -260,11 +260,11 @@ kbd {
 }
 
 .telescope-tag {
-  background-color: #313244;
+  background-color: #21262d;
   border-radius: 12px;
   padding: 2px 8px;
   font-size: 11px;
-  color: #a6adc8;
+  color: #1a7f37;
   line-height: 1.4;
   font-weight: 500;
 }
@@ -273,7 +273,7 @@ kbd {
 .telescope-pin-button {
   background: none;
   border: none;
-  color: #6c7086;
+  color: #7d8590;
   cursor: pointer;
   width: 28px;
   height: 28px;
@@ -288,14 +288,14 @@ kbd {
 }
 
 .telescope-pin-button:hover {
-  color: #f9e2af;
-  background-color: rgba(249, 226, 175, 0.1);
+  color: #8250df;
+  background-color: rgba(130, 80, 223, 0.15);
   transform: scale(1.1);
 }
 
 .telescope-pin-button.pinned {
-  color: #f9e2af;
-  background-color: rgba(249, 226, 175, 0.15);
+  color: #8250df;
+  background-color: rgba(130, 80, 223, 0.2);
 }
 
 .telescope-pin-button svg {
@@ -309,9 +309,9 @@ kbd {
   padding: 8px 20px 6px;
   font-size: 11px;
   font-weight: 700;
-  color: #6c7086;
-  background-color: #181825;
-  border-top: 1px solid #313244;
+  color: #7d8590;
+  background-color: #010409;
+  border-top: 1px solid #21262d;
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
@@ -320,11 +320,11 @@ kbd {
   padding: 8px 20px 6px;
   font-size: 11px;
   font-weight: 700;
-  color: #6c7086;
+  color: #7d8590;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  background-color: #181825;
-  border-bottom: 1px solid #313244;
+  background-color: #010409;
+  border-bottom: 1px solid #21262d;
 }
 
 .telescope-recent-section {
@@ -336,7 +336,7 @@ kbd {
 .telescope-no-results {
   padding: 40px 20px;
   text-align: center;
-  color: #6c7086;
+  color: #7d8590;
   font-style: italic;
   font-size: 15px;
 }
@@ -344,8 +344,8 @@ kbd {
 /* Footer */
 .telescope-footer {
   padding: 12px 20px;
-  border-top: 1px solid #313244;
-  background-color: #181825;
+  border-top: 1px solid #21262d;
+  background-color: #010409;
 }
 
 .telescope-shortcuts {
@@ -353,7 +353,7 @@ kbd {
   justify-content: center;
   gap: 20px;
   font-size: 13px;
-  color: #6c7086;
+  color: #7d8590;
 }
 
 .telescope-shortcuts span {
@@ -367,9 +367,9 @@ kbd {
   display: none;
   flex: 1;
   overflow-y: auto;
-  background-color: #1e1e2e;
+  background-color: #0d1117;
   scrollbar-width: thin;
-  scrollbar-color: #45475a #313244;
+  scrollbar-color: #30363d #21262d;
 }
 
 .telescope-section.active {
@@ -384,27 +384,27 @@ kbd {
 
 .telescope-results::-webkit-scrollbar-track,
 .telescope-section::-webkit-scrollbar-track {
-  background: #313244;
+  background: #21262d;
   border-radius: 4px;
 }
 
 .telescope-results::-webkit-scrollbar-thumb,
 .telescope-section::-webkit-scrollbar-thumb {
-  background: #45475a;
+  background: #30363d;
   border-radius: 4px;
-  border: 1px solid #313244;
+  border: 1px solid #21262d;
 }
 
 .telescope-results::-webkit-scrollbar-thumb:hover,
 .telescope-section::-webkit-scrollbar-thumb:hover {
-  background: #585b70;
+  background: #0969da;
 }
 
 /* Firefox Scrollbars */
 .telescope-results,
 .telescope-section {
   scrollbar-width: thin;
-  scrollbar-color: #45475a #313244;
+  scrollbar-color: #30363d #21262d;
 }
 
 /* Hide cursor utility */
