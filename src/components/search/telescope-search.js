@@ -648,9 +648,10 @@ export default class TelescopeSearch {
       );
 
       // Change from 3 to 5 recent items
+      const pinnedCount = this.pinnedPages.length;
       nonPinnedRecent.slice(0, 5).forEach((page, index) => {
         // Calculate real index to account for pinned pages
-        const realIndex = this.pinnedPages.length + index;
+        const realIndex = pinnedCount + index;
         const listItem = this.createResultItem(page, realIndex, true);
         recentList.appendChild(listItem);
       });
