@@ -76,6 +76,12 @@ export class KeyboardHelpManager {
               </div>
               <div class="fb-slide__help-shortcut">
                 <span class="fb-slide__help-keys">
+                  <kbd>T</kbd>
+                </span>
+                <span class="fb-slide__help-description">Cycle themes</span>
+              </div>
+              <div class="fb-slide__help-shortcut">
+                <span class="fb-slide__help-keys">
                   <kbd>S</kbd>
                 </span>
                 <span class="fb-slide__help-description">Laser pointer settings</span>

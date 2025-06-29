@@ -88,6 +88,29 @@ import '../styles/slideviewer.css';
             </button>
           </div>
           
+          <div class="fb-slide__theme-selector">
+            <button id="slide-theme-btn" class="fb-slide__nav-btn fb-slide__compact-btn theme-selector-btn" aria-label="Change theme" title="Theme">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M12 2v2"/>
+                <path d="M12 20v2"/>
+                <path d="M4.93 4.93l1.41 1.41"/>
+                <path d="M17.66 17.66l1.41 1.41"/>
+                <path d="M2 12h2"/>
+                <path d="M20 12h2"/>
+                <path d="M6.34 17.66l-1.41-1.41"/>
+                <path d="M19.07 4.93l-1.41-1.41"/>
+              </svg>
+            </button>
+            <select id="slide-theme-select" class="fb-slide__theme-select hidden" aria-label="Select theme">
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="dracula">🧛 Dracula</option>
+              <option value="github">🐙 GitHub</option>
+              <option value="discord">🎮 Discord</option>
+            </select>
+          </div>
+          
           <div class="fb-slide__counter" id="slide-counter" title="Click to go to Slide:">
             <input type="number" id="slide-input" class="fb-slide__input" min="1" max="999" value="1" readonly />
             <span class="slide-separator"> / </span>
@@ -173,6 +196,20 @@ import '../styles/slideviewer.css';
                   <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
                 </svg>
                 <span class="fb-slide__dropdown-text">Reading Mode</span>
+              </button>
+              <button id="cycle-theme-mobile" class="fb-slide__dropdown-item" aria-label="Change theme">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="4"/>
+                  <path d="M12 2v2"/>
+                  <path d="M12 20v2"/>
+                  <path d="M4.93 4.93l1.41 1.41"/>
+                  <path d="M17.66 17.66l1.41 1.41"/>
+                  <path d="M2 12h2"/>
+                  <path d="M20 12h2"/>
+                  <path d="M6.34 17.66l-1.41-1.41"/>
+                  <path d="M19.07 4.93l-1.41-1.41"/>
+                </svg>
+                <span class="fb-slide__dropdown-text" id="mobile-theme-text">Theme: Dark</span>
               </button>
               <button id="close-slideshow-mobile" class="fb-slide__dropdown-item" aria-label="Close slideshow">
                 <span class="fb-slide__dropdown-icon">✕</span>

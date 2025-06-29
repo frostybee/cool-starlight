@@ -7,6 +7,8 @@ import { FontManager } from './FontManager.js';
 import { TOCManager } from './TOCManager.js';
 import { LaserPointerManager } from './LaserPointerManager.js';
 import { KeyboardHelpManager } from './KeyboardHelpManager.js';
+import { ThemeManager } from './ThemeManager.js';
+import { ThemeUIController } from './ThemeUIController.js';
 
 export class SlideViewer {
   constructor() {
@@ -41,6 +43,8 @@ export class SlideViewer {
     this.tocManager = new TOCManager(this);
     this.laserPointerManager = new LaserPointerManager(this);
     this.keyboardHelpManager = new KeyboardHelpManager(this);
+    this.themeManager = new ThemeManager(this);
+    this.themeUIController = new ThemeUIController(this);
 
     // Expose manager properties for backward compatibility
     this.tocSidebar = this.tocManager.tocSidebar;
@@ -458,6 +462,9 @@ export class SlideViewer {
 
     // Apply saved font size when slideshow opens
     this.fontManager.applyFontSize();
+
+    // Apply saved theme when slideshow opens
+    this.themeManager.applyTheme();
 
     // Re-bind click events for thumbnails after slideshow opens
     setTimeout(() => {
