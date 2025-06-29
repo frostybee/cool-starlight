@@ -6,37 +6,29 @@ export class FontManager {
     this.decreaseFontBtn = document.getElementById('slide-decrease-font');
     this.increaseFontBtn = document.getElementById('slide-increase-font');
     
-    // Track double-click for reset functionality
-    this.lastClickTime = 0;
+    // Track double-click for reset functionality on decrease button
+    this.lastDecreaseClickTime = 0;
     this.resetThreshold = 500; // milliseconds for double-click
+    
     
     this.bindEvents();
   }
 
   bindEvents() {
-    // Font size adjustment events with double-click reset
-    this.decreaseFontBtn.addEventListener('click', (e) => {
+    this.decreaseFontBtn.addEventListener('click', () => {
       const currentTime = new Date().getTime();
-      if (currentTime - this.lastClickTime < this.resetThreshold) {
+      if (currentTime - this.lastDecreaseClickTime < this.resetThreshold) {
         // Double-click detected - reset font size
         this.resetFontSize();
       } else {
         // Single click - decrease font size
         this.adjustFontSize(-20);
       }
-      this.lastClickTime = currentTime;
+      this.lastDecreaseClickTime = currentTime;
     });
 
-    this.increaseFontBtn.addEventListener('click', (e) => {
-      const currentTime = new Date().getTime();
-      if (currentTime - this.lastClickTime < this.resetThreshold) {
-        // Double-click detected - reset font size
-        this.resetFontSize();
-      } else {
-        // Single click - increase font size
-        this.adjustFontSize(20);
-      }
-      this.lastClickTime = currentTime;
+    this.increaseFontBtn.addEventListener('click', () => {
+      this.adjustFontSize(20);
     });
   }
 
