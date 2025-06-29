@@ -5,7 +5,7 @@ export class LaserPointerManager {
     this.canvas = null;
     this.ctx = null;
     this.highlights = [];
-    this.currentTrail = null;
+    this.currentPath = null;
     this.isDrawing = false;
     this.lastPoint = null;
     this.animationFrame = null;
@@ -109,7 +109,7 @@ export class LaserPointerManager {
             <input type="checkbox" class="laser-pointer-reverse-fade" ${this.settings.reverseFade ? 'checked' : ''}>
             <span class="laser-pointer-toggle-slider"></span>
           </label>
-          <div class="laser-pointer-setting-description">Lines undraw from end to start</div>
+          <div class="laser-pointer-setting-description">Lines undraw from end back to start</div>
         </div>
         
         <div class="laser-pointer-preview">
@@ -327,10 +327,15 @@ export class LaserPointerManager {
     
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
-    // Redraw all existing highlights
-    this.highlights.forEach(segment => {
-      this.drawTrailSegment(segment);
+    // Redraw all existing paths
+    this.highlights.forEach(path => {
+      this.drawPath(path);
     });
+    
+    // Draw current path being drawn
+    if (this.currentPath && this.currentPath.points.length >= 2) {
+      this.drawPath(this.currentPath);
+    }
   }
 
   startDrawing(e) {
@@ -341,6 +346,12 @@ export class LaserPointerManager {
     
     this.lastPoint = {x, y};
     
+    // Start a new continuous path
+    this.currentPath = {
+      points: [{x, y}],
+      timestamp: Date.now()
+    };
+    
     // Start continuous rendering if not already running
     if (!this.animationFrame) {
       this.startContinuousRender();
@@ -350,13 +361,18 @@ export class LaserPointerManager {
   stopDrawing() {
     this.isDrawing = false;
     this.lastPoint = null;
+    
+    // Finish the current path and add it to highlights
+    if (this.currentPath && this.currentPath.points.length > 1) {
+      this.highlights.push(this.currentPath);
+    }
+    this.currentPath = null;
   }
 
   updateTrail(e) {
     const rect = this.slideViewer.slideContent.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const currentTime = Date.now();
     
     // Check if mouse moved enough to add a new point (for performance)
     if (this.lastPoint) {
@@ -366,15 +382,11 @@ export class LaserPointerManager {
       if (distance < 3) return; // Skip if movement is too small
     }
     
-    // Create new trail segment
-    const trailSegment = {
-      type: 'trail',
-      points: this.lastPoint ? [this.lastPoint, {x, y}] : [{x, y}],
-      timestamp: currentTime,
-      alpha: 1.0
-    };
+    // Add point to current continuous path
+    if (this.currentPath) {
+      this.currentPath.points.push({x, y});
+    }
     
-    this.highlights.push(trailSegment);
     this.lastPoint = {x, y};
     
     // Start continuous rendering if not already running
@@ -384,47 +396,72 @@ export class LaserPointerManager {
   }
 
 
-  drawTrailSegment(segment) {
-    if (!segment.points || segment.points.length < 2) return;
+  drawPath(path) {
+    if (!path.points || path.points.length < 1) return;
     
     this.ctx.save();
     this.ctx.lineCap = 'round';
     this.ctx.lineJoin = 'round';
     
     // Calculate age-based alpha for fading effect
-    const age = Date.now() - segment.timestamp;
+    const age = Date.now() - path.timestamp;
     const fadeTime = this.settings.duration;
     
     let alpha = 1;
-    let drawPoints = segment.points;
+    let drawPoints = path.points;
     
-    if (this.settings.reverseFade) {
-      // Reverse disappear: progressively shorten line from end to start
+    // Handle current drawing path (no aging effects)
+    const isCurrentPath = (path === this.currentPath);
+    
+    if (!isCurrentPath && this.settings.reverseFade) {
+      // Reverse disappear: undraw the path from end to start
       const progress = Math.min(1, age / fadeTime);
+      
       if (progress >= 1) return; // Completely disappeared
       
-      // Calculate how much of the line to draw (1 = full line, 0 = no line)
+      // Calculate how much of the path to draw (undraw from end to start)
       const drawRatio = 1 - progress;
+      const totalLength = path.points.length - 1; // Number of segments
+      const targetLength = drawRatio * totalLength;
       
-      if (segment.points.length === 2) {
-        // For simple line segments, interpolate between start and end
-        const start = segment.points[0];
-        const end = segment.points[1];
-        const newEnd = {
-          x: start.x + (end.x - start.x) * drawRatio,
-          y: start.y + (end.y - start.y) * drawRatio
-        };
-        drawPoints = [start, newEnd];
+      // Get the whole points up to the target
+      const wholePoints = Math.floor(targetLength);
+      const fraction = targetLength - wholePoints;
+      
+      if (wholePoints >= path.points.length - 1) {
+        // Draw the full path
+        drawPoints = path.points;
+      } else if (wholePoints <= 0) {
+        // Path has disappeared
+        return;
       } else {
-        // For curves, trim the points array
-        const pointsToKeep = Math.max(2, Math.floor(segment.points.length * drawRatio));
-        drawPoints = segment.points.slice(0, pointsToKeep);
+        // Create a smooth transition by interpolating the last point
+        drawPoints = path.points.slice(0, wholePoints + 1);
+        
+        if (fraction > 0 && wholePoints + 1 < path.points.length) {
+          // Interpolate between the last kept point and the next point
+          const lastPoint = path.points[wholePoints];
+          const nextPoint = path.points[wholePoints + 1];
+          
+          const interpolatedPoint = {
+            x: lastPoint.x + (nextPoint.x - lastPoint.x) * fraction,
+            y: lastPoint.y + (nextPoint.y - lastPoint.y) * fraction
+          };
+          
+          drawPoints[drawPoints.length - 1] = interpolatedPoint;
+        }
       }
-    } else {
-      // Normal fade
+      
+      // Keep full alpha - no fading
+      alpha = 1;
+    } else if (!isCurrentPath) {
+      // Normal fade for completed paths
       alpha = Math.max(0, 1 - (age / fadeTime));
       if (alpha <= 0) return;
     }
+    
+    // Need at least 2 points to draw a line
+    if (drawPoints.length < 2) return;
     
     // Draw main laser line
     this.ctx.strokeStyle = this.settings.color;
@@ -432,14 +469,7 @@ export class LaserPointerManager {
     this.ctx.globalAlpha = alpha * 0.9;
     
     this.ctx.beginPath();
-    if (drawPoints.length === 2) {
-      // Simple line for trail segments
-      this.ctx.moveTo(drawPoints[0].x, drawPoints[0].y);
-      this.ctx.lineTo(drawPoints[1].x, drawPoints[1].y);
-    } else {
-      // Smooth curve for longer paths
-      this.drawSmoothCurve(drawPoints);
-    }
+    this.drawSmoothCurve(drawPoints);
     this.ctx.stroke();
     
     // Add glow effect
@@ -448,12 +478,7 @@ export class LaserPointerManager {
     this.ctx.globalAlpha = alpha * 0.4;
     
     this.ctx.beginPath();
-    if (drawPoints.length === 2) {
-      this.ctx.moveTo(drawPoints[0].x, drawPoints[0].y);
-      this.ctx.lineTo(drawPoints[1].x, drawPoints[1].y);
-    } else {
-      this.drawSmoothCurve(drawPoints);
-    }
+    this.drawSmoothCurve(drawPoints);
     this.ctx.stroke();
     
     // Add bright center line
@@ -462,12 +487,7 @@ export class LaserPointerManager {
     this.ctx.globalAlpha = alpha;
     
     this.ctx.beginPath();
-    if (drawPoints.length === 2) {
-      this.ctx.moveTo(drawPoints[0].x, drawPoints[0].y);
-      this.ctx.lineTo(drawPoints[1].x, drawPoints[1].y);
-    } else {
-      this.drawSmoothCurve(drawPoints);
-    }
+    this.drawSmoothCurve(drawPoints);
     this.ctx.stroke();
     
     this.ctx.restore();
@@ -499,17 +519,25 @@ export class LaserPointerManager {
       
       const currentTime = Date.now();
       
-      // Filter out old segments and draw remaining ones
-      this.highlights = this.highlights.filter(segment => {
-        const age = currentTime - segment.timestamp;
-        if (age > this.settings.duration) return false; // Remove after custom duration
-        
-        this.drawTrailSegment(segment);
+      // Filter out old paths and draw remaining ones
+      this.highlights = this.highlights.filter(path => {
+        const age = currentTime - path.timestamp;
+        if (age > this.settings.duration * 2) return false; // Remove after duration
         return true;
       });
       
-      // Continue animation if there are highlights or if laser is active
-      if (this.highlights.length > 0 || this.isActive) {
+      // Draw all completed paths
+      this.highlights.forEach(path => {
+        this.drawPath(path);
+      });
+      
+      // Draw current path being drawn
+      if (this.currentPath && this.currentPath.points.length >= 2) {
+        this.drawPath(this.currentPath);
+      }
+      
+      // Continue animation if there are highlights or if drawing is active
+      if (this.highlights.length > 0 || this.isDrawing || this.currentPath) {
         this.animationFrame = requestAnimationFrame(render);
       } else {
         this.animationFrame = null;
