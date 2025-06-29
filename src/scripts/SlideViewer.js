@@ -142,7 +142,7 @@ class SlideViewer {
 
   createPreviewSlide() {
     const previewContainer = document.createElement('div');
-    previewContainer.className = 'slide-preview-container';
+    previewContainer.className = 'fb-slide__preview-container';
 
     // Create title for preview slide
     const title = document.createElement('h1');
@@ -151,7 +151,7 @@ class SlideViewer {
 
     // Create grid container
     const grid = document.createElement('div');
-    grid.className = 'slide-preview-grid';
+    grid.className = 'fb-slide__preview-grid';
 
     // Grid layout is now handled by global CSS
 
@@ -168,7 +168,7 @@ class SlideViewer {
 
   createSlideThumbnail(slide, slideNumber) {
     const thumbnail = document.createElement('div');
-    thumbnail.className = 'slide-thumbnail';
+    thumbnail.className = 'fb-slide__thumbnail';
     thumbnail.setAttribute('data-slide-number', slideNumber);
 
     // Store reference to the slide viewer instance
@@ -178,14 +178,14 @@ class SlideViewer {
 
     // Add slide number badge
     const badge = document.createElement('div');
-    badge.className = 'slide-thumbnail-badge';
+    badge.className = 'fb-slide__thumbnail-badge';
     badge.textContent = slideNumber;
     // Badge styling handled by global CSS
     thumbnail.appendChild(badge);
 
     // Create content preview
     const content = document.createElement('div');
-    content.className = 'slide-thumbnail-content';
+    content.className = 'fb-slide__thumbnail-content';
     // Content styling handled by global CSS
 
     // Clone the slide content
@@ -202,7 +202,7 @@ class SlideViewer {
     // Create heading element for thumbnail
     if (headingText) {
       const thumbnailHeading = document.createElement('div');
-      thumbnailHeading.className = 'slide-thumbnail-heading';
+      thumbnailHeading.className = 'fb-slide__thumbnail-heading';
       thumbnailHeading.textContent = headingText;
       // Heading styling handled by global CSS
       content.appendChild(thumbnailHeading);
@@ -210,7 +210,7 @@ class SlideViewer {
 
     // Create body content container
     const bodyContent = document.createElement('div');
-    bodyContent.className = 'slide-thumbnail-body';
+    bodyContent.className = 'fb-slide__thumbnail-body';
     // Body content styling handled by global CSS
 
     // Remove or simplify complex elements for thumbnail
@@ -218,7 +218,7 @@ class SlideViewer {
     codeBlocks.forEach(block => {
       const placeholder = document.createElement('div');
       placeholder.textContent = '[Code Block]';
-      placeholder.className = 'code-placeholder';
+      placeholder.className = 'fb-slide__code-placeholder';
       block.parentNode.replaceChild(placeholder, block);
     });
 
@@ -267,7 +267,7 @@ class SlideViewer {
       let headingLevel = 'h2';
 
       // Special handling for the preview slide (first slide)
-      if (index === 0 && slide.className && slide.className.includes('slide-preview-container')) {
+      if (index === 0 && slide.className && slide.className.includes('fb-slide__preview-container')) {
         title = 'Slide Overview';
         headingLevel = 'h1';
       } else if (heading) {
@@ -277,21 +277,21 @@ class SlideViewer {
 
       // Create container for number + item
       const tocItemContainer = document.createElement('div');
-      tocItemContainer.className = `toc-item-container ${headingLevel}`;
+      tocItemContainer.className = `fb-slide__toc-item-container ${headingLevel}`;
 
       // Create the clickable item
       const tocItem = document.createElement('button');
-      tocItem.className = `toc-item ${headingLevel}`;
+      tocItem.className = `fb-slide__toc-item ${headingLevel}`;
       tocItem.setAttribute('data-slide-index', index);
 
       // Create number element (inside the button)
       const numberElement = document.createElement('span');
-      numberElement.className = 'toc-item-number';
+      numberElement.className = 'fb-slide__toc-item-number';
       numberElement.textContent = (index + 1).toString();
 
       // Create title element
       const titleElement = document.createElement('span');
-      titleElement.className = 'toc-item-title';
+      titleElement.className = 'fb-slide__toc-item-title';
       titleElement.textContent = title;
 
       tocItem.appendChild(numberElement);
@@ -322,7 +322,7 @@ class SlideViewer {
   }
 
   updateTocSelection() {
-    const tocItems = this.tocContent.querySelectorAll('.toc-item');
+    const tocItems = this.tocContent.querySelectorAll('.fb-slide__toc-item');
     tocItems.forEach((item, index) => {
       const isActive = index === this.currentSlide;
       item.classList.toggle('active', isActive);
@@ -814,7 +814,7 @@ class SlideViewer {
   }
 
   applyFontSize() {
-    const slideContainer = this.modal.querySelector('.slide-content');
+    const slideContainer = this.modal.querySelector('.fb-slide__content');
     if (slideContainer) {
       const scale = this.fontSize / 100;
       slideContainer.style.setProperty('--font-scale', scale);
@@ -930,8 +930,8 @@ class SlideViewer {
       console.log(`Invalid slide number: ${inputElement.value}. Must be between 1 and ${this.slides.length}`);
       
       // Add error styling using CSS classes
-      const isSlideInput = inputElement.classList.contains('slide-input');
-      const errorClass = isSlideInput ? 'slide-input-error' : 'goto-input-error';
+      const isSlideInput = inputElement.classList.contains('fb-slide__input');
+      const errorClass = isSlideInput ? 'fb-slide__input-error' : 'fb-slide__goto-input-error';
       inputElement.classList.add(errorClass);
 
       // Show tooltip with error message
@@ -939,11 +939,11 @@ class SlideViewer {
       if (existingTooltip) existingTooltip.remove();
 
       const tooltip = document.createElement('div');
-      tooltip.className = 'error-tooltip';
+      tooltip.className = 'fb-slide__error-tooltip';
       tooltip.textContent = `Enter a number between 1 and ${this.slides.length}`;
       
       // Ensure parent container has relative positioning
-      inputElement.parentElement.classList.add('error-tooltip-container');
+      inputElement.parentElement.classList.add('fb-slide__error-tooltip-container');
       inputElement.parentElement.appendChild(tooltip);
 
       setTimeout(() => {
@@ -951,7 +951,7 @@ class SlideViewer {
         if (tooltip.parentElement) {
           tooltip.remove();
         }
-        inputElement.parentElement.classList.remove('error-tooltip-container');
+        inputElement.parentElement.classList.remove('fb-slide__error-tooltip-container');
       }, 2000);
 
       inputElement.select();
@@ -990,7 +990,7 @@ class SlideViewer {
   }
 
   rebindThumbnailEvents() {
-    const thumbnails = document.querySelectorAll('.slide-thumbnail');
+    const thumbnails = document.querySelectorAll('.fb-slide__thumbnail');
 
     thumbnails.forEach((thumbnail) => {
       const slideNumber = parseInt(thumbnail.getAttribute('data-slide-number'));
@@ -1064,7 +1064,7 @@ class SlideViewer {
 
   updateTOCWithSearchResults(matchingSlides, query) {
     // Filter TOC items
-    const tocItems = this.tocContent.querySelectorAll('.toc-item-container');
+    const tocItems = this.tocContent.querySelectorAll('.fb-slide__toc-item-container');
     console.log('Found TOC items for filtering:', tocItems.length);
 
     tocItems.forEach((item, index) => {
@@ -1073,17 +1073,17 @@ class SlideViewer {
       if (isMatch) {
         // Show matching slides and add search match class
         item.style.display = '';
-        item.classList.add('search-match');
+        item.classList.add('fb-slide__search-match');
 
         // Highlight the search term in the title
-        const titleElement = item.querySelector('.toc-item-title');
+        const titleElement = item.querySelector('.fb-slide__toc-item-title');
         if (titleElement) {
           this.highlightText(titleElement, query);
         }
       } else {
         // Hide non-matching slides
         item.style.display = 'none';
-        item.classList.remove('search-match');
+        item.classList.remove('fb-slide__search-match');
       }
     });
 
@@ -1093,13 +1093,13 @@ class SlideViewer {
 
   updateThumbnailGridWithSearchResults(matchingSlides) {
     // Find thumbnail grid (usually in the first slide if it's a preview slide)
-    const thumbnailGrid = this.slideContent.querySelector('.slide-preview-grid');
+    const thumbnailGrid = this.slideContent.querySelector('.fb-slide__preview-grid');
     if (!thumbnailGrid) {
       console.log('No thumbnail grid found to filter');
       return;
     }
 
-    const thumbnails = thumbnailGrid.querySelectorAll('.slide-thumbnail');
+    const thumbnails = thumbnailGrid.querySelectorAll('.fb-slide__thumbnail');
     console.log('Found thumbnails for filtering:', thumbnails.length);
 
     thumbnails.forEach((thumbnail, index) => {
@@ -1111,39 +1111,39 @@ class SlideViewer {
       if (isMatch) {
         // Show matching thumbnail and add search match class
         thumbnail.style.display = '';
-        thumbnail.classList.add('search-match');
+        thumbnail.classList.add('fb-slide__search-match');
         console.log(`Thumbnail ${index} highlighted as match`);
       } else {
         // Hide non-matching thumbnail
         thumbnail.style.display = 'none';
-        thumbnail.classList.remove('search-match');
+        thumbnail.classList.remove('fb-slide__search-match');
         console.log(`Thumbnail ${index} hidden`);
       }
     });
   }
 
   clearThumbnailGridSearchResults() {
-    const thumbnailGrid = this.slideContent.querySelector('.slide-preview-grid');
+    const thumbnailGrid = this.slideContent.querySelector('.fb-slide__preview-grid');
     if (!thumbnailGrid) return;
 
-    const thumbnails = thumbnailGrid.querySelectorAll('.slide-thumbnail');
+    const thumbnails = thumbnailGrid.querySelectorAll('.fb-slide__thumbnail');
     thumbnails.forEach(thumbnail => {
       // Clear search state
       thumbnail.style.display = '';
-      thumbnail.classList.remove('search-match');
+      thumbnail.classList.remove('fb-slide__search-match');
     });
   }
 
   clearSearchResults() {
-    const tocItems = this.tocContent.querySelectorAll('.toc-item-container');
+    const tocItems = this.tocContent.querySelectorAll('.fb-slide__toc-item-container');
 
     tocItems.forEach(item => {
       // Clear search state
       item.style.display = '';
-      item.classList.remove('search-match');
+      item.classList.remove('fb-slide__search-match');
 
       // Remove highlights from title
-      const titleElement = item.querySelector('.toc-item-title');
+      const titleElement = item.querySelector('.fb-slide__toc-item-title');
       if (titleElement) {
         this.removeHighlights(item);
       }
@@ -1161,12 +1161,12 @@ class SlideViewer {
     element.dataset.originalText = originalText;
 
     const regex = new RegExp(`(${this.escapeRegex(query)})`, 'gi');
-    const highlightedText = originalText.replace(regex, '<span class="search-highlight">$1</span>');
+    const highlightedText = originalText.replace(regex, '<span class="fb-slide__search-highlight">$1</span>');
     element.innerHTML = highlightedText;
   }
 
   removeHighlights(container) {
-    const titleElement = container.querySelector('.toc-item-title');
+    const titleElement = container.querySelector('.fb-slide__toc-item-title');
     if (!titleElement) return;
 
     if (titleElement.dataset.originalText) {
@@ -1219,7 +1219,7 @@ class SlideViewer {
       this.slideNumberIndicator.textContent = '1';
     } else {
       // Slide mode: Reset slide content styling and show current slide
-      this.slideContent.classList.remove('slide-content-reading-mode');
+      this.slideContent.classList.remove('fb-slide__content-reading-mode');
       this.showSlide(this.currentSlide);
       if (toggleBtn) {
         toggleBtn.innerHTML = `
@@ -1240,7 +1240,7 @@ class SlideViewer {
 
   showOriginalDocument() {
     this.slideContent.innerHTML = '';
-    this.slideContent.classList.add('slide-content-reading-mode');
+    this.slideContent.classList.add('fb-slide__content-reading-mode');
     
     // Get the original document content (before slide parsing)
     const articleContent = document.querySelector('.sl-markdown-content, main .content, article');
@@ -1266,7 +1266,7 @@ class SlideViewer {
     
     // Create container for the original document
     const readingContainer = document.createElement('div');
-    readingContainer.className = 'reading-mode-content';
+    readingContainer.className = 'fb-slide__reading-mode-content';
     
     readingContainer.appendChild(originalContent);
     this.slideContent.appendChild(readingContainer);

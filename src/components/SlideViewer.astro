@@ -4,69 +4,69 @@ import '../styles/slideviewer.css';
 ---
 
 <div id="slide-viewer-trigger">
-  <button id="start-slideshow" class="slide-viewer-button">
+  <button id="start-slideshow" class="fb-slide__button">
     📽️ View as Slides
   </button>
 </div>
 
-<div id="slide-viewer-modal" class="slide-modal hidden">
-  <div class="slide-container">
-    <div class="slide-toc-sidebar" id="slide-toc-sidebar">
-      <div class="slide-toc-header">
+<div id="slide-viewer-modal" class="fb-slide__modal hidden">
+  <div class="fb-slide__container">
+    <div class="fb-slide__toc-sidebar" id="slide-toc-sidebar">
+      <div class="fb-slide__toc-header">
         <h3>Table of Contents</h3>
-        <button id="toggle-toc" class="toc-toggle-btn" aria-label="Toggle table of contents">
+        <button id="toggle-toc" class="fb-slide__toc-toggle-btn" aria-label="Toggle table of contents">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 12H5m0 0l7 7m-7-7l7-7"/>
           </svg>
         </button>
       </div>
-      <div class="slide-search-container">
+      <div class="fb-slide__search-container">
         <input
           type="text"
           id="slide-search-input"
-          class="slide-search-input"
+          class="fb-slide__search-input"
           placeholder="Search slides..."
           aria-label="Search slides"
         />
-        <button id="clear-search" class="clear-search-btn" aria-label="Clear search">
+        <button id="clear-search" class="fb-slide__clear-search-btn" aria-label="Clear search">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 6L6 18M6 6l12 12"/>
           </svg>
         </button>
       </div>
-      <div class="slide-toc-content" id="slide-toc-content">
+      <div class="fb-slide__toc-content" id="slide-toc-content">
         <!-- TOC items will be inserted here -->
       </div>
     </div>
 
-    <div class="slide-main-area">
-      <div class="slide-content-wrapper">
-        <div id="slide-content" class="slide-content">
+    <div class="fb-slide__main-area">
+      <div class="fb-slide__content-wrapper">
+        <div id="slide-content" class="fb-slide__content">
           <!-- Slides will be inserted here -->
         </div>
-        <div id="slide-number-indicator" class="slide-number-indicator">
+        <div id="slide-number-indicator" class="fb-slide__number-indicator">
           1
         </div>
       </div>
 
-      <div class="slide-navigation">
-        <button id="prev-slide" class="slide-nav-btn" aria-label="Previous slide">
+      <div class="fb-slide__navigation">
+        <button id="prev-slide" class="fb-slide__nav-btn" aria-label="Previous slide">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 12H5m0 0l7 7m-7-7l7-7"/>
           </svg>
           Previous
         </button>
-        <div class="slide-counter" id="slide-counter" title="Click to go to Slide:">
-          <input type="number" id="slide-input" class="slide-input" min="1" max="999" value="1" readonly />
+        <div class="fb-slide__counter" id="slide-counter" title="Click to go to Slide:">
+          <input type="number" id="slide-input" class="fb-slide__input" min="1" max="999" value="1" readonly />
           <span class="slide-separator"> / </span>
           <span id="total-slides">1</span>
         </div>
-        <div class="slide-font-adjuster">
-          <button id="slide-decrease-font" class="font-adj-btn" aria-label="Decrease font size" title="Decrease font size">A-</button>
-          <button id="slide-reset-font" class="font-adj-btn" aria-label="Reset font size" title="Reset font size">A</button>
-          <button id="slide-increase-font" class="font-adj-btn" aria-label="Increase font size" title="Increase font size">A+</button>
+        <div class="fb-slide__font-adjuster">
+          <button id="slide-decrease-font" class="fb-slide__font-adj-btn" aria-label="Decrease font size" title="Decrease font size">A-</button>
+          <button id="slide-reset-font" class="fb-slide__font-adj-btn" aria-label="Reset font size" title="Reset font size">A</button>
+          <button id="slide-increase-font" class="fb-slide__font-adj-btn" aria-label="Increase font size" title="Increase font size">A+</button>
         </div>
-        <button id="show-thumbnails" class="slide-nav-btn thumbnails-btn" aria-label="Show thumbnails grid" title="Show slide overview with thumbnails">
+        <button id="show-thumbnails" class="fb-slide__nav-btn thumbnails-btn" aria-label="Show thumbnails grid" title="Show slide overview with thumbnails">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="7" height="7"/>
             <rect x="14" y="3" width="7" height="7"/>
@@ -75,22 +75,22 @@ import '../styles/slideviewer.css';
           </svg>
           📋 Overview
         </button>
-        <button id="toggle-reading-mode" class="slide-nav-btn reading-mode-btn" aria-label="Toggle reading mode" title="Switch between slide mode and reading mode">
+        <button id="toggle-reading-mode" class="fb-slide__nav-btn reading-mode-btn" aria-label="Toggle reading mode" title="Switch between slide mode and reading mode">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
           </svg>
           📖 Reading Mode
         </button>
-        <button id="toggle-fullscreen" class="slide-nav-btn fullscreen-btn" aria-label="Toggle fullscreen">
+        <button id="toggle-fullscreen" class="fb-slide__nav-btn fullscreen-btn" aria-label="Toggle fullscreen">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
           </svg>
         </button>
-        <button id="close-slideshow" class="slide-nav-btn close-btn" aria-label="Close slideshow">
+        <button id="close-slideshow" class="fb-slide__nav-btn fb-slide__close-btn" aria-label="Close slideshow">
           ✕
         </button>
-        <button id="next-slide" class="slide-nav-btn" aria-label="Next slide">
+        <button id="next-slide" class="fb-slide__nav-btn" aria-label="Next slide">
           Next
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12h14m0 0l-7-7m7 7l-7 7"/>
@@ -101,13 +101,13 @@ import '../styles/slideviewer.css';
   </div>
 
   <!-- Go to slide modal -->
-  <div id="goto-slide-modal" class="goto-modal hidden">
-    <div class="goto-modal-content">
+  <div id="goto-slide-modal" class="fb-slide__goto-modal hidden">
+    <div class="fb-slide__goto-modal-content">
       <h3>Go to Slide:</h3>
-      <input type="number" id="goto-slide-input" class="goto-input" min="1" max="1" placeholder="Enter slide number" />
-      <div class="goto-buttons">
-        <button id="goto-confirm" class="goto-btn goto-confirm">Go</button>
-        <button id="goto-cancel" class="goto-btn goto-cancel">Cancel</button>
+      <input type="number" id="goto-slide-input" class="fb-slide__goto-input" min="1" max="1" placeholder="Enter slide number" />
+      <div class="fb-slide__goto-buttons">
+        <button id="goto-confirm" class="fb-slide__goto-btn fb-slide__goto-confirm">Go</button>
+        <button id="goto-cancel" class="fb-slide__goto-btn fb-slide__goto-cancel">Cancel</button>
       </div>
     </div>
   </div>
