@@ -443,7 +443,14 @@ export class SlideViewer {
     // Move modal to document body to escape stacking context
     document.body.appendChild(this.modal);
     this.modal.classList.remove('hidden');
-    this.showSlide(0);
+    
+    // If reading mode was active when modal was closed, reapply it
+    if (this.isReadingMode) {
+      this.readingModeManager.applyReadingMode();
+    } else {
+      this.showSlide(0);
+    }
+    
     this.updateProgress();
     document.body.style.overflow = 'hidden';
 
@@ -472,6 +479,11 @@ export class SlideViewer {
     // Clear search when closing slideshow
     if (this.searchManager.searchInput && this.searchManager.searchInput.value.trim()) {
       this.searchManager.clearSearch();
+    }
+
+    // Deactivate laser pointer when closing slideshow
+    if (this.laserPointerManager.isActive) {
+      this.laserPointerManager.deactivate();
     }
 
     // Exit fullscreen if currently in fullscreen

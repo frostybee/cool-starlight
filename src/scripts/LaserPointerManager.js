@@ -340,7 +340,7 @@ export class LaserPointerManager {
 
   startDrawing(e) {
     this.isDrawing = true;
-    const rect = this.slideViewer.slideContent.getBoundingClientRect();
+    const rect = this.canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
@@ -370,7 +370,7 @@ export class LaserPointerManager {
   }
 
   updateTrail(e) {
-    const rect = this.slideViewer.slideContent.getBoundingClientRect();
+    const rect = this.canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
