@@ -32,6 +32,14 @@ class SlideViewer {
     this.toggleReadingModeBtn = document.getElementById('toggle-reading-mode');
     this.showThumbnailsBtn = document.getElementById('show-thumbnails');
     
+    // Search modal elements
+    this.searchModal = document.getElementById('search-modal');
+    this.searchModalInput = document.getElementById('search-modal-input');
+    this.searchModalClose = document.getElementById('search-modal-close');
+    this.searchModalClear = document.getElementById('search-modal-clear');
+    this.searchResultsCount = document.getElementById('search-results-count');
+    this.searchResultsList = document.getElementById('search-results-list');
+    
     // Mobile navigation elements
     this.mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     this.mobileDropdownMenu = document.getElementById('mobile-dropdown-menu');
@@ -61,6 +69,8 @@ class SlideViewer {
       gotoInput: !!this.gotoInput,
       searchInput: !!this.searchInput,
       clearSearchBtn: !!this.clearSearchBtn,
+      searchModal: !!this.searchModal,
+      searchModalInput: !!this.searchModalInput,
       toggleReadingModeBtn: !!this.toggleReadingModeBtn,
       showThumbnailsBtn: !!this.showThumbnailsBtn,
     });
@@ -483,9 +493,10 @@ class SlideViewer {
     // Keyboard navigation
     document.addEventListener('keydown', (event) => {
       if (!this.modal.classList.contains('hidden')) {
-        // Don't trigger shortcuts when search input or goto input is focused
+        // Don't trigger shortcuts when search input, goto input, or search modal input is focused
         if ((this.searchInput && document.activeElement === this.searchInput) ||
-            (this.gotoInput && document.activeElement === this.gotoInput)) {
+            (this.gotoInput && document.activeElement === this.gotoInput) ||
+            (this.searchModalInput && document.activeElement === this.searchModalInput)) {
           return;
         }
 
@@ -531,6 +542,14 @@ class SlideViewer {
             if (this.gotoModal.classList.contains('hidden')) {
               event.preventDefault();
               this.openGotoModal();
+            }
+            break;
+          case '/':
+          case 'f':
+          case 'F':
+            if (this.searchModal.classList.contains('hidden') && this.gotoModal.classList.contains('hidden')) {
+              event.preventDefault();
+              this.openSearchModal();
             }
             break;
           case 'Home':
@@ -684,6 +703,40 @@ class SlideViewer {
     if (this.clearSearchBtn) {
       this.clearSearchBtn.addEventListener('click', () => {
         this.clearSearch();
+      });
+    }
+
+    // Search modal functionality
+    if (this.searchModalClose) {
+      this.searchModalClose.addEventListener('click', () => {
+        this.closeSearchModal();
+      });
+    }
+
+    if (this.searchModalClear) {
+      this.searchModalClear.addEventListener('click', () => {
+        this.clearSearchModal();
+      });
+    }
+
+    if (this.searchModalInput) {
+      this.searchModalInput.addEventListener('input', (e) => {
+        this.performSearchModal(e.target.value);
+      });
+
+      this.searchModalInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          this.closeSearchModal();
+        }
+      });
+    }
+
+    // Close search modal when clicking outside
+    if (this.searchModal) {
+      this.searchModal.addEventListener('click', (event) => {
+        if (event.target === this.searchModal) {
+          this.closeSearchModal();
+        }
       });
     }
 
@@ -1374,6 +1427,8 @@ class SlideViewer {
       if (this.slideCounterMobile) this.slideCounterMobile.style.display = 'none';
       // Set slide number indicator to 1 in reading mode
       this.slideNumberIndicator.textContent = '1';
+      // Collapse the left sidebar in reading mode
+      this.tocSidebar.classList.add('collapsed');
     } else {
       // Slide mode: Reset slide content styling and show current slide
       this.slideContent.classList.remove('fb-slide__content-reading-mode');
@@ -1395,6 +1450,7 @@ class SlideViewer {
       if (this.prevBtnMobile) this.prevBtnMobile.style.display = '';
       if (this.nextBtnMobile) this.nextBtnMobile.style.display = '';
       if (this.slideCounterMobile) this.slideCounterMobile.style.display = '';
+      // Restore sidebar state in slide mode (don't force expand, keep user's preference)
     }
   }
 
@@ -1430,6 +1486,144 @@ class SlideViewer {
     
     readingContainer.appendChild(originalContent);
     this.slideContent.appendChild(readingContainer);
+  }
+
+  // Search modal methods
+  openSearchModal() {
+    if (!this.searchModal) return;
+    
+    this.searchModal.classList.remove('hidden');
+    this.searchModalInput.value = '';
+    this.searchModalInput.focus();
+    this.clearSearchModalResults();
+    this.searchResultsCount.textContent = 'Enter a search term to find slides';
+  }
+
+  closeSearchModal() {
+    if (!this.searchModal) return;
+    
+    this.searchModal.classList.add('hidden');
+    this.searchModalInput.value = '';
+    this.clearSearchModalResults();
+  }
+
+  clearSearchModal() {
+    if (!this.searchModalInput) return;
+    
+    this.searchModalInput.value = '';
+    this.searchModalInput.focus();
+    this.clearSearchModalResults();
+    this.searchResultsCount.textContent = 'Enter a search term to find slides';
+  }
+
+  performSearchModal(query) {
+    const trimmedQuery = query.trim().toLowerCase();
+
+    if (!trimmedQuery) {
+      this.clearSearchModalResults();
+      this.searchResultsCount.textContent = 'Enter a search term to find slides';
+      return;
+    }
+
+    // Search across all slides
+    const matchingSlides = [];
+    this.slides.forEach((slide, index) => {
+      const slideText = slide.textContent.toLowerCase();
+      if (slideText.includes(trimmedQuery)) {
+        // Extract heading for display
+        const heading = slide.querySelector('h1, h2, h3, h4, h5, h6');
+        let title = `Slide ${index + 1}`;
+        
+        if (index === 0 && slide.className && slide.className.includes('fb-slide__preview-container')) {
+          title = 'Slide Overview';
+        } else if (heading) {
+          title = heading.textContent.trim();
+        }
+
+        // Get a snippet of matching content
+        const snippet = this.extractSearchSnippet(slideText, trimmedQuery);
+        
+        matchingSlides.push({
+          index,
+          title,
+          snippet
+        });
+      }
+    });
+
+    this.displaySearchModalResults(matchingSlides, trimmedQuery);
+  }
+
+  extractSearchSnippet(text, query, maxLength = 150) {
+    const queryIndex = text.toLowerCase().indexOf(query.toLowerCase());
+    if (queryIndex === -1) return text.substring(0, maxLength) + '...';
+
+    // Try to center the query in the snippet
+    const start = Math.max(0, queryIndex - Math.floor(maxLength / 2));
+    const end = Math.min(text.length, start + maxLength);
+    
+    let snippet = text.substring(start, end);
+    
+    if (start > 0) snippet = '...' + snippet;
+    if (end < text.length) snippet = snippet + '...';
+    
+    return snippet;
+  }
+
+  displaySearchModalResults(matchingSlides, query) {
+    this.searchResultsCount.textContent = `Found ${matchingSlides.length} slide${matchingSlides.length === 1 ? '' : 's'} matching "${query}"`;
+    
+    this.searchResultsList.innerHTML = '';
+    
+    if (matchingSlides.length === 0) {
+      const noResults = document.createElement('div');
+      noResults.className = 'fb-slide__search-no-results';
+      noResults.textContent = 'No slides found matching your search.';
+      this.searchResultsList.appendChild(noResults);
+      return;
+    }
+
+    matchingSlides.forEach(({ index, title, snippet }) => {
+      const resultItem = document.createElement('div');
+      resultItem.className = 'fb-slide__search-result-item';
+      
+      const titleElement = document.createElement('div');
+      titleElement.className = 'fb-slide__search-result-title';
+      titleElement.textContent = title;
+      
+      const snippetElement = document.createElement('div');
+      snippetElement.className = 'fb-slide__search-result-snippet';
+      snippetElement.innerHTML = this.highlightQueryInText(snippet, query);
+      
+      const slideNumber = document.createElement('div');
+      slideNumber.className = 'fb-slide__search-result-number';
+      slideNumber.textContent = `Slide ${index + 1}`;
+      
+      resultItem.appendChild(slideNumber);
+      resultItem.appendChild(titleElement);
+      resultItem.appendChild(snippetElement);
+      
+      // Add click handler to navigate to slide
+      resultItem.addEventListener('click', () => {
+        this.goToSlide(index);
+        this.closeSearchModal();
+      });
+      
+      this.searchResultsList.appendChild(resultItem);
+    });
+  }
+
+  highlightQueryInText(text, query) {
+    if (!query) return text;
+    
+    const regex = new RegExp(`(${this.escapeRegex(query)})`, 'gi');
+    return text.replace(regex, '<mark class="fb-slide__search-highlight">$1</mark>');
+  }
+
+  clearSearchModalResults() {
+    if (this.searchResultsList) {
+      this.searchResultsList.innerHTML = '';
+    }
   }
 
   // Mobile menu methods

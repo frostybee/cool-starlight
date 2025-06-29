@@ -180,6 +180,36 @@ import '../styles/slideviewer.css';
       </div>
     </div>
   </div>
+
+  <!-- Search modal -->
+  <div id="search-modal" class="fb-slide__search-modal hidden">
+    <div class="fb-slide__search-modal-content">
+      <div class="fb-slide__search-modal-header">
+        <h3>Search Slides</h3>
+        <button id="search-modal-close" class="fb-slide__search-modal-close" aria-label="Close search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="fb-slide__search-modal-input-container">
+        <input type="text" id="search-modal-input" class="fb-slide__search-modal-input" placeholder="Search slides..." aria-label="Search slides" />
+        <button id="search-modal-clear" class="fb-slide__search-modal-clear" aria-label="Clear search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="fb-slide__search-results" id="search-results">
+        <div class="fb-slide__search-results-info">
+          <span id="search-results-count">Enter a search term to find slides</span>
+        </div>
+        <div class="fb-slide__search-results-list" id="search-results-list">
+          <!-- Search results will be inserted here -->
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="/src/scripts/SlideViewer.js"></script>
