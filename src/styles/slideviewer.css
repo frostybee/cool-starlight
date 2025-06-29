@@ -1677,7 +1677,7 @@
   .fb-slide__content blockquote::before {
     content: "“";
     font-size: 4rem;
-    color: var(--sl-color-accent);
+    color: #fbbf24;
     position: absolute;
     top: -10px;
     left: 20px;
@@ -1687,7 +1687,7 @@
   .fb-slide__content blockquote::after {
     content: "“";
     font-size: 4rem;
-    color: var(--sl-color-accent);
+    color: #fbbf24;
   }
 
   /* Slide preview styles */
@@ -1733,16 +1733,16 @@
     position: absolute;
     top: -10px;
     right: -10px;
-    width: 30px;
-    height: 30px;
-    background: var(--sl-color-accent);
-    color: var(--sl-color-accent-text);
+    width: 44px;
+    height: 44px;
+    background: #8cdff2;
+    color: #000000;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 1.5rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
