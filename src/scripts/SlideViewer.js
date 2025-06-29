@@ -6,6 +6,7 @@ import { FullscreenManager } from './FullscreenManager.js';
 import { FontManager } from './FontManager.js';
 import { TOCManager } from './TOCManager.js';
 import { LaserPointerManager } from './LaserPointerManager.js';
+import { KeyboardHelpManager } from './KeyboardHelpManager.js';
 
 export class SlideViewer {
   constructor() {
@@ -39,6 +40,7 @@ export class SlideViewer {
     this.fontManager = new FontManager(this);
     this.tocManager = new TOCManager(this);
     this.laserPointerManager = new LaserPointerManager(this);
+    this.keyboardHelpManager = new KeyboardHelpManager(this);
 
     // Expose manager properties for backward compatibility
     this.tocSidebar = this.tocManager.tocSidebar;
