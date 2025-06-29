@@ -32,6 +32,10 @@ class SlideViewer {
     this.toggleReadingModeBtn = document.getElementById('toggle-reading-mode');
     this.showThumbnailsBtn = document.getElementById('show-thumbnails');
     
+    // Search debouncing
+    this.searchTimeout = null;
+    this.headingPositionsCache = null;
+    
     // Search modal elements
     this.searchModal = document.getElementById('search-modal');
     this.searchModalInput = document.getElementById('search-modal-input');
@@ -502,7 +506,7 @@ class SlideViewer {
 
         // Don't trigger navigation shortcuts when in reading mode
         if (this.isReadingMode) {
-          // Only allow Escape to close slideshow in reading mode
+          // Allow Escape and search shortcuts in reading mode
           if (event.key === 'Escape') {
             // Only close slideshow if no goto inputs are open
             if (this.gotoModal.classList.contains('hidden') &&
@@ -510,6 +514,10 @@ class SlideViewer {
               event.preventDefault();
               this.closeSlideshow();
             }
+          } else if ((event.key === '/' || event.key === 'f' || event.key === 'F') &&
+                     this.searchModal.classList.contains('hidden') && this.gotoModal.classList.contains('hidden')) {
+            event.preventDefault();
+            this.openSearchModal();
           }
           return;
         }
@@ -721,7 +729,15 @@ class SlideViewer {
 
     if (this.searchModalInput) {
       this.searchModalInput.addEventListener('input', (e) => {
-        this.performSearchModal(e.target.value);
+        // Clear previous timeout
+        if (this.searchTimeout) {
+          clearTimeout(this.searchTimeout);
+        }
+        
+        // Debounce search to avoid excessive DOM operations
+        this.searchTimeout = setTimeout(() => {
+          this.performSearchModal(e.target.value);
+        }, 300); // Wait 300ms after user stops typing
       });
 
       this.searchModalInput.addEventListener('keydown', (e) => {
@@ -1399,6 +1415,10 @@ class SlideViewer {
     console.log('toggleReadingMode called, current mode:', this.isReadingMode);
     this.isReadingMode = !this.isReadingMode;
     console.log('new mode:', this.isReadingMode);
+    
+    // Clear heading cache when switching modes
+    this.headingPositionsCache = null;
+    
     this.applyReadingMode();
   }
 
@@ -1496,7 +1516,8 @@ class SlideViewer {
     this.searchModalInput.value = '';
     this.searchModalInput.focus();
     this.clearSearchModalResults();
-    this.searchResultsCount.textContent = 'Enter a search term to find slides';
+    this.searchResultsCount.textContent = this.isReadingMode ? 
+      'Enter a search term to find content' : 'Enter a search term to find slides';
   }
 
   closeSearchModal() {
@@ -1521,15 +1542,24 @@ class SlideViewer {
 
     if (!trimmedQuery) {
       this.clearSearchModalResults();
-      this.searchResultsCount.textContent = 'Enter a search term to find slides';
+      this.searchResultsCount.textContent = this.isReadingMode ? 
+        'Enter a search term to find content' : 'Enter a search term to find slides';
       return;
     }
 
-    // Search across all slides
+    if (this.isReadingMode) {
+      this.performReadingModeSearch(trimmedQuery);
+    } else {
+      this.performSlideSearch(trimmedQuery);
+    }
+  }
+
+  performSlideSearch(query) {
+    // Search across all slides (original functionality)
     const matchingSlides = [];
     this.slides.forEach((slide, index) => {
       const slideText = slide.textContent.toLowerCase();
-      if (slideText.includes(trimmedQuery)) {
+      if (slideText.includes(query)) {
         // Extract heading for display
         const heading = slide.querySelector('h1, h2, h3, h4, h5, h6');
         let title = `Slide ${index + 1}`;
@@ -1541,7 +1571,7 @@ class SlideViewer {
         }
 
         // Get a snippet of matching content
-        const snippet = this.extractSearchSnippet(slideText, trimmedQuery);
+        const snippet = this.extractSearchSnippet(slideText, query);
         
         matchingSlides.push({
           index,
@@ -1551,7 +1581,39 @@ class SlideViewer {
       }
     });
 
-    this.displaySearchModalResults(matchingSlides, trimmedQuery);
+    this.displaySearchModalResults(matchingSlides, query);
+  }
+
+  performReadingModeSearch(query) {
+    const readingContent = this.slideContent.querySelector('.fb-slide__reading-mode-content');
+    
+    if (!readingContent) {
+      this.searchResultsCount.textContent = 'Reading mode content not found';
+      this.searchResultsList.innerHTML = '';
+      return;
+    }
+
+    // Clear previous highlights
+    this.clearReadingModeHighlights();
+
+    // Find all text nodes containing the query
+    const matches = this.findTextMatches(readingContent, query);
+    
+    if (matches.length === 0) {
+      this.searchResultsCount.textContent = `No matches found for "${query}"`;
+      this.searchResultsList.innerHTML = '';
+      const noResults = document.createElement('div');
+      noResults.className = 'fb-slide__search-no-results';
+      noResults.textContent = 'No content found matching your search.';
+      this.searchResultsList.appendChild(noResults);
+      return;
+    }
+
+    // Highlight all matches in the document
+    this.highlightReadingModeMatches(matches, query);
+
+    // Display results summary
+    this.displayReadingModeResults(matches, query);
   }
 
   extractSearchSnippet(text, query, maxLength = 150) {
@@ -1620,9 +1682,316 @@ class SlideViewer {
     return text.replace(regex, '<mark class="fb-slide__search-highlight">$1</mark>');
   }
 
+  findTextMatches(container, query) {
+    const matches = [];
+    const walker = document.createTreeWalker(
+      container,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode: function(node) {
+          // Skip empty text nodes and nodes within script/style elements
+          if (!node.textContent.trim() || 
+              ['SCRIPT', 'STYLE'].includes(node.parentElement.tagName)) {
+            return NodeFilter.FILTER_REJECT;
+          }
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+
+    let currentNode;
+    while (currentNode = walker.nextNode()) {
+      const text = currentNode.textContent.toLowerCase();
+      let index = 0;
+      
+      while ((index = text.indexOf(query, index)) !== -1) {
+        matches.push({
+          node: currentNode,
+          index: index,
+          text: currentNode.textContent
+        });
+        index += query.length;
+      }
+    }
+
+    return matches;
+  }
+
+  highlightReadingModeMatches(matches, query) {
+    // Process matches in reverse order to avoid index shifting
+    const processedNodes = new Set();
+    
+    matches.reverse().forEach((match, matchIndex) => {
+      if (processedNodes.has(match.node)) return;
+      
+      const originalText = match.node.textContent;
+      const regex = new RegExp(`(${this.escapeRegex(query)})`, 'gi');
+      
+      // Create highlighted HTML
+      const highlightedHTML = originalText.replace(regex, (matched) => {
+        return `<mark class="fb-slide__reading-mode-highlight" data-match-id="${matchIndex}">${matched}</mark>`;
+      });
+      
+      // Replace text node with highlighted content
+      const span = document.createElement('span');
+      span.innerHTML = highlightedHTML;
+      match.node.parentNode.replaceChild(span, match.node);
+      
+      processedNodes.add(match.node);
+    });
+  }
+
+  displayReadingModeResults(matches, query) {
+    this.searchResultsCount.textContent = `Found ${matches.length} match${matches.length === 1 ? '' : 'es'} for "${query}"`;
+    
+    this.searchResultsList.innerHTML = '';
+    
+    // Create simple results for each match
+    matches.forEach((match, index) => {
+      const resultItem = document.createElement('div');
+      resultItem.className = 'fb-slide__search-result-item fb-slide__reading-mode-result';
+      
+      // Find the section heading for this match
+      const sectionInfo = this.findSectionHeading(match.node);
+      
+      const titleElement = document.createElement('div');
+      titleElement.className = 'fb-slide__search-result-title';
+      titleElement.textContent = sectionInfo.heading || `Match ${index + 1}`;
+      
+      // Create a snippet around the match
+      const start = Math.max(0, match.index - 50);
+      const end = Math.min(match.text.length, match.index + 100);
+      const snippet = match.text.substring(start, end);
+      
+      const snippetElement = document.createElement('div');
+      snippetElement.className = 'fb-slide__search-result-snippet';
+      snippetElement.innerHTML = this.highlightQueryInText(snippet, query);
+      
+      const matchCountElement = document.createElement('div');
+      matchCountElement.className = 'fb-slide__search-result-number';
+      matchCountElement.textContent = sectionInfo.level || 'Content';
+      
+      resultItem.appendChild(matchCountElement);
+      resultItem.appendChild(titleElement);
+      resultItem.appendChild(snippetElement);
+      
+      // Add click handler to scroll to first match
+      resultItem.addEventListener('click', () => {
+        this.scrollToReadingModeMatch();
+        this.closeSearchModal();
+      });
+      
+      this.searchResultsList.appendChild(resultItem);
+    });
+  }
+
+  buildHeadingCache() {
+    // Build a cache of all headings with their positions for efficient lookup
+    const readingContent = document.querySelector('.fb-slide__reading-mode-content');
+    if (!readingContent) return [];
+    
+    const allHeadings = Array.from(readingContent.querySelectorAll('h1, h2, h3, h4, h5, h6'));
+    return allHeadings.map(heading => ({
+      element: heading,
+      text: heading.textContent.trim(),
+      level: heading.tagName,
+      position: heading.offsetTop
+    }));
+  }
+
+  findSectionHeading(textNode) {
+    // Build cache if not exists or if it's stale
+    if (!this.headingPositionsCache) {
+      this.headingPositionsCache = this.buildHeadingCache();
+    }
+    
+    // Start from the text node and work our way up and back to find the nearest heading
+    let currentElement = textNode.parentElement;
+    
+    // First, check if we're inside a heading element
+    while (currentElement) {
+      if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(currentElement.tagName)) {
+        return {
+          heading: currentElement.textContent.trim(),
+          level: currentElement.tagName
+        };
+      }
+      currentElement = currentElement.parentElement;
+    }
+    
+    // If not inside a heading, look for previous sibling headings (fast DOM traversal)
+    currentElement = textNode.parentElement;
+    while (currentElement) {
+      // Check previous siblings for headings
+      let sibling = currentElement.previousElementSibling;
+      while (sibling) {
+        if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(sibling.tagName)) {
+          return {
+            heading: sibling.textContent.trim(),
+            level: sibling.tagName
+          };
+        }
+        sibling = sibling.previousElementSibling;
+      }
+      
+      // Move up to parent and continue search
+      currentElement = currentElement.parentElement;
+    }
+    
+    // If no heading found in siblings, use cached heading positions
+    if (this.headingPositionsCache.length === 0) {
+      return { heading: 'Content', level: 'DIV' };
+    }
+    
+    // Get text node position using efficient method
+    const textNodePosition = textNode.parentElement ? textNode.parentElement.offsetTop : 0;
+    
+    // Find the last heading that appears before this text node using cached positions
+    let closestHeading = null;
+    for (const headingInfo of this.headingPositionsCache) {
+      if (headingInfo.position <= textNodePosition) {
+        closestHeading = headingInfo;
+      } else {
+        break; // Headings are in document order, so we can stop here
+      }
+    }
+    
+    if (closestHeading) {
+      return {
+        heading: closestHeading.text,
+        level: closestHeading.level
+      };
+    }
+    
+    // Fallback - use first heading
+    const firstHeading = this.headingPositionsCache[0];
+    if (firstHeading) {
+      return {
+        heading: firstHeading.text,
+        level: firstHeading.level
+      };
+    }
+    
+    return { heading: 'Content', level: 'DIV' };
+  }
+
+  getNodePosition(node) {
+    // Get the position of a node in the document for comparison
+    if (!node || !node.parentNode) {
+      return 0; // Return 0 for detached nodes
+    }
+    
+    const range = document.createRange();
+    try {
+      range.selectNode(node);
+      const rect = range.getBoundingClientRect();
+      range.detach();
+      return rect.top + window.scrollY;
+    } catch (error) {
+      console.warn('Error getting node position:', error);
+      return 0;
+    }
+  }
+
+  groupMatchesByContext(matches) {
+    const groups = [];
+    const processedMatches = new Set();
+    
+    matches.forEach(match => {
+      if (processedMatches.has(match)) return;
+      
+      // Find the containing element with semantic meaning
+      let contextElement = match.node.parentElement;
+      while (contextElement && 
+             !['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'LI', 'BLOCKQUOTE'].includes(contextElement.tagName)) {
+        contextElement = contextElement.parentElement;
+      }
+      
+      if (!contextElement) return;
+      
+      // Find heading for this section
+      let title = '';
+      let currentElement = contextElement;
+      while (currentElement && !title) {
+        if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(currentElement.tagName)) {
+          title = currentElement.textContent.trim();
+          break;
+        }
+        currentElement = currentElement.previousElementSibling;
+      }
+      
+      // Look for heading in parents if not found in siblings
+      if (!title) {
+        currentElement = contextElement.parentElement;
+        while (currentElement && !title) {
+          const heading = currentElement.querySelector('h1, h2, h3, h4, h5, h6');
+          if (heading) {
+            title = heading.textContent.trim();
+            break;
+          }
+          currentElement = currentElement.parentElement;
+        }
+      }
+      
+      // Create group
+      const group = {
+        title: title || 'Content',
+        snippet: contextElement.textContent.substring(0, 200) + '...',
+        matches: [match],
+        element: contextElement
+      };
+      
+      // Add other matches from the same context
+      matches.forEach(otherMatch => {
+        if (otherMatch !== match && 
+            !processedMatches.has(otherMatch) &&
+            contextElement.contains(otherMatch.node)) {
+          group.matches.push(otherMatch);
+          processedMatches.add(otherMatch);
+        }
+      });
+      
+      processedMatches.add(match);
+      groups.push(group);
+    });
+    
+    return groups;
+  }
+
+  scrollToReadingModeMatch() {
+    // Find the highlighted element
+    const highlights = document.querySelectorAll('.fb-slide__reading-mode-highlight');
+    if (highlights.length > 0) {
+      highlights[0].scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+      });
+      
+      // Add temporary focus styling
+      highlights[0].classList.add('fb-slide__highlight-focused');
+      setTimeout(() => {
+        highlights[0].classList.remove('fb-slide__highlight-focused');
+      }, 2000);
+    }
+  }
+
+  clearReadingModeHighlights() {
+    const highlights = document.querySelectorAll('.fb-slide__reading-mode-highlight');
+    highlights.forEach(highlight => {
+      const parent = highlight.parentNode;
+      parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+      parent.normalize();
+    });
+  }
+
   clearSearchModalResults() {
     if (this.searchResultsList) {
       this.searchResultsList.innerHTML = '';
+    }
+    
+    // Clear reading mode highlights when closing/clearing search
+    if (this.isReadingMode) {
+      this.clearReadingModeHighlights();
     }
   }
 

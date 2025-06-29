@@ -1059,6 +1059,30 @@
     box-shadow: 0 1px 3px var(--fb-slide__search-highlight-shadow);
   }
 
+  /* Reading mode search highlights */
+  .fb-slide__reading-mode-highlight {
+    background: var(--fb-slide__search-highlight-bg);
+    color: var(--fb-slide__search-highlight-text);
+    border: 1px solid var(--fb-slide__search-highlight-border);
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.25rem;
+    font-weight: 600;
+    box-shadow: 0 1px 3px var(--fb-slide__search-highlight-shadow);
+    transition: all 0.3s ease;
+  }
+
+  .fb-slide__reading-mode-highlight.fb-slide__highlight-focused {
+    background: #fbbf24;
+    color: #1f2937;
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.3);
+    transform: scale(1.05);
+  }
+
+  .fb-slide__reading-mode-result {
+    border-left: 4px solid var(--sl-color-accent);
+  }
+
   /* Font size adjuster styles */
   .fb-slide__font-adjuster {
     display: flex;
