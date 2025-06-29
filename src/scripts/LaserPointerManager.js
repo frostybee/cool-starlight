@@ -433,9 +433,20 @@ export class LaserPointerManager {
   }
 
   resizeCanvas() {
-    const rect = this.slideViewer.slideContent.getBoundingClientRect();
-    this.canvas.width = rect.width;
-    this.canvas.height = rect.height;
+    // Size the canvas to match the slide content area
+    const contentRect = this.slideViewer.slideContent.getBoundingClientRect();
+    const wrapperRect = this.slideViewer.slideContent.parentElement.getBoundingClientRect();
+    
+    // Calculate the content area relative to the wrapper
+    const contentOffsetX = contentRect.left - wrapperRect.left;
+    const contentOffsetY = contentRect.top - wrapperRect.top;
+    
+    // Position and size the canvas to match the content area
+    this.canvas.style.left = `${contentOffsetX}px`;
+    this.canvas.style.top = `${contentOffsetY}px`;
+    this.canvas.width = contentRect.width;
+    this.canvas.height = contentRect.height;
+    
     this.redrawHighlights();
   }
 
