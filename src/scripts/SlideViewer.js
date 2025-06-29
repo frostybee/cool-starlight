@@ -5,6 +5,7 @@ import { MobileMenuManager } from './MobileMenuManager.js';
 import { FullscreenManager } from './FullscreenManager.js';
 import { FontManager } from './FontManager.js';
 import { TOCManager } from './TOCManager.js';
+import { LaserPointerManager } from './LaserPointerManager.js';
 
 export class SlideViewer {
   constructor() {
@@ -37,6 +38,7 @@ export class SlideViewer {
     this.fullscreenManager = new FullscreenManager(this);
     this.fontManager = new FontManager(this);
     this.tocManager = new TOCManager(this);
+    this.laserPointerManager = new LaserPointerManager(this);
     
     // Expose manager properties for backward compatibility
     this.tocSidebar = this.tocManager.tocSidebar;
@@ -275,6 +277,10 @@ export class SlideViewer {
                      this.searchManager.searchModal.classList.contains('hidden') && this.gotoModal.classList.contains('hidden')) {
             event.preventDefault();
             this.searchManager.openSearchModal();
+          } else if ((event.key === 'l' || event.key === 'L') &&
+                     this.searchManager.searchModal.classList.contains('hidden') && this.gotoModal.classList.contains('hidden')) {
+            event.preventDefault();
+            this.laserPointerManager.toggle();
           }
           return;
         }
@@ -327,6 +333,13 @@ export class SlideViewer {
             if (this.gotoModal.classList.contains('hidden')) {
               event.preventDefault();
               this.goToSlide(this.slides.length - 1); // Go to last slide
+            }
+            break;
+          case 'l':
+          case 'L':
+            if (this.gotoModal.classList.contains('hidden') && this.searchManager.searchModal.classList.contains('hidden')) {
+              event.preventDefault();
+              this.laserPointerManager.toggle();
             }
             break;
         }
@@ -500,6 +513,7 @@ export class SlideViewer {
 
       this.slideContent.classList.remove('transitioning');
       this.tocManager.updateTocSelection();
+      this.laserPointerManager.onSlideChange();
     }, 150);
   }
 
