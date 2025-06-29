@@ -10,7 +10,7 @@
     flex-wrap: wrap;
     align-items: center;
   }
-  
+
   /* Reading Mode Styles - Keep buttons inline, just change behavior */
   :root {
     /* TOC Color Variables for Light Theme */
@@ -30,8 +30,8 @@
 
     /* Progress Bar Colors for Light Theme */
     --progress-bg: #e2e8f0;
-    --progress-fill: var(--sl-color-accent);
-    --progress-shadow: rgba(99, 102, 241, 0.3);
+    --progress-fill: #facc15;
+    --progress-shadow: rgba(250, 204, 21, 0.4);
 
     /* Search Highlight Colors for Light Theme */
     --fb-slide__search-highlight-bg: linear-gradient(90deg, #d1fae5, #a7f3d0);
@@ -66,8 +66,8 @@
 
     /* Progress Bar Colors for Dark Theme */
     --progress-bg: #374151;
-    --progress-fill: var(--sl-color-accent);
-    --progress-shadow: rgba(79, 70, 229, 0.4);
+    --progress-fill: #fbbf24;
+    --progress-shadow: rgba(251, 191, 36, 0.4);
 
     /* Search Highlight Colors for Dark Theme */
     --fb-slide__search-highlight-bg: linear-gradient(90deg, #064e3b, #047857);
@@ -100,8 +100,8 @@
 
       /* Progress Bar Colors for Dark Theme */
       --progress-bg: #374151;
-      --progress-fill: var(--sl-color-accent);
-      --progress-shadow: rgba(79, 70, 229, 0.4);
+      --progress-fill: #fbbf24;
+      --progress-shadow: rgba(251, 191, 36, 0.4);
 
       /* Search Highlight Colors for Dark Theme */
       --fb-slide__search-highlight-bg: linear-gradient(90deg, #064e3b, #047857);
@@ -212,7 +212,7 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 6px;
+    height: 12px;
     z-index: 1000;
   }
 

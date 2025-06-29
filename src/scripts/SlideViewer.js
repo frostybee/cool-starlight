@@ -29,7 +29,7 @@ export class SlideViewer {
     this.gotoConfirm = document.getElementById('goto-confirm');
     this.gotoCancel = document.getElementById('goto-cancel');
     this.progressFill = document.getElementById('slide-progress-fill');
-    
+
     // Initialize managers
     this.searchManager = new SearchManager(this);
     this.readingModeManager = new ReadingModeManager(this);
@@ -39,7 +39,7 @@ export class SlideViewer {
     this.fontManager = new FontManager(this);
     this.tocManager = new TOCManager(this);
     this.laserPointerManager = new LaserPointerManager(this);
-    
+
     // Expose manager properties for backward compatibility
     this.tocSidebar = this.tocManager.tocSidebar;
     this.tocContent = this.tocManager.tocContent;
@@ -163,9 +163,9 @@ export class SlideViewer {
 
   updateProgress() {
     if (!this.progressFill || this.slides.length === 0) return;
-    
+
     let progress = 0;
-    
+
     if (this.isReadingMode) {
       // For reading mode, calculate based on scroll position
       const slideContent = this.slideContent;
@@ -179,7 +179,7 @@ export class SlideViewer {
       // For slide mode, calculate based on current slide
       progress = ((this.currentSlide + 1) / this.slides.length) * 100;
     }
-    
+
     this.progressFill.style.width = `${Math.min(100, Math.max(0, progress))}%`;
   }
 
@@ -436,7 +436,7 @@ export class SlideViewer {
     });
   }
 
-  openSlideshow() {
+    openSlideshow() {
     if (this.slides.length === 0) return;
 
     this.currentSlide = 0;
@@ -566,7 +566,7 @@ export class SlideViewer {
     if (isNaN(slideNumber) || slideNumber < 1 || slideNumber > this.slides.length) {
       // Show error feedback with helpful message
       console.log(`Invalid slide number: ${inputElement.value}. Must be between 1 and ${this.slides.length}`);
-      
+
       // Add error styling using CSS classes
       const isSlideInput = inputElement.classList.contains('fb-slide__input');
       const errorClass = isSlideInput ? 'fb-slide__input-error' : 'fb-slide__goto-input-error';
@@ -579,7 +579,7 @@ export class SlideViewer {
       const tooltip = document.createElement('div');
       tooltip.className = 'fb-slide__error-tooltip';
       tooltip.textContent = `Enter a number between 1 and ${this.slides.length}`;
-      
+
       // Ensure parent container has relative positioning
       inputElement.parentElement.classList.add('fb-slide__error-tooltip-container');
       inputElement.parentElement.appendChild(tooltip);
