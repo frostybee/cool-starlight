@@ -72,11 +72,10 @@ export class ReadingModeManager {
       this.slideViewer.prevBtn.style.display = 'none';
       this.slideViewer.nextBtn.style.display = 'none';
       this.slideViewer.slideCounter.style.display = 'none';
+      this.slideViewer.slideNumberIndicator.style.display = 'none';
       if (this.slideViewer.prevBtnMobile) this.slideViewer.prevBtnMobile.style.display = 'none';
       if (this.slideViewer.nextBtnMobile) this.slideViewer.nextBtnMobile.style.display = 'none';
       if (this.slideViewer.slideCounterMobile) this.slideViewer.slideCounterMobile.style.display = 'none';
-      // Set slide number indicator to 1 in reading mode
-      this.slideViewer.slideNumberIndicator.textContent = '1';
       // Collapse the left sidebar in reading mode
       this.slideViewer.tocSidebar.classList.add('collapsed');
     } else {
@@ -103,6 +102,7 @@ export class ReadingModeManager {
       this.slideViewer.prevBtn.style.display = '';
       this.slideViewer.nextBtn.style.display = '';
       this.slideViewer.slideCounter.style.display = '';
+      this.slideViewer.slideNumberIndicator.style.display = '';
       if (this.slideViewer.prevBtnMobile) this.slideViewer.prevBtnMobile.style.display = '';
       if (this.slideViewer.nextBtnMobile) this.slideViewer.nextBtnMobile.style.display = '';
       if (this.slideViewer.slideCounterMobile) this.slideViewer.slideCounterMobile.style.display = '';

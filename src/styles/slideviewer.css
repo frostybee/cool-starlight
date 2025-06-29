@@ -2105,13 +2105,13 @@
   }
 
   .fb-slide__help-body {
-    padding: 1.5rem;
+    padding: 1rem;
     overflow-y: auto;
     max-height: 70vh;
   }
 
   .fb-slide__help-section {
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
   }
 
   .fb-slide__help-section:last-child {
@@ -2119,25 +2119,25 @@
   }
 
   .fb-slide__help-section h4 {
-    margin: 0 0 1rem 0;
+    margin: 0 0 0.75rem 0;
     color: var(--sl-color-text);
     font-size: 1.1rem;
     font-weight: 600;
     border-bottom: 1px solid var(--sl-color-gray-6);
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.25rem;
   }
 
   .fb-slide__help-shortcuts {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
 
   .fb-slide__help-shortcut {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 0;
+    padding: 0.25rem 0;
   }
 
   .fb-slide__help-keys {

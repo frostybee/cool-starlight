@@ -509,6 +509,13 @@ export class SlideViewer {
       this.slideInput.value = (index + 1).toString();
       this.mobileManager.updateSlideNumber(index + 1);
       this.slideNumberIndicator.textContent = (index + 1).toString();
+      
+      // Hide/show slide number indicator based on mode
+      if (this.isReadingMode) {
+        this.slideNumberIndicator.style.display = 'none';
+      } else {
+        this.slideNumberIndicator.style.display = '';
+      }
 
       // If this is the preview slide (index 0), rebind thumbnail events
       if (index === 0) {
