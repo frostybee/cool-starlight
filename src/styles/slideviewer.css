@@ -79,6 +79,10 @@
     /* Laser Pointer */
     --fb-slide-laser-indicator-bg: rgba(255, 107, 53, 0.9);
     --fb-slide-laser-indicator-text: white;
+
+    /* Text Colors for Light Theme (default) */
+    --fb-slide-text-color: #000000;
+    --fb-slide-heading-color: #000000;
   }
 
   /* Dark theme overrides - using multiple selectors for Starlight compatibility */
@@ -97,8 +101,8 @@
     --fb-slide-toc-active-text: #1f2937;
     --fb-slide-toc-active-border: #f59e0b;
     --fb-slide-toc-active-shadow: rgba(251, 191, 36, 0.4);
-    --fb-slide-toc-number-bg: var(--sl-color-accent);
-    --fb-slide-toc-number-text: var(--sl-color-accent-text);
+    --fb-slide-toc-number-bg: #3b82f6;
+    --fb-slide-toc-number-text: #ffffff;
     --fb-slide-toc-number-shadow: rgba(79, 70, 229, 0.4);
     --fb-slide-text-color: #ffffff;
     --fb-slide-heading-color: #ffffff;
@@ -156,7 +160,11 @@
     --fb-slide-laser-indicator-text: white;
   }
 
-  /* Light theme override for slide viewer */
+  /* Light theme override for slide viewer - using multiple selectors for Starlight compatibility */
+  [data-theme="light"],
+  :root[data-theme="light"],
+  html[data-theme="light"],
+  .sl-theme-light,
   .fb-slide__theme-light {
     --fb-slide-toc-bg: #f8fafc;
     --fb-slide-toc-border: #e2e8f0;
@@ -171,8 +179,8 @@
     --fb-slide-toc-number-bg: var(--sl-color-accent);
     --fb-slide-toc-number-text: var(--sl-color-accent-text);
     --fb-slide-toc-number-shadow: rgba(99, 102, 241, 0.3);
-    --fb-slide-text-color: #1f2937;
-    --fb-slide-heading-color: #111827;
+    --fb-slide-text-color: #000000;
+    --fb-slide-heading-color: #000000;
 
     /* Progress Bar Colors for Light Theme */
     --fb-slide-progress-bg: #e2e8f0;
@@ -226,6 +234,7 @@
     --fb-slide-laser-indicator-bg: rgba(255, 107, 53, 0.9);
     --fb-slide-laser-indicator-text: white;
   }
+
 
   /* 🧛 Dracula Theme */
   .fb-slide__theme-dracula {
@@ -2015,7 +2024,7 @@
     font-size: 5rem;
     font-weight: 700;
     line-height: 1.2;
-    color: var(--fb-slide-heading-color, var(--sl-color-text));
+    color: var(--fb-slide-heading-color, #000000);
     text-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
   }
 
@@ -2032,7 +2041,7 @@
     font-size: 4rem;
     font-weight: 600;
     line-height: 1.3;
-    color: var(--fb-slide-heading-color, var(--sl-color-text));
+    color: var(--fb-slide-heading-color, #000000);
   }
 
   .fb-slide__content h2 a,
@@ -2048,7 +2057,7 @@
     font-size: 3rem;
     font-weight: 600;
     line-height: 1.3;
-    color: var(--fb-slide-heading-color, var(--sl-color-text));
+    color: var(--fb-slide-heading-color, #000000);
   }
 
   .fb-slide__content h3 a,
@@ -2064,7 +2073,7 @@
     font-size: 2.5rem;
     font-weight: 500;
     line-height: 1.4;
-    color: var(--fb-slide-heading-color, var(--sl-color-text));
+    color: var(--fb-slide-heading-color, #000000);
   }
 
   .fb-slide__content h4 a,
@@ -2079,7 +2088,7 @@
     font-size: calc(1.8rem * var(--font-scale));
     line-height: 1.6;
     margin: 0 0 1.5rem 0;
-    color: var(--fb-slide-text-color, var(--sl-color-text));
+    color: var(--fb-slide-text-color, #000000);
     width: 100%;
   }
 
@@ -2087,7 +2096,7 @@
     font-size: calc(1.8rem * var(--font-scale));
     line-height: 1.6;
     margin: 0.5rem 0;
-    color: var(--fb-slide-text-color, var(--sl-color-text));
+    color: var(--fb-slide-text-color, #000000);
   }
 
   .fb-slide__content ul,
@@ -2162,7 +2171,7 @@
     border-radius: 0 8px 8px 0;
     font-style: italic;
     font-size: calc(1.6rem * var(--font-scale));
-    color: var(--fb-slide-text-color, var(--sl-color-text));
+    color: var(--fb-slide-text-color, #000000);
     width: 100%;
     position: relative;
   }
