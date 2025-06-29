@@ -1808,14 +1808,14 @@
 
   #laser-pointer-indicator {
     position: fixed;
-    top: 20px;
+    bottom: 50px;
     right: 20px;
     background: rgba(255, 107, 53, 0.9);
     color: white;
     padding: 8px 12px;
     border-radius: 4px;
     font-size: 14px;
-    z-index: 10001;
+    z-index: 2147483649;
     transition: opacity 0.3s;
     font-weight: bold;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
@@ -1824,5 +1824,204 @@
 
   #laser-pointer-indicator.visible {
     display: block;
+  }
+
+  /* Laser Pointer Settings Modal */
+  .laser-pointer-settings-modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 2147483650 !important;
+    display: none !important;
+  }
+
+  .laser-pointer-settings-modal.visible {
+    display: flex !important;
+  }
+
+  .laser-pointer-settings-content {
+    background: var(--sl-color-bg);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--sl-color-gray-5);
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .laser-pointer-settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--sl-color-gray-6);
+    padding-bottom: 1rem;
+  }
+
+  .laser-pointer-settings-title {
+    margin: 0;
+    color: var(--sl-color-text);
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .laser-pointer-settings-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    color: var(--sl-color-text);
+    opacity: 0.7;
+    transition: all 0.2s ease;
+    font-size: 1.2rem;
+  }
+
+  .laser-pointer-settings-close:hover {
+    opacity: 1;
+    background: var(--sl-color-gray-6);
+  }
+
+  .laser-pointer-setting-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .laser-pointer-setting-label {
+    display: block;
+    color: var(--sl-color-text);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .laser-pointer-color-picker {
+    width: 100%;
+    height: 40px;
+    border: 2px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    background: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .laser-pointer-color-picker:hover {
+    border-color: var(--sl-color-accent);
+  }
+
+  .laser-pointer-slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--sl-color-gray-5);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .laser-pointer-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--sl-color-accent);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .laser-pointer-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--sl-color-accent);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .laser-pointer-slider-value {
+    display: inline-block;
+    margin-left: 0.75rem;
+    color: var(--sl-color-accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+    min-width: 3rem;
+  }
+
+  .laser-pointer-toggle {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+  }
+
+  .laser-pointer-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .laser-pointer-toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--sl-color-gray-5);
+    transition: 0.3s;
+    border-radius: 24px;
+  }
+
+  .laser-pointer-toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .laser-pointer-toggle input:checked + .laser-pointer-toggle-slider {
+    background-color: var(--sl-color-accent);
+  }
+
+  .laser-pointer-toggle input:checked + .laser-pointer-toggle-slider:before {
+    transform: translateX(26px);
+  }
+
+  .laser-pointer-setting-description {
+    font-size: 0.8rem;
+    color: var(--sl-color-gray-3);
+    margin-top: 0.25rem;
+    line-height: 1.4;
+  }
+
+  .laser-pointer-preview {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--sl-color-gray-6);
+    border-radius: 0.5rem;
+    text-align: center;
+  }
+
+  .laser-pointer-preview-line {
+    height: 4px;
+    background: #ff6b35;
+    border-radius: 2px;
+    margin: 0.5rem auto;
+    transition: all 0.3s ease;
   }
 }

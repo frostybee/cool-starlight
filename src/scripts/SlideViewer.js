@@ -281,6 +281,11 @@ export class SlideViewer {
                      this.searchManager.searchModal.classList.contains('hidden') && this.gotoModal.classList.contains('hidden')) {
             event.preventDefault();
             this.laserPointerManager.toggle();
+          } else if ((event.key === 's' || event.key === 'S') &&
+                     this.searchManager.searchModal.classList.contains('hidden') && this.gotoModal.classList.contains('hidden') &&
+                     this.laserPointerManager.isActive) {
+            event.preventDefault();
+            this.laserPointerManager.openSettingsModal();
           }
           return;
         }
@@ -340,6 +345,14 @@ export class SlideViewer {
             if (this.gotoModal.classList.contains('hidden') && this.searchManager.searchModal.classList.contains('hidden')) {
               event.preventDefault();
               this.laserPointerManager.toggle();
+            }
+            break;
+          case 's':
+          case 'S':
+            if (this.gotoModal.classList.contains('hidden') && this.searchManager.searchModal.classList.contains('hidden') &&
+                this.laserPointerManager.isActive) {
+              event.preventDefault();
+              this.laserPointerManager.openSettingsModal();
             }
             break;
         }
