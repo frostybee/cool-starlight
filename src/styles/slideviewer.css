@@ -912,11 +912,17 @@
 
   .fb-slide__search-modal-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     padding: 1.5rem 1.5rem 0 1.5rem;
     border-bottom: 1px solid var(--sl-color-gray-6);
     margin-bottom: 1rem;
+  }
+
+  .fb-slide__search-modal-title-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   .fb-slide__search-modal-header h3 {
@@ -924,6 +930,36 @@
     color: var(--sl-color-text);
     font-size: 1.25rem;
     font-weight: 600;
+  }
+
+  .fb-slide__search-keyboard-hints {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .fb-slide__keyboard-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-3);
+    font-weight: 500;
+  }
+
+  .fb-slide__keyboard-hint kbd {
+    background: var(--sl-color-gray-6);
+    color: var(--sl-color-text);
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.375rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    min-width: 1.25rem;
+    text-align: center;
+    line-height: 1;
   }
 
   .fb-slide__search-modal-close {
@@ -1019,6 +1055,13 @@
     border-color: var(--sl-color-accent);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transform: translateY(-1px);
+  }
+
+  .fb-slide__search-result-item.fb-slide__search-result-selected {
+    border-color: var(--sl-color-accent);
+    background: var(--sl-color-accent-low);
+    box-shadow: 0 0 0 2px var(--sl-color-accent), 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
   }
 
   .fb-slide__search-result-number {
@@ -1266,6 +1309,23 @@
 
   .fb-slide__dropdown-text {
     flex: 1;
+  }
+
+  /* Mobile keyboard hints responsive */
+  @media (max-width: 768px) {
+    .fb-slide__search-keyboard-hints {
+      gap: 0.5rem;
+    }
+
+    .fb-slide__keyboard-hint {
+      font-size: 0.7rem;
+    }
+
+    .fb-slide__keyboard-hint kbd {
+      font-size: 0.6rem;
+      padding: 0.1rem 0.3rem;
+      min-width: 1rem;
+    }
   }
 
   /* Mobile and tablet responsive */

@@ -3,6 +3,7 @@ export class SearchManager {
     this.slideViewer = slideViewer;
     this.searchTimeout = null;
     this.headingPositionsCache = null;
+    this.selectedResultIndex = -1;
     
     // DOM elements
     this.searchInput = document.getElementById('slide-search-input');
@@ -60,6 +61,15 @@ export class SearchManager {
       this.searchModalInput.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           this.closeSearchModal();
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          this.navigateResults(1);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          this.navigateResults(-1);
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          this.selectCurrentResult();
         }
       });
     }
@@ -374,6 +384,7 @@ export class SearchManager {
     this.searchResultsCount.textContent = `Found ${matchingSlides.length} slide${matchingSlides.length === 1 ? '' : 's'} matching "${query}"`;
     
     this.searchResultsList.innerHTML = '';
+    this.selectedResultIndex = -1;
     
     if (matchingSlides.length === 0) {
       const noResults = document.createElement('div');
@@ -383,9 +394,11 @@ export class SearchManager {
       return;
     }
 
-    matchingSlides.forEach(({ index, title, snippet }) => {
+    matchingSlides.forEach(({ index, title, snippet }, resultIndex) => {
       const resultItem = document.createElement('div');
       resultItem.className = 'fb-slide__search-result-item';
+      resultItem.dataset.resultIndex = resultIndex;
+      resultItem.dataset.slideIndex = index;
       
       const titleElement = document.createElement('div');
       titleElement.className = 'fb-slide__search-result-title';
@@ -483,11 +496,13 @@ export class SearchManager {
     this.searchResultsCount.textContent = `Found ${matches.length} match${matches.length === 1 ? '' : 'es'} for "${query}"`;
     
     this.searchResultsList.innerHTML = '';
+    this.selectedResultIndex = -1;
     
     // Create simple results for each match
     matches.forEach((match, index) => {
       const resultItem = document.createElement('div');
       resultItem.className = 'fb-slide__search-result-item fb-slide__reading-mode-result';
+      resultItem.dataset.resultIndex = index;
       
       // Find the section heading for this match
       const sectionInfo = this.findSectionHeading(match.node);
@@ -643,10 +658,54 @@ export class SearchManager {
     if (this.searchResultsList) {
       this.searchResultsList.innerHTML = '';
     }
+    this.selectedResultIndex = -1;
     
     // Clear reading mode highlights when closing/clearing search
     if (this.slideViewer.isReadingMode) {
       this.clearReadingModeHighlights();
+    }
+  }
+
+  navigateResults(direction) {
+    const resultItems = this.searchResultsList.querySelectorAll('.fb-slide__search-result-item:not(.fb-slide__search-no-results)');
+    if (resultItems.length === 0) return;
+
+    // Remove current selection
+    if (this.selectedResultIndex >= 0 && resultItems[this.selectedResultIndex]) {
+      resultItems[this.selectedResultIndex].classList.remove('fb-slide__search-result-selected');
+    }
+
+    // Update selected index
+    if (direction > 0) {
+      this.selectedResultIndex = (this.selectedResultIndex + 1) % resultItems.length;
+    } else {
+      this.selectedResultIndex = this.selectedResultIndex <= 0 ? resultItems.length - 1 : this.selectedResultIndex - 1;
+    }
+
+    // Add selection to new item
+    if (resultItems[this.selectedResultIndex]) {
+      resultItems[this.selectedResultIndex].classList.add('fb-slide__search-result-selected');
+      resultItems[this.selectedResultIndex].scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  selectCurrentResult() {
+    const resultItems = this.searchResultsList.querySelectorAll('.fb-slide__search-result-item:not(.fb-slide__search-no-results)');
+    if (this.selectedResultIndex >= 0 && resultItems[this.selectedResultIndex]) {
+      const selectedItem = resultItems[this.selectedResultIndex];
+      
+      if (selectedItem.classList.contains('fb-slide__reading-mode-result')) {
+        // Reading mode - scroll to match
+        this.scrollToReadingModeMatch();
+      } else {
+        // Slide mode - navigate to slide
+        const slideIndex = parseInt(selectedItem.dataset.slideIndex);
+        if (!isNaN(slideIndex)) {
+          this.slideViewer.goToSlide(slideIndex);
+        }
+      }
+      
+      this.closeSearchModal();
     }
   }
 }

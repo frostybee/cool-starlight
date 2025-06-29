@@ -185,7 +185,20 @@ import '../styles/slideviewer.css';
   <div id="search-modal" class="fb-slide__search-modal hidden">
     <div class="fb-slide__search-modal-content">
       <div class="fb-slide__search-modal-header">
-        <h3>Search Slides</h3>
+        <div class="fb-slide__search-modal-title-section">
+          <h3>Search Slides</h3>
+          <div class="fb-slide__search-keyboard-hints">
+            <span class="fb-slide__keyboard-hint">
+              <kbd>↑</kbd><kbd>↓</kbd> Navigate
+            </span>
+            <span class="fb-slide__keyboard-hint">
+              <kbd>Enter</kbd> Select
+            </span>
+            <span class="fb-slide__keyboard-hint">
+              <kbd>Esc</kbd> Close
+            </span>
+          </div>
+        </div>
         <button id="search-modal-close" class="fb-slide__search-modal-close" aria-label="Close search">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 6L6 18M6 6l12 12"/>
