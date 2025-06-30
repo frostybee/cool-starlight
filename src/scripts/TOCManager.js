@@ -67,7 +67,13 @@ export class TOCManager {
 
       // Special handling for the preview slide (first slide).
       if (index === 0 && slide.className && slide.className.includes('fb-slide__preview-container')) {
-        title = 'Slide Overview';
+        // Extract title from the preview slide's h1 heading
+        const previewHeading = slide.querySelector('h1');
+        if (previewHeading && previewHeading.textContent.trim()) {
+          title = previewHeading.textContent.trim();
+        } else {
+          title = 'Slide Overview'; // Fallback
+        }
         headingLevel = 'h1';
       } else if (heading) {
         title = heading.textContent.trim();
@@ -457,7 +463,7 @@ export class TOCManager {
     tocItems.forEach((container, index) => {
       const bookmarkIndicator = container.querySelector('.fb-slide__toc-bookmark-indicator');
       if (bookmarkIndicator) {
-        const isBookmarked = this.slideViewer.bookmarkManager.isSlideBookmarked(index);
+        const isBookmarked = this.slideViewer.bookmarkManager.bookmarks.has(index);
         bookmarkIndicator.style.display = isBookmarked ? 'flex' : 'none';
       }
     });

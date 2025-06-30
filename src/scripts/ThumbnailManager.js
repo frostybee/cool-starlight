@@ -34,9 +34,20 @@ export class ThumbnailManager {
     const previewContainer = document.createElement('div');
     previewContainer.className = 'fb-slide__preview-container';
 
-    // Create title for preview slide.
+    // Create title for preview slide - extract from original article content.
     const title = document.createElement('h1');
-    title.textContent = 'Slide Overview';
+    
+    // Extract title from the original article content (before slide processing)
+    let titleText = 'Slide Overview'; // Fallback
+    const articleContent = document.querySelector('.sl-markdown-content, main .content, article');
+    if (articleContent) {
+      const firstHeading = articleContent.querySelector('h1, h2, h3, h4, h5, h6');
+      if (firstHeading && firstHeading.textContent.trim()) {
+        titleText = firstHeading.textContent.trim();
+      }
+    }
+    
+    title.textContent = titleText;
     previewContainer.appendChild(title);
 
     // Create grid container.

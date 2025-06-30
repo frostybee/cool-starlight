@@ -297,21 +297,21 @@ export class SlideViewer {
     }
 
     const hrElements = content.querySelectorAll('hr');
-    const headingElements = content.querySelectorAll('h2, h3');
+    const headingElements = content.querySelectorAll('h1, h2, h3'); // Include H1 headings
     console.log('Found HR elements:', hrElements.length);
-    console.log('Found H2/H3 elements:', headingElements.length);
+    console.log('Found H1/H2/H3 elements:', headingElements.length);
 
     if (hrElements.length === 0 && headingElements.length === 0) {
       // No separators found, treat entire content as one slide
       this.slides = [content];
     } else {
-      // Split content by both HR elements and H2/H3 headings
+      // Split content by both HR elements and H1/H2/H3 headings
       this.slides = [];
       let currentSlideContent = document.createElement('div');
 
       Array.from(content.childNodes).forEach((node) => {
         const isSlideBreak = (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'HR') ||
-                            (node.nodeType === Node.ELEMENT_NODE && (node.tagName === 'H2' || node.tagName === 'H3'));
+                            (node.nodeType === Node.ELEMENT_NODE && (node.tagName === 'H1' || node.tagName === 'H2' || node.tagName === 'H3'));
 
         if (isSlideBreak) {
           // Save previous slide if it has content (but not for HR elements as they're just separators).
@@ -323,7 +323,7 @@ export class SlideViewer {
           currentSlideContent = document.createElement('div');
 
           // For headings, include them in the new slide; for HR, don't include them.
-          if (node.tagName === 'H2' || node.tagName === 'H3') {
+          if (node.tagName === 'H1' || node.tagName === 'H2' || node.tagName === 'H3') {
             currentSlideContent.appendChild(node.cloneNode(true));
           }
         } else {
