@@ -15,6 +15,10 @@ export class SlideViewer {
     this.slides = [];
     this.currentSlide = 0;
     this.isReadingMode = false; // Toggle between slide mode and reading mode in modal
+    this.focusableElements = [];
+    this.firstFocusableElement = null;
+    this.lastFocusableElement = null;
+    this.previousActiveElement = null;
 
     // Core UI elements
     this.modal = document.getElementById('slide-viewer-modal');
@@ -32,6 +36,12 @@ export class SlideViewer {
     this.gotoConfirm = document.getElementById('goto-confirm');
     this.gotoCancel = document.getElementById('goto-cancel');
     this.progressFill = document.getElementById('slide-progress-fill');
+
+    // Create ARIA live region for announcements
+    this.ariaLiveRegion = this.createAriaLiveRegion();
+    
+    // Create skip links
+    this.skipLinks = this.createSkipLinks();
 
     // Initialize managers
     this.searchManager = new SearchManager(this);
@@ -66,6 +76,213 @@ export class SlideViewer {
     });
 
     this.init();
+    this.setupAccessibility();
+  }
+
+  createAriaLiveRegion() {
+    const liveRegion = document.createElement('div');
+    liveRegion.setAttribute('aria-live', 'polite');
+    liveRegion.setAttribute('aria-atomic', 'true');
+    liveRegion.setAttribute('aria-relevant', 'additions text');
+    liveRegion.className = 'sr-only';
+    liveRegion.id = 'slide-announcements';
+    document.body.appendChild(liveRegion);
+    return liveRegion;
+  }
+
+  createSkipLinks() {
+    const skipContainer = document.createElement('div');
+    skipContainer.className = 'skip-links';
+    skipContainer.innerHTML = `
+      <a href="#slide-content" class="skip-link">Skip to slide content</a>
+      <a href="#slide-controls" class="skip-link">Skip to slide controls</a>
+    `;
+    
+    // Add skip links to modal
+    if (this.modal) {
+      this.modal.insertBefore(skipContainer, this.modal.firstChild);
+    }
+    
+    return skipContainer;
+  }
+
+  setupAccessibility() {
+    // Set up modal ARIA attributes
+    if (this.modal) {
+      this.modal.setAttribute('role', 'dialog');
+      this.modal.setAttribute('aria-modal', 'true');
+      this.modal.setAttribute('aria-labelledby', 'slideshow-title');
+      this.modal.setAttribute('aria-describedby', 'slideshow-description');
+    }
+
+    // Add hidden title and description for screen readers
+    if (!document.getElementById('slideshow-title')) {
+      const title = document.createElement('h2');
+      title.id = 'slideshow-title';
+      title.className = 'sr-only';
+      title.textContent = 'Slideshow Viewer';
+      this.modal.appendChild(title);
+    }
+
+    if (!document.getElementById('slideshow-description')) {
+      const description = document.createElement('div');
+      description.id = 'slideshow-description';
+      description.className = 'sr-only';
+      description.textContent = 'Interactive slideshow viewer. Use arrow keys to navigate, Escape to close.';
+      this.modal.appendChild(description);
+    }
+
+    // Set up button ARIA labels
+    if (this.prevBtn) {
+      this.prevBtn.setAttribute('aria-label', 'Previous slide');
+    }
+    if (this.nextBtn) {
+      this.nextBtn.setAttribute('aria-label', 'Next slide');
+    }
+    if (this.closeBtn) {
+      this.closeBtn.setAttribute('aria-label', 'Close slideshow');
+    }
+    if (this.startBtn) {
+      this.startBtn.setAttribute('aria-label', 'Start slideshow presentation');
+    }
+
+    // Set up slide content region
+    if (this.slideContent) {
+      this.slideContent.setAttribute('role', 'region');
+      this.slideContent.setAttribute('aria-label', 'Slide content');
+      this.slideContent.setAttribute('aria-live', 'polite');
+      this.slideContent.id = 'slide-content'; // Ensure ID for skip links
+    }
+
+    // Set up slide controls region
+    const controlsContainer = this.modal.querySelector('.slide-controls, .fb-slide__controls');
+    if (controlsContainer) {
+      controlsContainer.setAttribute('role', 'region');
+      controlsContainer.setAttribute('aria-label', 'Slide navigation controls');
+      controlsContainer.id = 'slide-controls'; // Ensure ID for skip links
+    }
+
+    // Set up goto modal accessibility
+    if (this.gotoModal) {
+      this.gotoModal.setAttribute('role', 'dialog');
+      this.gotoModal.setAttribute('aria-modal', 'true');
+      this.gotoModal.setAttribute('aria-labelledby', 'goto-modal-title');
+      
+      // Add hidden title for goto modal
+      if (!document.getElementById('goto-modal-title')) {
+        const gotoTitle = document.createElement('h3');
+        gotoTitle.id = 'goto-modal-title';
+        gotoTitle.className = 'sr-only';
+        gotoTitle.textContent = 'Go to slide';
+        this.gotoModal.appendChild(gotoTitle);
+      }
+    }
+
+    // Set up slide input accessibility
+    if (this.slideInput) {
+      this.slideInput.setAttribute('aria-label', 'Current slide number');
+      this.slideInput.setAttribute('role', 'spinbutton');
+    }
+
+    if (this.gotoInput) {
+      this.gotoInput.setAttribute('aria-label', 'Enter slide number to navigate to');
+      this.gotoInput.setAttribute('role', 'spinbutton');
+    }
+
+    // Set up progress indicator
+    if (this.progressFill && this.progressFill.parentElement) {
+      this.progressFill.parentElement.setAttribute('role', 'progressbar');
+      this.progressFill.parentElement.setAttribute('aria-label', 'Slide progress');
+      this.progressFill.parentElement.setAttribute('aria-valuemin', '0');
+      this.progressFill.parentElement.setAttribute('aria-valuemax', '100');
+    }
+
+  }
+
+  updateFocusableElements() {
+    const focusableSelectors = [
+      'button:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      'a[href]',
+      '[tabindex]:not([tabindex="-1"])'
+    ];
+    
+    this.focusableElements = Array.from(
+      this.modal.querySelectorAll(focusableSelectors.join(', '))
+    ).filter(el => {
+      return el.offsetWidth > 0 && el.offsetHeight > 0 && !el.closest('.hidden');
+    });
+    
+    this.firstFocusableElement = this.focusableElements[0];
+    this.lastFocusableElement = this.focusableElements[this.focusableElements.length - 1];
+  }
+
+  trapFocus(event) {
+    if (event.key !== 'Tab') return;
+    
+    if (event.shiftKey) {
+      // Shift + Tab
+      if (document.activeElement === this.firstFocusableElement) {
+        event.preventDefault();
+        this.lastFocusableElement.focus();
+      }
+    } else {
+      // Tab
+      if (document.activeElement === this.lastFocusableElement) {
+        event.preventDefault();
+        this.firstFocusableElement.focus();
+      }
+    }
+  }
+
+  announceSlideChange(slideNumber, totalSlides) {
+    const message = `Slide ${slideNumber} of ${totalSlides}`;
+    this.ariaLiveRegion.textContent = message;
+    
+    // Clear the message after announcement to allow repeated announcements
+    setTimeout(() => {
+      this.ariaLiveRegion.textContent = '';
+    }, 1000);
+  }
+
+  updateGotoModalFocusableElements() {
+    const focusableSelectors = [
+      'button:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      'a[href]',
+      '[tabindex]:not([tabindex="-1"])'
+    ];
+    
+    this.gotoModalFocusableElements = Array.from(
+      this.gotoModal.querySelectorAll(focusableSelectors.join(', '))
+    ).filter(el => {
+      return el.offsetWidth > 0 && el.offsetHeight > 0;
+    });
+    
+    this.gotoModalFirstFocusable = this.gotoModalFocusableElements[0];
+    this.gotoModalLastFocusable = this.gotoModalFocusableElements[this.gotoModalFocusableElements.length - 1];
+  }
+
+  trapGotoModalFocus(event) {
+    if (event.key !== 'Tab') return;
+    
+    if (event.shiftKey) {
+      // Shift + Tab
+      if (document.activeElement === this.gotoModalFirstFocusable) {
+        event.preventDefault();
+        this.gotoModalLastFocusable.focus();
+      }
+    } else {
+      // Tab
+      if (document.activeElement === this.gotoModalLastFocusable) {
+        event.preventDefault();
+        this.gotoModalFirstFocusable.focus();
+      }
+    }
   }
 
   init() {
@@ -186,7 +403,18 @@ export class SlideViewer {
       progress = ((this.currentSlide + 1) / this.slides.length) * 100;
     }
 
-    this.progressFill.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+    const progressValue = Math.min(100, Math.max(0, progress));
+    this.progressFill.style.width = `${progressValue}%`;
+    
+    // Update ARIA attributes for progress bar
+    if (this.progressFill.parentElement) {
+      this.progressFill.parentElement.setAttribute('aria-valuenow', Math.round(progressValue));
+      this.progressFill.parentElement.setAttribute('aria-valuetext', 
+        this.isReadingMode ? 
+          `${Math.round(progressValue)}% through current slide` : 
+          `Slide ${this.currentSlide + 1} of ${this.slides.length}`
+      );
+    }
   }
 
   bindEvents() {
@@ -445,6 +673,9 @@ export class SlideViewer {
     openSlideshow() {
     if (this.slides.length === 0) return;
 
+    // Store the currently focused element to restore later
+    this.previousActiveElement = document.activeElement;
+
     this.currentSlide = 0;
     // Move modal to document body to escape stacking context
     document.body.appendChild(this.modal);
@@ -474,16 +705,40 @@ export class SlideViewer {
     // Request fullscreen mode
     this.fullscreenManager.requestFullscreen();
 
-    // Small delay to ensure DOM is ready for interactions
+    // Setup focus management
+    this.updateFocusableElements();
+    
+    // Add focus trap event listener
+    this.modal.addEventListener('keydown', this.trapFocus.bind(this));
+    
+    // Focus the first focusable element or close button
     setTimeout(() => {
       this.nextBtn.style.pointerEvents = 'auto';
       this.prevBtn.style.pointerEvents = 'auto';
+      
+      // Set initial focus to close button for immediate accessibility
+      if (this.closeBtn) {
+        this.closeBtn.focus();
+      } else if (this.firstFocusableElement) {
+        this.firstFocusableElement.focus();
+      }
     }, 200);
+
+    // Announce slideshow opening
+    this.announceSlideChange(1, this.slides.length);
   }
 
   closeSlideshow() {
     this.modal.classList.add('hidden');
     document.body.style.overflow = '';
+
+    // Remove focus trap event listener
+    this.modal.removeEventListener('keydown', this.trapFocus.bind(this));
+
+    // Restore focus to the element that was focused before opening
+    if (this.previousActiveElement && this.previousActiveElement.focus) {
+      this.previousActiveElement.focus();
+    }
 
     // Clear search when closing slideshow
     if (this.searchManager.searchInput && this.searchManager.searchInput.value.trim()) {
@@ -497,6 +752,12 @@ export class SlideViewer {
 
     // Exit fullscreen if currently in fullscreen
     this.fullscreenManager.exitFullscreen();
+
+    // Announce slideshow closing
+    this.ariaLiveRegion.textContent = 'Slideshow closed';
+    setTimeout(() => {
+      this.ariaLiveRegion.textContent = '';
+    }, 1000);
   }
 
   showSlide(index) {
@@ -555,6 +816,12 @@ export class SlideViewer {
       this.slideContent.classList.remove('transitioning');
       this.tocManager.updateTocSelection();
       this.laserPointerManager.onSlideChange();
+      
+      // Announce slide change for screen readers
+      this.announceSlideChange(index + 1, this.slides.length);
+      
+      // Update focusable elements as slide content may have changed
+      this.updateFocusableElements();
     }, 150);
   }
 
@@ -566,6 +833,11 @@ export class SlideViewer {
       this.updateProgress();
     } else {
       console.log('Cannot go to next slide - already at last slide');
+      // Announce when at last slide
+      this.ariaLiveRegion.textContent = 'Already at last slide';
+      setTimeout(() => {
+        this.ariaLiveRegion.textContent = '';
+      }, 1000);
     }
   }
 
@@ -574,6 +846,12 @@ export class SlideViewer {
       this.currentSlide--;
       this.showSlide(this.currentSlide);
       this.updateProgress();
+    } else {
+      // Announce when at first slide
+      this.ariaLiveRegion.textContent = 'Already at first slide';
+      setTimeout(() => {
+        this.ariaLiveRegion.textContent = '';
+      }, 1000);
     }
   }
 
@@ -607,6 +885,13 @@ export class SlideViewer {
       const tooltip = document.createElement('div');
       tooltip.className = 'fb-slide__error-tooltip';
       tooltip.textContent = `Enter a number between 1 and ${this.slides.length}`;
+      tooltip.setAttribute('role', 'alert');
+      tooltip.setAttribute('aria-live', 'assertive');
+      tooltip.id = `error-tooltip-${Date.now()}`;
+
+      // Link tooltip to input for screen readers
+      inputElement.setAttribute('aria-describedby', tooltip.id);
+      inputElement.setAttribute('aria-invalid', 'true');
 
       // Ensure parent container has relative positioning
       inputElement.parentElement.classList.add('fb-slide__error-tooltip-container');
@@ -614,6 +899,8 @@ export class SlideViewer {
 
       setTimeout(() => {
         inputElement.classList.remove(errorClass);
+        inputElement.removeAttribute('aria-describedby');
+        inputElement.removeAttribute('aria-invalid');
         if (tooltip.parentElement) {
           tooltip.remove();
         }
@@ -626,6 +913,12 @@ export class SlideViewer {
 
     // Valid input - proceed with navigation
     if (this.goToSlideNumber(slideNumber)) {
+      // Announce successful navigation
+      this.ariaLiveRegion.textContent = `Navigated to slide ${slideNumber}`;
+      setTimeout(() => {
+        this.ariaLiveRegion.textContent = '';
+      }, 1000);
+      
       this.deactivateSlideInput();
       this.closeGotoModal();
     }
@@ -644,15 +937,45 @@ export class SlideViewer {
   }
 
   openGotoModal() {
+    // Store current focus for restoration
+    this.gotoModalPreviousFocus = document.activeElement;
+    
     this.gotoModal.classList.remove('hidden');
     this.gotoInput.value = this.currentSlide + 1;
+    
+    // Update focusable elements for goto modal
+    this.updateGotoModalFocusableElements();
+    
+    // Add focus trap for goto modal
+    this.gotoModal.addEventListener('keydown', this.trapGotoModalFocus.bind(this));
+    
     this.gotoInput.focus();
     this.gotoInput.select();
+    
+    // Announce modal opening
+    this.ariaLiveRegion.textContent = 'Go to slide dialog opened';
+    setTimeout(() => {
+      this.ariaLiveRegion.textContent = '';
+    }, 1000);
   }
 
   closeGotoModal() {
     this.gotoModal.classList.add('hidden');
     this.gotoInput.value = '';
+    
+    // Remove focus trap
+    this.gotoModal.removeEventListener('keydown', this.trapGotoModalFocus.bind(this));
+    
+    // Restore focus
+    if (this.gotoModalPreviousFocus && this.gotoModalPreviousFocus.focus) {
+      this.gotoModalPreviousFocus.focus();
+    }
+    
+    // Announce modal closing
+    this.ariaLiveRegion.textContent = 'Go to slide dialog closed';
+    setTimeout(() => {
+      this.ariaLiveRegion.textContent = '';
+    }, 1000);
   }
 }
 

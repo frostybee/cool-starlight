@@ -2823,4 +2823,198 @@
       padding: 0.2rem 0.4rem;
     }
   }
+
+  /* Accessibility Styles */
+  
+  /* Skip Links */
+  .skip-links {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    z-index: 1001;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    background: #000;
+    color: #fff;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .skip-link:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    z-index: 2147483650;
+  }
+
+  .skip-link:hover {
+    background: #333;
+  }
+
+  /* Screen Reader Only Content */
+  .sr-only {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+  }
+
+  /* Enhanced Focus Indicators */
+  [role="dialog"] *:focus {
+    outline: 2px solid var(--sl-color-accent, #4A90E2);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  .fb-slide__modal *:focus {
+    outline: 2px solid var(--sl-color-accent, #4A90E2);
+    outline-offset: 2px;
+  }
+
+  /* High Contrast Focus for Better Visibility */
+  .fb-slide__nav-btn:focus,
+  .fb-slide__compact-btn:focus,
+  .fb-slide__input:focus,
+  .fb-slide__goto-input:focus {
+    outline: 3px solid var(--sl-color-accent, #4A90E2);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px rgba(74, 144, 226, 0.3);
+  }
+
+  /* Enhanced Button Focus for Mobile */
+  @media (max-width: 768px) {
+    .fb-slide__nav-mobile-btn:focus,
+    .fb-slide__mobile-menu-btn:focus {
+      outline: 3px solid var(--sl-color-accent, #4A90E2);
+      outline-offset: 3px;
+    }
+  }
+
+  /* ARIA Live Region Styles (visually hidden but announced) */
+  #slide-announcements {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+  }
+
+  /* Progress Bar ARIA Enhancements */
+  .fb-slide__progress[role="progressbar"] {
+    position: relative;
+  }
+
+  .fb-slide__progress[role="progressbar"]:focus {
+    outline: 2px solid var(--sl-color-accent, #4A90E2);
+    outline-offset: 2px;
+  }
+
+  /* Modal Dialog Accessibility */
+  .fb-slide__modal[role="dialog"] {
+    position: relative;
+  }
+
+  .fb-slide__goto-modal[role="dialog"] {
+    position: relative;
+  }
+
+  /* Enhanced Error State Accessibility */
+  .fb-slide__input[aria-invalid="true"],
+  .fb-slide__goto-input[aria-invalid="true"] {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3) !important;
+  }
+
+  .fb-slide__error-tooltip[role="alert"] {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--fb-slide-error-bg, #ef4444);
+    color: var(--fb-slide-error-text, white);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Improved Keyboard Navigation Visual Cues */
+  .fb-slide__toc-item:focus {
+    outline: 2px solid var(--sl-color-accent, #4A90E2);
+    outline-offset: 2px;
+    background: var(--sl-color-accent-low, rgba(74, 144, 226, 0.1));
+  }
+
+  /* Search Result Keyboard Navigation */
+  .fb-slide__search-result-item:focus {
+    outline: 2px solid var(--sl-color-accent, #4A90E2);
+    outline-offset: 2px;
+  }
+
+  /* Thumbnail Keyboard Navigation */
+  .fb-slide__thumbnail:focus {
+    outline: 3px solid var(--sl-color-accent, #4A90E2);
+    outline-offset: 3px;
+  }
+
+  /* Enhanced Color Contrast for Better Accessibility */
+  @media (prefers-contrast: high) {
+    .skip-link {
+      background: #000;
+      color: #fff;
+      border: 2px solid #fff;
+    }
+
+    [role="dialog"] *:focus {
+      outline: 3px solid #000;
+      outline-offset: 3px;
+      background: #ffff00;
+    }
+
+    .fb-slide__error-tooltip[role="alert"] {
+      background: #000;
+      color: #fff;
+      border: 2px solid #fff;
+    }
+  }
+
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    .skip-link,
+    .fb-slide__nav-btn,
+    .fb-slide__compact-btn,
+    .fb-slide__thumbnail,
+    .fb-slide__search-result-item {
+      transition: none;
+      animation: none;
+    }
+
+    .fb-slide__content.transitioning {
+      transition: none;
+      transform: none;
+      opacity: 1;
+    }
+  }
 }

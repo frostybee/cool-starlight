@@ -860,7 +860,14 @@ export class LaserPointerManager {
       indicator = document.createElement('div');
       indicator.id = 'laser-pointer-indicator';
       indicator.innerHTML = '🔴 Laser Pointer Active<br><small>Press S for settings</small>';
-      document.body.appendChild(indicator);
+      
+      // Append to the slideshow modal to ensure proper theme inheritance
+      const slideshowModal = this.slideViewer.modal;
+      if (slideshowModal) {
+        slideshowModal.appendChild(indicator);
+      } else {
+        document.body.appendChild(indicator);
+      }
       
       // Add click handler for settings
       indicator.addEventListener('click', () => {
