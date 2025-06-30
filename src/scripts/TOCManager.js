@@ -88,13 +88,60 @@ export class TOCManager {
       numberElement.className = 'fb-slide__toc-item-number';
       numberElement.textContent = (index + 1).toString();
 
-      // Create title element.
-      const titleElement = document.createElement('span');
+      // Create title element with enhanced structure.
+      const titleElement = document.createElement('div');
       titleElement.className = 'fb-slide__toc-item-title';
-      titleElement.textContent = title;
+      
+      // Main title
+      const mainTitle = document.createElement('div');
+      mainTitle.className = 'fb-slide__toc-item-main-title';
+      mainTitle.textContent = title;
+      
+      // Meta information
+      const metaElement = document.createElement('div');
+      metaElement.className = 'fb-slide__toc-item-meta';
+      
+      // Reading time estimate
+      const readingTime = document.createElement('span');
+      readingTime.className = 'fb-slide__toc-reading-time';
+      const wordCount = this.estimateWordCount(slide);
+      const readingTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
+      readingTime.textContent = `${readingTimeMinutes} min`;
+      
+      // Bookmark indicator (if slide is bookmarked)
+      const bookmarkIndicator = document.createElement('span');
+      bookmarkIndicator.className = 'fb-slide__toc-bookmark-indicator';
+      bookmarkIndicator.style.display = 'none'; // Hidden by default, shown when bookmarked
+      bookmarkIndicator.textContent = 'Bookmarked';
+      
+      metaElement.appendChild(readingTime);
+      metaElement.appendChild(bookmarkIndicator);
+      
+      titleElement.appendChild(mainTitle);
+      titleElement.appendChild(metaElement);
+
+      // Create hover preview
+      const previewElement = document.createElement('div');
+      previewElement.className = 'fb-slide__toc-item-preview';
+      
+      const previewContent = document.createElement('div');
+      previewContent.className = 'fb-slide__toc-preview-content';
+      
+      // Extract preview text from slide content
+      const slideClone = slide.cloneNode(true);
+      // Remove headings from preview
+      const headings = slideClone.querySelectorAll('h1, h2, h3, h4, h5, h6');
+      headings.forEach(h => h.remove());
+      
+      const previewText = slideClone.textContent?.trim() || 'No content preview available';
+      previewContent.textContent = previewText.length > 200 ? 
+        previewText.substring(0, 200) + '...' : previewText;
+      
+      previewElement.appendChild(previewContent);
 
       tocItem.appendChild(numberElement);
       tocItem.appendChild(titleElement);
+      tocItem.appendChild(previewElement);
 
       tocItem.addEventListener('click', () => {
         this.slideViewer.goToSlide(index);
@@ -111,6 +158,8 @@ export class TOCManager {
 
     console.log('TOC items created, total:', this.slideViewer.slides.length);
     this.updateTocSelection();
+    // Update bookmark indicators after TOC creation
+    setTimeout(() => this.updateBookmarkIndicators(), 100);
   }
 
   createReadingModeTOC() {
@@ -154,13 +203,48 @@ export class TOCManager {
       numberElement.className = 'fb-slide__toc-item-number';
       numberElement.textContent = (index + 1).toString();
 
-      // Create title element.
-      const titleElement = document.createElement('span');
+      // Create title element with enhanced structure.
+      const titleElement = document.createElement('div');
       titleElement.className = 'fb-slide__toc-item-title';
-      titleElement.textContent = title;
+      
+      // Main title
+      const mainTitle = document.createElement('div');
+      mainTitle.className = 'fb-slide__toc-item-main-title';
+      mainTitle.textContent = title;
+      
+      // Meta information
+      const metaElement = document.createElement('div');
+      metaElement.className = 'fb-slide__toc-item-meta';
+      
+      // Reading time estimate for section
+      const readingTime = document.createElement('span');
+      readingTime.className = 'fb-slide__toc-reading-time';
+      const sectionWordCount = this.estimateHeadingSectionWordCount(heading);
+      const readingTimeMinutes = Math.max(1, Math.ceil(sectionWordCount / 200));
+      readingTime.textContent = `${readingTimeMinutes} min`;
+      
+      metaElement.appendChild(readingTime);
+      titleElement.appendChild(mainTitle);
+      titleElement.appendChild(metaElement);
+
+      // Create hover preview for reading mode
+      const previewElement = document.createElement('div');
+      previewElement.className = 'fb-slide__toc-item-preview';
+      
+      const previewContent = document.createElement('div');
+      previewContent.className = 'fb-slide__toc-preview-content';
+      
+      // Extract preview text from section content
+      const sectionContent = this.getSectionContentAfterHeading(heading);
+      const previewText = sectionContent || 'No content preview available';
+      previewContent.textContent = previewText.length > 200 ? 
+        previewText.substring(0, 200) + '...' : previewText;
+      
+      previewElement.appendChild(previewContent);
 
       tocItem.appendChild(numberElement);
       tocItem.appendChild(titleElement);
+      tocItem.appendChild(previewElement);
 
       tocItem.addEventListener('click', () => {
         this.scrollToHeading(heading.id);
@@ -295,5 +379,87 @@ export class TOCManager {
         });
       }
     }, 50);
+  }
+
+  // Helper function to estimate word count in a slide
+  estimateWordCount(slide) {
+    const textContent = slide.textContent || '';
+    // Simple word count: split by whitespace and filter empty strings
+    const words = textContent.trim().split(/\s+/).filter(word => word.length > 0);
+    return words.length;
+  }
+
+  // Helper function to estimate word count for a heading section
+  estimateHeadingSectionWordCount(heading) {
+    let wordCount = 0;
+    let currentElement = heading.nextElementSibling;
+    
+    // Count words until we reach another heading of the same or higher level
+    const headingLevel = parseInt(heading.tagName.charAt(1));
+    
+    while (currentElement) {
+      const isHeading = /^H[1-6]$/.test(currentElement.tagName);
+      
+      if (isHeading) {
+        const currentLevel = parseInt(currentElement.tagName.charAt(1));
+        if (currentLevel <= headingLevel) {
+          break; // Stop at same or higher level heading
+        }
+      }
+      
+      if (currentElement.textContent) {
+        const words = currentElement.textContent.trim().split(/\s+/).filter(word => word.length > 0);
+        wordCount += words.length;
+      }
+      
+      currentElement = currentElement.nextElementSibling;
+    }
+    
+    return wordCount;
+  }
+
+  // Helper function to get section content after a heading for preview
+  getSectionContentAfterHeading(heading) {
+    let content = '';
+    let currentElement = heading.nextElementSibling;
+    
+    // Get content until we reach another heading of the same or higher level
+    const headingLevel = parseInt(heading.tagName.charAt(1));
+    
+    while (currentElement && content.length < 300) {
+      const isHeading = /^H[1-6]$/.test(currentElement.tagName);
+      
+      if (isHeading) {
+        const currentLevel = parseInt(currentElement.tagName.charAt(1));
+        if (currentLevel <= headingLevel) {
+          break; // Stop at same or higher level heading
+        }
+      }
+      
+      if (currentElement.textContent) {
+        const elementText = currentElement.textContent.trim();
+        if (elementText) {
+          content += (content ? ' ' : '') + elementText;
+        }
+      }
+      
+      currentElement = currentElement.nextElementSibling;
+    }
+    
+    return content;
+  }
+
+  // Method to update bookmark indicators for TOC items
+  updateBookmarkIndicators() {
+    if (!this.slideViewer.bookmarkManager) return;
+    
+    const tocItems = this.tocContent.querySelectorAll('.fb-slide__toc-item-container');
+    tocItems.forEach((container, index) => {
+      const bookmarkIndicator = container.querySelector('.fb-slide__toc-bookmark-indicator');
+      if (bookmarkIndicator) {
+        const isBookmarked = this.slideViewer.bookmarkManager.isSlideBookmarked(index);
+        bookmarkIndicator.style.display = isBookmarked ? 'flex' : 'none';
+      }
+    });
   }
 }
