@@ -86,6 +86,18 @@ export class KeyboardHelpManager {
                 </span>
                 <span class="fb-slide__help-description">Laser pointer settings</span>
               </div>
+              <div class="fb-slide__help-shortcut">
+                <span class="fb-slide__help-keys">
+                  <kbd>B</kbd>
+                </span>
+                <span class="fb-slide__help-description">Bookmark current slide</span>
+              </div>
+              <div class="fb-slide__help-shortcut">
+                <span class="fb-slide__help-keys">
+                  <kbd>Shift</kbd><kbd>B</kbd>
+                </span>
+                <span class="fb-slide__help-description">Toggle bookmarks panel</span>
+              </div>
             </div>
           </div>
 
@@ -144,7 +156,7 @@ export class KeyboardHelpManager {
       const navDesktop = slideViewer.querySelector('.fb-slide__nav-desktop');
       if (navDesktop) {
         this.helpButton = document.createElement('button');
-        this.helpButton.className = 'fb-slide__nav-btn fb-slide__help-btn';
+        this.helpButton.className = 'fb-slide__nav-btn fb-slide__compact-btn fb-slide__help-btn';
         this.helpButton.title = 'Keyboard shortcuts (Shift + ?)';
         this.helpButton.innerHTML = '?';
         

@@ -75,6 +75,8 @@ export class SlideViewer {
       slideInput: !!this.slideInput,
       gotoModal: !!this.gotoModal,
       gotoInput: !!this.gotoInput,
+      gotoConfirm: !!this.gotoConfirm,
+      gotoCancel: !!this.gotoCancel,
     });
 
     this.init();
@@ -489,6 +491,15 @@ export class SlideViewer {
     window.addEventListener('keydown', escHandler, true);
     document.documentElement.addEventListener('keydown', escHandler, true);
 
+    // Emergency escape for goto modal
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !this.gotoModal.classList.contains('hidden')) {
+        console.log('Emergency escape for goto modal');
+        this.closeGotoModal();
+        return;
+      }
+    });
+
     // Keyboard navigation
     document.addEventListener('keydown', (event) => {
       if (!this.modal.classList.contains('hidden')) {
@@ -661,13 +672,23 @@ export class SlideViewer {
     });
 
     // Goto modal functionality
-    this.gotoConfirm.addEventListener('click', () => {
-      this.goToSlideFromInput(this.gotoInput);
-    });
+    if (this.gotoConfirm) {
+      this.gotoConfirm.addEventListener('click', () => {
+        console.log('Goto confirm clicked');
+        this.goToSlideFromInput(this.gotoInput);
+      });
+    } else {
+      console.error('gotoConfirm button not found!');
+    }
 
-    this.gotoCancel.addEventListener('click', () => {
-      this.closeGotoModal();
-    });
+    if (this.gotoCancel) {
+      this.gotoCancel.addEventListener('click', () => {
+        console.log('Goto cancel clicked');
+        this.closeGotoModal();
+      });
+    } else {
+      console.error('gotoCancel button not found!');
+    }
 
     this.gotoInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
@@ -677,9 +698,10 @@ export class SlideViewer {
       }
     });
 
-    // Close goto modal when clicking outside
+    // Close goto modal when clicking outside OR on the modal itself
     this.gotoModal.addEventListener('click', (event) => {
-      if (event.target === this.gotoModal) {
+      console.log('Goto modal clicked', event.target);
+      if (event.target === this.gotoModal || event.target.closest('.fb-slide__goto-modal') === this.gotoModal) {
         this.closeGotoModal();
       }
     });

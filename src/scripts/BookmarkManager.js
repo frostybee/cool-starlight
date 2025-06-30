@@ -21,7 +21,7 @@ export class BookmarkManager {
   createBookmarkUI() {
     // Create bookmark toggle button for toolbar
     this.bookmarkToggle = document.createElement('button');
-    this.bookmarkToggle.className = 'fb-slide__bookmark-toggle';
+    this.bookmarkToggle.className = 'fb-slide__nav-btn fb-slide__compact-btn fb-slide__bookmark-toggle';
     this.bookmarkToggle.innerHTML = `
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
@@ -72,7 +72,14 @@ export class BookmarkManager {
     const slideHeader = modal.querySelector('.fb-slide__header');
     
     if (slideControls) {
-      slideControls.insertBefore(this.bookmarkToggle, slideControls.firstChild);
+      const prevButton = slideControls.querySelector('#prev-slide');
+      const overviewButton = slideControls.querySelector('#show-thumbnails');
+      
+      if (prevButton && overviewButton) {
+        slideControls.insertBefore(this.bookmarkToggle, overviewButton);
+      } else {
+        slideControls.insertBefore(this.bookmarkToggle, slideControls.firstChild);
+      }
     }
     
     if (slideHeader) {
@@ -140,6 +147,7 @@ export class BookmarkManager {
     this.saveBookmarks();
     this.updateUI();
     this.updateBookmarksList();
+    this.updateThumbnailBookmarkIndicators();
     
     // Announce to screen readers
     this.slideViewer.ariaLiveRegion.textContent = `Slide ${slideIndex + 1} bookmarked`;
@@ -153,6 +161,7 @@ export class BookmarkManager {
     this.saveBookmarks();
     this.updateUI();
     this.updateBookmarksList();
+    this.updateThumbnailBookmarkIndicators();
     
     // Announce to screen readers
     this.slideViewer.ariaLiveRegion.textContent = `Slide ${slideIndex + 1} bookmark removed`;
@@ -320,6 +329,46 @@ export class BookmarkManager {
   // Called when slide changes to update bookmark button state
   onSlideChange() {
     this.updateUI();
+    
+    // Hide bookmark button on slide overview page (slide 0)
+    if (this.bookmarkBtn) {
+      this.bookmarkBtn.style.display = this.slideViewer.currentSlide === 0 ? 'none' : '';
+    }
+    
+    // Update thumbnail bookmark indicators if on overview page
+    if (this.slideViewer.currentSlide === 0) {
+      this.updateThumbnailBookmarkIndicators();
+    }
+  }
+
+  // Update bookmark indicators on thumbnails in overview page
+  updateThumbnailBookmarkIndicators() {
+    const thumbnails = document.querySelectorAll('.fb-slide__thumbnail');
+    
+    thumbnails.forEach(thumbnail => {
+      const slideNumber = parseInt(thumbnail.dataset.slideNumber);
+      const slideIndex = slideNumber - 1; // Convert to 0-based index
+      const isBookmarked = this.bookmarks.has(slideIndex);
+      
+      // Remove existing bookmark indicator
+      const existingIndicator = thumbnail.querySelector('.fb-slide__thumbnail-bookmark');
+      if (existingIndicator) {
+        existingIndicator.remove();
+      }
+      
+      // Add bookmark indicator if slide is bookmarked
+      if (isBookmarked) {
+        const bookmarkIndicator = document.createElement('div');
+        bookmarkIndicator.className = 'fb-slide__thumbnail-bookmark';
+        bookmarkIndicator.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+          </svg>
+        `;
+        bookmarkIndicator.setAttribute('aria-label', `Slide ${slideNumber} is bookmarked`);
+        thumbnail.appendChild(bookmarkIndicator);
+      }
+    });
   }
 
   // Get bookmarks for export
@@ -338,6 +387,17 @@ export class BookmarkManager {
       this.saveBookmarks();
       this.updateUI();
       this.updateBookmarksList();
+      this.updateThumbnailBookmarkIndicators();
+    }
+  }
+
+  // Show/hide bookmark elements based on reading mode
+  updateReadingModeVisibility(isReadingMode) {
+    if (this.bookmarkBtn) {
+      this.bookmarkBtn.style.display = isReadingMode ? 'none' : '';
+    }
+    if (this.bookmarkToggle) {
+      this.bookmarkToggle.style.display = isReadingMode ? 'none' : '';
     }
   }
 }

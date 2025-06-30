@@ -76,6 +76,8 @@ export class ReadingModeManager {
       if (this.slideViewer.prevBtnMobile) this.slideViewer.prevBtnMobile.style.display = 'none';
       if (this.slideViewer.nextBtnMobile) this.slideViewer.nextBtnMobile.style.display = 'none';
       if (this.slideViewer.slideCounterMobile) this.slideViewer.slideCounterMobile.style.display = 'none';
+      // Hide bookmark button in reading mode
+      if (this.slideViewer.bookmarkManager) this.slideViewer.bookmarkManager.updateReadingModeVisibility(true);
       // Collapse the left sidebar in reading mode
       this.slideViewer.tocSidebar.classList.add('collapsed');
     } else {
@@ -106,6 +108,8 @@ export class ReadingModeManager {
       if (this.slideViewer.prevBtnMobile) this.slideViewer.prevBtnMobile.style.display = '';
       if (this.slideViewer.nextBtnMobile) this.slideViewer.nextBtnMobile.style.display = '';
       if (this.slideViewer.slideCounterMobile) this.slideViewer.slideCounterMobile.style.display = '';
+      // Show bookmark button in slide mode
+      if (this.slideViewer.bookmarkManager) this.slideViewer.bookmarkManager.updateReadingModeVisibility(false);
       // Restore sidebar state in slide mode (don't force expand, keep user's preference)
     }
   }
