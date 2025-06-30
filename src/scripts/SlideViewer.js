@@ -40,9 +40,6 @@ export class SlideViewer {
 
     // Create ARIA live region for announcements
     this.ariaLiveRegion = this.createAriaLiveRegion();
-    
-    // Create skip links
-    this.skipLinks = this.createSkipLinks();
 
     // Initialize managers
     this.searchManager = new SearchManager(this);
@@ -94,21 +91,6 @@ export class SlideViewer {
     return liveRegion;
   }
 
-  createSkipLinks() {
-    const skipContainer = document.createElement('div');
-    skipContainer.className = 'skip-links';
-    skipContainer.innerHTML = `
-      <a href="#slide-content" class="skip-link">Skip to slide content</a>
-      <a href="#slide-controls" class="skip-link">Skip to slide controls</a>
-    `;
-    
-    // Add skip links to modal
-    if (this.modal) {
-      this.modal.insertBefore(skipContainer, this.modal.firstChild);
-    }
-    
-    return skipContainer;
-  }
 
   setupAccessibility() {
     // Set up modal ARIA attributes
@@ -714,9 +696,18 @@ export class SlideViewer {
     this.previousActiveElement = document.activeElement;
 
     this.currentSlide = 0;
-    // Move modal to document body to escape stacking context
-    document.body.appendChild(this.modal);
+    // Ensure modal is properly positioned
+    if (this.modal.parentNode !== document.body) {
+      document.body.appendChild(this.modal);
+    }
     this.modal.classList.remove('hidden');
+    
+    // Force proper positioning regardless of fullscreen state
+    this.modal.style.position = 'fixed';
+    this.modal.style.top = '0';
+    this.modal.style.left = '0';
+    this.modal.style.width = '100vw';
+    this.modal.style.height = '100vh';
     
     // If reading mode was active when modal was closed, reapply it
     if (this.isReadingMode) {
