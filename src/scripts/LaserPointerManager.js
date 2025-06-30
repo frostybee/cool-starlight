@@ -412,6 +412,9 @@ export class LaserPointerManager {
     this.slideViewer.slideContent.parentElement.classList.add('laser-pointer-mode');
     this.resizeCanvas();
 
+    // Update button states
+    this.updateButtonStates(true);
+
     // Show visual indicator.
     this.showModeIndicator();
   }
@@ -421,6 +424,9 @@ export class LaserPointerManager {
     this.slideViewer.slideContent.parentElement.classList.remove('laser-pointer-mode');
     this.isDrawing = false;
     this.lastPoint = null;
+
+    // Update button states
+    this.updateButtonStates(false);
 
     // Stop animation frame.
     if (this.animationFrame) {
@@ -885,6 +891,34 @@ export class LaserPointerManager {
       setTimeout(() => {
         this.resizeCanvas();
       }, 200);
+    }
+  }
+
+  // Update button visual states
+  updateButtonStates(isActive) {
+    const laserPointerBtn = this.slideViewer.laserPointerBtn;
+    const laserPointerBtnMobile = this.slideViewer.laserPointerBtnMobile;
+
+    if (laserPointerBtn) {
+      if (isActive) {
+        laserPointerBtn.classList.add('active');
+        laserPointerBtn.setAttribute('aria-pressed', 'true');
+        laserPointerBtn.title = 'Laser pointer active (L) - Click to deactivate';
+      } else {
+        laserPointerBtn.classList.remove('active');
+        laserPointerBtn.setAttribute('aria-pressed', 'false');
+        laserPointerBtn.title = 'Laser pointer (L)';
+      }
+    }
+
+    if (laserPointerBtnMobile) {
+      if (isActive) {
+        laserPointerBtnMobile.classList.add('active');
+        laserPointerBtnMobile.setAttribute('aria-pressed', 'true');
+      } else {
+        laserPointerBtnMobile.classList.remove('active');
+        laserPointerBtnMobile.setAttribute('aria-pressed', 'false');
+      }
     }
   }
 }

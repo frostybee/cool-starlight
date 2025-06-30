@@ -1739,6 +1739,18 @@
     display: block;
   }
 
+  /* Laser Pointer Button Active State */
+  .laser-pointer-btn.active {
+    background: var(--fb-slide-progress-fill) !important;
+    color: var(--sl-color-black, #000000) !important;
+    box-shadow: 0 0 0 2px var(--fb-slide-progress-fill),
+                0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .laser-pointer-btn.active svg {
+    color: var(--sl-color-black, #000000) !important;
+  }
+
   /* Accessibility Styles */
 
   /* Skip Links */

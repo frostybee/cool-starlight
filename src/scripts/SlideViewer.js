@@ -44,6 +44,8 @@ export class SlideViewer {
     this.nextBtn = document.getElementById('next-slide');
     this.closeBtn = document.getElementById('close-slideshow');
     this.startBtn = document.getElementById('start-slideshow');
+    this.laserPointerBtn = document.getElementById('toggle-laser-pointer');
+    this.laserPointerBtnMobile = document.getElementById('toggle-laser-pointer-mobile');
     this.slideCounter = document.getElementById('slide-counter');
     this.slideInput = document.getElementById('slide-input');
     this.gotoModal = document.getElementById('goto-slide-modal');
@@ -152,6 +154,14 @@ export class SlideViewer {
     }
     if (this.startBtn) {
       this.startBtn.setAttribute('aria-label', 'Start slideshow presentation');
+    }
+    if (this.laserPointerBtn) {
+      this.laserPointerBtn.setAttribute('aria-label', 'Toggle laser pointer (L)');
+      this.laserPointerBtn.setAttribute('aria-pressed', 'false');
+    }
+    if (this.laserPointerBtnMobile) {
+      this.laserPointerBtnMobile.setAttribute('aria-label', 'Toggle laser pointer');
+      this.laserPointerBtnMobile.setAttribute('aria-pressed', 'false');
     }
 
     // Set up slide content region.
@@ -487,6 +497,25 @@ export class SlideViewer {
       event.stopPropagation();
       this.nextSlide();
     };
+
+    // Laser pointer button events
+    if (this.laserPointerBtn) {
+      this.laserPointerBtn.addEventListener('click', (event) => {
+        console.log('Laser pointer button clicked');
+        event.preventDefault();
+        event.stopPropagation();
+        this.laserPointerManager.toggle();
+      });
+    }
+
+    if (this.laserPointerBtnMobile) {
+      this.laserPointerBtnMobile.addEventListener('click', (event) => {
+        console.log('Mobile laser pointer button clicked');
+        event.preventDefault();
+        event.stopPropagation();
+        this.laserPointerManager.toggle();
+      });
+    }
 
     // Try to intercept ESC key at document level before any other handlers.
     const escHandler = (event) => {
