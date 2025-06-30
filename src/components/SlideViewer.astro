@@ -3,6 +3,7 @@
 import '../styles/slide-viewer/slideviewer-main.css';
 import '../styles/slide-viewer/slideviewer-modals.css';
 import '../styles/slide-viewer/slideviewer-themes.css';
+import '../styles/slide-viewer/slideviewer-bookmarks.css';
 ---
 
 <div id="slide-viewer-trigger">
@@ -50,6 +51,9 @@ import '../styles/slide-viewer/slideviewer-themes.css';
 
     <div class="fb-slide__main-area">
       <div class="fb-slide__content-wrapper">
+        <div class="fb-slide__header">
+          <!-- Bookmark button will be inserted here by BookmarkManager -->
+        </div>
         <div id="slide-content" class="fb-slide__content">
           <!-- Slides will be inserted here -->
         </div>
@@ -60,7 +64,8 @@ import '../styles/slide-viewer/slideviewer-themes.css';
 
       <div class="fb-slide__navigation">
         <!-- Desktop layout - compact toolbar -->
-        <div class="fb-slide__nav-desktop">
+        <div class="fb-slide__nav-desktop fb-slide__controls">
+          <!-- Bookmark toggle will be inserted here by BookmarkManager -->
           <button id="prev-slide" class="fb-slide__nav-btn fb-slide__compact-btn" aria-label="Previous slide" title="Previous slide">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M19 12H5m0 0l7 7m-7-7l7-7"/>

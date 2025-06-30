@@ -9,6 +9,7 @@ import { LaserPointerManager } from './LaserPointerManager.js';
 import { KeyboardHelpManager } from './KeyboardHelpManager.js';
 import { ThemeManager } from './ThemeManager.js';
 import { ThemeUIController } from './ThemeUIController.js';
+import { BookmarkManager } from './BookmarkManager.js';
 
 export class SlideViewer {
   constructor() {
@@ -55,6 +56,7 @@ export class SlideViewer {
     this.keyboardHelpManager = new KeyboardHelpManager(this);
     this.themeManager = new ThemeManager(this);
     this.themeUIController = new ThemeUIController(this);
+    this.bookmarkManager = new BookmarkManager(this);
 
     // Expose manager properties for backward compatibility
     this.tocSidebar = this.tocManager.tocSidebar;
@@ -520,6 +522,11 @@ export class SlideViewer {
                      this.laserPointerManager.isActive) {
             event.preventDefault();
             this.laserPointerManager.openSettingsModal();
+          } else if ((event.key === 'b' || event.key === 'B') &&
+                     this.searchManager.searchModal.classList.contains('hidden') && this.gotoModal.classList.contains('hidden')) {
+            if (this.bookmarkManager.handleKeyPress(event)) {
+              // Event was handled by bookmark manager
+            }
           }
           return;
         }
@@ -587,6 +594,14 @@ export class SlideViewer {
                 this.laserPointerManager.isActive) {
               event.preventDefault();
               this.laserPointerManager.openSettingsModal();
+            }
+            break;
+          case 'b':
+          case 'B':
+            if (this.gotoModal.classList.contains('hidden') && this.searchManager.searchModal.classList.contains('hidden')) {
+              if (this.bookmarkManager.handleKeyPress(event)) {
+                // Event was handled by bookmark manager
+              }
             }
             break;
         }
@@ -816,6 +831,7 @@ export class SlideViewer {
       this.slideContent.classList.remove('transitioning');
       this.tocManager.updateTocSelection();
       this.laserPointerManager.onSlideChange();
+      this.bookmarkManager.onSlideChange();
       
       // Announce slide change for screen readers
       this.announceSlideChange(index + 1, this.slides.length);

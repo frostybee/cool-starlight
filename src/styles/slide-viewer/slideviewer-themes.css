@@ -85,6 +85,38 @@
     --fb-slide-laser-indicator-bg: rgba(255, 107, 53, 0.9);
     --fb-slide-laser-indicator-text: white;
 
+    /* Bookmark Colors for Light Theme */
+    --fb-slide-bookmark-btn-bg: rgba(0, 0, 0, 0.6);
+    --fb-slide-bookmark-btn-bg-hover: rgba(0, 0, 0, 0.8);
+    --fb-slide-bookmark-btn-border: rgba(255, 255, 255, 0.2);
+    --fb-slide-bookmark-btn-border-hover: #3b82f6;
+    --fb-slide-bookmark-btn-text: rgba(255, 255, 255, 0.8);
+    --fb-slide-bookmark-btn-text-hover: #3b82f6;
+    --fb-slide-bookmark-btn-bookmarked-bg: #3b82f6;
+    --fb-slide-bookmark-btn-bookmarked-bg-hover: #2563eb;
+    --fb-slide-bookmark-btn-bookmarked-text: #ffffff;
+    --fb-slide-bookmark-toggle-bg: transparent;
+    --fb-slide-bookmark-toggle-bg-hover: rgba(255, 255, 255, 0.1);
+    --fb-slide-bookmark-toggle-border: rgba(255, 255, 255, 0.2);
+    --fb-slide-bookmark-toggle-border-hover: #3b82f6;
+    --fb-slide-bookmark-toggle-text: rgba(255, 255, 255, 0.8);
+    --fb-slide-bookmark-toggle-text-hover: #3b82f6;
+    --fb-slide-bookmark-count-bg: #3b82f6;
+    --fb-slide-bookmark-count-text: #ffffff;
+    --fb-slide-bookmark-panel-bg: #ffffff;
+    --fb-slide-bookmark-panel-border: #e2e8f0;
+    --fb-slide-bookmark-panel-shadow: rgba(0, 0, 0, 0.3);
+    --fb-slide-bookmark-header-bg: #f8fafc;
+    --fb-slide-bookmark-header-text: #1f2937;
+    --fb-slide-bookmark-item-bg: #f1f5f9;
+    --fb-slide-bookmark-item-bg-hover: #f8fafc;
+    --fb-slide-bookmark-item-border: #e2e8f0;
+    --fb-slide-bookmark-item-border-hover: #3b82f6;
+    --fb-slide-bookmark-item-text: #64748b;
+    --fb-slide-bookmark-number-text: #3b82f6;
+    --fb-slide-bookmark-remove-bg-hover: #fef2f2;
+    --fb-slide-bookmark-remove-text-hover: #dc2626;
+
     /* Text Colors for Light Theme (default) */
     --fb-slide-text-color: #000000;
     --fb-slide-heading-color: #000000;
@@ -178,6 +210,38 @@
     /* Laser Pointer - Dark Theme */
     --fb-slide-laser-indicator-bg: rgba(255, 107, 53, 0.9);
     --fb-slide-laser-indicator-text: white;
+
+    /* Bookmark Colors for Dark Theme */
+    --fb-slide-bookmark-btn-bg: rgba(255, 255, 255, 0.1);
+    --fb-slide-bookmark-btn-bg-hover: rgba(255, 255, 255, 0.2);
+    --fb-slide-bookmark-btn-border: rgba(255, 255, 255, 0.2);
+    --fb-slide-bookmark-btn-border-hover: #3b82f6;
+    --fb-slide-bookmark-btn-text: rgba(255, 255, 255, 0.8);
+    --fb-slide-bookmark-btn-text-hover: #3b82f6;
+    --fb-slide-bookmark-btn-bookmarked-bg: #3b82f6;
+    --fb-slide-bookmark-btn-bookmarked-bg-hover: #2563eb;
+    --fb-slide-bookmark-btn-bookmarked-text: #ffffff;
+    --fb-slide-bookmark-toggle-bg: transparent;
+    --fb-slide-bookmark-toggle-bg-hover: rgba(255, 255, 255, 0.1);
+    --fb-slide-bookmark-toggle-border: rgba(255, 255, 255, 0.2);
+    --fb-slide-bookmark-toggle-border-hover: #3b82f6;
+    --fb-slide-bookmark-toggle-text: rgba(255, 255, 255, 0.8);
+    --fb-slide-bookmark-toggle-text-hover: #3b82f6;
+    --fb-slide-bookmark-count-bg: #3b82f6;
+    --fb-slide-bookmark-count-text: #ffffff;
+    --fb-slide-bookmark-panel-bg: #0f172a;
+    --fb-slide-bookmark-panel-border: #374151;
+    --fb-slide-bookmark-panel-shadow: rgba(0, 0, 0, 0.3);
+    --fb-slide-bookmark-header-bg: #1e293b;
+    --fb-slide-bookmark-header-text: #e2e8f0;
+    --fb-slide-bookmark-item-bg: #334155;
+    --fb-slide-bookmark-item-bg-hover: #1e293b;
+    --fb-slide-bookmark-item-border: #374151;
+    --fb-slide-bookmark-item-border-hover: #3b82f6;
+    --fb-slide-bookmark-item-text: #94a3b8;
+    --fb-slide-bookmark-number-text: #3b82f6;
+    --fb-slide-bookmark-remove-bg-hover: #7f1d1d;
+    --fb-slide-bookmark-remove-text-hover: #dc2626;
   }
 
   /* Light theme override for slide viewer - using multiple selectors for Starlight compatibility */
@@ -334,6 +398,38 @@
     /* Laser Pointer - Dracula Theme */
     --fb-slide-laser-indicator-bg: rgba(255, 121, 198, 0.9);
     --fb-slide-laser-indicator-text: #282a36;
+
+    /* Bookmark Colors for Dracula Theme */
+    --fb-slide-bookmark-btn-bg: rgba(68, 71, 90, 0.8);
+    --fb-slide-bookmark-btn-bg-hover: rgba(98, 114, 164, 0.9);
+    --fb-slide-bookmark-btn-border: rgba(255, 121, 198, 0.3);
+    --fb-slide-bookmark-btn-border-hover: #ff79c6;
+    --fb-slide-bookmark-btn-text: #f8f8f2;
+    --fb-slide-bookmark-btn-text-hover: #ff79c6;
+    --fb-slide-bookmark-btn-bookmarked-bg: #ff79c6;
+    --fb-slide-bookmark-btn-bookmarked-bg-hover: #ff92d0;
+    --fb-slide-bookmark-btn-bookmarked-text: #282a36;
+    --fb-slide-bookmark-toggle-bg: transparent;
+    --fb-slide-bookmark-toggle-bg-hover: rgba(98, 114, 164, 0.3);
+    --fb-slide-bookmark-toggle-border: rgba(255, 121, 198, 0.3);
+    --fb-slide-bookmark-toggle-border-hover: #ff79c6;
+    --fb-slide-bookmark-toggle-text: #f8f8f2;
+    --fb-slide-bookmark-toggle-text-hover: #ff79c6;
+    --fb-slide-bookmark-count-bg: #ff79c6;
+    --fb-slide-bookmark-count-text: #282a36;
+    --fb-slide-bookmark-panel-bg: #282a36;
+    --fb-slide-bookmark-panel-border: #44475a;
+    --fb-slide-bookmark-panel-shadow: rgba(40, 42, 54, 0.4);
+    --fb-slide-bookmark-header-bg: #44475a;
+    --fb-slide-bookmark-header-text: #f8f8f2;
+    --fb-slide-bookmark-item-bg: #44475a;
+    --fb-slide-bookmark-item-bg-hover: #6272a4;
+    --fb-slide-bookmark-item-border: #6272a4;
+    --fb-slide-bookmark-item-border-hover: #ff79c6;
+    --fb-slide-bookmark-item-text: #f8f8f2;
+    --fb-slide-bookmark-number-text: #bd93f9;
+    --fb-slide-bookmark-remove-bg-hover: #ff5555;
+    --fb-slide-bookmark-remove-text-hover: #f8f8f2;
   }
 
   /* 🐙 GitHub Theme */
@@ -405,6 +501,38 @@
     /* Laser Pointer - GitHub Theme */
     --fb-slide-laser-indicator-bg: rgba(88, 166, 255, 0.9);
     --fb-slide-laser-indicator-text: #0d1117;
+
+    /* Bookmark Colors for GitHub Theme */
+    --fb-slide-bookmark-btn-bg: rgba(33, 38, 45, 0.8);
+    --fb-slide-bookmark-btn-bg-hover: rgba(48, 54, 61, 0.9);
+    --fb-slide-bookmark-btn-border: rgba(88, 166, 255, 0.3);
+    --fb-slide-bookmark-btn-border-hover: #58a6ff;
+    --fb-slide-bookmark-btn-text: #f0f6fc;
+    --fb-slide-bookmark-btn-text-hover: #58a6ff;
+    --fb-slide-bookmark-btn-bookmarked-bg: #58a6ff;
+    --fb-slide-bookmark-btn-bookmarked-bg-hover: #79c0ff;
+    --fb-slide-bookmark-btn-bookmarked-text: #0d1117;
+    --fb-slide-bookmark-toggle-bg: transparent;
+    --fb-slide-bookmark-toggle-bg-hover: rgba(48, 54, 61, 0.3);
+    --fb-slide-bookmark-toggle-border: rgba(88, 166, 255, 0.3);
+    --fb-slide-bookmark-toggle-border-hover: #58a6ff;
+    --fb-slide-bookmark-toggle-text: #f0f6fc;
+    --fb-slide-bookmark-toggle-text-hover: #58a6ff;
+    --fb-slide-bookmark-count-bg: #58a6ff;
+    --fb-slide-bookmark-count-text: #0d1117;
+    --fb-slide-bookmark-panel-bg: #0d1117;
+    --fb-slide-bookmark-panel-border: #30363d;
+    --fb-slide-bookmark-panel-shadow: rgba(13, 17, 23, 0.4);
+    --fb-slide-bookmark-header-bg: #21262d;
+    --fb-slide-bookmark-header-text: #f0f6fc;
+    --fb-slide-bookmark-item-bg: #21262d;
+    --fb-slide-bookmark-item-bg-hover: #30363d;
+    --fb-slide-bookmark-item-border: #30363d;
+    --fb-slide-bookmark-item-border-hover: #58a6ff;
+    --fb-slide-bookmark-item-text: #f0f6fc;
+    --fb-slide-bookmark-number-text: #3fb950;
+    --fb-slide-bookmark-remove-bg-hover: #da3633;
+    --fb-slide-bookmark-remove-text-hover: #f0f6fc;
   }
 
   /* 🎮 Discord Theme */
@@ -476,6 +604,38 @@
     /* Laser Pointer - Discord Theme */
     --fb-slide-laser-indicator-bg: rgba(88, 101, 242, 0.9);
     --fb-slide-laser-indicator-text: white;
+
+    /* Bookmark Colors for Discord Theme */
+    --fb-slide-bookmark-btn-bg: rgba(47, 49, 54, 0.8);
+    --fb-slide-bookmark-btn-bg-hover: rgba(64, 68, 75, 0.9);
+    --fb-slide-bookmark-btn-border: rgba(88, 101, 242, 0.3);
+    --fb-slide-bookmark-btn-border-hover: #5865f2;
+    --fb-slide-bookmark-btn-text: #ffffff;
+    --fb-slide-bookmark-btn-text-hover: #5865f2;
+    --fb-slide-bookmark-btn-bookmarked-bg: #5865f2;
+    --fb-slide-bookmark-btn-bookmarked-bg-hover: #4752c4;
+    --fb-slide-bookmark-btn-bookmarked-text: #ffffff;
+    --fb-slide-bookmark-toggle-bg: transparent;
+    --fb-slide-bookmark-toggle-bg-hover: rgba(64, 68, 75, 0.3);
+    --fb-slide-bookmark-toggle-border: rgba(88, 101, 242, 0.3);
+    --fb-slide-bookmark-toggle-border-hover: #5865f2;
+    --fb-slide-bookmark-toggle-text: #ffffff;
+    --fb-slide-bookmark-toggle-text-hover: #5865f2;
+    --fb-slide-bookmark-count-bg: #5865f2;
+    --fb-slide-bookmark-count-text: #ffffff;
+    --fb-slide-bookmark-panel-bg: #2f3136;
+    --fb-slide-bookmark-panel-border: #40444b;
+    --fb-slide-bookmark-panel-shadow: rgba(47, 49, 54, 0.4);
+    --fb-slide-bookmark-header-bg: #40444b;
+    --fb-slide-bookmark-header-text: #ffffff;
+    --fb-slide-bookmark-item-bg: #2f3136;
+    --fb-slide-bookmark-item-bg-hover: #40444b;
+    --fb-slide-bookmark-item-border: #40444b;
+    --fb-slide-bookmark-item-border-hover: #5865f2;
+    --fb-slide-bookmark-item-text: #ffffff;
+    --fb-slide-bookmark-number-text: #57f287;
+    --fb-slide-bookmark-remove-bg-hover: #ed4245;
+    --fb-slide-bookmark-remove-text-hover: #ffffff;
   }
 
   /* Additional dark theme support for common dark mode patterns */
