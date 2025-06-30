@@ -1,24 +1,24 @@
 export class ThemeManager {
   constructor(slideViewer) {
     this.slideViewer = slideViewer;
-    
-    // Available themes with their display names
+
+    // Available themes with their display names.
     this.themes = {
       'light': 'Light',
-      'dark': 'Dark', 
+      'dark': 'Dark',
       'dracula': 'Dracula',
       'github': 'GitHub',
       'discord': 'Discord',
       'onedark': 'One Dark'
     };
-    
+
     this.currentTheme = this.loadTheme();
-    
+
     this.bindEvents();
   }
 
   bindEvents() {
-    // Listen for theme selector changes
+    // Listen for theme selector changes.
     document.addEventListener('theme-changed', (e) => {
       this.setTheme(e.detail.theme);
     });
@@ -30,7 +30,7 @@ export class ThemeManager {
       return;
     }
 
-    // Check for conflicts with Starlight theme
+    // Check for conflicts with Starlight theme.
     const starlightTheme = this.getStarlightTheme();
     if (starlightTheme === 'dark' && theme === 'light') {
       console.warn('Light theme disabled when Starlight is in dark mode to prevent conflicts. Switching to dracula theme.');
@@ -43,8 +43,8 @@ export class ThemeManager {
     this.currentTheme = theme;
     this.applyTheme();
     this.saveTheme();
-    
-    // Dispatch event for other components
+
+    // Dispatch event for other components.
     document.dispatchEvent(new CustomEvent('theme-applied', {
       detail: { theme: this.currentTheme }
     }));
@@ -54,37 +54,37 @@ export class ThemeManager {
     const modal = this.slideViewer.modal;
     if (!modal) return;
 
-    // Remove all existing theme classes
+    // Remove all existing theme classes.
     Object.keys(this.themes).forEach(theme => {
       modal.classList.remove(`fb-slide__theme-${theme}`);
     });
 
-    // Add the current theme class
+    // Add the current theme class.
     modal.classList.add(`fb-slide__theme-${this.currentTheme}`);
-    
-    // Also set on document for global theme awareness
+
+    // Also set on document for global theme awareness.
     document.documentElement.setAttribute('data-slide-theme', this.currentTheme);
   }
 
   checkThemeCompatibility() {
     const starlightTheme = this.getStarlightTheme();
     const currentTheme = this.getCurrentTheme();
-    
-    // Check if current theme is incompatible with Starlight theme
+
+    // Check if current theme is incompatible with Starlight theme.
     const isIncompatible = (starlightTheme === 'dark' && currentTheme === 'light') ||
                           (starlightTheme === 'light' && currentTheme === 'dark');
-    
+
     if (isIncompatible) {
       console.warn(`Current theme "${currentTheme}" is incompatible with Starlight theme "${starlightTheme}". Switching to compatible theme.`);
-      
-      // Switch to a compatible theme
+
+      // Switch to a compatible theme.
       let newTheme;
       if (starlightTheme === 'dark') {
         newTheme = 'dracula';
       } else {
         newTheme = 'github';
       }
-      
+
       this.setTheme(newTheme);
     }
   }
@@ -100,14 +100,14 @@ export class ThemeManager {
   getAvailableThemes() {
     const starlightTheme = this.getStarlightTheme();
     const availableThemes = { ...this.themes };
-    
-    // Filter incompatible themes based on Starlight theme
+
+    // Filter incompatible themes based on Starlight theme.
     if (starlightTheme === 'dark') {
       delete availableThemes.light;
     } else if (starlightTheme === 'light') {
       delete availableThemes.dark;
     }
-    
+
     return availableThemes;
   }
 
@@ -125,7 +125,7 @@ export class ThemeManager {
     try {
       const savedTheme = localStorage.getItem('slideViewer-theme');
       if (savedTheme && this.themes[savedTheme]) {
-        // Check for conflicts with Starlight theme
+        // Check for conflicts with Starlight theme.
         const starlightTheme = this.getStarlightTheme();
         if (starlightTheme === 'dark' && savedTheme === 'light') {
           console.warn('Saved light theme conflicts with Starlight dark mode. Using dracula theme instead.');
@@ -139,13 +139,13 @@ export class ThemeManager {
     } catch (error) {
       console.log('Error loading theme from localStorage:', error);
     }
-    
-    // Choose default theme based on Starlight theme
+
+    // Choose default theme based on Starlight theme.
     const starlightTheme = this.getStarlightTheme();
     if (starlightTheme === 'light') {
-      return 'github'; // Default for light Starlight
+      return 'github'; // Default for light Starlight.
     } else {
-      return 'dracula'; // Default for dark Starlight
+      return 'dracula'; // Default for dark Starlight.
     }
   }
 

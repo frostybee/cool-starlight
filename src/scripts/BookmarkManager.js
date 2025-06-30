@@ -3,12 +3,12 @@ export class BookmarkManager {
     this.slideViewer = slideViewer;
     this.bookmarks = new Set();
     this.storageKey = `slide-bookmarks-${window.location.pathname}`;
-    
+
     this.bookmarkBtn = null;
     this.bookmarkPanel = null;
     this.bookmarkList = null;
     this.bookmarkToggle = null;
-    
+
     this.init();
   }
 
@@ -19,7 +19,7 @@ export class BookmarkManager {
   }
 
   createBookmarkUI() {
-    // Create bookmark toggle button for toolbar
+    // Create bookmark toggle button for toolbar.
     this.bookmarkToggle = document.createElement('button');
     this.bookmarkToggle.className = 'fb-slide__nav-btn fb-slide__compact-btn fb-slide__bookmark-toggle';
     this.bookmarkToggle.innerHTML = `
@@ -31,7 +31,7 @@ export class BookmarkManager {
     this.bookmarkToggle.setAttribute('aria-label', 'Toggle bookmarks panel');
     this.bookmarkToggle.setAttribute('title', 'Bookmarks (Shift+B)');
 
-    // Create bookmark star button for current slide
+    // Create bookmark star button for current slide.
     this.bookmarkBtn = document.createElement('button');
     this.bookmarkBtn.className = 'fb-slide__bookmark-btn';
     this.bookmarkBtn.innerHTML = `
@@ -42,7 +42,7 @@ export class BookmarkManager {
     this.bookmarkBtn.setAttribute('aria-label', 'Bookmark this slide');
     this.bookmarkBtn.setAttribute('title', 'Bookmark slide (B)');
 
-    // Create bookmark panel
+    // Create bookmark panel.
     this.bookmarkPanel = document.createElement('div');
     this.bookmarkPanel.className = 'fb-slide__bookmark-panel hidden';
     this.bookmarkPanel.innerHTML = `
@@ -66,47 +66,47 @@ export class BookmarkManager {
     this.bookmarkList = this.bookmarkPanel.querySelector('.fb-slide__bookmark-list');
     this.bookmarkEmpty = this.bookmarkPanel.querySelector('.fb-slide__bookmark-empty');
 
-    // Insert bookmark elements into the DOM
+    // Insert bookmark elements into the DOM.
     const modal = this.slideViewer.modal;
     const slideControls = modal.querySelector('.fb-slide__controls');
     const slideHeader = modal.querySelector('.fb-slide__header');
-    
+
     if (slideControls) {
       const prevButton = slideControls.querySelector('#prev-slide');
       const overviewButton = slideControls.querySelector('#show-thumbnails');
-      
+
       if (prevButton && overviewButton) {
         slideControls.insertBefore(this.bookmarkToggle, overviewButton);
       } else {
         slideControls.insertBefore(this.bookmarkToggle, slideControls.firstChild);
       }
     }
-    
+
     if (slideHeader) {
       slideHeader.appendChild(this.bookmarkBtn);
     }
-    
+
     modal.appendChild(this.bookmarkPanel);
   }
 
   bindEvents() {
-    // Bookmark toggle button
+    // Bookmark toggle button.
     this.bookmarkToggle.addEventListener('click', () => {
       this.togglePanel();
     });
 
-    // Bookmark current slide button
+    // Bookmark current slide button.
     this.bookmarkBtn.addEventListener('click', () => {
       this.toggleBookmark(this.slideViewer.currentSlide);
     });
 
-    // Close panel button
+    // Close panel button.
     const closeBtn = this.bookmarkPanel.querySelector('.fb-slide__bookmark-close');
     closeBtn.addEventListener('click', () => {
       this.closePanel();
     });
 
-    // Close panel when clicking outside
+    // Close panel when clicking outside.
     this.bookmarkPanel.addEventListener('click', (event) => {
       if (event.target === this.bookmarkPanel) {
         this.closePanel();
@@ -148,8 +148,8 @@ export class BookmarkManager {
     this.updateUI();
     this.updateBookmarksList();
     this.updateThumbnailBookmarkIndicators();
-    
-    // Announce to screen readers
+
+    // Announce to screen readers.
     this.slideViewer.ariaLiveRegion.textContent = `Slide ${slideIndex + 1} bookmarked`;
     setTimeout(() => {
       this.slideViewer.ariaLiveRegion.textContent = '';
@@ -162,8 +162,8 @@ export class BookmarkManager {
     this.updateUI();
     this.updateBookmarksList();
     this.updateThumbnailBookmarkIndicators();
-    
-    // Announce to screen readers
+
+    // Announce to screen readers.
     this.slideViewer.ariaLiveRegion.textContent = `Slide ${slideIndex + 1} bookmark removed`;
     setTimeout(() => {
       this.slideViewer.ariaLiveRegion.textContent = '';
@@ -173,40 +173,40 @@ export class BookmarkManager {
   updateUI() {
     const currentSlide = this.slideViewer.currentSlide;
     const isBookmarked = this.bookmarks.has(currentSlide);
-    
-    // Update bookmark button
+
+    // Update bookmark button.
     this.bookmarkBtn.classList.toggle('bookmarked', isBookmarked);
-    this.bookmarkBtn.setAttribute('aria-label', 
+    this.bookmarkBtn.setAttribute('aria-label',
       isBookmarked ? 'Remove bookmark from this slide' : 'Bookmark this slide'
     );
-    
-    // Update bookmark count
+
+    // Update bookmark count.
     const count = this.bookmarks.size;
     const countEl = this.bookmarkToggle.querySelector('.fb-slide__bookmark-count');
     countEl.textContent = count;
     countEl.style.display = count > 0 ? 'inline' : 'none';
-    
-    this.bookmarkToggle.setAttribute('aria-label', 
+
+    this.bookmarkToggle.setAttribute('aria-label',
       `Toggle bookmarks panel (${count} bookmark${count !== 1 ? 's' : ''})`
     );
   }
 
   updateBookmarksList() {
     const sortedBookmarks = [...this.bookmarks].sort((a, b) => a - b);
-    
+
     if (sortedBookmarks.length === 0) {
       this.bookmarkList.innerHTML = '';
       this.bookmarkEmpty.classList.remove('hidden');
       return;
     }
-    
+
     this.bookmarkEmpty.classList.add('hidden');
-    
+
     this.bookmarkList.innerHTML = sortedBookmarks.map(slideIndex => {
       const slide = this.slideViewer.slides[slideIndex];
       const slideNumber = slideIndex + 1;
-      
-      // Get preview text from slide content
+
+      // Get preview text from slide content.
       let previewText = '';
       if (slide) {
         const textContent = slide.textContent || '';
@@ -218,7 +218,7 @@ export class BookmarkManager {
           if (textContent.length > 100) previewText += '...';
         }
       }
-      
+
       return `
         <div class="fb-slide__bookmark-item" data-slide="${slideIndex}">
           <div class="fb-slide__bookmark-info">
@@ -234,26 +234,26 @@ export class BookmarkManager {
         </div>
       `;
     }).join('');
-    
-    // Bind click events for bookmark items
+
+    // Bind click events for bookmark items.
     this.bookmarkList.querySelectorAll('.fb-slide__bookmark-item').forEach(item => {
       const slideIndex = parseInt(item.dataset.slide);
-      
+
       item.addEventListener('click', (event) => {
-        // Don't navigate if clicking the remove button
+        // Don't navigate if clicking the remove button.
         if (event.target.closest('.fb-slide__bookmark-remove')) {
           return;
         }
-        
+
         this.slideViewer.goToSlide(slideIndex);
         this.closePanel();
       });
     });
-    
-    // Bind remove buttons
+
+    // Bind remove buttons.
     this.bookmarkList.querySelectorAll('.fb-slide__bookmark-remove').forEach(btn => {
       const slideIndex = parseInt(btn.dataset.slide);
-      
+
       btn.addEventListener('click', (event) => {
         event.stopPropagation();
         this.removeBookmark(slideIndex);
@@ -272,20 +272,20 @@ export class BookmarkManager {
   openPanel() {
     this.bookmarkPanel.classList.remove('hidden');
     this.updateBookmarksList();
-    
-    // Focus first bookmark or close button
+
+    // Focus first bookmark or close button.
     setTimeout(() => {
       const firstBookmark = this.bookmarkList.querySelector('.fb-slide__bookmark-item');
       const closeBtn = this.bookmarkPanel.querySelector('.fb-slide__bookmark-close');
-      
+
       if (firstBookmark) {
         firstBookmark.focus();
       } else {
         closeBtn.focus();
       }
     }, 100);
-    
-    // Announce panel opening
+
+    // Announce panel opening.
     this.slideViewer.ariaLiveRegion.textContent = 'Bookmarks panel opened';
     setTimeout(() => {
       this.slideViewer.ariaLiveRegion.textContent = '';
@@ -294,20 +294,20 @@ export class BookmarkManager {
 
   closePanel() {
     this.bookmarkPanel.classList.add('hidden');
-    
-    // Return focus to bookmark toggle
+
+    // Return focus to bookmark toggle.
     this.bookmarkToggle.focus();
-    
-    // Announce panel closing
+
+    // Announce panel closing.
     this.slideViewer.ariaLiveRegion.textContent = 'Bookmarks panel closed';
     setTimeout(() => {
       this.slideViewer.ariaLiveRegion.textContent = '';
     }, 1000);
   }
 
-  // Handle keyboard shortcuts
+  // Handle keyboard shortcuts.
   handleKeyPress(event) {
-    // 'B' key to toggle bookmark for current slide
+    // 'B' key to toggle bookmark for current slide.
     if (event.key === 'b' || event.key === 'B') {
       if (!event.shiftKey) {
         event.preventDefault();
@@ -315,48 +315,48 @@ export class BookmarkManager {
         return true;
       }
     }
-    
-    // 'Shift+B' to toggle bookmarks panel
+
+    // 'Shift+B' to toggle bookmarks panel.
     if ((event.key === 'b' || event.key === 'B') && event.shiftKey) {
       event.preventDefault();
       this.togglePanel();
       return true;
     }
-    
+
     return false;
   }
 
-  // Called when slide changes to update bookmark button state
+  // Called when slide changes to update bookmark button state.
   onSlideChange() {
     this.updateUI();
-    
-    // Hide bookmark button on slide overview page (slide 0)
+
+    // Hide bookmark button on slide overview page (slide 0).
     if (this.bookmarkBtn) {
       this.bookmarkBtn.style.display = this.slideViewer.currentSlide === 0 ? 'none' : '';
     }
-    
-    // Update thumbnail bookmark indicators if on overview page
+
+    // Update thumbnail bookmark indicators if on overview page.
     if (this.slideViewer.currentSlide === 0) {
       this.updateThumbnailBookmarkIndicators();
     }
   }
 
-  // Update bookmark indicators on thumbnails in overview page
+  // Update bookmark indicators on thumbnails in overview page.
   updateThumbnailBookmarkIndicators() {
     const thumbnails = document.querySelectorAll('.fb-slide__thumbnail');
-    
+
     thumbnails.forEach(thumbnail => {
       const slideNumber = parseInt(thumbnail.dataset.slideNumber);
-      const slideIndex = slideNumber - 1; // Convert to 0-based index
+      const slideIndex = slideNumber - 1; // Convert to 0-based index.
       const isBookmarked = this.bookmarks.has(slideIndex);
-      
-      // Remove existing bookmark indicator
+
+      // Remove existing bookmark indicator.
       const existingIndicator = thumbnail.querySelector('.fb-slide__thumbnail-bookmark');
       if (existingIndicator) {
         existingIndicator.remove();
       }
-      
-      // Add bookmark indicator if slide is bookmarked
+
+      // Add bookmark indicator if slide is bookmarked.
       if (isBookmarked) {
         const bookmarkIndicator = document.createElement('div');
         bookmarkIndicator.className = 'fb-slide__thumbnail-bookmark';
@@ -371,7 +371,7 @@ export class BookmarkManager {
     });
   }
 
-  // Get bookmarks for export
+  // Get bookmarks for export.
   exportBookmarks() {
     return {
       url: window.location.pathname,
@@ -380,7 +380,7 @@ export class BookmarkManager {
     };
   }
 
-  // Import bookmarks
+  // Import bookmarks.
   importBookmarks(data) {
     if (data.bookmarks && Array.isArray(data.bookmarks)) {
       this.bookmarks = new Set(data.bookmarks);
@@ -391,7 +391,7 @@ export class BookmarkManager {
     }
   }
 
-  // Show/hide bookmark elements based on reading mode
+  // Show/hide bookmark elements based on reading mode.
   updateReadingModeVisibility(isReadingMode) {
     if (this.bookmarkBtn) {
       this.bookmarkBtn.style.display = isReadingMode ? 'none' : '';

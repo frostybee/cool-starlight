@@ -140,7 +140,7 @@ export class KeyboardHelpManager {
       </div>
     `;
 
-    // Append to the slideshow modal to ensure proper z-index stacking
+    // Append to the slideshow modal to ensure proper z-index stacking.
     const slideshowModal = this.slideViewer.modal;
     if (slideshowModal) {
       slideshowModal.appendChild(this.helpModal);
@@ -150,7 +150,7 @@ export class KeyboardHelpManager {
   }
 
   createHelpButton() {
-    // Add help button to the slide viewer modal navigation
+    // Add help button to the slide viewer modal navigation.
     const slideViewer = document.getElementById('slide-viewer-modal');
     if (slideViewer) {
       const navDesktop = slideViewer.querySelector('.fb-slide__nav-desktop');
@@ -159,8 +159,8 @@ export class KeyboardHelpManager {
         this.helpButton.className = 'fb-slide__nav-btn fb-slide__compact-btn fb-slide__help-btn';
         this.helpButton.title = 'Keyboard shortcuts (Shift + ?)';
         this.helpButton.innerHTML = '?';
-        
-        // Insert before the close button
+
+        // Insert before the close button.
         const closeBtn = navDesktop.querySelector('#close-slideshow');
         if (closeBtn) {
           navDesktop.insertBefore(this.helpButton, closeBtn);
@@ -172,14 +172,14 @@ export class KeyboardHelpManager {
   }
 
   bindEvents() {
-    // Help button click
+    // Help button click.
     if (this.helpButton) {
       this.helpButton.addEventListener('click', () => {
         this.openHelpModal();
       });
     }
 
-    // Close button click
+    // Close button click.
     const closeBtn = this.helpModal.querySelector('#close-help-modal');
     if (closeBtn) {
       closeBtn.addEventListener('click', () => {
@@ -187,24 +187,24 @@ export class KeyboardHelpManager {
       });
     }
 
-    // Close modal when clicking outside
+    // Close modal when clicking outside.
     this.helpModal.addEventListener('click', (event) => {
       if (event.target === this.helpModal) {
         this.closeHelpModal();
       }
     });
 
-    // Keyboard shortcuts
+    // Keyboard shortcuts.
     document.addEventListener('keydown', (event) => {
-      // Shift + ? to open help modal
+      // Shift + ? to open help modal.
       if (event.shiftKey && event.key === '?') {
         if (!this.slideViewer.modal.classList.contains('hidden')) {
           event.preventDefault();
           this.openHelpModal();
         }
       }
-      
-      // Escape to close help modal
+
+      // Escape to close help modal.
       if (event.key === 'Escape' && !this.helpModal.classList.contains('hidden')) {
         event.preventDefault();
         event.stopPropagation();

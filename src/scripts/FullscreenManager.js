@@ -2,14 +2,14 @@ export class FullscreenManager {
   constructor(slideViewer) {
     this.slideViewer = slideViewer;
     this.fullscreenBtn = document.getElementById('toggle-fullscreen');
-    
+
     this.bindEvents();
   }
 
   bindEvents() {
     this.fullscreenBtn.addEventListener('click', (e) => {
       console.log('Fullscreen button clicked');
-      // Prevent if this was triggered by ESC key somehow
+      // Prevent if this was triggered by ESC key somehow.
       if (e.detail === 0 && (e.key === 'Escape' || e.code === 'Escape')) {
         return;
       }
@@ -55,7 +55,7 @@ export class FullscreenManager {
   }
 
   exitFullscreen() {
-    // Only attempt to exit fullscreen if we're actually in fullscreen mode
+    // Only attempt to exit fullscreen if we're actually in fullscreen mode.
     if (!this.isFullscreen()) {
       return;
     }

@@ -5,42 +5,42 @@ export class TOCManager {
     this.tocContent = document.getElementById('slide-toc-content');
     this.tocToggleBtn = document.getElementById('toggle-toc');
     this.pendingTocScrollPosition = undefined;
-    
+
     this.bindEvents();
   }
 
   bindEvents() {
-    // TOC toggle functionality
+    // TOC toggle functionality.
     this.tocToggleBtn.addEventListener('click', () => {
       const wasCollapsed = this.tocSidebar.classList.contains('collapsed');
       this.tocSidebar.classList.toggle('collapsed');
 
-      // If expanding and we have a pending scroll position, apply it
+      // If expanding and we have a pending scroll position, apply it.
       if (wasCollapsed && this.pendingTocScrollPosition !== undefined) {
         setTimeout(() => {
           this.tocContent.scrollTo({
             top: this.pendingTocScrollPosition,
             behavior: 'smooth'
           });
-        }, 300); // Wait for expansion animation
+        }, 300); // Wait for expansion animation.
       }
     });
 
-    // Click on collapsed sidebar to expand
+    // Click on collapsed sidebar to expand.
     this.tocSidebar.addEventListener('click', (event) => {
       if (this.tocSidebar.classList.contains('collapsed')) {
-        // Don't toggle if clicking on the toggle button itself (prevent double toggle)
+        // Don't toggle if clicking on the toggle button itself (prevent double toggle).
         if (!this.tocToggleBtn.contains(event.target)) {
           this.tocSidebar.classList.remove('collapsed');
 
-          // Apply pending scroll position when expanding
+          // Apply pending scroll position when expanding.
           if (this.pendingTocScrollPosition !== undefined) {
             setTimeout(() => {
               this.tocContent.scrollTo({
                 top: this.pendingTocScrollPosition,
                 behavior: 'smooth'
               });
-            }, 300); // Wait for expansion animation
+            }, 300); // Wait for expansion animation.
           }
         }
       }
@@ -60,12 +60,12 @@ export class TOCManager {
 
   createSlideModeTOC() {
     this.slideViewer.slides.forEach((slide, index) => {
-      // Extract the first heading from each slide
+      // Extract the first heading from each slide.
       const heading = slide.querySelector('h1, h2, h3, h4, h5, h6');
       let title = `Slide ${index + 1}`;
       let headingLevel = 'h2';
 
-      // Special handling for the preview slide (first slide)
+      // Special handling for the preview slide (first slide).
       if (index === 0 && slide.className && slide.className.includes('fb-slide__preview-container')) {
         title = 'Slide Overview';
         headingLevel = 'h1';
@@ -74,21 +74,21 @@ export class TOCManager {
         headingLevel = heading.tagName.toLowerCase();
       }
 
-      // Create container for number + item
+      // Create container for number + item.
       const tocItemContainer = document.createElement('div');
       tocItemContainer.className = `fb-slide__toc-item-container ${headingLevel}`;
 
-      // Create the clickable item
+      // Create the clickable item.
       const tocItem = document.createElement('button');
       tocItem.className = `fb-slide__toc-item ${headingLevel}`;
       tocItem.setAttribute('data-slide-index', index);
 
-      // Create number element (inside the button)
+      // Create number element (inside the button).
       const numberElement = document.createElement('span');
       numberElement.className = 'fb-slide__toc-item-number';
       numberElement.textContent = (index + 1).toString();
 
-      // Create title element
+      // Create title element.
       const titleElement = document.createElement('span');
       titleElement.className = 'fb-slide__toc-item-title';
       titleElement.textContent = title;
@@ -101,7 +101,7 @@ export class TOCManager {
         tocItem.blur();
       });
 
-      // Hover effects are now handled by global CSS
+      // Hover effects are now handled by global CSS.
 
       tocItemContainer.appendChild(tocItem);
 
@@ -114,7 +114,7 @@ export class TOCManager {
   }
 
   createReadingModeTOC() {
-    // Find all headings in the reading mode content
+    // Find all headings in the reading mode content.
     const readingContent = document.querySelector('.fb-slide__reading-mode-content');
     if (!readingContent) {
       console.warn('No reading mode content found for TOC generation');
@@ -127,34 +127,34 @@ export class TOCManager {
     headings.forEach((heading, index) => {
       const title = heading.textContent.trim();
       const headingLevel = heading.tagName.toLowerCase();
-      
-      // Create unique ID for heading if it doesn't have one
+
+      // Create unique ID for heading if it doesn't have one.
       if (!heading.id) {
-        // Create a more descriptive ID based on the heading text
+        // Create a more descriptive ID based on the heading text.
         const cleanTitle = title.toLowerCase()
-          .replace(/[^\w\s-]/g, '') // Remove special characters
-          .replace(/\s+/g, '-') // Replace spaces with hyphens
-          .slice(0, 50); // Limit length
+          .replace(/[^\w\s-]/g, '') // Remove special characters.
+          .replace(/\s+/g, '-') // Replace spaces with hyphens.
+          .slice(0, 50); // Limit length.
         heading.id = `reading-${cleanTitle}-${index}`;
       }
-      
+
       console.log('Processing heading:', title, 'with ID:', heading.id);
 
-      // Create container for number + item
+      // Create container for number + item.
       const tocItemContainer = document.createElement('div');
       tocItemContainer.className = `fb-slide__toc-item-container ${headingLevel}`;
 
-      // Create the clickable item
+      // Create the clickable item.
       const tocItem = document.createElement('button');
       tocItem.className = `fb-slide__toc-item ${headingLevel}`;
       tocItem.setAttribute('data-heading-id', heading.id);
 
-      // Create number element (inside the button)
+      // Create number element (inside the button).
       const numberElement = document.createElement('span');
       numberElement.className = 'fb-slide__toc-item-number';
       numberElement.textContent = (index + 1).toString();
 
-      // Create title element
+      // Create title element.
       const titleElement = document.createElement('span');
       titleElement.className = 'fb-slide__toc-item-title';
       titleElement.textContent = title;
@@ -178,52 +178,52 @@ export class TOCManager {
   scrollToHeading(headingId) {
     console.log('Attempting to scroll to heading:', headingId);
     const heading = document.getElementById(headingId);
-    
+
     if (heading) {
       console.log('Found heading element:', heading);
-      
-      // Find the scrollable container (the slide content area)
+
+      // Find the scrollable container (the slide content area).
       const slideContent = document.querySelector('.fb-slide__content');
-      
+
       if (slideContent) {
-        // Get the heading's position relative to the document
+        // Get the heading's position relative to the document.
         const headingOffsetTop = this.getElementOffsetTop(heading, slideContent);
-        const targetPosition = headingOffsetTop - 20; // 20px offset from top
-        
+        const targetPosition = headingOffsetTop - 20; // 20px offset from top.
+
         console.log('Current scroll position:', slideContent.scrollTop);
         console.log('Target scroll position:', targetPosition);
         console.log('Heading offset from container:', headingOffsetTop);
-        
+
         slideContent.scrollTo({
-          top: Math.max(0, targetPosition), // Ensure we don't scroll to negative position
+          top: Math.max(0, targetPosition), // Ensure we don't scroll to negative position.
           behavior: 'smooth'
         });
       } else {
-        // Fallback to default scrollIntoView
+        // Fallback to default scrollIntoView.
         console.log('Using fallback scrollIntoView');
-        heading.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start' 
+        heading.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
         });
       }
-      
-      // Update active state
+
+      // Update active state.
       this.updateReadingModeTocSelection(headingId);
     } else {
       console.warn('Heading not found with ID:', headingId);
     }
   }
 
-  // Helper function to calculate element's offset relative to a container
+  // Helper function to calculate element's offset relative to a container.
   getElementOffsetTop(element, container) {
     let offsetTop = 0;
     let currentElement = element;
-    
+
     while (currentElement && currentElement !== container) {
       offsetTop += currentElement.offsetTop;
       currentElement = currentElement.offsetParent;
     }
-    
+
     return offsetTop;
   }
 
@@ -233,7 +233,7 @@ export class TOCManager {
       const headingId = item.getAttribute('data-heading-id');
       const isActive = headingId === activeHeadingId;
       item.classList.toggle('active', isActive);
-      
+
       if (isActive) {
         this.scrollTocToActiveItem(item);
       }
@@ -247,10 +247,10 @@ export class TOCManager {
       item.classList.toggle('active', isActive);
 
       if (isActive) {
-        // Auto-scroll the TOC to show the active item
+        // Auto-scroll the TOC to show the active item.
         this.scrollTocToActiveItem(item);
       }
-      // Active/inactive styling is now handled by global CSS
+      // Active/inactive styling is now handled by global CSS.
     });
   }
 
@@ -259,23 +259,23 @@ export class TOCManager {
       return;
     }
 
-    // Always calculate and store the scroll position for the active item
+    // Always calculate and store the scroll position for the active item.
     const tocContainer = this.tocContent;
-    const containerHeight = tocContainer.offsetHeight || 300; // Fallback height
-    const itemHeight = activeItem.offsetHeight || 60; // Fallback height
+    const containerHeight = tocContainer.offsetHeight || 300; // Fallback height.
+    const itemHeight = activeItem.offsetHeight || 60; // Fallback height.
     const scrollOffset = activeItem.offsetTop - (containerHeight / 2) + (itemHeight / 2);
 
-    // Store the calculated scroll position
+    // Store the calculated scroll position.
     this.pendingTocScrollPosition = Math.max(0, scrollOffset);
 
-    // Only perform the actual scroll if TOC is expanded
+    // Only perform the actual scroll if TOC is expanded.
     if (this.tocSidebar.classList.contains('collapsed')) {
       return;
     }
 
-    // Use a small delay to ensure the DOM has updated after any transitions
+    // Use a small delay to ensure the DOM has updated after any transitions.
     setTimeout(() => {
-      // Double-check that TOC is still expanded
+      // Double-check that TOC is still expanded.
       if (this.tocSidebar.classList.contains('collapsed')) {
         return;
       }
@@ -283,12 +283,12 @@ export class TOCManager {
       const containerRect = tocContainer.getBoundingClientRect();
       const itemRect = activeItem.getBoundingClientRect();
 
-      // Calculate if the item is visible in the container
+      // Calculate if the item is visible in the container.
       const isVisible = itemRect.top >= containerRect.top &&
                        itemRect.bottom <= containerRect.bottom;
 
       if (!isVisible) {
-        // Smooth scroll to the calculated position
+        // Smooth scroll to the calculated position.
         tocContainer.scrollTo({
           top: this.pendingTocScrollPosition,
           behavior: 'smooth'

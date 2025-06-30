@@ -1,5 +1,5 @@
-// Export all SlideViewer manager classes for easy importing
-// This file provides a single entry point for all manager dependencies
+// Export all SlideViewer manager classes for easy importing.
+// This file provides a single entry point for all manager dependencies.
 
 export { SearchManager } from './SearchManager.js';
 export { ReadingModeManager } from './ReadingModeManager.js';
@@ -13,4 +13,4 @@ export { SlideViewer, initSlideViewer } from './SlideViewer.js';
 // Usage example:
 // import { SlideViewer, initSlideViewer } from './slide-managers.js';
 // or
-// import { SlideViewer } from './SlideViewer.js'; // Direct import with auto-dependency resolution
+// import { SlideViewer } from './SlideViewer.js'; // Direct import with auto-dependency resolution.

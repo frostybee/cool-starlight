@@ -2,30 +2,30 @@ export class ThemeUIController {
   constructor(slideViewer) {
     this.slideViewer = slideViewer;
     this.themeManager = slideViewer.themeManager;
-    
-    // Desktop elements
+
+    // Desktop elements.
     this.themeBtn = document.getElementById('slide-theme-btn');
     this.themeDropdown = document.getElementById('slide-theme-dropdown');
     this.themeItems = document.querySelectorAll('.fb-slide__theme-item');
-    
-    // Mobile elements
+
+    // Mobile elements.
     this.cycleMobileBtn = document.getElementById('cycle-theme-mobile');
     this.mobileThemeText = document.getElementById('mobile-theme-text');
-    
+
     this.isDropdownOpen = false;
-    
+
     this.bindEvents();
     this.updateUI();
   }
 
   bindEvents() {
-    // Desktop theme button click
+    // Desktop theme button click.
     this.themeBtn?.addEventListener('click', (e) => {
       e.stopPropagation();
       this.toggleDropdown();
     });
 
-    // Desktop theme item clicks
+    // Desktop theme item clicks.
     this.themeItems.forEach(item => {
       item.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -35,36 +35,36 @@ export class ThemeUIController {
       });
     });
 
-    // Mobile theme cycle button
+    // Mobile theme cycle button.
     this.cycleMobileBtn?.addEventListener('click', () => {
       const nextTheme = this.themeManager.cycleTheme();
       this.updateUI();
     });
 
-    // Close dropdown when clicking outside
+    // Close dropdown when clicking outside.
     document.addEventListener('click', (e) => {
       if (this.isDropdownOpen && !this.themeBtn?.contains(e.target) && !this.themeDropdown?.contains(e.target)) {
         this.hideDropdown();
       }
     });
 
-    // Listen for theme changes from other sources
+    // Listen for theme changes from other sources.
     document.addEventListener('theme-applied', () => {
       this.updateUI();
     });
 
-    // Keyboard shortcut - T key to cycle themes
+    // Keyboard shortcut - T key to cycle themes.
     document.addEventListener('keydown', (e) => {
       if (!this.slideViewer.modal.classList.contains('hidden')) {
-        // Only when slideshow is open
+        // Only when slideshow is open.
         if (e.key === 't' || e.key === 'T') {
-          // Don't trigger if user is typing in inputs
-          if (document.activeElement?.tagName === 'INPUT' || 
+          // Don't trigger if user is typing in inputs.
+          if (document.activeElement?.tagName === 'INPUT' ||
               document.activeElement?.tagName === 'SELECT' ||
               document.activeElement?.tagName === 'TEXTAREA') {
             return;
           }
-          
+
           e.preventDefault();
           const nextTheme = this.themeManager.cycleTheme();
           this.updateUI();
@@ -74,7 +74,7 @@ export class ThemeUIController {
   }
 
   setTheme(theme) {
-    // Dispatch custom event that ThemeManager listens for
+    // Dispatch custom event that ThemeManager listens for.
     document.dispatchEvent(new CustomEvent('theme-changed', {
       detail: { theme }
     }));
@@ -92,11 +92,11 @@ export class ThemeUIController {
     this.themeDropdown?.classList.remove('hidden');
     this.themeBtn?.classList.add('active');
     this.isDropdownOpen = true;
-    
-    // Update dropdown to show only available themes
+
+    // Update dropdown to show only available themes.
     this.updateDropdownItems();
-    
-    // Set current theme as selected
+
+    // Set current theme as selected.
     const currentTheme = this.themeManager.getCurrentTheme();
     this.updateActiveTheme(currentTheme);
   }
@@ -110,20 +110,20 @@ export class ThemeUIController {
   updateUI() {
     const currentTheme = this.themeManager.getCurrentTheme();
     const themes = this.themeManager.getAvailableThemes();
-    
-    // Update dropdown items visibility
+
+    // Update dropdown items visibility.
     this.updateDropdownItems();
-    
-    // Update desktop dropdown selection
+
+    // Update desktop dropdown selection.
     this.updateActiveTheme(currentTheme);
-    
-    // Update mobile theme text
+
+    // Update mobile theme text.
     if (this.mobileThemeText) {
       const themeName = themes[currentTheme] || currentTheme;
       this.mobileThemeText.textContent = `Theme: ${themeName}`;
     }
-    
-    // Update button title for accessibility
+
+    // Update button title for accessibility.
     if (this.themeBtn) {
       const themeName = themes[currentTheme] || currentTheme;
       this.themeBtn.title = `Theme: ${themeName} (Press T to cycle)`;
@@ -132,8 +132,8 @@ export class ThemeUIController {
 
   updateDropdownItems() {
     const availableThemes = this.themeManager.getAvailableThemes();
-    
-    // Show/hide theme items based on availability
+
+    // Show/hide theme items based on availability.
     this.themeItems.forEach(item => {
       const themeName = item.dataset.theme;
       if (availableThemes[themeName]) {
@@ -147,27 +147,27 @@ export class ThemeUIController {
   }
 
   updateActiveTheme(currentTheme) {
-    // Remove active class from all theme items
+    // Remove active class from all theme items.
     this.themeItems.forEach(item => {
       item.classList.remove('active');
     });
-    
-    // Add active class to current theme item
+
+    // Add active class to current theme item.
     let activeItem = document.querySelector(`[data-theme="${currentTheme}"]`);
-    
+
     // Handle theme substitution cases - if the actual theme isn't available,
     // check if we should highlight the disabled theme that maps to this one
     if (!activeItem || activeItem.classList.contains('disabled')) {
       const starlightTheme = this.themeManager.getStarlightTheme();
-      
-      // If current theme is github and starlight is light, highlight dark theme as active
+
+      // If current theme is github and starlight is light, highlight dark theme as active.
       if (currentTheme === 'github' && starlightTheme === 'light') {
         const darkItem = document.querySelector(`[data-theme="dark"]`);
         if (darkItem) {
           activeItem = darkItem;
         }
       }
-      // If current theme is dracula and starlight is dark, highlight light theme as active  
+      // If current theme is dracula and starlight is dark, highlight light theme as active.
       else if (currentTheme === 'dracula' && starlightTheme === 'dark') {
         const lightItem = document.querySelector(`[data-theme="light"]`);
         if (lightItem) {
@@ -175,7 +175,7 @@ export class ThemeUIController {
         }
       }
     }
-    
+
     if (activeItem) {
       activeItem.classList.add('active');
     }

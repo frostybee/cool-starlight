@@ -3,13 +3,13 @@ export class ReadingModeManager {
     this.slideViewer = slideViewer;
     this.toggleReadingModeBtn = document.getElementById('toggle-reading-mode');
     this.toggleReadingModeBtnMobile = document.getElementById('toggle-reading-mode-mobile');
-    this.scrollListener = null; // Store reference to scroll listener for cleanup
+    this.scrollListener = null; // Store reference to scroll listener for cleanup.
 
     this.bindEvents();
   }
 
   bindEvents() {
-    // Reading mode toggle event (inside modal)
+    // Reading mode toggle event (inside modal).
     if (this.toggleReadingModeBtn) {
       console.log('Binding click event to reading mode toggle button');
       this.toggleReadingModeBtn.addEventListener('click', (e) => {
@@ -36,7 +36,7 @@ export class ReadingModeManager {
     this.slideViewer.isReadingMode = !this.slideViewer.isReadingMode;
     console.log('new mode:', this.slideViewer.isReadingMode);
 
-    // Clear heading cache when switching modes
+    // Clear heading cache when switching modes.
     if (this.slideViewer.searchManager) {
       this.slideViewer.searchManager.headingPositionsCache = null;
     }
@@ -48,10 +48,10 @@ export class ReadingModeManager {
     const toggleBtn = this.toggleReadingModeBtn;
 
     if (this.slideViewer.isReadingMode) {
-      // Reading mode: Show the entire original document content
+      // Reading mode: Show the entire original document content.
       this.showOriginalDocument();
 
-      // Rebuild TOC for reading mode (must happen after showOriginalDocument)
+      // Rebuild TOC for reading mode (must happen after showOriginalDocument).
       setTimeout(() => {
         this.slideViewer.tocManager.createTableOfContents();
         this.slideViewer.updateProgress();
@@ -68,7 +68,7 @@ export class ReadingModeManager {
         `;
         toggleBtn.title = 'Switch to slide mode';
       }
-      // Hide navigation controls in reading mode
+      // Hide navigation controls in reading mode.
       this.slideViewer.prevBtn.style.display = 'none';
       this.slideViewer.nextBtn.style.display = 'none';
       this.slideViewer.slideCounter.style.display = 'none';
@@ -76,16 +76,16 @@ export class ReadingModeManager {
       if (this.slideViewer.prevBtnMobile) this.slideViewer.prevBtnMobile.style.display = 'none';
       if (this.slideViewer.nextBtnMobile) this.slideViewer.nextBtnMobile.style.display = 'none';
       if (this.slideViewer.slideCounterMobile) this.slideViewer.slideCounterMobile.style.display = 'none';
-      // Hide bookmark button in reading mode
+      // Hide bookmark button in reading mode.
       if (this.slideViewer.bookmarkManager) this.slideViewer.bookmarkManager.updateReadingModeVisibility(true);
-      // Collapse the left sidebar in reading mode
+      // Collapse the left sidebar in reading mode.
       this.slideViewer.tocSidebar.classList.add('collapsed');
     } else {
-      // Slide mode: Reset slide content styling and show current slide
+      // Slide mode: Reset slide content styling and show current slide.
       this.slideViewer.slideContent.classList.remove('fb-slide__content-reading-mode');
       this.slideViewer.showSlide(this.slideViewer.currentSlide);
 
-      // Rebuild TOC for slide mode
+      // Rebuild TOC for slide mode.
       this.slideViewer.tocManager.createTableOfContents();
       this.removeReadingModeScrollListener();
       this.slideViewer.updateProgress();
@@ -100,7 +100,7 @@ export class ReadingModeManager {
         `;
         toggleBtn.title = 'Switch to reading mode';
       }
-      // Show navigation controls in slide mode
+      // Show navigation controls in slide mode.
       this.slideViewer.prevBtn.style.display = '';
       this.slideViewer.nextBtn.style.display = '';
       this.slideViewer.slideCounter.style.display = '';
@@ -108,9 +108,9 @@ export class ReadingModeManager {
       if (this.slideViewer.prevBtnMobile) this.slideViewer.prevBtnMobile.style.display = '';
       if (this.slideViewer.nextBtnMobile) this.slideViewer.nextBtnMobile.style.display = '';
       if (this.slideViewer.slideCounterMobile) this.slideViewer.slideCounterMobile.style.display = '';
-      // Show bookmark button in slide mode
+      // Show bookmark button in slide mode.
       if (this.slideViewer.bookmarkManager) this.slideViewer.bookmarkManager.updateReadingModeVisibility(false);
-      // Restore sidebar state in slide mode (don't force expand, keep user's preference)
+      // Restore sidebar state in slide mode (don't force expand, keep user's preference).
     }
   }
 
@@ -118,29 +118,29 @@ export class ReadingModeManager {
     this.slideViewer.slideContent.innerHTML = '';
     this.slideViewer.slideContent.classList.add('fb-slide__content-reading-mode');
 
-    // Get the original document content (before slide parsing)
+    // Get the original document content (before slide parsing).
     const articleContent = document.querySelector('.sl-markdown-content, main .content, article');
     if (!articleContent) {
       console.warn('Could not find original article content');
       return;
     }
 
-    // Clone the original content
+    // Clone the original content.
     const originalContent = articleContent.cloneNode(true);
 
-    // Remove the slide viewer component itself from the clone
+    // Remove the slide viewer component itself from the clone.
     const slideViewerTrigger = originalContent.querySelector('#slide-viewer-trigger');
     if (slideViewerTrigger) {
       slideViewerTrigger.remove();
     }
 
-    // Remove any Starlight anchor links
+    // Remove any Starlight anchor links.
     const anchorLinks = originalContent.querySelectorAll('.sl-anchor-link');
     if (anchorLinks.length > 0) {
       anchorLinks.forEach(link => link.remove());
     }
 
-    // Create container for the original document
+    // Create container for the original document.
     const readingContainer = document.createElement('div');
     readingContainer.className = 'fb-slide__reading-mode-content';
 
@@ -153,12 +153,12 @@ export class ReadingModeManager {
       this.removeReadingModeScrollListener();
     }
 
-    // Create throttled scroll listener for better performance
+    // Create throttled scroll listener for better performance.
     this.scrollListener = this.throttle(() => {
       if (this.slideViewer.isReadingMode) {
         this.slideViewer.updateProgress();
       }
-    }, 100); // Update every 100ms at most
+    }, 100); // Update every 100ms at most.
 
     this.slideViewer.slideContent.addEventListener('scroll', this.scrollListener);
   }

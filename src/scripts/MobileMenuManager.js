@@ -1,8 +1,8 @@
 export class MobileMenuManager {
   constructor(slideViewer) {
     this.slideViewer = slideViewer;
-    
-    // Mobile navigation elements
+
+    // Mobile navigation elements.
     this.mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     this.mobileDropdownMenu = document.getElementById('mobile-dropdown-menu');
     this.prevBtnMobile = document.getElementById('prev-slide-mobile');
@@ -10,20 +10,20 @@ export class MobileMenuManager {
     this.slideCounterMobile = document.getElementById('slide-counter-mobile');
     this.slideInputMobile = document.getElementById('slide-input-mobile');
     this.totalSlidesMobile = document.getElementById('total-slides-mobile');
-    
-    // Mobile dropdown buttons
+
+    // Mobile dropdown buttons.
     this.decreaseFontBtnMobile = document.getElementById('slide-decrease-font-mobile');
     this.increaseFontBtnMobile = document.getElementById('slide-increase-font-mobile');
     this.closeBtnMobile = document.getElementById('close-slideshow-mobile');
-    
-    // Timeouts
+
+    // Timeouts.
     this.slideInputMobileTimeout = null;
-    
+
     this.bindEvents();
   }
 
   bindEvents() {
-    // Mobile navigation events
+    // Mobile navigation events.
     if (this.mobileMenuToggle && this.mobileDropdownMenu) {
       this.mobileMenuToggle.addEventListener('click', (e) => {
         e.preventDefault();
@@ -31,16 +31,16 @@ export class MobileMenuManager {
         this.toggleMobileMenu();
       });
 
-      // Close dropdown when clicking outside
+      // Close dropdown when clicking outside.
       document.addEventListener('click', (e) => {
-        if (!this.mobileMenuToggle.contains(e.target) && 
+        if (!this.mobileMenuToggle.contains(e.target) &&
             !this.mobileDropdownMenu.contains(e.target)) {
           this.closeMobileMenu();
         }
       });
     }
 
-    // Mobile navigation buttons
+    // Mobile navigation buttons.
     if (this.prevBtnMobile) {
       this.prevBtnMobile.addEventListener('click', (e) => {
         e.preventDefault();
@@ -57,7 +57,7 @@ export class MobileMenuManager {
       });
     }
 
-    // Mobile slide counter
+    // Mobile slide counter.
     if (this.slideCounterMobile) {
       this.slideCounterMobile.addEventListener('click', (e) => {
         if (e.target === this.slideCounterMobile || this.slideCounterMobile.contains(e.target)) {
@@ -71,7 +71,7 @@ export class MobileMenuManager {
       });
     }
 
-    // Mobile slide input
+    // Mobile slide input.
     if (this.slideInputMobile) {
       this.slideInputMobile.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
@@ -103,11 +103,11 @@ export class MobileMenuManager {
       });
     }
 
-    // Mobile dropdown buttons - with double-click reset functionality
+    // Mobile dropdown buttons - with double-click reset functionality.
     if (this.decreaseFontBtnMobile) {
       this.decreaseFontBtnMobile.addEventListener('click', (e) => {
         e.preventDefault();
-        // Use the font manager's click handler which includes double-click detection
+        // Use the font manager's click handler which includes double-click detection.
         this.slideViewer.fontManager.decreaseFontBtn.click();
         this.closeMobileMenu();
       });
@@ -116,7 +116,7 @@ export class MobileMenuManager {
     if (this.increaseFontBtnMobile) {
       this.increaseFontBtnMobile.addEventListener('click', (e) => {
         e.preventDefault();
-        // Use the font manager's click handler which includes double-click detection
+        // Use the font manager's click handler which includes double-click detection.
         this.slideViewer.fontManager.increaseFontBtn.click();
         this.closeMobileMenu();
       });
@@ -130,7 +130,7 @@ export class MobileMenuManager {
     }
   }
 
-  // Mobile menu methods
+  // Mobile menu methods.
   toggleMobileMenu() {
     if (this.mobileDropdownMenu.classList.contains('hidden')) {
       this.openMobileMenu();
@@ -147,7 +147,7 @@ export class MobileMenuManager {
     this.mobileDropdownMenu.classList.add('hidden');
   }
 
-  // Mobile slide input methods
+  // Mobile slide input methods.
   activateSlideInputMobile() {
     if (this.slideInputMobile) {
       this.slideInputMobile.removeAttribute('readonly');
@@ -169,7 +169,7 @@ export class MobileMenuManager {
       this.totalSlidesMobile.textContent = this.slideViewer.slides.length.toString();
     }
 
-    // Update input max values
+    // Update input max values.
     if (this.slideInputMobile) {
       this.slideInputMobile.setAttribute('max', this.slideViewer.slides.length.toString());
     }
