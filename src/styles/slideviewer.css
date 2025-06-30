@@ -1891,7 +1891,7 @@
 
   .fb-slide__theme-select {
     position: absolute;
-    top: calc(100% + 0.5rem);
+    bottom: calc(100% + 0.5rem);
     left: 50%;
     transform: translateX(-50%);
     background: var(--sl-color-bg);
@@ -1937,7 +1937,7 @@
   @keyframes themeDropdownSlide {
     from {
       opacity: 0;
-      transform: translateX(-50%) translateY(-10px);
+      transform: translateX(-50%) translateY(10px);
     }
     to {
       opacity: 1;
