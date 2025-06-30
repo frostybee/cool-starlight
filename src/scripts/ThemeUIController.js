@@ -140,7 +140,7 @@ export class ThemeUIController {
         item.style.display = '';
         item.classList.remove('disabled');
       } else {
-        item.style.display = 'none';
+        item.style.display = '';
         item.classList.add('disabled');
       }
     });
@@ -153,7 +153,29 @@ export class ThemeUIController {
     });
     
     // Add active class to current theme item
-    const activeItem = document.querySelector(`[data-theme="${currentTheme}"]`);
+    let activeItem = document.querySelector(`[data-theme="${currentTheme}"]`);
+    
+    // Handle theme substitution cases - if the actual theme isn't available,
+    // check if we should highlight the disabled theme that maps to this one
+    if (!activeItem || activeItem.classList.contains('disabled')) {
+      const starlightTheme = this.themeManager.getStarlightTheme();
+      
+      // If current theme is github and starlight is light, highlight dark theme as active
+      if (currentTheme === 'github' && starlightTheme === 'light') {
+        const darkItem = document.querySelector(`[data-theme="dark"]`);
+        if (darkItem) {
+          activeItem = darkItem;
+        }
+      }
+      // If current theme is dracula and starlight is dark, highlight light theme as active  
+      else if (currentTheme === 'dracula' && starlightTheme === 'dark') {
+        const lightItem = document.querySelector(`[data-theme="light"]`);
+        if (lightItem) {
+          activeItem = lightItem;
+        }
+      }
+    }
+    
     if (activeItem) {
       activeItem.classList.add('active');
     }

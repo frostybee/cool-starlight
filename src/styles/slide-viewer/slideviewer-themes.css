@@ -906,6 +906,22 @@
     background: var(--sl-color-accent);
   }
 
+  .fb-slide__theme-item.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .fb-slide__theme-item.disabled:hover {
+    background: none;
+  }
+
+  .fb-slide__theme-item.disabled.active {
+    background: var(--sl-color-accent);
+    color: var(--sl-color-accent-text);
+    opacity: 1;
+    cursor: not-allowed;
+  }
+
   .fb-slide__theme-item svg {
     width: 16px;
     height: 16px;

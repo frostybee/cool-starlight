@@ -98,6 +98,7 @@ export class TOCManager {
 
       tocItem.addEventListener('click', () => {
         this.slideViewer.goToSlide(index);
+        tocItem.blur();
       });
 
       // Hover effects are now handled by global CSS
@@ -163,6 +164,7 @@ export class TOCManager {
 
       tocItem.addEventListener('click', () => {
         this.scrollToHeading(heading.id);
+        tocItem.blur();
       });
 
       tocItemContainer.appendChild(tocItem);
