@@ -5,7 +5,8 @@ export class ThemeUIController {
     
     // Desktop elements
     this.themeBtn = document.getElementById('slide-theme-btn');
-    this.themeSelect = document.getElementById('slide-theme-select');
+    this.themeDropdown = document.getElementById('slide-theme-dropdown');
+    this.themeItems = document.querySelectorAll('.fb-slide__theme-item');
     
     // Mobile elements
     this.cycleMobileBtn = document.getElementById('cycle-theme-mobile');
@@ -24,11 +25,14 @@ export class ThemeUIController {
       this.toggleDropdown();
     });
 
-    // Desktop theme select change
-    this.themeSelect?.addEventListener('change', (e) => {
-      const selectedTheme = e.target.value;
-      this.setTheme(selectedTheme);
-      this.hideDropdown();
+    // Desktop theme item clicks
+    this.themeItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const selectedTheme = item.dataset.theme;
+        this.setTheme(selectedTheme);
+        this.hideDropdown();
+      });
     });
 
     // Mobile theme cycle button
@@ -39,7 +43,7 @@ export class ThemeUIController {
 
     // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
-      if (this.isDropdownOpen && !this.themeBtn?.contains(e.target) && !this.themeSelect?.contains(e.target)) {
+      if (this.isDropdownOpen && !this.themeBtn?.contains(e.target) && !this.themeDropdown?.contains(e.target)) {
         this.hideDropdown();
       }
     });
@@ -85,20 +89,17 @@ export class ThemeUIController {
   }
 
   showDropdown() {
-    this.themeSelect?.classList.remove('hidden');
+    this.themeDropdown?.classList.remove('hidden');
     this.themeBtn?.classList.add('active');
     this.isDropdownOpen = true;
     
     // Set current theme as selected
     const currentTheme = this.themeManager.getCurrentTheme();
-    if (this.themeSelect) {
-      this.themeSelect.value = currentTheme;
-      this.themeSelect.focus();
-    }
+    this.updateActiveTheme(currentTheme);
   }
 
   hideDropdown() {
-    this.themeSelect?.classList.add('hidden');
+    this.themeDropdown?.classList.add('hidden');
     this.themeBtn?.classList.remove('active');
     this.isDropdownOpen = false;
   }
@@ -107,10 +108,8 @@ export class ThemeUIController {
     const currentTheme = this.themeManager.getCurrentTheme();
     const themes = this.themeManager.getAvailableThemes();
     
-    // Update desktop select value
-    if (this.themeSelect) {
-      this.themeSelect.value = currentTheme;
-    }
+    // Update desktop dropdown selection
+    this.updateActiveTheme(currentTheme);
     
     // Update mobile theme text
     if (this.mobileThemeText) {
@@ -122,6 +121,19 @@ export class ThemeUIController {
     if (this.themeBtn) {
       const themeName = themes[currentTheme] || currentTheme;
       this.themeBtn.title = `Theme: ${themeName} (Press T to cycle)`;
+    }
+  }
+
+  updateActiveTheme(currentTheme) {
+    // Remove active class from all theme items
+    this.themeItems.forEach(item => {
+      item.classList.remove('active');
+    });
+    
+    // Add active class to current theme item
+    const activeItem = document.querySelector(`[data-theme="${currentTheme}"]`);
+    if (activeItem) {
+      activeItem.classList.add('active');
     }
   }
 }

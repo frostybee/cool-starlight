@@ -109,13 +109,40 @@ import '../styles/slide-viewer/slideviewer-bookmarks.css';
                 <path d="M19.07 4.93l-1.41-1.41"/>
               </svg>
             </button>
-            <select id="slide-theme-select" class="fb-slide__theme-select hidden" aria-label="Select theme">
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-              <option value="dracula">🧛 Dracula</option>
-              <option value="github">🐙 GitHub</option>
-              <option value="discord">🎮 Discord</option>
-            </select>
+            <div id="slide-theme-dropdown" class="fb-slide__theme-dropdown hidden" role="menu" aria-label="Select theme">
+              <button class="fb-slide__theme-item" data-theme="light" role="menuitem">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="4"/>
+                  <path d="M12 2v2"/>
+                  <path d="M12 20v2"/>
+                  <path d="M4.93 4.93l1.41 1.41"/>
+                  <path d="M17.66 17.66l1.41 1.41"/>
+                  <path d="M2 12h2"/>
+                  <path d="M20 12h2"/>
+                  <path d="M6.34 17.66l-1.41-1.41"/>
+                  <path d="M19.07 4.93l-1.41-1.41"/>
+                </svg>
+                <span class="fb-slide__theme-text">Light</span>
+              </button>
+              <button class="fb-slide__theme-item" data-theme="dark" role="menuitem">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+                <span class="fb-slide__theme-text">Dark</span>
+              </button>
+              <button class="fb-slide__theme-item" data-theme="dracula" role="menuitem">
+                <span class="fb-slide__theme-emoji">🧛</span>
+                <span class="fb-slide__theme-text">Dracula</span>
+              </button>
+              <button class="fb-slide__theme-item" data-theme="github" role="menuitem">
+                <span class="fb-slide__theme-emoji">🐙</span>
+                <span class="fb-slide__theme-text">GitHub</span>
+              </button>
+              <button class="fb-slide__theme-item" data-theme="discord" role="menuitem">
+                <span class="fb-slide__theme-emoji">🎮</span>
+                <span class="fb-slide__theme-text">Discord</span>
+              </button>
+            </div>
           </div>
 
           <div class="fb-slide__counter" id="slide-counter" title="Click to go to Slide:">

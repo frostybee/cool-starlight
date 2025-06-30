@@ -89,6 +89,11 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   }
 
+  /* Black background for dark theme */
+  [data-theme="dark"] .fb-slide__container {
+    background: #000000;
+  }
+
   /* Progress Bar Styles */
   .fb-slide__progress-container {
     position: absolute;
