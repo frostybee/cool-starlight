@@ -1,6 +1,6 @@
 ---
 title: Slide Viewer
-description: Slide Viewer
+description: A comprehensive presentation system that transforms your content into interactive slides with advanced navigation, search, and customization features.
 sidebar:
   label: 'Slide Viewer'
   order: 6
@@ -10,553 +10,215 @@ import SlideViewer from '../../../components/SlideViewer.astro';
 
 <SlideViewer />
 
-## 🛡️ User Authentication & Authorization in E-commerce (PHP)
+# Slide Viewer Component
 
-Building Secure User Registration, Login, and Admin Access Control
-
-
----
-
-## Slide 2: User Registration System
-
-
-#### 📝 User Registration Form
-
-- Collect user data:
-  - Full name
-  - Email (must be unique)
-  - Password (min length, confirm password)
-- Client-side validation (JavaScript)
-- Server-side validation (PHP)
-
-**Example fields:**
-```html
-<input type="email" name="email" required>
-<input type="password" name="password" required>
-<input type="password" name="confirm_password" required>
-```
+The **Slide Viewer** is a powerful Astro component that automatically converts your page content into an interactive slide presentation system. It provides a rich set of features for navigation, customization, and content interaction.
 
 ---
 
-### Slide 3: Hashing Passwords
+## Core Presentation Features
 
+### Automatic Slide Generation
+The component intelligently parses your page content and creates slides based on:
 
-## 🔐 Hashing Passwords with bcrypt
+1. **Heading-based divisions** - Each major heading starts a new slide
+2. **Content sections** - Logical content breaks are preserved
+3. **Code blocks and lists** - Special formatting is maintained
+4. **Image and media support** - Visual content is properly displayed
 
-Never store plain-text passwords!
+### Navigation System
+Navigate through your presentation using multiple methods:
 
-- Use PHP's `password_hash()` and `password_verify()`
+- **Keyboard shortcuts**: Arrow keys, Page Up/Down, Home/End
+- **Navigation buttons**: Previous/Next slide controls
+- **Direct slide access**: Go to any slide number instantly
+- **Mobile gestures**: Touch-friendly mobile navigation
+- **Progress tracking**: Visual progress bar shows presentation completion
 
-```php
-// Registration
-$hash = password_hash($password, PASSWORD_DEFAULT);
+### Viewing Modes
+The component offers three distinct viewing experiences:
 
-// Login
-if (password_verify($enteredPassword, $hash)) {
-    // Success
-}
-```
-
-- Salt and cost are handled automatically
-
-
----
-
-### Slide 4: Session Management
-
-## 🗂️ Session Management in PHP
-
-- Start session:
-```php
-session_start();
-```
-
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
-
-- Logout:
-
-```php
-session_destroy();
-```
+1. **Slide Mode** - Traditional presentation view with one slide at a time
+2. **Reading Mode** - Continuous document view for in-depth reading
+3. **Overview Mode** - Thumbnail grid showing all slides at once
 
 ---
 
-## Slide 5: Admin Panel for Product Management
+## Advanced Search & Discovery
 
-### 🛠️ Admin Panel Overview
+### Real-time Search
+- **Instant search** across all slide content as you type
+- **Highlighted matches** with search term emphasis
+- **Filtered results** showing only relevant slides
+- **Search persistence** across different viewing modes
 
-Admin Dashboard Features:
-- Add/edit/delete products
-- View customer orders
-- Manage users
+### Search Modal
+Access the advanced search interface with enhanced features:
 
-Access control:
-- Only authenticated users with `admin` role can access
+1. **Debounced search** for smooth performance
+2. **Keyboard navigation** through search results
+3. **Content snippets** showing search context
+4. **Quick navigation** to matching slides
 
-**Route protection example:**
-```php
-if ($_SESSION['role'] !== 'admin') {
-    header('Location: unauthorized.php');
-    exit();
-}
-```
-
----
-
-## Slide 5: Admin Panel for Product Management
-
-### 🛠️ Admin Panel Overview
-
-Admin Dashboard Features:
-- Add/edit/delete products
-- View customer orders
-- Manage users
-
-Access control:
-- Only authenticated users with `admin` role can access
-
-**Route protection example:**
-```php
-if ($_SESSION['role'] !== 'admin') {
-    header('Location: unauthorized.php');
-    exit();
-}
-```
+### Interactive Table of Contents
+- **Smart TOC generation** based on content structure
+- **Slide previews** on hover for quick content overview
+- **Reading time estimates** for each slide section
+- **Bookmark indicators** showing saved slides
+- **Collapsible sidebar** to maximize content space
 
 ---
 
-### Slide 6: Role-Based Access Control (RBAC)
+## Interactive Tools & Features
 
-## 🔑 Role-Based Access Control (RBAC)
+### Laser Pointer System
+A sophisticated annotation tool with multiple drawing modes:
 
-- Users have assigned roles: `admin`, `customer`, `guest`
-- Define permissions based on role
+- **Freehand drawing** for natural sketching and highlighting
+- **Shape tools**: Circles, rectangles, and straight lines
+- **Customizable settings**:
+  1. Adjustable colors and thickness
+  2. Configurable fade duration (0.5-5 seconds)
+  3. Reverse fade animation options
+  4. Live preview of settings changes
 
-**Permissions Example:**
-| Role      | Action                |
-|-----------|------------------------|
-| Admin     | Manage all products     |
-| Customer  | View & buy products     |
-| Guest     | Browse products only    |
+### Bookmark Management
+Keep track of important slides with the bookmark system:
 
-- Use role checks in your controllers/pages
+- **Quick bookmarking** with keyboard shortcuts (B key)
+- **Bookmark panel** showing all saved slides with previews
+- **Persistent storage** - bookmarks saved across sessions
+- **Visual indicators** in thumbnails and TOC
+- **Easy navigation** to bookmarked content
 
+### Font Size Control
+Accessibility-focused text scaling:
 
----
-
-### Slide 7: Admin vs Customer Permissions
-
-## 👥 Admin vs Customer Permissions
-
-- **Admin**
-  - Can CRUD products
-  - View and manage orders
-  - Access dashboard
-
-- **Customer**
-  - Can browse and purchase
-  - View order history
-
-- Access Logic:
-
-```php
-if ($_SESSION['role'] === 'admin') {
-    // show admin panel
-} else {
-    // show customer content
-}
-```
+- **Dynamic font adjustment** with + and - controls
+- **Range**: 60% to 500% scaling
+- **Reset functionality** via double-click
+- **Persistent preferences** saved to local storage
+- **Mobile-optimized** controls for touch devices
 
 ---
 
-### Slide 8: Security Considerations
+## Customization & Themes
 
+### Theme System
+Choose from 6 carefully designed themes:
 
-## 🛡️ Security Considerations
+1. **Light** - Clean, minimal light theme
+2. **Dark** - Modern dark theme for low-light environments
+3. **Dracula** - Popular developer-friendly purple theme
+4. **GitHub** - Familiar GitHub-inspired design
+5. **Discord** - Gaming-community inspired dark theme
+6. **One Dark** - Atom editor's beloved color scheme
 
-Common threats in PHP apps:
-- Cross-site scripting (XSS)
-- SQL injection
+### Smart Theme Compatibility
+- **Automatic conflict resolution** with Starlight themes
+- **Intelligent defaults** based on your site's theme
+- **Persistent theme selection** across sessions
+- **Theme cycling** with keyboard shortcuts
 
-**✅ Best Practices:**
-- Use `htmlspecialchars()` to escape output
-- Use prepared statements (PDO or MySQLi)
-- Validate and sanitize all inputs
-- Use HTTPS and secure cookies
-
----
-
-### Slide 9: Preventing SQL Injection
-
-
-## 🧱 Preventing SQL Injection
-
-❌ **Don't do this:**
-```php
-$query = "SELECT * FROM users WHERE email = '$email'";
-```
-
-✅ **Use Prepared Statements:**
-```php
-$stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
-$stmt->execute([$email]);
-$user = $stmt->fetch();
-```
-
-- Prevents malicious input from altering SQL queries
-```
+### Responsive Design
+- **Desktop-optimized** toolbar with full feature access
+- **Mobile-responsive** interface with touch-friendly controls
+- **Adaptive layouts** that work on any screen size
+- **Progressive enhancement** for different device capabilities
 
 ---
 
-### Slide 10: Preventing XSS Attacks
+## Accessibility & Keyboard Support
 
-## 🧼 Preventing Cross-Site Scripting (XSS)
+### Comprehensive Keyboard Shortcuts
+Master these shortcuts for efficient navigation:
 
-XSS = Injecting malicious scripts into pages
+#### Navigation
+- `←` `→` - Previous/Next slide
+- `Page Up` `Page Down` - Previous/Next slide  
+- `Home` - Go to first slide
+- `End` - Go to last slide
+- `G` - Go to specific slide number
 
-**How to prevent:**
-- Escape output using `htmlspecialchars()`
-```php
-echo htmlspecialchars($product['name']);
-```
+#### Search & Tools
+- `/` or `F` - Open search modal
+- `L` - Toggle laser pointer
+- `S` - Open laser pointer settings
+- `T` - Cycle through themes
+- `B` - Bookmark current slide
+- `Shift + B` - Toggle bookmarks panel
 
-- Sanitize user inputs on forms
-- Use Content Security Policy (CSP) headers
+#### General
+- `Esc` - Close slideshow or modal
+- `Shift + ?` - Show keyboard help
 
-
----
-
-### Slide 11: Summary
-
-## ✅ Summary
-
-- Built secure **user registration & login system**
-- Managed **user sessions**
-- Created **role-based access control** with admin/customer
-- Secured app against **SQL injection** and **XSS**
-
-🔐 Security is not optional—it's essential.
-
----
-
-### Slide 4: Session Management
-
-## 🗂️ Session Management in PHP
-
-- Start session:
-```php
-session_start();
-```
-
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
-
-- Logout:
-
-```php
-session_destroy();
-```
----
-
-### Slide 4: Session Management
-
-## 🗂️ Session Management in PHP
-
-- Start session:
-```php
-session_start();
-```
-
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
-
-- Logout:
-
-```php
-session_destroy();
-```
----
-
-### Slide 4: Session Management
-
-## 🗂️ Session Management in PHP
-
-- Start session:
-```php
-session_start();
-```
-
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
-
-- Logout:
-
-```php
-session_destroy();
-```
----
-
-### Slide 4: Session Management
-
-## 🗂️ Session Management in PHP
-
-- Start session:
-```php
-session_start();
-```
-
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
-
-- Logout:
-
-```php
-session_destroy();
-```
+### Accessibility Features
+- **ARIA live regions** for screen reader announcements
+- **Keyboard focus management** with proper tab order
+- **Screen reader optimized** labels and descriptions
+- **High contrast support** across all themes
+- **Semantic HTML structure** for assistive technologies
 
 ---
 
-### Slide 4: Session Management
+## Technical Implementation
 
-## 🗂️ Session Management in PHP
+### Modular Architecture
+The component is built with a modular system of specialized managers:
 
-- Start session:
-```php
-session_start();
-```
+- **SlideViewer.js** - Core presentation engine
+- **SearchManager.js** - Advanced search functionality
+- **LaserPointerManager.js** - Drawing and annotation tools
+- **BookmarkManager.js** - Slide bookmarking system
+- **ThemeManager.js** - Theme switching and compatibility
+- **TOCManager.js** - Table of contents generation
+- **KeyboardHelpManager.js** - Keyboard shortcut system
+- **FontManager.js** - Font size adjustment
+- **FullscreenManager.js** - Fullscreen presentation mode
+- **ReadingModeManager.js** - Alternative reading view
+- **ThumbnailManager.js** - Slide overview generation
+- **MobileMenuManager.js** - Mobile interface optimization
 
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
+### Performance Optimizations
+- **Lazy content loading** for smooth performance
+- **Debounced search** to prevent excessive operations
+- **Throttled scroll listeners** for efficient updates
+- **Local storage caching** for user preferences
+- **Efficient DOM manipulation** with minimal reflows
 
-- Logout:
-
-```php
-session_destroy();
-```
-
----
-
-### Slide 4: Session Management
-
-## 🗂️ Session Management in PHP
-
-- Start session:
-```php
-session_start();
-```
-
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
-
-- Logout:
-
-```php
-session_destroy();
-```
+### Browser Compatibility
+- **Modern ES6+ JavaScript** with module support
+- **CSS Grid and Flexbox** for responsive layouts
+- **Local Storage API** for preference persistence
+- **Canvas API** for laser pointer functionality
+- **Fullscreen API** for immersive presentations
 
 ---
 
-### Slide 4: Session Management
+## Getting Started
 
-## 🗂️ Session Management in PHP
+### Basic Usage
+Simply add the component to any MDX page:
 
-- Start session:
-```php
-session_start();
+```astro
+import SlideViewer from '../../../components/SlideViewer.astro';
+
+<SlideViewer />
 ```
 
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
+### Content Optimization
+Structure your content for optimal slide generation:
 
-- Logout:
+1. **Use clear headings** to define slide boundaries
+2. **Keep sections focused** - one main concept per slide  
+3. **Include visual elements** like code blocks and images
+4. **Write concise content** appropriate for presentation format
 
-```php
-session_destroy();
-```
+### Best Practices
+- **Test responsive behavior** on different screen sizes
+- **Verify keyboard navigation** works smoothly
+- **Check theme compatibility** with your site design
+- **Optimize content length** for slide format presentation
 
+The Slide Viewer transforms any content page into a professional presentation experience with minimal setup while providing powerful customization options for advanced users.
 
----
-
-### Slide 4: Session Management
-
-## 🗂️ Session Management in PHP
-
-- Start session:
-```php
-session_start();
-```
-
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
-
-- Logout:
-
-```php
-session_destroy();
-```
-
----
-
-### Slide 4: Session Management
-
-## 🗂️ Session Management in PHP
-
-- Start session:
-```php
-session_start();
-```
-
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
-
-- Logout:
-
-```php
-session_destroy();
-```
-
----
-
-### Slide 4: Session Management
-
-## 🗂️ Session Management in PHP
-
-- Start session:
-```php
-session_start();
-```
-
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
-
-- Logout:
-
-```php
-session_destroy();
-```
-
----
-
-### Slide 4: Session Management
-
-## 🗂️ Session Management in PHP
-
-- Start session:
-```php
-session_start();
-```
-
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
-
-- Logout:
-
-```php
-session_destroy();
-```
-
----
-
-### Slide 4: Session Management
-
-## 🗂️ Session Management in PHP
-
-- Start session:
-```php
-session_start();
-```
-
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
-
-- Logout:
-
-```php
-session_destroy();
-```
-
----
-
-### Slide 4: Session Management
-
-## 🗂️ Session Management in PHP
-
-- Start session:
-```php
-session_start();
-```
-
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
-
-- Logout:
-
-```php
-session_destroy();
-```
-
----
-
-### Slide 4: Session Management
-
-## 🗂️ Session Management in PHP
-
-- Start session:
-```php
-session_start();
-```
-
-- Store user data after login:
-```php
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['role'] = $user['role']; // e.g., 'admin' or 'customer'
-```
-
-- Logout:
-
-```php
-session_destroy();
-```
