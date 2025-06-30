@@ -725,6 +725,9 @@ export class SlideViewer {
     // Apply saved theme when slideshow opens
     this.themeManager.applyTheme();
 
+    // Check for theme compatibility conflicts after opening
+    this.themeManager.checkThemeCompatibility();
+
     // Re-bind click events for thumbnails after slideshow opens
     setTimeout(() => {
       this.thumbnailManager.rebindThumbnailEvents();

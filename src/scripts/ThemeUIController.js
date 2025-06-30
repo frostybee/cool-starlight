@@ -93,6 +93,9 @@ export class ThemeUIController {
     this.themeBtn?.classList.add('active');
     this.isDropdownOpen = true;
     
+    // Update dropdown to show only available themes
+    this.updateDropdownItems();
+    
     // Set current theme as selected
     const currentTheme = this.themeManager.getCurrentTheme();
     this.updateActiveTheme(currentTheme);
@@ -108,6 +111,9 @@ export class ThemeUIController {
     const currentTheme = this.themeManager.getCurrentTheme();
     const themes = this.themeManager.getAvailableThemes();
     
+    // Update dropdown items visibility
+    this.updateDropdownItems();
+    
     // Update desktop dropdown selection
     this.updateActiveTheme(currentTheme);
     
@@ -122,6 +128,22 @@ export class ThemeUIController {
       const themeName = themes[currentTheme] || currentTheme;
       this.themeBtn.title = `Theme: ${themeName} (Press T to cycle)`;
     }
+  }
+
+  updateDropdownItems() {
+    const availableThemes = this.themeManager.getAvailableThemes();
+    
+    // Show/hide theme items based on availability
+    this.themeItems.forEach(item => {
+      const themeName = item.dataset.theme;
+      if (availableThemes[themeName]) {
+        item.style.display = '';
+        item.classList.remove('disabled');
+      } else {
+        item.style.display = 'none';
+        item.classList.add('disabled');
+      }
+    });
   }
 
   updateActiveTheme(currentTheme) {

@@ -122,12 +122,12 @@
     --fb-slide-heading-color: #000000;
   }
 
-  /* Dark theme overrides - using multiple selectors for Starlight compatibility */
-  [data-theme="dark"],
-  :root[data-theme="dark"],
-  html[data-theme="dark"],
-  .sl-theme-dark,
-  .fb-slide__theme-dark {
+  /* Dark theme overrides - higher specificity to work with Starlight compatibility */
+  .fb-slide__theme-dark,
+  #slide-viewer-modal.fb-slide__theme-dark,
+  .fb-slide__theme-dark .fb-slide__container,
+  [data-slide-theme="dark"] .fb-slide__container,
+  [data-theme="dark"] .fb-slide__container {
     --fb-slide-toc-bg: #1e293b;
     --fb-slide-toc-border: #374151;
     --fb-slide-toc-text: #e2e8f0;
@@ -244,12 +244,11 @@
     --fb-slide-bookmark-remove-text-hover: #dc2626;
   }
 
-  /* Light theme override for slide viewer - using multiple selectors for Starlight compatibility */
-  [data-theme="light"],
-  :root[data-theme="light"],
-  html[data-theme="light"],
-  .sl-theme-light,
-  .fb-slide__theme-light {
+  /* Light theme override for slide viewer - using more specific selectors to override Starlight */
+  .fb-slide__theme-light,
+  #slide-viewer-modal.fb-slide__theme-light,
+  .fb-slide__theme-light .fb-slide__container,
+  [data-slide-theme="light"] .fb-slide__container {
     --fb-slide-toc-bg: #f8fafc;
     --fb-slide-toc-border: #e2e8f0;
     --fb-slide-toc-text: #1f2937;
@@ -330,7 +329,10 @@
   }
 
   /* 🧛 Dracula Theme */
-  .fb-slide__theme-dracula {
+  .fb-slide__theme-dracula,
+  #slide-viewer-modal.fb-slide__theme-dracula,
+  .fb-slide__theme-dracula .fb-slide__container,
+  [data-slide-theme="dracula"] .fb-slide__container {
     --fb-slide-toc-bg: #44475a;
     --fb-slide-toc-border: #6272a4;
     --fb-slide-toc-text: #f8f8f2;
@@ -433,7 +435,10 @@
   }
 
   /* 🐙 GitHub Theme */
-  .fb-slide__theme-github {
+  .fb-slide__theme-github,
+  #slide-viewer-modal.fb-slide__theme-github,
+  .fb-slide__theme-github .fb-slide__container,
+  [data-slide-theme="github"] .fb-slide__container {
     --fb-slide-toc-bg: #21262d;
     --fb-slide-toc-border: #30363d;
     --fb-slide-toc-text: #f0f6fc;
@@ -536,7 +541,10 @@
   }
 
   /* 🎮 Discord Theme */
-  .fb-slide__theme-discord {
+  .fb-slide__theme-discord,
+  #slide-viewer-modal.fb-slide__theme-discord,
+  .fb-slide__theme-discord .fb-slide__container,
+  [data-slide-theme="discord"] .fb-slide__container {
     --fb-slide-toc-bg: #2f3136;
     --fb-slide-toc-border: #40444b;
     --fb-slide-toc-text: #ffffff;
