@@ -21,6 +21,20 @@ export class SlideViewer {
     this.lastFocusableElement = null;
     this.previousActiveElement = null;
 
+    // Define blacklisted HTML elements that should NOT be included in slides
+    this.blacklistedSlideElements = new Set([
+      'SCRIPT',    // JavaScript code
+      'STYLE',     // CSS styles
+      'NOSCRIPT',  // Fallback content
+      'META',      // Metadata
+      'LINK',      // External resources
+      'BASE',      // Base URL
+      'TITLE',     // Page title
+      'HEAD',      // Document head
+      'HTML',      // Root element
+      'BODY'       // Document body
+    ]);
+
     // Core UI elements.
     this.modal = document.getElementById('slide-viewer-modal');
     this.slideContent = document.getElementById('slide-content');
@@ -78,6 +92,14 @@ export class SlideViewer {
 
     this.init();
     this.setupAccessibility();
+  }
+
+  // Helper method to check if an element is allowed in slides
+  isElementAllowed(element) {
+    const tagName = element.tagName;
+    
+    // Element is allowed if it's NOT in the blacklist
+    return !this.blacklistedSlideElements.has(tagName);
   }
 
   createAriaLiveRegion() {
@@ -296,6 +318,20 @@ export class SlideViewer {
       slideViewerTrigger.remove();
     }
 
+    // Remove any slide viewer modal content that might have been included
+    const slideViewerModal = content.querySelector('#slide-viewer-modal');
+    if (slideViewerModal) {
+      slideViewerModal.remove();
+      console.log('Removed slide viewer modal from content');
+    }
+
+    // Remove any TOC elements that might be included
+    const tocElements = content.querySelectorAll('.fb-slide__toc-sidebar, .fb-slide__toc-header');
+    tocElements.forEach(el => {
+      el.remove();
+      console.log('Removed TOC element from content');
+    });
+
     const hrElements = content.querySelectorAll('hr');
     const headingElements = content.querySelectorAll('h1, h2, h3'); // Include H1 headings
     console.log('Found HR elements:', hrElements.length);
@@ -314,9 +350,15 @@ export class SlideViewer {
                             (node.nodeType === Node.ELEMENT_NODE && (node.tagName === 'H1' || node.tagName === 'H2' || node.tagName === 'H3'));
 
         if (isSlideBreak) {
-          // Save previous slide if it has content (but not for HR elements as they're just separators).
-          if (currentSlideContent.children.length > 0 || (currentSlideContent.textContent && currentSlideContent.textContent.trim())) {
-            this.slides.push(currentSlideContent);
+          // Only add slides that have allowed HTML elements
+          if (currentSlideContent.children.length > 0) {
+            const hasAllowedContent = Array.from(currentSlideContent.children).some(child => 
+              this.isElementAllowed(child)
+            );
+            
+            if (hasAllowedContent) {
+              this.slides.push(currentSlideContent);
+            }
           }
 
           // Start new slide.
@@ -331,9 +373,15 @@ export class SlideViewer {
         }
       });
 
-      // Add the last slide if it has content.
-      if (currentSlideContent.children.length > 0 || (currentSlideContent.textContent && currentSlideContent.textContent.trim())) {
-        this.slides.push(currentSlideContent);
+      // Add the last slide if it has allowed HTML elements.
+      if (currentSlideContent.children.length > 0) {
+        const hasAllowedContent = Array.from(currentSlideContent.children).some(child => 
+          this.isElementAllowed(child)
+        );
+        
+        if (hasAllowedContent) {
+          this.slides.push(currentSlideContent);
+        }
       }
     }
 
@@ -342,7 +390,9 @@ export class SlideViewer {
       index: index,
       childCount: slide.children.length,
       textLength: slide.textContent ? slide.textContent.length : 0,
-      firstChild: slide.children[0] ? slide.children[0].tagName : 'none'
+      firstChild: slide.children[0] ? slide.children[0].tagName : 'none',
+      firstHeading: slide.querySelector('h1, h2, h3, h4, h5, h6') ? slide.querySelector('h1, h2, h3, h4, h5, h6').textContent.trim() : 'no heading',
+      className: slide.className || 'no class'
     })));
 
     // Create and insert preview slide as the first slide.

@@ -66,14 +66,8 @@ export class TOCManager {
       let headingLevel = 'h2';
 
       // Special handling for the preview slide (first slide).
-      if (index === 0 && slide.className && slide.className.includes('fb-slide__preview-container')) {
-        // Extract title from the preview slide's h1 heading
-        const previewHeading = slide.querySelector('h1');
-        if (previewHeading && previewHeading.textContent.trim()) {
-          title = previewHeading.textContent.trim();
-        } else {
-          title = 'Slide Overview'; // Fallback
-        }
+      if (index === 0) {
+        title = 'Table of Contents';
         headingLevel = 'h1';
       } else if (heading) {
         title = heading.textContent.trim();

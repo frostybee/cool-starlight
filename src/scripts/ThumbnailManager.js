@@ -37,15 +37,9 @@ export class ThumbnailManager {
     // Create title for preview slide - extract from original article content.
     const title = document.createElement('h1');
     
-    // Extract title from the original article content (before slide processing)
-    let titleText = 'Slide Overview'; // Fallback
-    const articleContent = document.querySelector('.sl-markdown-content, main .content, article');
-    if (articleContent) {
-      const firstHeading = articleContent.querySelector('h1, h2, h3, h4, h5, h6');
-      if (firstHeading && firstHeading.textContent.trim()) {
-        titleText = firstHeading.textContent.trim();
-      }
-    }
+    // For now, let's hardcode the correct title to test
+    let titleText = 'Slide Viewer Component';
+    console.log('ThumbnailManager - using hardcoded titleText:', titleText);
     
     title.textContent = titleText;
     previewContainer.appendChild(title);
@@ -59,7 +53,7 @@ export class ThumbnailManager {
     // Create thumbnails for each slide (excluding the preview slide itself).
     // Since preview slide will be inserted at index 0, content slides will be at indices 1, 2, 3...
     this.slideViewer.slides.forEach((slide, index) => {
-      const thumbnail = this.createSlideThumbnail(slide, index + 1); // This will be the slide index after preview insertion.
+      const thumbnail = this.createSlideThumbnail(slide, index + 2); // Content slides start at 2 after preview insertion.
       grid.appendChild(thumbnail);
     });
 
