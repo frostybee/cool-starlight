@@ -646,6 +646,127 @@
     --fb-slide-bookmark-remove-text-hover: #ffffff;
   }
 
+  /* ⚛️ One Dark Theme (Atom's Theme) */
+  .fb-slide__theme-onedark,
+  #slide-viewer-modal.fb-slide__theme-onedark,
+  .fb-slide__theme-onedark .fb-slide__container,
+  [data-slide-theme="onedark"] .fb-slide__container {
+    --fb-slide-toc-bg: #2c323c;
+    --fb-slide-toc-border: #3e4451;
+    --fb-slide-toc-text: #abb2bf;
+    --fb-slide-toc-hover-bg: #3e4451;
+    --fb-slide-toc-hover-border: #61afef;
+    --fb-slide-toc-hover-shadow: rgba(97, 175, 239, 0.3);
+    --fb-slide-toc-active-bg: #e5c07b;
+    --fb-slide-toc-active-text: #282c34;
+    --fb-slide-toc-active-border: #d19a66;
+    --fb-slide-toc-active-shadow: rgba(229, 192, 123, 0.4);
+    --fb-slide-toc-number-bg: #61afef;
+    --fb-slide-toc-number-text: #282c34;
+    --fb-slide-toc-number-shadow: rgba(97, 175, 239, 0.4);
+    --fb-slide-text-color: #abb2bf;
+    --fb-slide-heading-color: #abb2bf;
+
+    /* Progress Bar Colors for One Dark Theme */
+    --fb-slide-progress-bg: #3e4451;
+    --fb-slide-progress-fill: #98c379;
+    --fb-slide-progress-shadow: rgba(152, 195, 121, 0.4);
+
+    /* Search Highlight Colors for One Dark Theme */
+    --fb-slide__search-highlight-bg: linear-gradient(90deg, #98c379, #56b6c2);
+    --fb-slide__search-highlight-text: #282c34;
+    --fb-slide__search-highlight-border: #98c379;
+    --fb-slide__search-highlight-shadow: rgba(152, 195, 121, 0.4);
+    --fb-slide__search-match-bg: linear-gradient(135deg, #98c379, #56b6c2);
+    --fb-slide__search-match-border: #56b6c2;
+    --fb-slide__search-match-shadow: rgba(86, 182, 194, 0.3);
+
+    /* UI Colors for One Dark Theme */
+    --fb-slide-bg: #282c34;
+    --fb-slide-bg-nav: #2c323c;
+    --fb-slide-bg-sidebar: #21252b;
+    --fb-slide-gray-1: #21252b;
+    --fb-slide-gray-2: #5c6370;
+    --fb-slide-gray-3: #828997;
+    --fb-slide-gray-4: #abb2bf;
+    --fb-slide-gray-5: #d7dae0;
+    --fb-slide-gray-6: #3e4451;
+    --fb-slide-accent: #61afef;
+    --fb-slide-accent-text: #282c34;
+    --fb-slide-accent-high: #528bff;
+    --fb-slide-accent-low: rgba(97, 175, 239, 0.1);
+
+    /* Compact button colors for One Dark Theme */
+    --fb-compact-btn-bg: #3e4451;
+    --fb-compact-btn-bg-hover: #4b5263;
+
+    /* Slide Number Indicator - One Dark Theme */
+    --fb-slide-number-bg: #e06c75;
+    --fb-slide-number-text: #282c34;
+    --fb-slide-number-shadow: rgba(224, 108, 117, 0.4);
+    --fb-slide-number-shadow-hover: rgba(224, 108, 117, 0.6);
+    --fb-slide-number-border: rgba(255, 255, 255, 0.2);
+
+    /* Thumbnail Badge - One Dark Theme */
+    --fb-slide-thumbnail-badge-bg: #c678dd;
+    --fb-slide-thumbnail-badge-text: #282c34;
+    --fb-slide-thumbnail-badge-shadow: rgba(0, 0, 0, 0.3);
+
+    /* Navigation Button Colors - One Dark Theme */
+    --fb-slide-prev-btn-bg: #e06c75;
+    --fb-slide-prev-btn-bg-hover: #f56565;
+    --fb-slide-next-btn-bg: #61afef;
+    --fb-slide-next-btn-bg-hover: #528bff;
+    --fb-slide-close-btn-bg: #e06c75;
+    --fb-slide-close-btn-bg-hover: #f56565;
+    --fb-slide-fullscreen-btn-bg: #98c379;
+    --fb-slide-fullscreen-btn-bg-hover: #68d391;
+    --fb-slide-btn-text: #282c34;
+
+    /* Quote Colors - One Dark Theme */
+    --fb-slide-quote-accent: #e5c07b;
+
+    /* Error Colors - One Dark Theme */
+    --fb-slide-error-bg: #e06c75;
+    --fb-slide-error-text: #282c34;
+
+    /* Laser Pointer - One Dark Theme */
+    --fb-slide-laser-indicator-bg: rgba(224, 108, 117, 0.9);
+    --fb-slide-laser-indicator-text: #282c34;
+
+    /* Bookmark Colors for One Dark Theme */
+    --fb-slide-bookmark-panel-bg: #2c323c;
+    --fb-slide-bookmark-panel-border: #3e4451;
+    --fb-slide-bookmark-panel-shadow: rgba(0, 0, 0, 0.4);
+    --fb-slide-bookmark-header-bg: #21252b;
+    --fb-slide-bookmark-header-text: #abb2bf;
+    --fb-slide-bookmark-toggle-bg: #3e4451;
+    --fb-slide-bookmark-toggle-bg-hover: #4b5263;
+    --fb-slide-bookmark-toggle-text: #abb2bf;
+    --fb-slide-bookmark-toggle-text-hover: #e06c75;
+    --fb-slide-bookmark-toggle-border: #3e4451;
+    --fb-slide-bookmark-toggle-border-hover: #e06c75;
+    --fb-slide-bookmark-btn-bg: #3e4451;
+    --fb-slide-bookmark-btn-bg-hover: #4b5263;
+    --fb-slide-bookmark-btn-text: #abb2bf;
+    --fb-slide-bookmark-btn-text-hover: #e5c07b;
+    --fb-slide-bookmark-btn-border: #3e4451;
+    --fb-slide-bookmark-btn-border-hover: #e5c07b;
+    --fb-slide-bookmark-btn-bookmarked-bg: #e5c07b;
+    --fb-slide-bookmark-btn-bookmarked-bg-hover: #d19a66;
+    --fb-slide-bookmark-btn-bookmarked-text: #282c34;
+    --fb-slide-bookmark-count-bg: #e06c75;
+    --fb-slide-bookmark-count-text: #282c34;
+    --fb-slide-bookmark-item-bg: #2c323c;
+    --fb-slide-bookmark-item-bg-hover: #3e4451;
+    --fb-slide-bookmark-item-border: #3e4451;
+    --fb-slide-bookmark-item-border-hover: #61afef;
+    --fb-slide-bookmark-item-text: #abb2bf;
+    --fb-slide-bookmark-number-text: #98c379;
+    --fb-slide-bookmark-remove-bg-hover: #e06c75;
+    --fb-slide-bookmark-remove-text-hover: #abb2bf;
+  }
+
   /* Additional dark theme support for common dark mode patterns */
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {

@@ -8,7 +8,8 @@ export class ThemeManager {
       'dark': 'Dark', 
       'dracula': 'Dracula',
       'github': 'GitHub',
-      'discord': 'Discord'
+      'discord': 'Discord',
+      'onedark': 'One Dark'
     };
     
     this.currentTheme = this.loadTheme();
