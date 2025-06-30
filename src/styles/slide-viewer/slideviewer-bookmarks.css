@@ -59,6 +59,32 @@
   /* Inherits hover styles from .fb-slide__compact-btn */
 }
 
+/* Tooltip for bookmark toggle button */
+.fb-slide__bookmark-toggle::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--sl-color-gray-4, #333);
+  color: var(--sl-color-white, #fff);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  pointer-events: none;
+  z-index: 10;
+  margin-bottom: 0.8rem;
+}
+
+.fb-slide__bookmark-toggle:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
 .fb-slide__bookmark-toggle svg {
   width: 1.2rem;
   height: 1.2rem;
