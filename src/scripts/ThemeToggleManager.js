@@ -95,16 +95,16 @@ export class ThemeToggleManager {
       return;
     }
 
-    // Apply theme to both containers
+    // Apply theme to both containers (modal is the main container that search modal inherits from)
     const containers = [slideContainer, modal].filter(Boolean);
     
     containers.forEach(container => {
       if (this.currentTheme === 'dark') {
-        container.classList.add('fb-slide__theme-independent-dark');
-        container.classList.remove('fb-slide__theme-independent-light');
+        container.classList.add('fb-slide__theme-dark');
+        container.classList.remove('fb-slide__theme-light');
       } else {
-        container.classList.add('fb-slide__theme-independent-light');
-        container.classList.remove('fb-slide__theme-independent-dark');
+        container.classList.add('fb-slide__theme-light');
+        container.classList.remove('fb-slide__theme-dark');
       }
     });
 
