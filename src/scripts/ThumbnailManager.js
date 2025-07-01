@@ -131,7 +131,7 @@ export class ThumbnailManager {
     const clickHandler = (event) => {
       event.preventDefault();
       event.stopPropagation();
-      slideViewer.goToSlide(slideNumber);
+      slideViewer.goToSlide(slideNumber - 1);
     };
 
     // Try multiple event binding methods.
@@ -163,7 +163,7 @@ export class ThumbnailManager {
       const clickHandler = (event) => {
         event.preventDefault();
         event.stopPropagation();
-        this.slideViewer.goToSlide(slideNumber);
+        this.slideViewer.goToSlide(slideNumber - 1);
       };
 
       newThumbnail.addEventListener('click', clickHandler);
