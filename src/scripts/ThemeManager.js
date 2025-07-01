@@ -64,6 +64,10 @@ export class ThemeManager {
         container.classList.remove(`fb-slide__theme-${theme}-light`); // Also remove light variants
       });
 
+      // Also remove old legacy theme classes from ThemeToggleManager
+      container.classList.remove('fb-slide__theme-light');
+      container.classList.remove('fb-slide__theme-dark');
+
       // Add the effective theme class.
       container.classList.add(`fb-slide__theme-${effectiveTheme}`);
     });

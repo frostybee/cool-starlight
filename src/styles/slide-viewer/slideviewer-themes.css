@@ -90,22 +90,8 @@
 
   /* Theme definitions - only base colors needed */
   
-  /* Default Theme (Light) */
-  .fb-slide__theme-default {
-    --fb-primary: #3b82f6;
-    --fb-secondary: #64748b;
-    --fb-background: #ffffff;
-    --fb-surface: #f8fafc;
-    --fb-text: #1f2937;
-    --fb-text-muted: #64748b;
-    --fb-border: #e2e8f0;
-    --fb-success: #10b981;
-    --fb-warning: #f59e0b;
-    --fb-error: #ef4444;
-  }
-
   /* Default Theme (Dark) */
-  .fb-slide__theme-default-dark {
+  .fb-slide__theme-default {
     --fb-primary: #3b82f6;
     --fb-secondary: #94a3b8;
     --fb-background: #0f172a;
@@ -115,6 +101,20 @@
     --fb-border: #374151;
     --fb-success: #10b981;
     --fb-warning: #fbbf24;
+    --fb-error: #ef4444;
+  }
+
+  /* Default Theme (light) */
+  .fb-slide__theme-default-light {
+    --fb-primary: #3b82f6;
+    --fb-secondary: #64748b;
+    --fb-background: #ffffff;
+    --fb-surface: #f8fafc;
+    --fb-text: #1f2937;
+    --fb-text-muted: #64748b;
+    --fb-border: #e2e8f0;
+    --fb-success: #10b981;
+    --fb-warning: #f59e0b;
     --fb-error: #ef4444;
   }
 

@@ -15,7 +15,7 @@ export class ThemeToggleManager {
     this.mobileText = null;
     
     this.currentTheme = 'light'; // default
-    this.storageKey = 'slide-viewer-theme';
+    this.storageKey = 'slide-viewer-light-dark-toggle';
     
     this.init();
   }
@@ -87,27 +87,9 @@ export class ThemeToggleManager {
    * Apply the current theme to the slide viewer
    */
   applyTheme() {
-    const slideContainer = document.querySelector('.fb-slide__container');
-    const modal = document.getElementById('slide-viewer-modal');
+    // No longer apply theme classes directly - let ThemeManager handle all theme application
+    // This manager only handles the light/dark toggle state and UI updates
     
-    if (!slideContainer && !modal) {
-      // No containers found yet, theme will be applied when slide viewer opens
-      return;
-    }
-
-    // Apply theme to both containers (modal is the main container that search modal inherits from)
-    const containers = [slideContainer, modal].filter(Boolean);
-    
-    containers.forEach(container => {
-      if (this.currentTheme === 'dark') {
-        container.classList.add('fb-slide__theme-dark');
-        container.classList.remove('fb-slide__theme-light');
-      } else {
-        container.classList.add('fb-slide__theme-light');
-        container.classList.remove('fb-slide__theme-dark');
-      }
-    });
-
     // Update button icons
     this.updateButtonIcons();
     
@@ -130,7 +112,7 @@ export class ThemeToggleManager {
       this.mobileText.textContent = `Light/Dark: ${this.currentTheme === 'light' ? 'Light' : 'Dark'}`;
     }
 
-    // Dispatch custom event for other components to listen to
+    // Dispatch custom event for ThemeManager to listen to
     window.dispatchEvent(new CustomEvent('slideThemeChanged', {
       detail: { theme: this.currentTheme }
     }));
