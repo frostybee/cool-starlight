@@ -148,6 +148,11 @@ export class BookmarkManager {
     this.updateUI();
     this.updateBookmarksList();
     this.updateThumbnailBookmarkIndicators();
+    
+    // Update TOC bookmark indicators
+    if (this.slideViewer.tocManager) {
+      this.slideViewer.tocManager.updateBookmarkIndicators();
+    }
 
     // Announce to screen readers.
     this.slideViewer.ariaLiveRegion.textContent = `Slide ${slideIndex + 1} bookmarked`;
@@ -162,6 +167,11 @@ export class BookmarkManager {
     this.updateUI();
     this.updateBookmarksList();
     this.updateThumbnailBookmarkIndicators();
+    
+    // Update TOC bookmark indicators
+    if (this.slideViewer.tocManager) {
+      this.slideViewer.tocManager.updateBookmarkIndicators();
+    }
 
     // Announce to screen readers.
     this.slideViewer.ariaLiveRegion.textContent = `Slide ${slideIndex + 1} bookmark removed`;

@@ -270,18 +270,30 @@ export class TOCManager {
       const slideContent = document.querySelector('.fb-slide__content');
 
       if (slideContent) {
-        // Get the heading's position relative to the document.
-        const headingOffsetTop = this.getElementOffsetTop(heading, slideContent);
-        const targetPosition = headingOffsetTop - 20; // 20px offset from top.
+        // Check if this is the first TOC item - if so, scroll to top
+        const firstTocItem = this.tocContent.querySelector('.fb-slide__toc-item');
+        const isFirstItem = firstTocItem && firstTocItem.getAttribute('data-heading-id') === headingId;
 
-        console.log('Current scroll position:', slideContent.scrollTop);
-        console.log('Target scroll position:', targetPosition);
-        console.log('Heading offset from container:', headingOffsetTop);
+        if (isFirstItem) {
+          console.log('First TOC item clicked, scrolling to top');
+          slideContent.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        } else {
+          // For other items, get the heading's position relative to the document.
+          const headingOffsetTop = this.getElementOffsetTop(heading, slideContent);
+          const targetPosition = headingOffsetTop - 20; // 20px offset from top.
 
-        slideContent.scrollTo({
-          top: Math.max(0, targetPosition), // Ensure we don't scroll to negative position.
-          behavior: 'smooth'
-        });
+          console.log('Current scroll position:', slideContent.scrollTop);
+          console.log('Target scroll position:', targetPosition);
+          console.log('Heading offset from container:', headingOffsetTop);
+
+          slideContent.scrollTo({
+            top: Math.max(0, targetPosition), // Ensure we don't scroll to negative position.
+            behavior: 'smooth'
+          });
+        }
       } else {
         // Fallback to default scrollIntoView.
         console.log('Using fallback scrollIntoView');
