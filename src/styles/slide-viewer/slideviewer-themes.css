@@ -102,6 +102,9 @@
     --fb-success: #10b981;
     --fb-warning: #fbbf24;
     --fb-error: #ef4444;
+    
+    /* Override hover colors for dark theme - darker instead of brighter */
+    --fb-surface-hover: #334155; /* Darker gray similar to --sl-color-gray-6 */
   }
 
   /* Default Theme (Light) */
@@ -130,6 +133,9 @@
     --fb-success: #50fa7b;
     --fb-warning: #ffb86c;
     --fb-error: #ff5555;
+    
+    /* Override hover colors for dark theme - darker instead of brighter */
+    --fb-surface-hover: #52566f;
   }
 
   /* Dracula Light Theme */
@@ -158,6 +164,9 @@
     --fb-success: #3fb950;
     --fb-warning: #f0883e;
     --fb-error: #da3633;
+    
+    /* Override hover colors for dark theme - darker instead of brighter */
+    --fb-surface-hover: #2f3641;
   }
 
   /* GitHub Light Theme */
@@ -186,6 +195,9 @@
     --fb-success: #57f287;
     --fb-warning: #fee75c;
     --fb-error: #ed4245;
+    
+    /* Override hover colors for dark theme - darker instead of brighter */
+    --fb-surface-hover: #40444b;
   }
 
   /* Discord Light Theme */
@@ -214,6 +226,9 @@
     --fb-success: #98c379;
     --fb-warning: #e5c07b;
     --fb-error: #e06c75;
+    
+    /* Override hover colors for dark theme - darker instead of brighter */
+    --fb-surface-hover: #3e4451;
   }
 
   /* One Dark Light Theme (One Light) */
@@ -242,6 +257,9 @@
     --fb-success: #4cceac;
     --fb-warning: #ffa726;
     --fb-error: #f44336;
+    
+    /* Override hover colors for dark theme - darker instead of brighter */
+    --fb-surface-hover: #1e3a5f;
   }
 
   /* Ocean Light Theme */
