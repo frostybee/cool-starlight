@@ -1,6 +1,6 @@
 /* SlideViewer Theme Styles */
 
-@layer fb-slider-overrides {  
+@layer fbSlideViewer { 
   .fb-slide__modal.fb-slide__theme-independent-light,
   .fb-slide__container.fb-slide__theme-independent-light,
   .fb-slide__theme-independent-light.fb-slide__modal,
@@ -119,6 +119,14 @@
     --fb-slide-bookmark-number-text: #3b82f6;
     --fb-slide-bookmark-remove-bg-hover: #fef2f2;
     --fb-slide-bookmark-remove-text-hover: #dc2626;
+
+    /* TOC Icon Colors for Light Theme */
+    --fb-slide-icon-reading-time: #6b7280;
+    --fb-slide-icon-reading-time-active: rgba(0, 0, 0, 0.6);
+    --fb-slide-icon-bookmark: #f59e0b;
+    --fb-slide-icon-bookmark-active: #d97706;
+    --fb-slide-icon-h1: #8b5cf6;
+    --fb-slide-icon-h1-active: #7c3aed;
 
     /* Text Colors for Light Theme */
     --fb-slide-text-color: #000000 !important;
@@ -443,6 +451,14 @@
     --fb-slide-bookmark-number-text: #3b82f6;
     --fb-slide-bookmark-remove-bg-hover: #7f1d1d;
     --fb-slide-bookmark-remove-text-hover: #dc2626;
+
+    /* TOC Icon Colors for Dark Theme */
+    --fb-slide-icon-reading-time: #9ca3af;
+    --fb-slide-icon-reading-time-active: rgba(255, 255, 255, 0.8);
+    --fb-slide-icon-bookmark: #fbbf24;
+    --fb-slide-icon-bookmark-active: #f59e0b;
+    --fb-slide-icon-h1: #a78bfa;
+    --fb-slide-icon-h1-active: #8b5cf6;
   }
 
 
@@ -572,6 +588,14 @@
     --fb-slide-bookmark-number-text: #bd93f9;
     --fb-slide-bookmark-remove-bg-hover: #ff5555;
     --fb-slide-bookmark-remove-text-hover: #f8f8f2;
+
+    /* TOC Icon Colors for Dracula Theme */
+    --fb-slide-icon-reading-time: #6272a4;
+    --fb-slide-icon-reading-time-active: #282a36;
+    --fb-slide-icon-bookmark: #ffb86c;
+    --fb-slide-icon-bookmark-active: #ff79c6;
+    --fb-slide-icon-h1: #bd93f9;
+    --fb-slide-icon-h1-active: #8be9fd;
   }
 
   /* 🐙 GitHub Theme */
@@ -677,6 +701,14 @@
     --fb-slide-bookmark-number-text: #3fb950;
     --fb-slide-bookmark-remove-bg-hover: #da3633;
     --fb-slide-bookmark-remove-text-hover: #f0f6fc;
+
+    /* TOC Icon Colors for GitHub Theme */
+    --fb-slide-icon-reading-time: #7d8590;
+    --fb-slide-icon-reading-time-active: #0d1117;
+    --fb-slide-icon-bookmark: #f0883e;
+    --fb-slide-icon-bookmark-active: #58a6ff;
+    --fb-slide-icon-h1: #79c0ff;
+    --fb-slide-icon-h1-active: #3fb950;
   }
 
   /* 🎮 Discord Theme */
@@ -782,6 +814,14 @@
     --fb-slide-bookmark-number-text: #57f287;
     --fb-slide-bookmark-remove-bg-hover: #ed4245;
     --fb-slide-bookmark-remove-text-hover: #ffffff;
+
+    /* TOC Icon Colors for Discord Theme */
+    --fb-slide-icon-reading-time: #72767d;
+    --fb-slide-icon-reading-time-active: #ffffff;
+    --fb-slide-icon-bookmark: #fee75c;
+    --fb-slide-icon-bookmark-active: #5865f2;
+    --fb-slide-icon-h1: #5865f2;
+    --fb-slide-icon-h1-active: #57f287;
   }
 
   /* ⚛️ One Dark Theme (Atom's Theme) */
@@ -902,6 +942,14 @@
     --fb-slide-bookmark-number-text: #98c379;
     --fb-slide-bookmark-remove-bg-hover: #e06c75;
     --fb-slide-bookmark-remove-text-hover: #abb2bf;
+
+    /* TOC Icon Colors for One Dark Theme */
+    --fb-slide-icon-reading-time: #5c6370;
+    --fb-slide-icon-reading-time-active: #282c34;
+    --fb-slide-icon-bookmark: #e5c07b;
+    --fb-slide-icon-bookmark-active: #d19a66;
+    --fb-slide-icon-h1: #c678dd;
+    --fb-slide-icon-h1-active: #98c379;
   }
 
   /* Additional dark theme support for common dark mode patterns - DISABLED */

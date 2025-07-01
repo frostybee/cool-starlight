@@ -1,6 +1,6 @@
 /* TOC-specific Styles for SlideViewer */
 
-@layer fb-slider-overrides {
+@layer fbSlideViewer {
   /* Professional TOC Styles with Enhanced Visual Hierarchy */
   .fb-slide__toc-item {
     background: transparent !important;
@@ -116,14 +116,28 @@
     padding: 20px 24px;
   }
 
-  .fb-slide__toc-item.h1::after {
-    content: '=Ê';
+  .fb-slide__toc-h1-icon {
     position: absolute;
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 1.2rem;
     opacity: 0.7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .fb-slide__toc-h1-icon svg {
+    width: 18px;
+    height: 18px;
+    color: var(--fb-slide-icon-h1, #8b5cf6);
+    stroke: var(--fb-slide-icon-h1, #8b5cf6);
+  }
+  
+  /* Darker purple in active state */
+  .fb-slide__toc-item.active .fb-slide__toc-h1-icon svg {
+    color: var(--fb-slide-icon-h1-active, #7c3aed);
+    stroke: var(--fb-slide-icon-h1-active, #7c3aed);
   }
 
   .fb-slide__toc-item.h2 {
@@ -370,9 +384,24 @@
     font-weight: 500;
   }
 
-  .fb-slide__toc-reading-time::before {
-    content: 'ñ';
-    font-size: 0.8rem;
+  .fb-slide__toc-reading-time .fb-slide__toc-icon {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 6px;
+    flex-shrink: 0;
+  }
+  
+  .fb-slide__toc-reading-time .fb-slide__toc-icon svg {
+    width: 16px;
+    height: 16px;
+    color: var(--fb-slide-icon-reading-time, #6b7280);
+    stroke: var(--fb-slide-icon-reading-time, #6b7280);
+  }
+  
+  /* Darker color in active state */
+  .fb-slide__toc-item.active .fb-slide__toc-reading-time .fb-slide__toc-icon svg {
+    color: var(--fb-slide-icon-reading-time-active, rgba(0, 0, 0, 0.6));
+    stroke: var(--fb-slide-icon-reading-time-active, rgba(0, 0, 0, 0.6));
   }
 
   .fb-slide__toc-bookmark-indicator {
@@ -384,9 +413,24 @@
     opacity: 0.9;
   }
 
-  .fb-slide__toc-bookmark-indicator::before {
-    content: 'P';
-    font-size: 0.8rem;
+  .fb-slide__toc-bookmark-indicator .fb-slide__toc-icon {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 4px;
+    flex-shrink: 0;
+  }
+  
+  .fb-slide__toc-bookmark-indicator .fb-slide__toc-icon svg {
+    width: 16px;
+    height: 16px;
+    color: var(--fb-slide-icon-bookmark, #f59e0b);
+    fill: var(--fb-slide-icon-bookmark, #f59e0b);
+  }
+  
+  /* Enhanced star color in active state */
+  .fb-slide__toc-item.active .fb-slide__toc-bookmark-indicator .fb-slide__toc-icon svg {
+    color: var(--fb-slide-icon-bookmark-active, #d97706);
+    fill: var(--fb-slide-icon-bookmark-active, #d97706);
   }
 
   .fb-slide__toc-item-preview {

@@ -106,19 +106,41 @@ export class TOCManager {
       readingTime.className = 'fb-slide__toc-reading-time';
       const wordCount = this.estimateWordCount(slide);
       const readingTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
-      readingTime.textContent = `${readingTimeMinutes} min`;
+      
+      // Create SVG icon for reading time
+      const clockIcon = document.createElement('span');
+      clockIcon.className = 'fb-slide__toc-icon';
+      clockIcon.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>`;
+      
+      readingTime.appendChild(clockIcon);
+      readingTime.appendChild(document.createTextNode(`${readingTimeMinutes} min`));
       
       // Bookmark indicator (if slide is bookmarked).
       const bookmarkIndicator = document.createElement('span');
       bookmarkIndicator.className = 'fb-slide__toc-bookmark-indicator';
       bookmarkIndicator.style.display = 'none'; // Hidden by default, shown when bookmarked
-      bookmarkIndicator.textContent = 'Bookmarked';
+      
+      // Create SVG icon for bookmark (filled star like thumbnails)
+      const starIcon = document.createElement('span');
+      starIcon.className = 'fb-slide__toc-icon';
+      starIcon.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>`;
+      
+      bookmarkIndicator.appendChild(starIcon);
+      bookmarkIndicator.appendChild(document.createTextNode('Bookmarked'));
       
       metaElement.appendChild(readingTime);
       metaElement.appendChild(bookmarkIndicator);
       
       titleElement.appendChild(mainTitle);
       titleElement.appendChild(metaElement);
+      
+      // Add chart icon for h1 items
+      if (headingLevel === 'h1') {
+        const chartIcon = document.createElement('span');
+        chartIcon.className = 'fb-slide__toc-h1-icon';
+        chartIcon.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>`;
+        tocItem.appendChild(chartIcon);
+      }
 
       // Create hover preview.
       const previewElement = document.createElement('div');
@@ -221,7 +243,14 @@ export class TOCManager {
       readingTime.className = 'fb-slide__toc-reading-time';
       const sectionWordCount = this.estimateHeadingSectionWordCount(heading);
       const readingTimeMinutes = Math.max(1, Math.ceil(sectionWordCount / 200));
-      readingTime.textContent = `${readingTimeMinutes} min`;
+      
+      // Create SVG icon for reading time
+      const clockIcon = document.createElement('span');
+      clockIcon.className = 'fb-slide__toc-icon';
+      clockIcon.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>`;
+      
+      readingTime.appendChild(clockIcon);
+      readingTime.appendChild(document.createTextNode(`${readingTimeMinutes} min`));
       
       metaElement.appendChild(readingTime);
       titleElement.appendChild(mainTitle);

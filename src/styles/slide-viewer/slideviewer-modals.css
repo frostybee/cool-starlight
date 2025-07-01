@@ -1,6 +1,6 @@
 /* SlideViewer Modal Styles */
 
-@layer fb-slider-overrides {
+@layer fbSlideViewer {
   /* Main Slide Modal Container */
   .fb-slide__modal {
     position: fixed;

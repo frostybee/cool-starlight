@@ -1,4 +1,4 @@
-@layer Starlight, fb-slider-overrides;
+@layer Starlight, fbSlideViewer;
 
 @import 'slideviewer-themes.css';
 @import 'slideviewer-modals.css';

@@ -1,6 +1,6 @@
 /* SlideViewer Global Styles */
 
-@layer fb-slider-overrides {
+@layer fbSlideViewer {
   /* Default slide viewer trigger styles */
   #slide-viewer-trigger {
     margin: 1rem 0;
