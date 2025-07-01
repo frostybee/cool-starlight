@@ -1203,6 +1203,112 @@
     }
   }
 
+  /* Theme Selector Dropdown Styles */
+  .fb-slide__theme-selector {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .fb-slide__theme-dropdown {
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--fb-background);
+    border: 1px solid var(--fb-border);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    min-width: 180px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    animation: themeDropdownSlide 0.2s ease-out;
+  }
+
+  .fb-slide__theme-dropdown.hidden {
+    display: none;
+  }
+
+  .fb-slide__theme-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: none;
+    border: none;
+    color: var(--fb-text);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 0.9rem;
+    text-align: left;
+    border-bottom: 1px solid var(--fb-border);
+  }
+
+  .fb-slide__theme-item:last-child {
+    border-bottom: none;
+  }
+
+  .fb-slide__theme-item:hover {
+    background: var(--fb-surface-hover);
+  }
+
+  .fb-slide__theme-item:focus {
+    outline: none;
+    background: var(--fb-surface-hover);
+    box-shadow: inset 0 0 0 2px var(--fb-primary);
+  }
+
+  .fb-slide__theme-item.active {
+    background: var(--fb-primary);
+    color: var(--fb-btn-primary-text);
+  }
+
+  .fb-slide__theme-item.active:hover {
+    background: var(--fb-primary-hover);
+  }
+
+  .fb-slide__theme-item svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .fb-slide__theme-emoji {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .fb-slide__theme-text {
+    flex: 1;
+    font-weight: 400;
+  }
+
+  .theme-selector-btn.active {
+    background: var(--fb-primary) !important;
+    color: var(--fb-btn-primary-text) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px var(--fb-primary-light);
+  }
+
+  /* Theme dropdown animations */
+  @keyframes themeDropdownSlide {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
   /* Reduced Motion Support */
   @media (prefers-reduced-motion: reduce) {
     .skip-link,
@@ -1217,6 +1323,10 @@
       transition: none;
       transform: none;
       opacity: 1;
+    }
+
+    .fb-slide__theme-dropdown {
+      animation: none;
     }
   }
 }
