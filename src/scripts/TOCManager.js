@@ -92,23 +92,23 @@ export class TOCManager {
       const titleElement = document.createElement('div');
       titleElement.className = 'fb-slide__toc-item-title';
       
-      // Main title
+      // Main title.
       const mainTitle = document.createElement('div');
       mainTitle.className = 'fb-slide__toc-item-main-title';
       mainTitle.textContent = title;
       
-      // Meta information
+      // Meta information.
       const metaElement = document.createElement('div');
       metaElement.className = 'fb-slide__toc-item-meta';
       
-      // Reading time estimate
+      // Reading time estimate.
       const readingTime = document.createElement('span');
       readingTime.className = 'fb-slide__toc-reading-time';
       const wordCount = this.estimateWordCount(slide);
       const readingTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
       readingTime.textContent = `${readingTimeMinutes} min`;
       
-      // Bookmark indicator (if slide is bookmarked)
+      // Bookmark indicator (if slide is bookmarked).
       const bookmarkIndicator = document.createElement('span');
       bookmarkIndicator.className = 'fb-slide__toc-bookmark-indicator';
       bookmarkIndicator.style.display = 'none'; // Hidden by default, shown when bookmarked
@@ -120,14 +120,14 @@ export class TOCManager {
       titleElement.appendChild(mainTitle);
       titleElement.appendChild(metaElement);
 
-      // Create hover preview
+      // Create hover preview.
       const previewElement = document.createElement('div');
       previewElement.className = 'fb-slide__toc-item-preview';
       
       const previewContent = document.createElement('div');
       previewContent.className = 'fb-slide__toc-preview-content';
       
-      // Extract preview text from slide content
+      // Extract preview text from slide content.
       const slideClone = slide.cloneNode(true);
       // Remove headings from preview
       const headings = slideClone.querySelectorAll('h1, h2, h3, h4, h5, h6');
@@ -158,7 +158,7 @@ export class TOCManager {
 
     console.log('TOC items created, total:', this.slideViewer.slides.length);
     this.updateTocSelection();
-    // Update bookmark indicators after TOC creation
+    // Update bookmark indicators after TOC creation.
     setTimeout(() => this.updateBookmarkIndicators(), 100);
   }
 
@@ -207,16 +207,16 @@ export class TOCManager {
       const titleElement = document.createElement('div');
       titleElement.className = 'fb-slide__toc-item-title';
       
-      // Main title
+      // Main title.
       const mainTitle = document.createElement('div');
       mainTitle.className = 'fb-slide__toc-item-main-title';
       mainTitle.textContent = title;
       
-      // Meta information
+      // Meta information.
       const metaElement = document.createElement('div');
       metaElement.className = 'fb-slide__toc-item-meta';
       
-      // Reading time estimate for section
+      // Reading time estimate for section.
       const readingTime = document.createElement('span');
       readingTime.className = 'fb-slide__toc-reading-time';
       const sectionWordCount = this.estimateHeadingSectionWordCount(heading);
@@ -227,14 +227,14 @@ export class TOCManager {
       titleElement.appendChild(mainTitle);
       titleElement.appendChild(metaElement);
 
-      // Create hover preview for reading mode
+      // Create hover preview for reading mode.
       const previewElement = document.createElement('div');
       previewElement.className = 'fb-slide__toc-item-preview';
       
       const previewContent = document.createElement('div');
       previewContent.className = 'fb-slide__toc-preview-content';
       
-      // Extract preview text from section content
+      // Extract preview text from section content.
       const sectionContent = this.getSectionContentAfterHeading(heading);
       const previewText = sectionContent || 'No content preview available';
       previewContent.textContent = previewText.length > 200 ? 
@@ -270,7 +270,7 @@ export class TOCManager {
       const slideContent = document.querySelector('.fb-slide__content');
 
       if (slideContent) {
-        // Check if this is the first TOC item - if so, scroll to top
+        // Check if this is the first TOC item - if so, scroll to top.
         const firstTocItem = this.tocContent.querySelector('.fb-slide__toc-item');
         const isFirstItem = firstTocItem && firstTocItem.getAttribute('data-heading-id') === headingId;
 
@@ -393,20 +393,20 @@ export class TOCManager {
     }, 50);
   }
 
-  // Helper function to estimate word count in a slide
+  // Helper function to estimate word count in a slide.
   estimateWordCount(slide) {
     const textContent = slide.textContent || '';
-    // Simple word count: split by whitespace and filter empty strings
+    // Simple word count: split by whitespace and filter empty strings.
     const words = textContent.trim().split(/\s+/).filter(word => word.length > 0);
     return words.length;
   }
 
-  // Helper function to estimate word count for a heading section
+  // Helper function to estimate word count for a heading section.
   estimateHeadingSectionWordCount(heading) {
     let wordCount = 0;
     let currentElement = heading.nextElementSibling;
     
-    // Count words until we reach another heading of the same or higher level
+    // Count words until we reach another heading of the same or higher level.
     const headingLevel = parseInt(heading.tagName.charAt(1));
     
     while (currentElement) {
@@ -415,7 +415,7 @@ export class TOCManager {
       if (isHeading) {
         const currentLevel = parseInt(currentElement.tagName.charAt(1));
         if (currentLevel <= headingLevel) {
-          break; // Stop at same or higher level heading
+          break; // Stop at same or higher level heading.
         }
       }
       
@@ -430,12 +430,12 @@ export class TOCManager {
     return wordCount;
   }
 
-  // Helper function to get section content after a heading for preview
+  // Helper function to get section content after a heading for preview.
   getSectionContentAfterHeading(heading) {
     let content = '';
     let currentElement = heading.nextElementSibling;
     
-    // Get content until we reach another heading of the same or higher level
+    // Get content until we reach another heading of the same or higher level.
     const headingLevel = parseInt(heading.tagName.charAt(1));
     
     while (currentElement && content.length < 300) {
@@ -444,7 +444,7 @@ export class TOCManager {
       if (isHeading) {
         const currentLevel = parseInt(currentElement.tagName.charAt(1));
         if (currentLevel <= headingLevel) {
-          break; // Stop at same or higher level heading
+          break; // Stop at same or higher level heading.
         }
       }
       
@@ -461,7 +461,7 @@ export class TOCManager {
     return content;
   }
 
-  // Method to update bookmark indicators for TOC items
+  // Method to update bookmark indicators for TOC items.
   updateBookmarkIndicators() {
     if (!this.slideViewer.bookmarkManager) return;
     

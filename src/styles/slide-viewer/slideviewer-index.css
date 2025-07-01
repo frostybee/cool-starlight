@@ -1,0 +1,7 @@
+@layer Starlight, fb-slider-overrides;
+
+@import 'slideviewer-themes.css';
+@import 'slideviewer-modals.css';
+@import 'slideviewer-bookmarks.css';
+@import 'slideviewer.css';
+@import 'slideviewer-toc.css';
