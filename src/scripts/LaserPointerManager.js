@@ -395,6 +395,17 @@ export class LaserPointerManager {
         e.preventDefault();
       }
     });
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      if (this.isActive) {
+        // Debounce resize events
+        clearTimeout(this.resizeTimeout);
+        this.resizeTimeout = setTimeout(() => {
+          this.resizeCanvas();
+        }, 100);
+      }
+    });
   }
 
   toggle() {

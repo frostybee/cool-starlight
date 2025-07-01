@@ -1721,8 +1721,8 @@
 
   #laser-pointer-indicator {
     position: fixed;
-    bottom: 50px;
-    right: 20px;
+    bottom: 90px;
+    right: 50px;
     background: var(--fb-slide-laser-indicator-bg);
     color: var(--fb-slide-laser-indicator-text);
     padding: 8px 12px;
