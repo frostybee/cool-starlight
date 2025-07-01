@@ -13,7 +13,7 @@
 
   /* Professional TOC Styles with Enhanced Visual Hierarchy */
   .fb-slide__toc-item {
-    background: var(--fb-slide-toc-bg);
+    background: transparent !important;
     border: 2px solid var(--fb-slide-toc-border);
     border-radius: 12px;
     margin: 8px;
@@ -544,7 +544,7 @@
 
   .fb-slide__toc-content .fb-slide__toc-item-container.h3 {
     margin-left: 2rem !important;
-    background: var(--toc-bg) !important;
+    background: none !important;
     border-color: var(--toc-border) !important;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06) !important;
   }

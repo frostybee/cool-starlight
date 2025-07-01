@@ -9,6 +9,7 @@ import { LaserPointerManager } from './LaserPointerManager.js';
 import { KeyboardHelpManager } from './KeyboardHelpManager.js';
 import { ThemeManager } from './ThemeManager.js';
 import { ThemeUIController } from './ThemeUIController.js';
+import { ThemeToggleManager } from './ThemeToggleManager.js';
 import { BookmarkManager } from './BookmarkManager.js';
 
 export class SlideViewer {
@@ -69,6 +70,7 @@ export class SlideViewer {
     this.keyboardHelpManager = new KeyboardHelpManager(this);
     this.themeManager = new ThemeManager(this);
     this.themeUIController = new ThemeUIController(this);
+    this.themeToggleManager = new ThemeToggleManager();
     this.bookmarkManager = new BookmarkManager(this);
 
     // Expose manager properties for backward compatibility.
@@ -862,6 +864,11 @@ export class SlideViewer {
 
     // Exit fullscreen if currently in fullscreen.
     this.fullscreenManager.exitFullscreen();
+
+    // Cleanup theme toggle manager when closing slideshow.
+    if (this.themeToggleManager && this.themeToggleManager.destroy) {
+      this.themeToggleManager.destroy();
+    }
 
     // Announce slideshow closing.
     this.ariaLiveRegion.textContent = 'Slideshow closed';
