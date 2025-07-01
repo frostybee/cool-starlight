@@ -1,6 +1,12 @@
 /* SlideViewer Theme Styles */
 
-@layer fbSlideViewer { 
+@layer fbSlideViewer {
+  /* Base TOC Variables - defaults that get overridden by themes */
+  :root {
+    --toc-number-bg: #3b82f6;
+    --toc-number-text: #ffffff;
+    --toc-number-shadow: rgba(59, 130, 246, 0.4);
+  } 
   .fb-slide__modal.fb-slide__theme-independent-light,
   .fb-slide__container.fb-slide__theme-independent-light,
   .fb-slide__theme-independent-light.fb-slide__modal,
@@ -208,6 +214,9 @@
     --fb-slide-toc-bg: transparent !important;
     --fb-slide-toc-text: #1f2937 !important;
     --fb-slide-toc-hover-bg: transparent !important;
+    --toc-number-bg: var(--fb-slide-thumbnail-badge-bg);
+    --toc-number-text: var(--fb-slide-thumbnail-badge-text);
+    --toc-number-shadow: var(--fb-slide-thumbnail-badge-shadow);
   }
 
   /* Light theme toolbar - uses navigation background */
@@ -317,6 +326,9 @@
     --fb-slide-toc-bg: transparent !important;
     --fb-slide-toc-text: #ffffff !important;
     --fb-slide-toc-hover-bg: transparent !important;
+    --toc-number-bg: var(--fb-slide-thumbnail-badge-bg);
+    --toc-number-text: var(--fb-slide-thumbnail-badge-text);
+    --toc-number-shadow: var(--fb-slide-thumbnail-badge-shadow);
   }
 
   /* Dark theme toolbar - uses navigation background */
@@ -333,7 +345,7 @@
   .fb-slide__theme-independent-light.fb-slide__theme-discord .fb-slide__toc,
   .fb-slide__theme-independent-light.fb-slide__theme-onedark .fb-slide__toc,
   .fb-slide__theme-independent-light [class*="toc"] {
-    background-color: #f8fafc !important;
+    background-color: transparent !important;
     color: #1f2937 !important;
   }
 
@@ -342,7 +354,7 @@
   .fb-slide__theme-independent-dark.fb-slide__theme-discord .fb-slide__toc,
   .fb-slide__theme-independent-dark.fb-slide__theme-onedark .fb-slide__toc,
   .fb-slide__theme-independent-dark [class*="toc"] {
-    background-color: #1e293b !important;
+    background-color: transparent !important;
     color: #ffffff !important;
   }
 
@@ -499,9 +511,9 @@
     --fb-slide-toc-active-text: #282a36;
     --fb-slide-toc-active-border: #ff92d0;
     --fb-slide-toc-active-shadow: rgba(255, 121, 198, 0.6);
-    --fb-slide-toc-number-bg: #bd93f9;
-    --fb-slide-toc-number-text: #282a36;
-    --fb-slide-toc-number-shadow: rgba(189, 147, 249, 0.5);
+    --toc-number-bg: var(--fb-slide-thumbnail-badge-bg);
+    --toc-number-text: var(--fb-slide-thumbnail-badge-text);
+    --toc-number-shadow: var(--fb-slide-thumbnail-badge-shadow);
     --fb-slide-text-color: #f8f8f2;
     --fb-slide-heading-color: #50fa7b !important;
 
@@ -612,9 +624,9 @@
     --fb-slide-toc-active-text: #0d1117;
     --fb-slide-toc-active-border: #79c0ff;
     --fb-slide-toc-active-shadow: rgba(88, 166, 255, 0.5);
-    --fb-slide-toc-number-bg: #3fb950;
-    --fb-slide-toc-number-text: #0d1117;
-    --fb-slide-toc-number-shadow: rgba(63, 185, 80, 0.4);
+    --toc-number-bg: var(--fb-slide-thumbnail-badge-bg);
+    --toc-number-text: var(--fb-slide-thumbnail-badge-text);
+    --toc-number-shadow: var(--fb-slide-thumbnail-badge-shadow);
     --fb-slide-text-color: #f0f6fc;
     --fb-slide-heading-color: #58a6ff !important;
 
@@ -725,9 +737,9 @@
     --fb-slide-toc-active-text: #ffffff;
     --fb-slide-toc-active-border: #4752c4;
     --fb-slide-toc-active-shadow: rgba(88, 101, 242, 0.5);
-    --fb-slide-toc-number-bg: #57f287;
-    --fb-slide-toc-number-text: #2f3136;
-    --fb-slide-toc-number-shadow: rgba(87, 242, 135, 0.4);
+    --toc-number-bg: var(--fb-slide-thumbnail-badge-bg);
+    --toc-number-text: var(--fb-slide-thumbnail-badge-text);
+    --toc-number-shadow: var(--fb-slide-thumbnail-badge-shadow);
     --fb-slide-text-color: #ffffff;
     --fb-slide-heading-color: #5865f2 !important;
 
@@ -838,9 +850,9 @@
     --fb-slide-toc-active-text: #282c34;
     --fb-slide-toc-active-border: #d19a66;
     --fb-slide-toc-active-shadow: rgba(229, 192, 123, 0.4);
-    --fb-slide-toc-number-bg: #61afef;
-    --fb-slide-toc-number-text: #282c34;
-    --fb-slide-toc-number-shadow: rgba(97, 175, 239, 0.4);
+    --toc-number-bg: var(--fb-slide-thumbnail-badge-bg);
+    --toc-number-text: var(--fb-slide-thumbnail-badge-text);
+    --toc-number-shadow: var(--fb-slide-thumbnail-badge-shadow);
     --fb-slide-text-color: #abb2bf;
     --fb-slide-heading-color: #abb2bf !important;
 
@@ -951,6 +963,7 @@
     --fb-slide-icon-h1: #c678dd;
     --fb-slide-icon-h1-active: #98c379;
   }
+
 
   /* Additional dark theme support for common dark mode patterns - DISABLED */
   /* This section is disabled to prevent system preferences from affecting slide viewer themes */

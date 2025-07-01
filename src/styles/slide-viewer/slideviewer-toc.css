@@ -275,9 +275,9 @@
   }
 
   .fb-slide__toc-item-container:has(.fb-slide__toc-item.active) .fb-slide__toc-item-number {
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-    color: #ffffff;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.5);
+    background: var(--toc-number-bg);
+    color: var(--toc-number-text);
+    box-shadow: 0 4px 15px var(--toc-number-shadow);
   }
 
   .fb-slide__toc-item-number {
@@ -286,20 +286,19 @@
     justify-content: center;
     width: 32px;
     height: 32px;
-    background: var(--fb-slide-toc-number-bg);
+    background: var(--toc-number-bg);
     border-radius: 50%;
     font-size: 0.8rem;
     font-weight: 700;
-    color: var(--fb-slide-toc-number-text);
+    color: var(--toc-number-text);
     flex-shrink: 0;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 16px var(--fb-slide-toc-number-shadow), 
+    box-shadow: 0 4px 16px var(--toc-number-shadow), 
                 0 0 0 2px rgba(255, 255, 255, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
     border: 2px solid rgba(255, 255, 255, 0.2);
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   }
 
   /* Progress ring animation */
@@ -336,9 +335,9 @@
   }
 
   .fb-slide__toc-item-container:hover .fb-slide__toc-item-number {
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    background: var(--toc-number-bg);
     transform: scale(1.2) rotate(10deg);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 6px 20px var(--toc-number-shadow);
     border-color: rgba(255, 255, 255, 0.4);
   }
 
@@ -504,13 +503,13 @@
     width: 24px;
     height: 24px;
     font-size: 0.7rem;
-    background: linear-gradient(135deg, #6366f1, #a855f7);
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+    background: var(--toc-number-bg);
+    box-shadow: 0 2px 8px var(--toc-number-shadow);
   }
 
   .fb-slide__toc-item-container.h3:hover .fb-slide__toc-item-number {
     transform: scale(1.15) rotate(8deg);
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.6);
+    box-shadow: 0 4px 15px var(--toc-number-shadow);
   }
 
   /* Enhanced Accessibility and Focus Indicators */
