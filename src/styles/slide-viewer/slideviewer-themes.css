@@ -230,6 +230,34 @@
     --fb-error: #e45649;
   }
 
+  /* Ocean Theme (Dark) */
+  .fb-slide__theme-ocean {
+    --fb-primary: #00d4ff;
+    --fb-secondary: #64b5f6;
+    --fb-background: #0a1929;
+    --fb-surface: #132f4c;
+    --fb-text: #ffffff;
+    --fb-text-muted: #b3d9ff;
+    --fb-border: #1e3a5f;
+    --fb-success: #4cceac;
+    --fb-warning: #ffa726;
+    --fb-error: #f44336;
+  }
+
+  /* Ocean Light Theme */
+  .fb-slide__theme-ocean-light {
+    --fb-primary: #0288d1;
+    --fb-secondary: #546e7a;
+    --fb-background: #ffffff;
+    --fb-surface: #f8fcff;
+    --fb-text: #0d47a1;
+    --fb-text-muted: #546e7a;
+    --fb-border: #bbdefb;
+    --fb-success: #00695c;
+    --fb-warning: #ef6c00;
+    --fb-error: #c62828;
+  }
+
   /* Component-specific overrides when needed */
   .fb-slide__theme-dracula {
     --fb-toc-active-text: #282a36; /* Dark text on pink background */

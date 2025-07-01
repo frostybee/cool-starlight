@@ -8,7 +8,8 @@ export class ThemeManager {
       'dracula': 'Dracula',
       'github': 'GitHub',
       'discord': 'Discord',
-      'onedark': 'One Dark'
+      'onedark': 'One Dark',
+      'ocean': 'Ocean'
     };
 
     this.currentTheme = this.loadTheme();
@@ -91,7 +92,7 @@ export class ThemeManager {
     const isLightMode = themeToggleManager?.getCurrentTheme() === 'light';
 
     // All themes now have light/dark variants
-    const themesWithVariants = ['default', 'dracula', 'github', 'discord', 'onedark'];
+    const themesWithVariants = ['default', 'dracula', 'github', 'discord', 'onedark', 'ocean'];
     
     if (themesWithVariants.includes(this.currentTheme)) {
       if (this.currentTheme === 'default') {
