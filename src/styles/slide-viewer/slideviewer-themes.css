@@ -90,8 +90,8 @@
 
   /* Theme definitions - only base colors needed */
   
-  /* Light Theme */
-  .fb-slide__theme-light {
+  /* Default Theme (Light) */
+  .fb-slide__theme-default {
     --fb-primary: #3b82f6;
     --fb-secondary: #64748b;
     --fb-background: #ffffff;
@@ -104,8 +104,8 @@
     --fb-error: #ef4444;
   }
 
-  /* Dark Theme */
-  .fb-slide__theme-dark {
+  /* Default Theme (Dark) */
+  .fb-slide__theme-default-dark {
     --fb-primary: #3b82f6;
     --fb-secondary: #94a3b8;
     --fb-background: #0f172a;
@@ -132,6 +132,20 @@
     --fb-error: #ff5555;
   }
 
+  /* Dracula Light Theme */
+  .fb-slide__theme-dracula-light {
+    --fb-primary: #bd5eff;
+    --fb-secondary: #6272a4;
+    --fb-background: #f8f8f2;
+    --fb-surface: #ffffff;
+    --fb-text: #282a36;
+    --fb-text-muted: #6272a4;
+    --fb-border: #d0d1d6;
+    --fb-success: #42b883;
+    --fb-warning: #f76707;
+    --fb-error: #dc2626;
+  }
+
   /* GitHub Theme */
   .fb-slide__theme-github {
     --fb-primary: #58a6ff;
@@ -144,6 +158,20 @@
     --fb-success: #3fb950;
     --fb-warning: #f0883e;
     --fb-error: #da3633;
+  }
+
+  /* GitHub Light Theme */
+  .fb-slide__theme-github-light {
+    --fb-primary: #0969da;
+    --fb-secondary: #656d76;
+    --fb-background: #ffffff;
+    --fb-surface: #f6f8fa;
+    --fb-text: #1f2328;
+    --fb-text-muted: #656d76;
+    --fb-border: #d1d9e0;
+    --fb-success: #1a7f37;
+    --fb-warning: #bf8700;
+    --fb-error: #d1242f;
   }
 
   /* Discord Theme */
@@ -160,6 +188,20 @@
     --fb-error: #ed4245;
   }
 
+  /* Discord Light Theme */
+  .fb-slide__theme-discord-light {
+    --fb-primary: #5865f2;
+    --fb-secondary: #5c6f7f;
+    --fb-background: #ffffff;
+    --fb-surface: #f2f3f5;
+    --fb-text: #2e3338;
+    --fb-text-muted: #5c6f7f;
+    --fb-border: #e3e5e8;
+    --fb-success: #23a559;
+    --fb-warning: #f0b232;
+    --fb-error: #d83c3e;
+  }
+
   /* One Dark Theme */
   .fb-slide__theme-onedark {
     --fb-primary: #61afef;
@@ -172,6 +214,20 @@
     --fb-success: #98c379;
     --fb-warning: #e5c07b;
     --fb-error: #e06c75;
+  }
+
+  /* One Dark Light Theme (One Light) */
+  .fb-slide__theme-onedark-light {
+    --fb-primary: #4078f2;
+    --fb-secondary: #6b7394;
+    --fb-background: #fafafa;
+    --fb-surface: #ffffff;
+    --fb-text: #383a42;
+    --fb-text-muted: #6b7394;
+    --fb-border: #e5e5e6;
+    --fb-success: #50a14f;
+    --fb-warning: #c18401;
+    --fb-error: #e45649;
   }
 
   /* Component-specific overrides when needed */

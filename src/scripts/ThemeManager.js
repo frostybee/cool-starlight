@@ -4,8 +4,7 @@ export class ThemeManager {
 
     // Available themes with their display names.
     this.themes = {
-      'light': 'Light',
-      'dark': 'Dark',
+      'default': 'Default',
       'dracula': 'Dracula',
       'github': 'GitHub',
       'discord': 'Discord',
@@ -22,22 +21,17 @@ export class ThemeManager {
     document.addEventListener('theme-changed', (e) => {
       this.setTheme(e.detail.theme);
     });
+
+    // Listen for light/dark toggle changes from ThemeToggleManager
+    window.addEventListener('slideThemeChanged', (e) => {
+      this.handleLightDarkToggle(e.detail.theme);
+    });
   }
 
   setTheme(theme) {
     if (!this.themes[theme]) {
       console.warn(`Theme "${theme}" not found. Available themes:`, Object.keys(this.themes));
       return;
-    }
-
-    // Check for conflicts with Starlight theme.
-    const starlightTheme = this.getStarlightTheme();
-    if (starlightTheme === 'dark' && theme === 'light') {
-      console.warn('Light theme disabled when Starlight is in dark mode to prevent conflicts. Switching to dracula theme.');
-      theme = 'dracula';
-    } else if (starlightTheme === 'light' && theme === 'dark') {
-      console.warn('Dark theme disabled when Starlight is in light mode to prevent conflicts. Switching to github theme.');
-      theme = 'github';
     }
 
     this.currentTheme = theme;
@@ -52,44 +46,62 @@ export class ThemeManager {
 
   applyTheme() {
     const modal = this.slideViewer.modal;
+    const slideContainer = document.querySelector('.fb-slide__container');
+    
     if (!modal) return;
 
-    // Remove all existing theme classes.
-    Object.keys(this.themes).forEach(theme => {
-      modal.classList.remove(`fb-slide__theme-${theme}`);
+    // Apply to both modal and container like ThemeToggleManager does
+    const containers = [modal, slideContainer].filter(Boolean);
+
+    // Get the effective theme (considering light/dark variants)
+    const effectiveTheme = this.getEffectiveTheme();
+
+    containers.forEach(container => {
+      // Remove all existing theme classes.
+      Object.keys(this.themes).forEach(theme => {
+        container.classList.remove(`fb-slide__theme-${theme}`);
+        container.classList.remove(`fb-slide__theme-${theme}-light`); // Also remove light variants
+      });
+
+      // Add the effective theme class.
+      container.classList.add(`fb-slide__theme-${effectiveTheme}`);
     });
 
-    // Add the current theme class.
-    modal.classList.add(`fb-slide__theme-${this.currentTheme}`);
-
     // Also set on document for global theme awareness.
-    document.documentElement.setAttribute('data-slide-theme', this.currentTheme);
+    document.documentElement.setAttribute('data-slide-theme', effectiveTheme);
   }
 
   checkThemeCompatibility() {
-    const starlightTheme = this.getStarlightTheme();
-    const currentTheme = this.getCurrentTheme();
-
-    // Check if current theme is incompatible with Starlight theme.
-    const isIncompatible = (starlightTheme === 'dark' && currentTheme === 'light') ||
-                          (starlightTheme === 'light' && currentTheme === 'dark');
-
-    if (isIncompatible) {
-      console.warn(`Current theme "${currentTheme}" is incompatible with Starlight theme "${starlightTheme}". Switching to compatible theme.`);
-
-      // Switch to a compatible theme.
-      let newTheme;
-      if (starlightTheme === 'dark') {
-        newTheme = 'dracula';
-      } else {
-        newTheme = 'github';
-      }
-
-      this.setTheme(newTheme);
-    }
+    // No longer needed - all themes work with both light and dark Starlight modes
+    // since they have light/dark variants controlled by the toggle
   }
 
   getCurrentTheme() {
+    return this.currentTheme;
+  }
+
+  handleLightDarkToggle(toggleTheme) {
+    // Re-apply current theme to pick up the new light/dark variant
+    this.applyTheme();
+  }
+
+  getEffectiveTheme() {
+    // Get the light/dark state from ThemeToggleManager
+    const themeToggleManager = this.slideViewer.themeToggleManager;
+    const isLightMode = themeToggleManager?.getCurrentTheme() === 'light';
+
+    // All themes now have light/dark variants
+    const themesWithVariants = ['default', 'dracula', 'github', 'discord', 'onedark'];
+    
+    if (themesWithVariants.includes(this.currentTheme)) {
+      if (this.currentTheme === 'default') {
+        return isLightMode ? 'default' : 'default-dark';
+      } else {
+        return isLightMode ? `${this.currentTheme}-light` : this.currentTheme;
+      }
+    }
+
+    // Fallback (shouldn't happen with current themes)
     return this.currentTheme;
   }
 
@@ -98,17 +110,8 @@ export class ThemeManager {
   }
 
   getAvailableThemes() {
-    const starlightTheme = this.getStarlightTheme();
-    const availableThemes = { ...this.themes };
-
-    // Filter incompatible themes based on Starlight theme.
-    if (starlightTheme === 'dark') {
-      delete availableThemes.light;
-    } else if (starlightTheme === 'light') {
-      delete availableThemes.dark;
-    }
-
-    return availableThemes;
+    // All themes are now always available since they have light/dark variants
+    return { ...this.themes };
   }
 
   cycleTheme() {
@@ -125,28 +128,21 @@ export class ThemeManager {
     try {
       const savedTheme = localStorage.getItem('slideViewer-theme');
       if (savedTheme && this.themes[savedTheme]) {
-        // Check for conflicts with Starlight theme.
-        const starlightTheme = this.getStarlightTheme();
-        if (starlightTheme === 'dark' && savedTheme === 'light') {
-          console.warn('Saved light theme conflicts with Starlight dark mode. Using dracula theme instead.');
-          return 'dracula';
-        } else if (starlightTheme === 'light' && savedTheme === 'dark') {
-          console.warn('Saved dark theme conflicts with Starlight light mode. Using github theme instead.');
-          return 'github';
-        }
         return savedTheme;
+      }
+      // Handle legacy theme names
+      if (savedTheme === 'light') {
+        return 'default';
+      }
+      if (savedTheme === 'dark') {
+        return 'default';
       }
     } catch (error) {
       console.log('Error loading theme from localStorage:', error);
     }
 
-    // Choose default theme based on Starlight theme.
-    const starlightTheme = this.getStarlightTheme();
-    if (starlightTheme === 'light') {
-      return 'github'; // Default for light Starlight.
-    } else {
-      return 'dracula'; // Default for dark Starlight.
-    }
+    // Default theme for all Starlight modes
+    return 'default';
   }
 
   saveTheme() {
