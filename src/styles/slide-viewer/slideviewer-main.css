@@ -23,7 +23,7 @@
     width: calc(100% - 16px);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    color: #1e3a8a !important;
+    color: var(--fb-slide-toc-text) !important;
     text-decoration: none;
     text-align: left;
     font-size: 1rem;

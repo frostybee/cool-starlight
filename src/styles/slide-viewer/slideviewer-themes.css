@@ -130,7 +130,7 @@
   [data-theme="dark"] .fb-slide__container {
     --fb-slide-toc-bg: #1e293b;
     --fb-slide-toc-border: #374151;
-    --fb-slide-toc-text: #e2e8f0;
+    --fb-slide-toc-text: #ffffff;
     --fb-slide-toc-hover-bg: #334155;
     --fb-slide-toc-hover-border: #3b82f6;
     --fb-slide-toc-hover-shadow: rgba(59, 130, 246, 0.3);
@@ -328,6 +328,28 @@
     color: #000000 !important;
   }
 
+  /* Dracula theme overrides when Starlight is in light mode */
+  [data-theme="light"] .fb-slide__theme-dracula,
+  [data-theme="light"] #slide-viewer-modal.fb-slide__theme-dracula,
+  [data-theme="light"] .fb-slide__theme-dracula .fb-slide__container,
+  .sl-theme-light .fb-slide__theme-dracula,
+  .sl-theme-light #slide-viewer-modal.fb-slide__theme-dracula,
+  .sl-theme-light .fb-slide__theme-dracula .fb-slide__container {
+    --fb-slide-heading-color: #2d8653;
+    --fb-slide-toc-text: #2d8653;
+  }
+
+  /* One Dark theme overrides when Starlight is in light mode */
+  [data-theme="light"] .fb-slide__theme-onedark,
+  [data-theme="light"] #slide-viewer-modal.fb-slide__theme-onedark,
+  [data-theme="light"] .fb-slide__theme-onedark .fb-slide__container,
+  .sl-theme-light .fb-slide__theme-onedark,
+  .sl-theme-light #slide-viewer-modal.fb-slide__theme-onedark,
+  .sl-theme-light .fb-slide__theme-onedark .fb-slide__container {
+    --fb-slide-heading-color: #2d3748;
+    --fb-slide-toc-text: #2d3748;
+  }
+
   /* 🧛 Dracula Theme */
   .fb-slide__theme-dracula,
   #slide-viewer-modal.fb-slide__theme-dracula,
@@ -335,7 +357,7 @@
   [data-slide-theme="dracula"] .fb-slide__container {
     --fb-slide-toc-bg: #44475a;
     --fb-slide-toc-border: #6272a4;
-    --fb-slide-toc-text: #f8f8f2;
+    --fb-slide-toc-text: #50fa7b;
     --fb-slide-toc-hover-bg: #6272a4;
     --fb-slide-toc-hover-border: #ff79c6;
     --fb-slide-toc-hover-shadow: rgba(255, 121, 198, 0.4);
@@ -441,7 +463,7 @@
   [data-slide-theme="github"] .fb-slide__container {
     --fb-slide-toc-bg: #21262d;
     --fb-slide-toc-border: #30363d;
-    --fb-slide-toc-text: #f0f6fc;
+    --fb-slide-toc-text: #58a6ff;
     --fb-slide-toc-hover-bg: #30363d;
     --fb-slide-toc-hover-border: #58a6ff;
     --fb-slide-toc-hover-shadow: rgba(88, 166, 255, 0.3);
@@ -547,7 +569,7 @@
   [data-slide-theme="discord"] .fb-slide__container {
     --fb-slide-toc-bg: #2f3136;
     --fb-slide-toc-border: #40444b;
-    --fb-slide-toc-text: #ffffff;
+    --fb-slide-toc-text: #5865f2;
     --fb-slide-toc-hover-bg: #40444b;
     --fb-slide-toc-hover-border: #5865f2;
     --fb-slide-toc-hover-shadow: rgba(88, 101, 242, 0.3);
@@ -772,7 +794,7 @@
     :root:not([data-theme="light"]) {
       --fb-slide-toc-bg: #1e293b;
       --fb-slide-toc-border: #374151;
-      --fb-slide-toc-text: #e2e8f0;
+      --fb-slide-toc-text: #ffffff;
       --fb-slide-toc-hover-bg: #334155;
       --fb-slide-toc-hover-border: #3b82f6;
       --fb-slide-toc-hover-shadow: rgba(59, 130, 246, 0.3);
