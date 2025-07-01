@@ -1204,6 +1204,12 @@
     position: relative;
   }
 
+  /* In reading mode, align mobile nav items to the right */
+  .fb-slide__main-area .fb-slide__content.fb-slide__content-reading-mode ~ .fb-slide__navigation .fb-slide__nav-mobile {
+    justify-content: flex-end !important;
+    gap: 1rem;
+  }
+
   .fb-slide__nav-mobile-btn {
     background: var(--sl-color-accent);
     color: var(--sl-color-accent-text);
@@ -1269,6 +1275,34 @@
     min-width: 200px;
     overflow: hidden;
     transition: all 0.2s ease;
+  }
+
+  /* Force mobile dropdown to center/right on small screens */
+  @media (max-width: 768px) {
+    .fb-slide__mobile-dropdown {
+      right: 50% !important;
+      transform: translateX(50%) !important;
+      left: auto !important;
+    }
+  }
+
+  /* Position mobile menu to the right in reading mode */
+  .fb-slide__main-area .fb-slide__content.fb-slide__content-reading-mode ~ .fb-slide__navigation .fb-slide__mobile-dropdown {
+    right: 10px !important;
+    left: auto !important;
+    transform: none !important;
+    min-width: 200px !important;
+    max-width: calc(100vw - 20px) !important;
+  }
+
+  /* Also handle small screen case specifically */
+  @media (max-width: 480px) {
+    .fb-slide__main-area .fb-slide__content.fb-slide__content-reading-mode ~ .fb-slide__navigation .fb-slide__mobile-dropdown {
+      right: 5px !important;
+      left: auto !important;
+      min-width: 150px !important;
+      max-width: calc(100vw - 10px) !important;
+    }
   }
 
   .fb-slide__mobile-dropdown.hidden {

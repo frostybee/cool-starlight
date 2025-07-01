@@ -83,6 +83,8 @@ export class ReadingModeManager {
       if (this.slideViewer.bookmarkManager) this.slideViewer.bookmarkManager.updateReadingModeVisibility(true);
       // Collapse the left sidebar in reading mode.
       this.slideViewer.tocSidebar.classList.add('collapsed');
+      // Fix mobile menu positioning in reading mode.
+      this.fixMobileMenuPositioning();
     } else {
       // Slide mode: Reset slide content styling and show current slide.
       this.slideViewer.slideContent.classList.remove('fb-slide__content-reading-mode');
@@ -117,6 +119,8 @@ export class ReadingModeManager {
       // Show bookmark button in slide mode.
       if (this.slideViewer.bookmarkManager) this.slideViewer.bookmarkManager.updateReadingModeVisibility(false);
       // Restore sidebar state in slide mode (don't force expand, keep user's preference).
+      // Restore mobile menu positioning.
+      this.restoreMobileMenuPositioning();
     }
   }
 
@@ -186,6 +190,77 @@ export class ReadingModeManager {
         inThrottle = true;
         setTimeout(() => inThrottle = false, limit);
       }
+    }
+  }
+
+  fixMobileMenuPositioning() {
+    // Get mobile dropdown elements
+    const mobileDropdown = document.getElementById('mobile-dropdown-menu');
+    const mobileNavContainer = document.querySelector('.fb-slide__nav-mobile');
+    const mobileDropdownContainer = document.querySelector('.fb-slide__mobile-dropdown-container');
+    
+    if (mobileDropdown && mobileNavContainer) {
+      // Store original positioning for restoration
+      if (!this.originalMobileDropdownStyles) {
+        this.originalMobileDropdownStyles = {
+          position: mobileDropdown.style.position || '',
+          right: mobileDropdown.style.right || '',
+          left: mobileDropdown.style.left || '',
+          transform: mobileDropdown.style.transform || '',
+          zIndex: mobileDropdown.style.zIndex || '',
+          bottom: mobileDropdown.style.bottom || ''
+        };
+      }
+      
+      // Store original nav container styles
+      if (!this.originalNavContainerStyles) {
+        this.originalNavContainerStyles = {
+          justifyContent: mobileNavContainer.style.justifyContent || '',
+          gap: mobileNavContainer.style.gap || ''
+        };
+      }
+      
+      // Position dropdown in the middle of the screen
+      mobileDropdown.style.position = 'fixed';
+      mobileDropdown.style.right = 'auto';
+      mobileDropdown.style.left = '50%';
+      mobileDropdown.style.transform = 'translateX(-50%)';
+      mobileDropdown.style.zIndex = '10000';
+      mobileDropdown.style.bottom = '80px'; // Position above the navigation bar
+      
+      // Center the nav container (which contains the button)
+      mobileNavContainer.style.justifyContent = 'center';
+      mobileNavContainer.style.gap = '1rem';
+      
+      // Ensure the dropdown container is positioned properly
+      if (mobileDropdownContainer) {
+        mobileDropdownContainer.style.position = 'relative';
+      }
+    }
+  }
+
+  restoreMobileMenuPositioning() {
+    // Restore original mobile dropdown positioning
+    const mobileDropdown = document.getElementById('mobile-dropdown-menu');
+    const mobileNavContainer = document.querySelector('.fb-slide__nav-mobile');
+    const mobileDropdownContainer = document.querySelector('.fb-slide__mobile-dropdown-container');
+    
+    if (mobileDropdown && this.originalMobileDropdownStyles) {
+      mobileDropdown.style.position = this.originalMobileDropdownStyles.position;
+      mobileDropdown.style.right = this.originalMobileDropdownStyles.right;
+      mobileDropdown.style.left = this.originalMobileDropdownStyles.left;
+      mobileDropdown.style.transform = this.originalMobileDropdownStyles.transform;
+      mobileDropdown.style.zIndex = this.originalMobileDropdownStyles.zIndex;
+      mobileDropdown.style.bottom = this.originalMobileDropdownStyles.bottom;
+    }
+    
+    if (mobileNavContainer && this.originalNavContainerStyles) {
+      mobileNavContainer.style.justifyContent = this.originalNavContainerStyles.justifyContent;
+      mobileNavContainer.style.gap = this.originalNavContainerStyles.gap;
+    }
+    
+    if (mobileDropdownContainer) {
+      mobileDropdownContainer.style.position = '';
     }
   }
 }
