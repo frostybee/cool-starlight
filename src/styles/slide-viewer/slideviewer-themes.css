@@ -1,9 +1,6 @@
 /* SlideViewer Theme Styles */
 
-@layer fb-slider-overrides {
-  /* Independent theme system - completely separate from Starlight */
-  
-  /* Light theme - HIGHEST SPECIFICITY to override all other themes */
+@layer fb-slider-overrides {  
   .fb-slide__modal.fb-slide__theme-independent-light,
   .fb-slide__container.fb-slide__theme-independent-light,
   .fb-slide__theme-independent-light.fb-slide__modal,
@@ -125,7 +122,8 @@
 
     /* Text Colors for Light Theme */
     --fb-slide-text-color: #000000 !important;
-    --fb-slide-heading-color: #000000 !important;
+    --fb-slide-heading-color: #111827 !important;
+    --slide-color-light-heading: #111827;
     
     /* Background Colors for Light Theme */
     --fb-slide-bg: #ffffff !important;
@@ -234,9 +232,10 @@
     --fb-slide-toc-number-shadow: rgba(79, 70, 229, 0.4);
     --fb-slide-text-color: #ffffff !important;
     --fb-slide-heading-color: #ffffff !important;
+    --slide-color-dark-heading: #ffffff;
     
     /* Background Colors for Dark Theme */
-    --fb-slide-bg: #0f172a !important;
+    --fb-slide-bg: #00030a !important;
     --fb-slide-bg-nav: #1e293b !important;
     --fb-slide-bg-sidebar: #334155 !important;
     
@@ -488,7 +487,7 @@
     --fb-slide-toc-number-text: #282a36;
     --fb-slide-toc-number-shadow: rgba(189, 147, 249, 0.5);
     --fb-slide-text-color: #f8f8f2;
-    --fb-slide-heading-color: #50fa7b;
+    --fb-slide-heading-color: #50fa7b !important;
 
     /* Progress Bar Colors for Dracula Theme */
     --fb-slide-progress-bg: #44475a;
@@ -593,7 +592,7 @@
     --fb-slide-toc-number-text: #0d1117;
     --fb-slide-toc-number-shadow: rgba(63, 185, 80, 0.4);
     --fb-slide-text-color: #f0f6fc;
-    --fb-slide-heading-color: #58a6ff;
+    --fb-slide-heading-color: #58a6ff !important;
 
     /* Progress Bar Colors for GitHub Theme */
     --fb-slide-progress-bg: #21262d;
@@ -698,7 +697,7 @@
     --fb-slide-toc-number-text: #2f3136;
     --fb-slide-toc-number-shadow: rgba(87, 242, 135, 0.4);
     --fb-slide-text-color: #ffffff;
-    --fb-slide-heading-color: #5865f2;
+    --fb-slide-heading-color: #5865f2 !important;
 
     /* Progress Bar Colors for Discord Theme */
     --fb-slide-progress-bg: #2f3136;
@@ -803,7 +802,7 @@
     --fb-slide-toc-number-text: #282c34;
     --fb-slide-toc-number-shadow: rgba(97, 175, 239, 0.4);
     --fb-slide-text-color: #abb2bf;
-    --fb-slide-heading-color: #abb2bf;
+    --fb-slide-heading-color: #abb2bf !important;
 
     /* Progress Bar Colors for One Dark Theme */
     --fb-slide-progress-bg: #3e4451;
