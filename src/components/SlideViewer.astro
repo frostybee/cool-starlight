@@ -95,15 +95,11 @@ import '../styles/slide-viewer/slideviewer-index.css';
           <div class="fb-slide__theme-selector">
             <button id="slide-theme-btn" class="fb-slide__nav-btn fb-slide__compact-btn theme-selector-btn" aria-label="Change theme" title="Theme">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="4"/>
-                <path d="M12 2v2"/>
-                <path d="M12 20v2"/>
-                <path d="M4.93 4.93l1.41 1.41"/>
-                <path d="M17.66 17.66l1.41 1.41"/>
-                <path d="M2 12h2"/>
-                <path d="M20 12h2"/>
-                <path d="M6.34 17.66l-1.41-1.41"/>
-                <path d="M19.07 4.93l-1.41-1.41"/>
+                <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+                <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+                <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+                <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
               </svg>
             </button>
             <div id="slide-theme-dropdown" class="fb-slide__theme-dropdown hidden" role="menu" aria-label="Select theme">
@@ -177,9 +173,9 @@ import '../styles/slide-viewer/slideviewer-index.css';
 
           <button id="toggle-laser-pointer" class="fb-slide__nav-btn fb-slide__compact-btn laser-pointer-btn" aria-label="Toggle laser pointer (L)" title="Laser pointer (L)">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3"/>
-              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41-1.41M19.07 4.93l-1.41-1.41"/>
               <circle cx="12" cy="12" r="1" fill="currentColor"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="12" cy="12" r="7" opacity="0.3"/>
             </svg>
           </button>
 
@@ -258,9 +254,9 @@ import '../styles/slide-viewer/slideviewer-index.css';
               </button>
               <button id="toggle-laser-pointer-mobile" class="fb-slide__dropdown-item" aria-label="Toggle laser pointer">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="3"/>
-                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41-1.41M19.07 4.93l-1.41-1.41"/>
                   <circle cx="12" cy="12" r="1" fill="currentColor"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="12" cy="12" r="7" opacity="0.3"/>
                 </svg>
                 <span class="fb-slide__dropdown-text">Laser Pointer</span>
               </button>

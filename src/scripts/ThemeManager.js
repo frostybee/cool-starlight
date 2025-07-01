@@ -67,6 +67,7 @@ export class ThemeManager {
       // Also remove old legacy theme classes from ThemeToggleManager
       container.classList.remove('fb-slide__theme-light');
       container.classList.remove('fb-slide__theme-dark');
+      container.classList.remove('fb-slide__theme-default-dark'); // Remove old incorrect naming
 
       // Add the effective theme class.
       container.classList.add(`fb-slide__theme-${effectiveTheme}`);
@@ -95,15 +96,23 @@ export class ThemeManager {
     const themeToggleManager = this.slideViewer.themeToggleManager;
     const isLightMode = themeToggleManager?.getCurrentTheme() === 'light';
 
+    // Debug logging
+    console.log('🔍 Theme Debug:', {
+      currentTheme: this.currentTheme,
+      toggleState: themeToggleManager?.getCurrentTheme(),
+      isLightMode: isLightMode
+    });
+
     // All themes now have light/dark variants
     const themesWithVariants = ['default', 'dracula', 'github', 'discord', 'onedark', 'ocean'];
     
     if (themesWithVariants.includes(this.currentTheme)) {
-      if (this.currentTheme === 'default') {
-        return isLightMode ? 'default' : 'default-dark';
-      } else {
-        return isLightMode ? `${this.currentTheme}-light` : this.currentTheme;
-      }
+      let effectiveTheme;
+      // All themes now follow the same pattern: base = dark, -light = light
+      effectiveTheme = isLightMode ? `${this.currentTheme}-light` : this.currentTheme;
+      
+      console.log('🎨 Effective theme:', effectiveTheme);
+      return effectiveTheme;
     }
 
     // Fallback (shouldn't happen with current themes)
