@@ -271,47 +271,47 @@
   /* One Dark Theme */
   .fb-slide__theme-onedark {
     --fb-primary: #61afef;
-    --fb-secondary: #5c6370;
-    --fb-background: #282c34;
-    --fb-surface: #2c323c;
+    --fb-secondary: #636d83;
+    --fb-background: #1e2127;
+    --fb-surface: #21252b;
     --fb-text: #abb2bf;
-    --fb-text-muted: #5c6370;
+    --fb-text-muted: #636d83;
     --fb-border: #3e4451;
     --fb-success: #98c379;
     --fb-warning: #e5c07b;
     --fb-error: #e06c75;
-    --fb-h1-color: #027dd1;
-    --fb-h2-color: #1587d7;
-    --fb-h3-color: #2891dd;
-    --fb-h4-color: #3b9be3;
-    --fb-h5-color: #4ea5e9;
-    --fb-h6-color: #61afef;
+    --fb-h1-color: #ffffff;
+    --fb-h2-color: #abb2bf;
+    --fb-h3-color: #9ca3af;
+    --fb-h4-color: #6b7280;
+    --fb-h5-color: #4b5563;
+    --fb-h6-color: #374151;
     --fb-slide-indicator-bg: #61afef;
     --fb-slide-indicator-text: #282c34;
     --fb-progress-fill: #61afef;
 
     /* Override hover colors for dark theme - darker instead of brighter */
-    --fb-surface-hover: #21252b;
+    --fb-surface-hover: #1e2127;
   }
 
   /* One Dark Light Theme (One Light) */
   .fb-slide__theme-onedark-light {
     --fb-primary: #4078f2;
-    --fb-secondary: #6b7394;
+    --fb-secondary: #a0a1a7;
     --fb-background: #fafafa;
     --fb-surface: #ffffff;
     --fb-text: #383a42;
-    --fb-text-muted: #6b7394;
+    --fb-text-muted: #a0a1a7;
     --fb-border: #e5e5e6;
     --fb-success: #50a14f;
     --fb-warning: #c18401;
     --fb-error: #e45649;
-    --fb-h1-color: #004684;
-    --fb-h2-color: #08509a;
-    --fb-h3-color: #165ab0;
-    --fb-h4-color: #2464c6;
-    --fb-h5-color: #326edc;
-    --fb-h6-color: #4078f2;
+    --fb-h1-color: #1f2328;
+    --fb-h2-color: #383a42;
+    --fb-h3-color: #4b5563;
+    --fb-h4-color: #6b7280;
+    --fb-h5-color: #9ca3af;
+    --fb-h6-color: #a0a1a7;
     --fb-slide-indicator-bg: #4078f2;
     --fb-slide-indicator-text: #ffffff;
     --fb-progress-fill: #4078f2;
@@ -325,7 +325,7 @@
     --fb-primary: #00d4ff;
     --fb-secondary: #64b5f6;
     --fb-background: #0a1929;
-    --fb-surface: #132f4c;
+    --fb-surface: #070a0c;
     --fb-text: #ffffff;
     --fb-text-muted: #b3d9ff;
     --fb-border: #1e3a5f;
