@@ -108,12 +108,12 @@
     --fb-success: #10b981;
     --fb-warning: #fbbf24;
     --fb-error: #ef4444;
-    --fb-h1-color: #f9fafb;
+    --fb-h1-color: #ffffff;
     --fb-h2-color: #f9fafb;
-    --fb-h3-color: #f9fafb;
-    --fb-h4-color: #f9fafb;
-    --fb-h5-color: #f9fafb;
-    --fb-h6-color: #f9fafb;
+    --fb-h3-color: #f3f4f6;
+    --fb-h4-color: #e5e7eb;
+    --fb-h5-color: #d1d5db;
+    --fb-h6-color: #9ca3af;
     
     /* Override hover colors for dark theme - darker instead of brighter */
     --fb-surface-hover: #0f172a; /* Much darker for better contrast */
@@ -131,12 +131,12 @@
     --fb-success: #10b981;
     --fb-warning: #f59e0b;
     --fb-error: #ef4444;
-    --fb-h1-color: #1f2937;
+    --fb-h1-color: #000000;
     --fb-h2-color: #1f2937;
-    --fb-h3-color: #1f2937;
-    --fb-h4-color: #1f2937;
-    --fb-h5-color: #1f2937;
-    --fb-h6-color: #1f2937;
+    --fb-h3-color: #374151;
+    --fb-h4-color: #4b5563;
+    --fb-h5-color: #6b7280;
+    --fb-h6-color: #9ca3af;
     
     /* Override hover colors for light theme - darker for better contrast */
     --fb-surface-hover: #e2e8f0;
@@ -154,12 +154,12 @@
     --fb-success: #50fa7b;
     --fb-warning: #ffb86c;
     --fb-error: #ff5555;
-    --fb-h1-color: #ff79c6;
-    --fb-h2-color: #50fa7b;
-    --fb-h3-color: #ffb86c;
-    --fb-h4-color: #8be9fd;
-    --fb-h5-color: #f8f8f2;
-    --fb-h6-color: #f8f8f2;
+    --fb-h1-color: #b33367;
+    --fb-h2-color: #cc417a;
+    --fb-h3-color: #e54f8d;
+    --fb-h4-color: #ff5da0;
+    --fb-h5-color: #ff6bb3;
+    --fb-h6-color: #ff79c6;
     
     /* Override hover colors for dark theme - darker instead of brighter */
     --fb-surface-hover: #282a36;
@@ -177,12 +177,12 @@
     --fb-success: #42b883;
     --fb-warning: #f76707;
     --fb-error: #dc2626;
-    --fb-h1-color: #bd5eff;
-    --fb-h2-color: #42b883;
-    --fb-h3-color: #f76707;
-    --fb-h4-color: #6272a4;
-    --fb-h5-color: #282a36;
-    --fb-h6-color: #282a36;
+    --fb-h1-color: #5b21b6;
+    --fb-h2-color: #6d28d9;
+    --fb-h3-color: #7c3aed;
+    --fb-h4-color: #9333ea;
+    --fb-h5-color: #a855f7;
+    --fb-h6-color: #bd5eff;
     
     /* Override hover colors for light theme - darker for better contrast */
     --fb-surface-hover: #e8e8e3;
@@ -200,12 +200,12 @@
     --fb-success: #3fb950;
     --fb-warning: #f0883e;
     --fb-error: #da3633;
-    --fb-h1-color: #58a6ff;
-    --fb-h2-color: #3fb950;
-    --fb-h3-color: #f0883e;
-    --fb-h4-color: #7d8590;
-    --fb-h5-color: #f0f6fc;
-    --fb-h6-color: #f0f6fc;
+    --fb-h1-color: #0550ae;
+    --fb-h2-color: #0969da;
+    --fb-h3-color: #1088ff;
+    --fb-h4-color: #2892ff;
+    --fb-h5-color: #409cff;
+    --fb-h6-color: #58a6ff;
     
     /* Override hover colors for dark theme - darker instead of brighter */
     --fb-surface-hover: #161b22;
@@ -223,12 +223,12 @@
     --fb-success: #1a7f37;
     --fb-warning: #bf8700;
     --fb-error: #d1242f;
-    --fb-h1-color: #0969da;
-    --fb-h2-color: #1a7f37;
-    --fb-h3-color: #bf8700;
-    --fb-h4-color: #656d76;
-    --fb-h5-color: #1f2328;
-    --fb-h6-color: #1f2328;
+    --fb-h1-color: #043c8a;
+    --fb-h2-color: #05459a;
+    --fb-h3-color: #064eaa;
+    --fb-h4-color: #0757ba;
+    --fb-h5-color: #0860ca;
+    --fb-h6-color: #0969da;
     
     /* Override hover colors for light theme - darker for better contrast */
     --fb-surface-hover: #d1d9e0;
@@ -246,12 +246,12 @@
     --fb-success: #57f287;
     --fb-warning: #fee75c;
     --fb-error: #ed4245;
-    --fb-h1-color: #5865f2;
-    --fb-h2-color: #57f287;
-    --fb-h3-color: #fee75c;
-    --fb-h4-color: #72767d;
-    --fb-h5-color: #ffffff;
-    --fb-h6-color: #ffffff;
+    --fb-h1-color: #0f1284;
+    --fb-h2-color: #1a1e9a;
+    --fb-h3-color: #252db0;
+    --fb-h4-color: #3640c6;
+    --fb-h5-color: #4752dc;
+    --fb-h6-color: #5865f2;
     
     /* Override hover colors for dark theme - darker instead of brighter */
     --fb-surface-hover: #2f3136;
@@ -269,12 +269,12 @@
     --fb-success: #23a559;
     --fb-warning: #f0b232;
     --fb-error: #d83c3e;
-    --fb-h1-color: #5865f2;
-    --fb-h2-color: #23a559;
-    --fb-h3-color: #f0b232;
-    --fb-h4-color: #5c6f7f;
-    --fb-h5-color: #2e3338;
-    --fb-h6-color: #2e3338;
+    --fb-h1-color: #0f1284;
+    --fb-h2-color: #1a1e9a;
+    --fb-h3-color: #252db0;
+    --fb-h4-color: #3640c6;
+    --fb-h5-color: #4752dc;
+    --fb-h6-color: #5865f2;
     
     /* Override hover colors for light theme - darker for better contrast */
     --fb-surface-hover: #e3e5e8;
@@ -292,12 +292,12 @@
     --fb-success: #98c379;
     --fb-warning: #e5c07b;
     --fb-error: #e06c75;
-    --fb-h1-color: #61afef;
-    --fb-h2-color: #98c379;
-    --fb-h3-color: #e5c07b;
-    --fb-h4-color: #e06c75;
-    --fb-h5-color: #abb2bf;
-    --fb-h6-color: #abb2bf;
+    --fb-h1-color: #027dd1;
+    --fb-h2-color: #1587d7;
+    --fb-h3-color: #2891dd;
+    --fb-h4-color: #3b9be3;
+    --fb-h5-color: #4ea5e9;
+    --fb-h6-color: #61afef;
     
     /* Override hover colors for dark theme - darker instead of brighter */
     --fb-surface-hover: #21252b;
@@ -315,12 +315,12 @@
     --fb-success: #50a14f;
     --fb-warning: #c18401;
     --fb-error: #e45649;
-    --fb-h1-color: #4078f2;
-    --fb-h2-color: #50a14f;
-    --fb-h3-color: #c18401;
-    --fb-h4-color: #e45649;
-    --fb-h5-color: #383a42;
-    --fb-h6-color: #383a42;
+    --fb-h1-color: #004684;
+    --fb-h2-color: #08509a;
+    --fb-h3-color: #165ab0;
+    --fb-h4-color: #2464c6;
+    --fb-h5-color: #326edc;
+    --fb-h6-color: #4078f2;
     
     /* Override hover colors for light theme - darker for better contrast */
     --fb-surface-hover: #e5e5e6;
@@ -338,12 +338,12 @@
     --fb-success: #4cceac;
     --fb-warning: #ffa726;
     --fb-error: #f44336;
-    --fb-h1-color: #00d4ff;
-    --fb-h2-color: #4cceac;
-    --fb-h3-color: #ffa726;
-    --fb-h4-color: #64b5f6;
-    --fb-h5-color: #ffffff;
-    --fb-h6-color: #ffffff;
+    --fb-h1-color: #0084af;
+    --fb-h2-color: #0094bf;
+    --fb-h3-color: #00a4cf;
+    --fb-h4-color: #00b4df;
+    --fb-h5-color: #00c4ef;
+    --fb-h6-color: #00d4ff;
     
     /* Override hover colors for dark theme - darker instead of brighter */
     --fb-surface-hover: #0a1929;
@@ -361,12 +361,12 @@
     --fb-success: #00695c;
     --fb-warning: #ef6c00;
     --fb-error: #c62828;
-    --fb-h1-color: #0288d1;
-    --fb-h2-color: #00695c;
-    --fb-h3-color: #ef6c00;
-    --fb-h4-color: #546e7a;
-    --fb-h5-color: #0d47a1;
-    --fb-h6-color: #0d47a1;
+    --fb-h1-color: #01336d;
+    --fb-h2-color: #014481;
+    --fb-h3-color: #025595;
+    --fb-h4-color: #0266a9;
+    --fb-h5-color: #0277bd;
+    --fb-h6-color: #0288d1;
     
     /* Override hover colors for light theme - darker for better contrast */
     --fb-surface-hover: #bbdefb;
