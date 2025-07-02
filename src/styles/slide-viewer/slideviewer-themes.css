@@ -1,28 +1,57 @@
 /* Simplified SlideViewer Theme System with --fb prefix */
 
 @layer fbSlideViewer {
+
+  /* TODO: Add here replace with a variable of a higher TOKEN level:
+     need gray 100, 200, 300, 400, 500, 600, 700, 800, 900
+     need red 100, 200, 300, 400, 500, 600, 700, 800, 900
+     need green 100, 200, 300, 400, 500, 600, 700, 800, 900
+     need yellow 100, 200, 300, 400, 500, 600, 700, 800, 900
+     need blue 100, 200, 300, 400, 500, 600, 700, 800, 900
+     need purple 100, 200, 300, 400, 500, 600, 700, 800, 900
+     need pink 100, 200, 300, 400, 500, 600, 700, 800, 900
+     need orange 100, 200, 300, 400, 500, 600, 700, 800, 900.
+  */
+
   /* Core theme system - each theme only needs to define these base colors */
   :root {
     /* Base color system - themes override these */
-    --fb-primary: #3b82f6;      /* Main accent color */
-    --fb-secondary: #64748b;    /* Secondary accent */
-    --fb-background: #ffffff;   /* Main background */
-    --fb-surface: #f8fafc;      /* Cards, panels */
-    --fb-text: #1f2937;         /* Primary text */
-    --fb-text-muted: #64748b;   /* Secondary text */
-    --fb-border: #e2e8f0;       /* Borders, dividers */
-    --fb-success: #10b981;      /* Success states */
-    --fb-warning: #f59e0b;      /* Warning states */
-    --fb-error: #ef4444;        /* Error states */
-    --fb-h1-color: #1f2937; /* H1 heading color */
+    --fb-primary: #3b82f6;
+    /* Main accent color */
+    --fb-secondary: #64748b;
+    /* Secondary accent */
+    --fb-background: #ffffff;
+    /* Main background */
+    --fb-surface: #f8fafc;
+    /* Cards, panels */
+    --fb-text: #1f2937;
+    /* Primary text */
+    --fb-text-muted: #64748b;
+    /* Secondary text */
+    --fb-border: #e2e8f0;
+    /* Borders, dividers */
+    --fb-success: #10b981;
+    /* Success states */
+    --fb-warning: #f59e0b;
+    /* Warning states */
+    --fb-error: #ef4444;
+    /* Error states */
+    --fb-h1-color: #1f2937;
+    /* H1 heading color */
     /* Slide number indicator background */
     --fb-slide-indicator-bg: #f6ed3b;
-    --fb-slide-indicator-text: #ffffff; /* Slide number indicator text */
-    --fb-h2-color: #1f2937; /* H2 heading color */
-    --fb-h3-color: #1f2937; /* H3 heading color */
-    --fb-h4-color: #1f2937; /* H4 heading color */
-    --fb-h5-color: #1f2937; /* H5 heading color */
-    --fb-h6-color: #1f2937; /* H6 heading color */
+    --fb-slide-indicator-text: #ffffff;
+    /* Slide number indicator text */
+    --fb-h2-color: #1f2937;
+    /* H2 heading color */
+    --fb-h3-color: #1f2937;
+    /* H3 heading color */
+    --fb-h4-color: #1f2937;
+    /* H4 heading color */
+    --fb-h5-color: #1f2937;
+    /* H5 heading color */
+    --fb-h6-color: #1f2937;
+    /* H6 heading color */
   }
 
 
@@ -64,11 +93,12 @@
   .fb-slide__theme-default {
     --fb-primary: #3b82f6;
     --fb-secondary: #94a3b8;
-    --fb-background: #0f172a;
+    --fb-background: #000000;
     --fb-surface: #1e293b;
     --fb-text: #f9fafb;
     --fb-text-muted: #94a3b8;
-    --fb-border: #374151;
+    /* TODO: replace with a variable of a higher TOKEN level */
+    --fb-border: #1c232e;
     --fb-success: #10b981;
     --fb-warning: #fbbf24;
     --fb-error: #ef4444;
@@ -78,12 +108,13 @@
     --fb-h4-color: #e5e7eb;
     --fb-h5-color: #d1d5db;
     --fb-h6-color: #9ca3af;
-    --fb-slide-indicator-bg: #3b82f6;
+    --fb-slide-indicator-bg: #be8e2d;
     --fb-slide-indicator-text: #ffffff;
-    --fb-progress-fill: #3b82f6;
+    --fb-progress-fill: #fbbf24;
 
     /* Override hover colors for dark theme - darker instead of brighter */
-    --fb-surface-hover: #0f172a; /* Much darker for better contrast */
+    --fb-surface-hover: #0f172a;
+    /* Much darker for better contrast */
   }
 
   /* Default Theme (Light) */
@@ -374,11 +405,13 @@
 
   /* Component-specific overrides when needed */
   .fb-slide__theme-dracula {
-    --fb-toc-active-text: #282a36; /* Dark text on pink background */
+    --fb-toc-active-text: #282a36;
+    /* Dark text on pink background */
   }
 
   .fb-slide__theme-github {
-    --fb-btn-primary-text: #0d1117; /* Dark text on blue background */
+    --fb-btn-primary-text: #0d1117;
+    /* Dark text on blue background */
   }
 
   /* Utility classes for common patterns */
@@ -434,7 +467,8 @@
   --fb-toc-active-text: var(--fb-slide-indicator-text);
 
   --fb-progress-bg: var(--fb-border);
-  --fb-progress-fill: var(--fb-primary); /* Default fallback */
+  --fb-progress-fill: var(--fb-primary);
+  /* Default fallback */
 
   --fb-btn-primary-bg: var(--fb-primary);
   --fb-btn-primary-text: white;
