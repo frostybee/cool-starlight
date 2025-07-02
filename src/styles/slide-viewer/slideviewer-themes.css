@@ -15,7 +15,8 @@
     --fb-warning: #f59e0b;      /* Warning states */
     --fb-error: #ef4444;        /* Error states */
     --fb-h1-color: #1f2937; /* H1 heading color */
-    --fb-slide-indicator-bg: #3b82f6; /* Slide number indicator background */
+    /* Slide number indicator background */
+    --fb-slide-indicator-bg: #f6ed3b; 
     --fb-slide-indicator-text: #ffffff; /* Slide number indicator text */
     --fb-h2-color: #1f2937; /* H2 heading color */
     --fb-h3-color: #1f2937; /* H3 heading color */
@@ -24,46 +25,6 @@
     --fb-h6-color: #1f2937; /* H6 heading color */
   }
 
-  /* Derived variables - automatically calculated from base colors */
-  :root {
-    /* Derived colors using color-mix (with fallbacks) */
-    --fb-primary-hover: color-mix(in srgb, var(--fb-primary) 85%, black);
-    --fb-primary-light: color-mix(in srgb, var(--fb-primary) 10%, transparent);
-    --fb-surface-hover: color-mix(in srgb, var(--fb-surface) 95%, var(--fb-primary));
-    --fb-border-hover: color-mix(in srgb, var(--fb-border) 70%, var(--fb-primary));
-    
-    /* Fallbacks for older browsers */
-    --fb-primary-hover: var(--fb-primary, #2563eb);
-    --fb-primary-light: rgba(59, 130, 246, 0.1);
-    --fb-surface-hover: var(--fb-surface, #f1f5f9);
-    --fb-border-hover: var(--fb-border, #cbd5e1);
-
-    /* Semantic color mappings */
-    --fb-toc-bg: var(--fb-surface);
-    --fb-toc-text: var(--fb-text);
-    --fb-toc-border: var(--fb-border);
-    --fb-toc-hover-bg: var(--fb-surface-hover);
-    --fb-toc-hover-border: var(--fb-primary);
-    --fb-toc-active-bg: var(--fb-slide-indicator-bg);
-    --fb-toc-active-text: var(--fb-slide-indicator-text);
-    
-    --fb-progress-bg: var(--fb-border);
-    --fb-progress-fill: var(--fb-slide-indicator-bg);
-    
-    --fb-btn-primary-bg: var(--fb-primary);
-    --fb-btn-primary-text: white;
-    --fb-btn-primary-hover: var(--fb-primary-hover);
-    --fb-btn-secondary-bg: var(--fb-surface);
-    --fb-btn-secondary-text: var(--fb-text);
-    --fb-btn-secondary-hover: var(--fb-surface-hover);
-    
-    --fb-search-highlight-bg: var(--fb-success);
-    --fb-search-highlight-text: white;
-    
-    --fb-bookmark-bg: var(--fb-primary-light);
-    --fb-bookmark-border: var(--fb-primary);
-    --fb-bookmark-text: var(--fb-primary);
-  }
 
   /* Base slide viewer styles using semantic variables */
   .fb-slide__container,
@@ -88,13 +49,14 @@
     color: var(--fb-toc-active-text);
   }
 
-  .fb-slide__progress-bar {
+  /* .fb-slide__progress-bar {
     background-color: var(--fb-progress-bg);
-  }
+  } */
 
-  .fb-slide__progress-fill {
+  /* .fb-slide__progress-fill {
     background-color: var(--fb-progress-fill);
-  }
+  } */
+
 
   /* Theme definitions - only base colors needed */
   
@@ -116,6 +78,8 @@
     --fb-h4-color: #e5e7eb;
     --fb-h5-color: #d1d5db;
     --fb-h6-color: #9ca3af;
+    --fb-slide-indicator-bg: #3b82f6;
+    --fb-slide-indicator-text: #ffffff;
     
     /* Override hover colors for dark theme - darker instead of brighter */
     --fb-surface-hover: #0f172a; /* Much darker for better contrast */
@@ -432,6 +396,47 @@
     background-color: var(--fb-btn-secondary-hover);
     border-color: var(--fb-border-hover);
   }
+}
+
+/* Derived variables - automatically calculated from base colors (after theme definitions) */
+:root {
+  /* Derived colors using color-mix (with fallbacks) */
+  --fb-primary-hover: color-mix(in srgb, var(--fb-primary) 85%, black);
+  --fb-primary-light: color-mix(in srgb, var(--fb-primary) 10%, transparent);
+  --fb-surface-hover: color-mix(in srgb, var(--fb-surface) 95%, var(--fb-primary));
+  --fb-border-hover: color-mix(in srgb, var(--fb-border) 70%, var(--fb-primary));
+  
+  /* Fallbacks for older browsers */
+  --fb-primary-hover: var(--fb-primary, #2563eb);
+  --fb-primary-light: rgba(59, 130, 246, 0.1);
+  --fb-surface-hover: var(--fb-surface, #f1f5f9);
+  --fb-border-hover: var(--fb-border, #cbd5e1);
+
+  /* Semantic color mappings */
+  --fb-toc-bg: var(--fb-surface);
+  --fb-toc-text: var(--fb-text);
+  --fb-toc-border: var(--fb-border);
+  --fb-toc-hover-bg: var(--fb-surface-hover);
+  --fb-toc-hover-border: var(--fb-primary);
+  --fb-toc-active-bg: var(--fb-slide-indicator-bg);
+  --fb-toc-active-text: var(--fb-slide-indicator-text);
+  
+  --fb-progress-bg: var(--fb-border);
+  --fb-progress-fill: var(--fb-toc-active-bg); /* Fallback */
+  
+  --fb-btn-primary-bg: var(--fb-primary);
+  --fb-btn-primary-text: white;
+  --fb-btn-primary-hover: var(--fb-primary-hover);
+  --fb-btn-secondary-bg: var(--fb-surface);
+  --fb-btn-secondary-text: var(--fb-text);
+  --fb-btn-secondary-hover: var(--fb-surface-hover);
+  
+  --fb-search-highlight-bg: var(--fb-success);
+  --fb-search-highlight-text: white;
+  
+  --fb-bookmark-bg: var(--fb-primary-light);
+  --fb-bookmark-border: var(--fb-primary);
+  --fb-bookmark-text: var(--fb-primary);
 }
 
 /* Advanced: Auto-generate hover states using CSS functions (modern browsers) */
