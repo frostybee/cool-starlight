@@ -16,7 +16,7 @@
     --fb-error: #ef4444;        /* Error states */
     --fb-h1-color: #1f2937; /* H1 heading color */
     /* Slide number indicator background */
-    --fb-slide-indicator-bg: #f6ed3b; 
+    --fb-slide-indicator-bg: #f6ed3b;
     --fb-slide-indicator-text: #ffffff; /* Slide number indicator text */
     --fb-h2-color: #1f2937; /* H2 heading color */
     --fb-h3-color: #1f2937; /* H3 heading color */
@@ -59,7 +59,7 @@
 
 
   /* Theme definitions - only base colors needed */
-  
+
   /* Default Theme (Dark) */
   .fb-slide__theme-default {
     --fb-primary: #3b82f6;
@@ -80,7 +80,8 @@
     --fb-h6-color: #9ca3af;
     --fb-slide-indicator-bg: #3b82f6;
     --fb-slide-indicator-text: #ffffff;
-    
+    --fb-progress-fill: #3b82f6;
+
     /* Override hover colors for dark theme - darker instead of brighter */
     --fb-surface-hover: #0f172a; /* Much darker for better contrast */
   }
@@ -105,7 +106,8 @@
     --fb-h6-color: #9ca3af;
     --fb-slide-indicator-bg: #3b82f6;
     --fb-slide-indicator-text: #ffffff;
-    
+    --fb-progress-fill: #3b82f6;
+
     /* Override hover colors for light theme - darker for better contrast */
     --fb-surface-hover: #e2e8f0;
   }
@@ -114,8 +116,8 @@
   .fb-slide__theme-dracula {
     --fb-primary: #ff79c6;
     --fb-secondary: #6272a4;
-    --fb-background: #282a36;
-    --fb-surface: #44475a;
+    --fb-background: #141414;
+    --fb-surface: #282828;
     --fb-text: #f8f8f2;
     --fb-text-muted: #6272a4;
     --fb-border: #6272a4;
@@ -130,7 +132,8 @@
     --fb-h6-color: #ff79c6;
     --fb-slide-indicator-bg: #ff79c6;
     --fb-slide-indicator-text: #282a36;
-    
+    --fb-progress-fill: #ff79c6;
+
     /* Override hover colors for dark theme - darker instead of brighter */
     --fb-surface-hover: #282a36;
   }
@@ -155,7 +158,8 @@
     --fb-h6-color: #bd5eff;
     --fb-slide-indicator-bg: #bd5eff;
     --fb-slide-indicator-text: #ffffff;
-    
+    --fb-progress-fill: #bd5eff;
+
     /* Override hover colors for light theme - darker for better contrast */
     --fb-surface-hover: #e8e8e3;
   }
@@ -180,7 +184,8 @@
     --fb-h6-color: #58a6ff;
     --fb-slide-indicator-bg: #58a6ff;
     --fb-slide-indicator-text: #0d1117;
-    
+    --fb-progress-fill: #58a6ff;
+
     /* Override hover colors for dark theme - darker instead of brighter */
     --fb-surface-hover: #161b22;
   }
@@ -205,7 +210,8 @@
     --fb-h6-color: #0969da;
     --fb-slide-indicator-bg: #0969da;
     --fb-slide-indicator-text: #ffffff;
-    
+    --fb-progress-fill: #0969da;
+
     /* Override hover colors for light theme - darker for better contrast */
     --fb-surface-hover: #d1d9e0;
   }
@@ -214,7 +220,7 @@
   .fb-slide__theme-discord {
     --fb-primary: #5865f2;
     --fb-secondary: #72767d;
-    --fb-background: #2f3136;
+    --fb-background: #02091c;
     --fb-surface: #36393f;
     --fb-text: #ffffff;
     --fb-text-muted: #72767d;
@@ -230,7 +236,8 @@
     --fb-h6-color: #5865f2;
     --fb-slide-indicator-bg: #5865f2;
     --fb-slide-indicator-text: #ffffff;
-    
+    --fb-progress-fill: #5865f2;
+
     /* Override hover colors for dark theme - darker instead of brighter */
     --fb-surface-hover: #2f3136;
   }
@@ -255,7 +262,8 @@
     --fb-h6-color: #5865f2;
     --fb-slide-indicator-bg: #5865f2;
     --fb-slide-indicator-text: #ffffff;
-    
+    --fb-progress-fill: #5865f2;
+
     /* Override hover colors for light theme - darker for better contrast */
     --fb-surface-hover: #e3e5e8;
   }
@@ -280,7 +288,8 @@
     --fb-h6-color: #61afef;
     --fb-slide-indicator-bg: #61afef;
     --fb-slide-indicator-text: #282c34;
-    
+    --fb-progress-fill: #61afef;
+
     /* Override hover colors for dark theme - darker instead of brighter */
     --fb-surface-hover: #21252b;
   }
@@ -305,7 +314,8 @@
     --fb-h6-color: #4078f2;
     --fb-slide-indicator-bg: #4078f2;
     --fb-slide-indicator-text: #ffffff;
-    
+    --fb-progress-fill: #4078f2;
+
     /* Override hover colors for light theme - darker for better contrast */
     --fb-surface-hover: #e5e5e6;
   }
@@ -330,7 +340,8 @@
     --fb-h6-color: #00d4ff;
     --fb-slide-indicator-bg: #00d4ff;
     --fb-slide-indicator-text: #0a1929;
-    
+    --fb-progress-fill: #00d4ff;
+
     /* Override hover colors for dark theme - darker instead of brighter */
     --fb-surface-hover: #0a1929;
   }
@@ -355,7 +366,8 @@
     --fb-h6-color: #0288d1;
     --fb-slide-indicator-bg: #0288d1;
     --fb-slide-indicator-text: #ffffff;
-    
+    --fb-progress-fill: #0288d1;
+
     /* Override hover colors for light theme - darker for better contrast */
     --fb-surface-hover: #bbdefb;
   }
@@ -405,7 +417,7 @@
   --fb-primary-light: color-mix(in srgb, var(--fb-primary) 10%, transparent);
   --fb-surface-hover: color-mix(in srgb, var(--fb-surface) 95%, var(--fb-primary));
   --fb-border-hover: color-mix(in srgb, var(--fb-border) 70%, var(--fb-primary));
-  
+
   /* Fallbacks for older browsers */
   --fb-primary-hover: var(--fb-primary, #2563eb);
   --fb-primary-light: rgba(59, 130, 246, 0.1);
@@ -420,20 +432,20 @@
   --fb-toc-hover-border: var(--fb-primary);
   --fb-toc-active-bg: var(--fb-slide-indicator-bg);
   --fb-toc-active-text: var(--fb-slide-indicator-text);
-  
+
   --fb-progress-bg: var(--fb-border);
-  --fb-progress-fill: var(--fb-toc-active-bg); /* Fallback */
-  
+  --fb-progress-fill: var(--fb-primary); /* Default fallback */
+
   --fb-btn-primary-bg: var(--fb-primary);
   --fb-btn-primary-text: white;
   --fb-btn-primary-hover: var(--fb-primary-hover);
   --fb-btn-secondary-bg: var(--fb-surface);
   --fb-btn-secondary-text: var(--fb-text);
   --fb-btn-secondary-hover: var(--fb-surface-hover);
-  
+
   --fb-search-highlight-bg: var(--fb-success);
   --fb-search-highlight-text: white;
-  
+
   --fb-bookmark-bg: var(--fb-primary-light);
   --fb-bookmark-border: var(--fb-primary);
   --fb-bookmark-text: var(--fb-primary);
