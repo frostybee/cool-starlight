@@ -54,13 +54,13 @@
     box-shadow: 0 12px 32px var(--fb-primary-light), 0 0 0 1px rgba(255, 255, 255, 0.1);
   }
 
-  /* Enhanced Active/Selected State with Progress Bar Colors */
+  /* Enhanced Active/Selected State with Slide Indicator Colors */
   .fb-slide__toc-item.active {
-    background: var(--fb-progress-fill) !important;
-    color: var(--fb-text) !important;
-    border-color: var(--fb-progress-fill) !important;
+    background: var(--fb-slide-indicator-bg) !important;
+    color: var(--fb-slide-indicator-text) !important;
+    border-color: var(--fb-slide-indicator-bg) !important;
     box-shadow: 0 8px 32px var(--fb-primary-light), 
-                0 0 0 2px var(--fb-progress-fill),
+                0 0 0 2px var(--fb-slide-indicator-bg),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
     transform: translateY(-2px) scale(1.02);
     position: relative;
@@ -73,25 +73,27 @@
   }
 
   .fb-slide__toc-item.active .fb-slide__toc-item-number {
-    background: var(--fb-background) !important;
-    color: var(--fb-progress-fill) !important;
+    background: var(--fb-slide-indicator-text) !important;
+    color: var(--fb-slide-indicator-bg) !important;
     box-shadow: 0 4px 16px rgba(255, 255, 255, 0.3), 
                 0 0 0 2px var(--fb-background) !important;
     transform: scale(1.1);
   }
 
   .fb-slide__toc-item.active .fb-slide__toc-item-title {
-    color: var(--fb-text) !important;
+    color: var(--fb-slide-indicator-text) !important;
     font-weight: 600 !important;
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3) !important;
   }
 
   .fb-slide__toc-item.active .fb-slide__toc-item-meta {
-    color: var(--fb-text-muted) !important;
+    color: var(--fb-slide-indicator-text) !important;
+    opacity: 0.7;
   }
 
   .fb-slide__toc-item.active .fb-slide__toc-reading-time {
-    color: var(--fb-text-muted) !important;
+    color: var(--fb-slide-indicator-text) !important;
+    opacity: 0.7;
   }
 
   .fb-slide__toc-item.active .fb-slide__toc-bookmark-indicator {
@@ -103,8 +105,8 @@
   .fb-slide__toc-item.active.h2,
   .fb-slide__toc-item.active.h3,
   .fb-slide__toc-item.active.h4 {
-    background: var(--fb-progress-fill) !important;
-    border-color: var(--fb-progress-fill) !important;
+    background: var(--fb-slide-indicator-bg) !important;
+    border-color: var(--fb-slide-indicator-bg) !important;
   }
 
   /* Enhanced Visual Hierarchy for Different Heading Levels */
@@ -136,8 +138,8 @@
   
   /* Darker color in active state */
   .fb-slide__toc-item.active .fb-slide__toc-h1-icon svg {
-    color: var(--fb-text);
-    stroke: var(--fb-text);
+    color: var(--fb-slide-indicator-text);
+    stroke: var(--fb-slide-indicator-text);
   }
 
   .fb-slide__toc-item.h2 {
@@ -399,8 +401,9 @@
   
   /* Darker color in active state */
   .fb-slide__toc-item.active .fb-slide__toc-reading-time .fb-slide__toc-icon svg {
-    color: var(--fb-text-muted);
-    stroke: var(--fb-text-muted);
+    color: var(--fb-slide-indicator-text);
+    stroke: var(--fb-slide-indicator-text);
+    opacity: 0.7;
   }
 
   .fb-slide__toc-bookmark-indicator {

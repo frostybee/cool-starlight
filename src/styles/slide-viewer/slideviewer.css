@@ -197,14 +197,14 @@
     right: 2rem;
     width: 87px;
     height: 87px;
-    background: var(--fb-primary);
+    background: var(--fb-slide-indicator-bg);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 3.2rem;
     font-weight: 700;
-    color: var(--fb-btn-primary-text);
+    color: var(--fb-slide-indicator-text);
     box-shadow: 0 4px 20px var(--fb-primary-light);
     border: 3px solid var(--fb-border);
     z-index: 10;
@@ -983,8 +983,8 @@
     right: -10px;
     width: 44px;
     height: 44px;
-    background: var(--fb-bookmark-bg);
-    color: var(--fb-bookmark-text);
+    background: var(--fb-slide-indicator-bg);
+    color: var(--fb-slide-indicator-text);
     border-radius: 50%;
     display: flex;
     align-items: center;
