@@ -1,0 +1,282 @@
+/* Font Imports */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+
+/* Primitive Design Tokens */
+:root {
+   /* Colors - Neutral */
+   --color-white: #ffffff;
+   --color-black: #000000;
+   --color-gray-50: #f8fafc;
+   --color-gray-100: #f1f5f9;
+   --color-gray-200: #e2e8f0;
+   --color-gray-300: #cbd5e1;
+   --color-gray-400: #94a3b8;
+   --color-gray-500: #64748b;
+   --color-gray-600: #475569;
+   --color-gray-700: #334155;
+   --color-gray-800: #1e293b;
+   --color-gray-900: #0f172a;
+
+   /* Colors - Blue */
+   --color-blue-50: #eff6ff;
+   --color-blue-100: #dbeafe;
+   --color-blue-200: #bfdbfe;
+   --color-blue-300: #93c5fd;
+   --color-blue-400: #60a5fa;
+   --color-blue-500: #3b82f6;
+   --color-blue-600: #2563eb;
+   --color-blue-700: #1d4ed8;
+   --color-blue-800: #1e40af;
+   --color-blue-900: #1e3a8a;
+
+   /* Colors - Green */
+   --color-green-50: #f0fdf4;
+   --color-green-100: #dcfce7;
+   --color-green-200: #bbf7d0;
+   --color-green-300: #86efac;
+   --color-green-400: #4ade80;
+   --color-green-500: #22c55e;
+   --color-green-600: #16a34a;
+   --color-green-700: #15803d;
+   --color-green-800: #166534;
+   --color-green-900: #14532d;
+
+   /* Colors - Red */
+   --color-red-50: #fef2f2;
+   --color-red-100: #fee2e2;
+   --color-red-200: #fecaca;
+   --color-red-300: #fca5a5;
+   --color-red-400: #f87171;
+   --color-red-500: #ef4444;
+   --color-red-600: #dc2626;
+   --color-red-700: #b91c1c;
+   --color-red-800: #991b1b;
+   --color-red-900: #7f1d1d;
+
+   /* Colors - Amber */
+   --color-amber-50: #fffbeb;
+   --color-amber-100: #fef3c7;
+   --color-amber-200: #fde68a;
+   --color-amber-300: #fcd34d;
+   --color-amber-400: #fbbf24;
+   --color-amber-500: #f59e0b;
+   --color-amber-600: #d97706;
+   --color-amber-700: #b45309;
+   --color-amber-800: #92400e;
+   --color-amber-900: #78350f;
+
+   /* Spacing */
+   --space-0: 0;
+   --space-1: 0.25rem;
+   --space-2: 0.5rem;
+   --space-3: 0.75rem;
+   --space-4: 1rem;
+   --space-5: 1.25rem;
+   --space-6: 1.5rem;
+   --space-8: 2rem;
+   --space-10: 2.5rem;
+   --space-12: 3rem;
+   --space-16: 4rem;
+   --space-20: 5rem;
+   --space-24: 6rem;
+   --space-32: 8rem;
+
+   /* Border Radius */
+   --radius-none: 0;
+   --radius-sm: 0.125rem;
+   --radius-base: 0.25rem;
+   --radius-md: 0.375rem;
+   --radius-lg: 0.5rem;
+   --radius-xl: 0.75rem;
+   --radius-2xl: 1rem;
+   --radius-3xl: 1.5rem;
+   --radius-full: 9999px;
+
+   /* Typography */
+   --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+   --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+   --font-size-xs: 0.75rem;
+   --font-size-sm: 0.875rem;
+   --font-size-base: 1rem;
+   --font-size-lg: 1.125rem;
+   --font-size-xl: 1.25rem;
+   --font-size-2xl: 1.5rem;
+   --font-size-3xl: 1.875rem;
+   --font-size-4xl: 2.25rem;
+   --font-size-5xl: 3rem;
+
+   --font-weight-normal: 400;
+   --font-weight-medium: 500;
+   --font-weight-semibold: 600;
+   --font-weight-bold: 700;
+
+   --line-height-tight: 1.25;
+   --line-height-normal: 1.5;
+   --line-height-relaxed: 1.75;
+
+   /* Shadows */
+   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+   --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+   /* Transitions */
+   --transition-fast: 150ms ease;
+   --transition-base: 250ms ease;
+   --transition-slow: 350ms ease;
+   --transition-bounce: 250ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ==========================================================================
+   Semantic Design Tokens - Light Theme (Default)
+   ========================================================================== */
+
+:root {
+   /* Background Colors */
+   --bg-primary: var(--color-white);
+   --bg-secondary: var(--color-gray-50);
+   --bg-tertiary: var(--color-gray-100);
+   --bg-elevated: var(--color-white);
+   --bg-overlay: rgba(0, 0, 0, 0.5);
+
+   /* Text Colors */
+   --text-primary: var(--color-gray-900);
+   --text-secondary: var(--color-gray-600);
+   --text-tertiary: var(--color-gray-500);
+   --text-inverse: var(--color-white);
+   --text-brand: var(--color-blue-600);
+   --text-success: var(--color-green-600);
+   --text-warning: var(--color-amber-600);
+   --text-danger: var(--color-red-600);
+
+   /* Border Colors */
+   --border-primary: var(--color-gray-200);
+   --border-secondary: var(--color-gray-300);
+   --border-focus: var(--color-blue-500);
+   --border-success: var(--color-green-500);
+   --border-warning: var(--color-amber-500);
+   --border-danger: var(--color-red-500);
+
+   /* Brand Colors */
+   --brand-primary: var(--color-blue-600);
+   --brand-primary-hover: var(--color-blue-700);
+   --brand-primary-light: var(--color-blue-50);
+   --brand-secondary: var(--color-gray-600);
+   --brand-secondary-hover: var(--color-gray-700);
+
+   /* Component Colors */
+   --nav-bg: var(--color-gray-800);
+   --nav-bg-hover: var(--color-gray-700);
+   --nav-text: var(--color-white);
+
+   --card-bg: var(--color-white);
+   --card-border: var(--color-gray-200);
+   --card-shadow: var(--shadow-md);
+
+   --header-bg: linear-gradient(135deg, var(--color-gray-700) 0%, var(--color-gray-600) 100%);
+   --header-text: var(--color-white);
+
+   --footer-bg: var(--color-gray-100);
+   --footer-text: var(--color-gray-600);
+
+   /* Button Colors */
+   --btn-primary-bg: var(--color-blue-600);
+   --btn-primary-bg-hover: var(--color-blue-700);
+   --btn-primary-text: var(--color-white);
+
+   --btn-secondary-bg: var(--color-gray-100);
+   --btn-secondary-bg-hover: var(--color-gray-200);
+   --btn-secondary-text: var(--color-gray-700);
+
+   --btn-success-bg: var(--color-green-600);
+   --btn-success-bg-hover: var(--color-green-700);
+   --btn-success-text: var(--color-white);
+
+   --btn-danger-bg: var(--color-red-600);
+   --btn-danger-bg-hover: var(--color-red-700);
+   --btn-danger-text: var(--color-white);
+}
+
+/* ==========================================================================
+   Semantic Design Tokens - Dark Theme
+   ========================================================================== */
+
+[data-theme="dark"] {
+   /* Background Colors */
+   --bg-primary: var(--color-gray-900);
+   --bg-secondary: var(--color-gray-800);
+   --bg-tertiary: var(--color-gray-700);
+   --bg-elevated: var(--color-gray-800);
+   --bg-overlay: rgba(0, 0, 0, 0.8);
+
+   /* Text Colors */
+   --text-primary: var(--color-gray-100);
+   --text-secondary: var(--color-gray-300);
+   --text-tertiary: var(--color-gray-400);
+   --text-inverse: var(--color-gray-900);
+   --text-brand: var(--color-blue-400);
+   --text-success: var(--color-green-400);
+   --text-warning: var(--color-amber-400);
+   --text-danger: var(--color-red-400);
+
+   /* Border Colors */
+   --border-primary: var(--color-gray-700);
+   --border-secondary: var(--color-gray-600);
+   --border-focus: var(--color-blue-500);
+   --border-success: var(--color-green-500);
+   --border-warning: var(--color-amber-500);
+   --border-danger: var(--color-red-500);
+
+   /* Brand Colors */
+   --brand-primary: var(--color-blue-500);
+   --brand-primary-hover: var(--color-blue-400);
+   --brand-primary-light: var(--color-blue-900);
+   --brand-secondary: var(--color-gray-400);
+   --brand-secondary-hover: var(--color-gray-300);
+
+   /* Component Colors */
+   --nav-bg: var(--color-gray-900);
+   --nav-bg-hover: var(--color-gray-800);
+   --nav-text: var(--color-gray-100);
+
+   --card-bg: var(--color-gray-800);
+   --card-border: var(--color-gray-700);
+   --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+
+   --header-bg: linear-gradient(135deg, var(--color-gray-700) 0%, var(--color-gray-600) 100%);
+   --header-text: var(--color-white);
+
+   --footer-bg: var(--color-gray-800);
+   --footer-text: var(--color-gray-300);
+
+   /* Button Colors */
+   --btn-primary-bg: var(--color-blue-600);
+   --btn-primary-bg-hover: var(--color-blue-500);
+   --btn-primary-text: var(--color-white);
+
+   --btn-secondary-bg: var(--color-gray-700);
+   --btn-secondary-bg-hover: var(--color-gray-600);
+   --btn-secondary-text: var(--color-gray-200);
+
+   --btn-success-bg: var(--color-green-600);
+   --btn-success-bg-hover: var(--color-green-500);
+   --btn-success-text: var(--color-white);
+
+   --btn-danger-bg: var(--color-red-600);
+   --btn-danger-bg-hover: var(--color-red-500);
+   --btn-danger-text: var(--color-white);
+}
+
+/* ==========================================================================
+   Theme Transition
+   ========================================================================== */
+
+* {
+   transition: background-color var(--transition-base),
+      border-color var(--transition-base),
+      color var(--transition-base);
+}
