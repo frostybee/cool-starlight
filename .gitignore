@@ -22,3 +22,5 @@ __coverage__/
 
 # macOS-specific files
 .DS_Store
+
+.claude/

@@ -241,22 +241,23 @@ Style overrides: Right sidebar, items of the table of content */
   width: fit-content;
   border-left: 2px solid var(--sl-color-gray-5);
   font-weight: 400;
+  background-color: transparent;
+}
 
-  /* Current selected item in the TOC */
-  &:where([aria-current='true']) {
-    border-left: 3px solid var(--fb-toc-color-border);
-    color: var(--sl-color-white);
-    background-color: var(--fb-toc-color-current-bg);
-    width: fit-content;
-    font-weight: 600;
-    border-bottom-right-radius: .25rem !important;
-    border-top-right-radius: .25rem !important;
-  }
+/* Current selected item in the TOC */
+.right-sidebar-panel starlight-toc ul li[class^=astro-] a[aria-current='true'] {
+  border-left: 3px solid var(--fb-toc-color-border);
+  color: var(--fb-toc-current-text-color);
+  background-color: var(--fb-toc-color-current-bg);
+  width: fit-content;
+  font-weight: 600;
+  border-bottom-right-radius: .25rem !important;
+  border-top-right-radius: .25rem !important;
+}
 
-  &:hover {
-    font-weight: 600;
-    border-left: 2px solid var(--fb-toc-color-border);
-  }
+.right-sidebar-panel starlight-toc ul li[class^=astro-] a:hover {
+  font-weight: 600;
+  border-left: 2px solid var(--fb-toc-color-border);
 }
 
 /* Pagination override styles */

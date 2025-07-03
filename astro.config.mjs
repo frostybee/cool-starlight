@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import { passthroughImageService } from 'astro/config';
 import starlight from '@astrojs/starlight';
+// import svelte from '@astrojs/svelte';
 import starlightImageZoom from 'starlight-image-zoom'
 import rehypeExternalLinks from "rehype-external-links";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
@@ -14,6 +15,7 @@ import starlightScrollToTop from 'starlight-scroll-to-top';
 import leftSidebar from './src/config/sidebar/sidebar-items.ts'
 import appConfig from './src/config/website-config.ts'
 
+
 //@see: https://astro.build/config
 export default defineConfig({
   site: appConfig.siteURI,
@@ -21,16 +23,16 @@ export default defineConfig({
   scripts: [
     { src: 'https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js', defer: true }
   ],
-  integrations: [
-    starlight({
-      title: appConfig.title,
-      favicon: appConfig.favicon,
-      social: [
-        { icon: 'github', label: 'GitHub', href: appConfig.gitHubRepoUri },
-      ],
-      tableOfContents: {minHeadingLevel: 2, maxHeadingLevel: 4},
-      //TODO: add the head property.
-      defaultLocale: "en",
+  integrations: [// svelte(),
+  starlight({
+    title: appConfig.title,
+    favicon: appConfig.favicon,
+    social: [
+      { icon: 'github', label: 'GitHub', href: appConfig.gitHubRepoUri },
+    ],
+    tableOfContents: {minHeadingLevel: 2, maxHeadingLevel: 4},
+    //TODO: add the head property.
+    defaultLocale: "en",
 
       // Load components overrides.
       components: {
@@ -44,37 +46,36 @@ export default defineConfig({
         Head: './src/components/search/TelescopeProvider.astro',
       },
 
-      // Load and apply the default custom styles.
-      customCss: [
-        "./src/styles/index.css",
-      ],
+    // Load and apply the default custom styles.
+    customCss: [
+      "./src/styles/index.css",
+    ],
 
-      lastUpdated: true,
-      plugins: [
-        starlightScrollToTop(),
-        starlightImageZoom(),
-        starlightSidebarTopics(
-          [
-            // Load the sidebar items from the ./src/config/sidebar/sidebar-items.ts file.
-            ...leftSidebar
-          ],
+    lastUpdated: true,
+    plugins: [
+      starlightScrollToTop(),
+      starlightImageZoom(),
+      starlightSidebarTopics(
+        [
+          // Load the sidebar items from the ./src/config/sidebar/sidebar-items.ts file.
+          ...leftSidebar
+        ],
 
-          //FIXME: the starlightViewModes plugin is buggy and it doesn't work as expected.
-          // {
-          //   exclude: ["/zen-mode/**/*"],
-			    // }
-        )
-      ],
+        //FIXME: the starlightViewModes plugin is buggy and it doesn't work as expected.
+        // {
+        //   exclude: ["/zen-mode/**/*"],
+              // }
+      )
+    ],
 
-      //TODO: enable the links validator plugin when the site is ready for production or if you want to validate the links in the site.
-      // plugins: [
-      //   starlightLinksValidator({
-      //     errorOnFallbackPages: false,
-      //   }),
-      // ],
-    }
-    ),
-  ],
+    //TODO: enable the links validator plugin when the site is ready for production or if you want to validate the links in the site.
+    // plugins: [
+    //   starlightLinksValidator({
+    //     errorOnFallbackPages: false,
+    //   }),
+    // ],
+  }
+  )],
   markdown: {
     rehypePlugins: [
       rehypeSlug,
@@ -98,6 +99,3 @@ export default defineConfig({
     service: passthroughImageService()
   }
 });
-
-
-
