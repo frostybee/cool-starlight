@@ -414,6 +414,21 @@
     /* Dark text on blue background */
   }
 
+  /* Fix code element readability in reading mode for dark themes */
+  .fb-slide__theme-default .fb-slide__reading-mode-content code,
+  .fb-slide__theme-dracula .fb-slide__reading-mode-content code,
+  .fb-slide__theme-github .fb-slide__reading-mode-content code,
+  .fb-slide__theme-discord .fb-slide__reading-mode-content code,
+  .fb-slide__theme-onedark .fb-slide__reading-mode-content code,
+  .fb-slide__theme-ocean .fb-slide__reading-mode-content code {
+    background-color: var(--fb-surface) !important;
+    color: var(--fb-text) !important;
+    border: 1px solid var(--fb-border) !important;
+    padding: 0.2rem 0.4rem !important;
+    border-radius: 0.25rem !important;
+    font-weight: 500 !important;
+  }
+
   /* Utility classes for common patterns */
   .fb-theme-surface {
     background-color: var(--fb-surface);
