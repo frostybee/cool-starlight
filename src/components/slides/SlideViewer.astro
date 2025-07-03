@@ -1,6 +1,6 @@
 ---
 // SlideViewer.astro - A component that provides slide presentation functionality
-import '../styles/slide-viewer/slideviewer-index.css';
+import '../../styles/slide-viewer/slideviewer-index.css';
 ---
 
 <div id="slide-viewer-trigger">
@@ -365,4 +365,6 @@ import '../styles/slide-viewer/slideviewer-index.css';
 </div>
 
 <!-- Load SlideViewer with ES6 modules -->
-<script type="module" src="../../src/scripts/SlideViewer.js"></script>
+<script>
+  import { SlideViewer, initSlideViewer } from './SlideViewer.js';
+</script>
