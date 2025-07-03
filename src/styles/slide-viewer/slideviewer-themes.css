@@ -173,7 +173,7 @@
     --fb-semantic-error: var(--fb-color-error);
     --fb-slide-indicator-bg: var(--fb-color-primary-main);
     --fb-slide-indicator-text: var(--fb-color-surface-variant);
-    
+
     /* Calculated heading progressions using color-mix */
     --fb-text-heading-1: color-mix(in srgb, var(--fb-color-primary-main) 70%, var(--fb-text-primary));
     --fb-text-heading-2: color-mix(in srgb, var(--fb-color-primary-main) 80%, var(--fb-text-primary));
@@ -181,11 +181,11 @@
     --fb-text-heading-4: color-mix(in srgb, var(--fb-color-primary-main) 95%, var(--fb-text-primary));
     --fb-text-heading-5: color-mix(in srgb, var(--fb-color-primary-main) 97%, var(--fb-text-primary));
     --fb-text-heading-6: var(--fb-color-primary-main);
-    
+
     /* Common component overrides */
     --fb-component-toc-bg: var(--fb-color-surface);
     --fb-component-toc-text: var(--fb-color-text);
-    
+
     /* Component semantic tokens */
     --fb-component-toc-bg: var(--fb-surface-elevated);
     --fb-component-toc-text: var(--fb-text-primary);
@@ -194,20 +194,20 @@
     --fb-component-toc-hover-border: var(--fb-interactive-primary);
     --fb-component-toc-active-bg: var(--fb-slide-indicator-bg);
     --fb-component-toc-active-text: var(--fb-slide-indicator-text);
-    
+
     --fb-component-progress-bg: var(--fb-border-primary);
     --fb-component-progress-fill: var(--fb-interactive-primary);
-    
+
     --fb-component-btn-primary-bg: var(--fb-interactive-primary);
     --fb-component-btn-primary-text: var(--fb-text-inverse);
     --fb-component-btn-primary-hover: var(--fb-interactive-primary-hover);
     --fb-component-btn-secondary-bg: var(--fb-surface-elevated);
     --fb-component-btn-secondary-text: var(--fb-text-primary);
     --fb-component-btn-secondary-hover: var(--fb-surface-hover);
-    
+
     --fb-component-search-highlight-bg: var(--fb-semantic-success);
     --fb-component-search-highlight-text: var(--fb-text-inverse);
-    
+
     --fb-component-bookmark-bg: var(--fb-interactive-primary-light);
     --fb-component-bookmark-border: var(--fb-interactive-primary);
     --fb-component-bookmark-text: var(--fb-interactive-primary);
@@ -225,15 +225,15 @@
     --fb-color-warning: #f59e0b;
     --fb-color-error: #ef4444;
     --fb-slide-indicator-bg: #be8e2d;
-    
+
     /* Custom heading progression for Default */
-    --fb-text-heading-1: #1e40af;
-    --fb-text-heading-2: #2563eb;
-    --fb-text-heading-3: #3b82f6;
-    --fb-text-heading-4: #60a5fa;
-    --fb-text-heading-5: #93c5fd;
+    --fb-text-heading-1: #ffffff;
+    --fb-text-heading-2: #f8fafc;
+    --fb-text-heading-3: #e2e8f0;
+    --fb-text-heading-4: #cbd5e1;
+    --fb-text-heading-5: #94a3b8;
     --fb-text-heading-6: var(--fb-color-primary-main);
-    
+
     /* Override primitive colors for dark theme */
     --fb-color-neutral-0: var(--fb-color-background);
     --fb-color-neutral-50: var(--fb-color-surface-variant);
@@ -259,13 +259,13 @@
     --fb-color-error: #ef4444;
     --fb-surface-hover: var(--fb-color-neutral-200);
     --fb-slide-indicator-bg: var(--fb-color-blue-500);
-    
+
     /* Custom heading progression for Default Light */
-    --fb-text-heading-1: #1e40af;
-    --fb-text-heading-2: #2563eb;
-    --fb-text-heading-3: #3b82f6;
-    --fb-text-heading-4: #60a5fa;
-    --fb-text-heading-5: #93c5fd;
+    --fb-text-heading-1: #1f2937;
+    --fb-text-heading-2: #374151;
+    --fb-text-heading-3: #4b5563;
+    --fb-text-heading-4: #6b7280;
+    --fb-text-heading-5: #9ca3af;
     --fb-text-heading-6: var(--fb-color-primary-main);
   }
 
@@ -280,7 +280,7 @@
     --fb-color-success: #50fa7b;
     --fb-color-warning: #ffb86c;
     --fb-color-error: #ff5555;
-    
+
     /* Custom heading progression for Dracula */
     --fb-text-heading-1: #b33367;
     --fb-text-heading-2: #cc417a;
@@ -303,7 +303,7 @@
     --fb-color-error: #dc2626;
     --fb-border-primary: #d0d1d6;
     --fb-slide-indicator-text: var(--fb-color-neutral-0);
-    
+
     /* Custom heading progression for Dracula Light */
     --fb-text-heading-1: #5b21b6;
     --fb-text-heading-2: #6d28d9;
@@ -324,7 +324,7 @@
     --fb-color-success: #3fb950;
     --fb-color-warning: #f0883e;
     --fb-color-error: #da3633;
-    
+
     /* Custom heading progression for GitHub */
     --fb-text-heading-1: #0550ae;
     --fb-text-heading-2: #0969da;
@@ -346,7 +346,7 @@
     --fb-color-warning: #bf8700;
     --fb-color-error: #d1242f;
     --fb-slide-indicator-text: var(--fb-color-background);
-    
+
     /* Custom heading progression for GitHub Light */
     --fb-text-heading-1: #043c8a;
     --fb-text-heading-2: #05459a;
@@ -367,7 +367,7 @@
     --fb-color-success: #57f287;
     --fb-color-warning: #fee75c;
     --fb-color-error: #ed4245;
-    
+
     /* Custom heading progression for Discord */
     --fb-text-heading-1: #0f1284;
     --fb-text-heading-2: #1a1e9a;
@@ -389,7 +389,7 @@
     --fb-color-warning: #f0b232;
     --fb-color-error: #d83c3e;
     --fb-slide-indicator-text: var(--fb-color-background);
-    
+
     /* Custom heading progression for Discord Light */
     --fb-text-heading-1: #0f1284;
     --fb-text-heading-2: #1a1e9a;
@@ -410,7 +410,7 @@
     --fb-color-success: #98c379;
     --fb-color-warning: #e5c07b;
     --fb-color-error: #e06c75;
-    
+
     /* Custom heading progression for One Dark */
     --fb-text-heading-1: #ffffff;
     --fb-text-heading-2: #abb2bf;
@@ -432,7 +432,7 @@
     --fb-color-warning: #c18401;
     --fb-color-error: #e45649;
     --fb-slide-indicator-text: var(--fb-color-surface);
-    
+
     /* Custom heading progression for One Dark Light */
     --fb-text-heading-1: #1f2328;
     --fb-text-heading-2: #383a42;
@@ -453,7 +453,7 @@
     --fb-color-success: #4cceac;
     --fb-color-warning: #ffa726;
     --fb-color-error: #f44336;
-    
+
     /* Custom heading progression for Ocean */
     --fb-text-heading-1: #0084af;
     --fb-text-heading-2: #0094bf;
@@ -475,7 +475,7 @@
     --fb-color-warning: #ef6c00;
     --fb-color-error: #c62828;
     --fb-slide-indicator-text: var(--fb-color-background);
-    
+
     /* Custom heading progression for Ocean Light */
     --fb-text-heading-1: #01336d;
     --fb-text-heading-2: #014481;
@@ -560,7 +560,7 @@
 
   .fb-slide__progress-bar {
     background-color: var(--fb-component-progress-bg);
-  } 
+  }
 
    .fb-slide__progress-fill {
     background-color: var(--fb-component-progress-fill);
@@ -587,7 +587,7 @@
       --fb-font-size-5xl: var(--fb-font-size-4xl);
     }
   }
-  
+
   /* High contrast accessibility support */
   @media (prefers-contrast: high) {
     :root {
@@ -596,7 +596,7 @@
       --fb-interactive-primary: var(--fb-color-blue-700);  /* Higher contrast blue */
     }
   }
-  
+
   /* Reduced motion accessibility */
   @media (prefers-reduced-motion: reduce) {
     :root {

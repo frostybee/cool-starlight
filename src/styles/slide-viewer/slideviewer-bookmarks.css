@@ -377,7 +377,6 @@
 
   /* Enhanced bookmark states for different themes */
   .fb-slide__bookmark-btn.bookmarked {
-    position: relative;
     background: var(--fb-interactive-primary) !important;
     color: var(--fb-component-btn-primary-text) !important;
     border-color: var(--fb-interactive-primary) !important;

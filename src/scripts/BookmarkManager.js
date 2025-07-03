@@ -91,18 +91,25 @@ export class BookmarkManager {
 
   bindEvents() {
     // Bookmark toggle button.
-    this.bookmarkToggle.addEventListener('click', () => {
+    this.bookmarkToggle.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       this.togglePanel();
     });
 
     // Bookmark current slide button.
-    this.bookmarkBtn.addEventListener('click', () => {
+    this.bookmarkBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       this.toggleBookmark(this.slideViewer.currentSlide);
+      this.bookmarkBtn.blur();
     });
 
     // Close panel button.
     const closeBtn = this.bookmarkPanel.querySelector('.fb-slide__bookmark-close');
-    closeBtn.addEventListener('click', () => {
+    closeBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       this.closePanel();
     });
 
@@ -148,7 +155,7 @@ export class BookmarkManager {
     this.updateUI();
     this.updateBookmarksList();
     this.updateThumbnailBookmarkIndicators();
-    
+
     // Update TOC bookmark indicators
     if (this.slideViewer.tocManager) {
       this.slideViewer.tocManager.updateBookmarkIndicators();
@@ -167,7 +174,7 @@ export class BookmarkManager {
     this.updateUI();
     this.updateBookmarksList();
     this.updateThumbnailBookmarkIndicators();
-    
+
     // Update TOC bookmark indicators
     if (this.slideViewer.tocManager) {
       this.slideViewer.tocManager.updateBookmarkIndicators();
@@ -256,6 +263,8 @@ export class BookmarkManager {
           return;
         }
 
+        event.preventDefault();
+        event.stopPropagation();
         this.slideViewer.goToSlide(slideIndex);
         this.closePanel();
       });
@@ -266,6 +275,7 @@ export class BookmarkManager {
       const slideIndex = parseInt(btn.dataset.slide);
 
       btn.addEventListener('click', (event) => {
+        event.preventDefault();
         event.stopPropagation();
         this.removeBookmark(slideIndex);
       });
