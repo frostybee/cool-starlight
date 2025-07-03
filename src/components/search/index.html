@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telescope Search Demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #1a1b26;
+            color: #a9b1d6;
+        }
+
+        h1 {
+            color: #7aa2f7;
+        }
+
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #24283b;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            background-color: #7aa2f7;
+            color: #1a1b26;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background-color: #89b4fa;
+        }
+
+        kbd {
+            background-color: #414868;
+            border-radius: 3px;
+            border: 1px solid #565f89;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+            color: #c0caf5;
+            display: inline-block;
+            font-size: 12px;
+            line-height: 1;
+            padding: 2px 5px;
+            margin: 0 2px;
+        }
+
+        /* Telescope Search Modal Styles */
+        .telescope-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(26, 27, 38, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 5vh;
+            z-index: 9999;
+        }
+
+        .telescope-modal-overlay.hidden {
+            display: none;
+        }
+
+        .telescope-modal {
+            width: 800px;
+            max-width: 90%;
+            max-height: 80vh;
+            background-color: #24283b;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .telescope-close-button {
+            position: absolute;
+            top: -10px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            background: none;
+            border: none;
+            color: #565f89;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: all 0.2s ease;
+            padding: 0;
+        }
+
+        .telescope-close-button svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 3;
+            fill: none;
+        }
+
+        .telescope-close-button:hover {
+            background-color: #414868;
+            color: #c0caf5;
+        }
+
+        .telescope-tabs {
+            display: flex;
+            border-bottom: 1px solid #414868;
+            background-color: #1f2335;
+        }
+
+        .telescope-tab {
+            padding: 12px 24px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #565f89;
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .telescope-tab:hover {
+            color: #7aa2f7;
+        }
+
+        .telescope-tab.active {
+            color: #7aa2f7;
+        }
+
+        .telescope-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #7aa2f7;
+        }
+
+        .telescope-search-header {
+            padding: 12px;
+            border-bottom: 1px solid #414868;
+            background-color: #1f2335;
+        }
+
+        .telescope-search-input {
+            width: 95%;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: #414868;
+            color: #c0caf5;
+            outline: none;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .telescope-search-input::placeholder {
+            color: #565f89;
+        }
+
+        .telescope-search-input:focus {
+            background-color: #414868;
+            box-shadow: 0 0 0 2px #7aa2f7;
+        }
+
+        .telescope-results {
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+
+        .telescope-result-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .telescope-result-item {
+            display: flex;
+            padding: 4px 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #414868;
+            will-change: background-color;
+            position: relative;
+            pointer-events: all;
+            /* Add position context for pin button */
+            contain: layout;
+        }
+
+        .telescope-result-item:hover {
+            background-color: #414868;
+            transform: translateZ(0);
+        }
+
+        .telescope-result-item.telescope-selected {
+            background-color: #414868;
+            border-left: 3px solid #7aa2f7;
+            padding-left: 7px;
+        }
+
+        .telescope-result-title-column {
+            flex: 0 0 160px;
+            padding-right: 8px;
+            border-right: 1px solid #414868;
+        }
+
+        .telescope-result-item:hover .telescope-result-title-column,
+        .telescope-result-item.telescope-selected .telescope-result-title-column {
+            border-right-color: #7aa2f7;
+        }
+
+        .telescope-result-preview-column {
+            flex: 1;
+            padding-left: 8px;
+        }
+
+        .telescope-result-item:hover .telescope-result-preview-column,
+        .telescope-result-item.telescope-selected .telescope-result-preview-column {
+            opacity: 1;
+        }
+
+        .telescope-result-title {
+            font-weight: 600;
+            color: #7aa2f7;
+            margin-bottom: 1px;
+            font-size: 13px;
+            line-height: 1.2;
+        }
+
+        .telescope-result-path {
+            font-size: 10px;
+            color: #565f89;
+            margin-top: 0;
+            line-height: 1.2;
+        }
+
+        .telescope-result-description {
+            font-size: 12px;
+            color: #a9b1d6;
+            margin: 1px 0;
+            line-height: 1.2;
+        }
+
+        .telescope-result-tags {
+            margin-top: 2px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+        }
+
+        .telescope-tag {
+            background-color: #414868;
+            border-radius: 8px;
+            padding: 0 5px;
+            font-size: 10px;
+            color: #c0caf5;
+            line-height: 1.5;
+        }
+
+        .telescope-no-results {
+            padding: 16px;
+            text-align: center;
+            color: #565f89;
+            font-style: italic;
+        }
+
+        .telescope-footer {
+            padding: 8px 16px;
+            border-top: 1px solid #414868;
+            background-color: #1f2335;
+        }
+
+        .telescope-shortcuts {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            font-size: 12px;
+            color: #565f89;
+        }
+
+        .telescope-shortcuts span {
+            display: flex;
+            align-items: center;
+        }
+
+        .telescope-section {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+            background-color: #24283b;
+            scrollbar-width: thin;
+            scrollbar-color: #414868 #1f2335;
+        }
+
+        .telescope-section.active {
+            display: block;
+        }
+
+        /* Custom Scrollbar Styles */
+        .telescope-results::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .telescope-results::-webkit-scrollbar-track {
+            background: #1f2335;
+            border-radius: 4px;
+        }
+
+        .telescope-results::-webkit-scrollbar-thumb {
+            background: #414868;
+            border-radius: 4px;
+            border: 2px solid #1f2335;
+        }
+
+        .telescope-results::-webkit-scrollbar-thumb:hover {
+            background: #565f89;
+        }
+
+        /* Firefox Scrollbar Styles */
+        .telescope-results {
+            scrollbar-width: thin;
+            scrollbar-color: #414868 #1f2335;
+        }
+
+        .telescope-section::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .telescope-section::-webkit-scrollbar-track {
+            background: #1f2335;
+            border-radius: 4px;
+        }
+
+        .telescope-section::-webkit-scrollbar-thumb {
+            background: #414868;
+            border-radius: 4px;
+            border: 2px solid #1f2335;
+        }
+
+        .telescope-section::-webkit-scrollbar-thumb:hover {
+            background: #565f89;
+        }
+
+        .telescope-section-separator {
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #565f89;
+            background-color: #1f2335;
+            border-top: 1px solid #414868;
+            border-bottom: 1px solid #414868;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .telescope-recent-section {
+            padding: 0;
+            margin-bottom: 4px;
+        }
+
+        .telescope-recent-header {
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #565f89;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            background-color: #1f2335;
+            border-bottom: 1px solid #414868;
+        }
+
+        /* Pin button styling */
+        .telescope-pin-button {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #565f89;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease, color 0.2s ease;
+            z-index: 775;
+            padding: 6px;
+            border-radius: 4px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: all;
+        }
+
+        .telescope-pin-button svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .telescope-result-item:hover .telescope-pin-button {
+            opacity: 1;
+        }
+
+        .telescope-pin-button.pinned {
+            opacity: 1;
+            color: #7aa2f7;
+        }
+
+        .telescope-pin-button:hover {
+            color: #7aa2f7;
+            background-color: rgba(65, 72, 104, 0.6);
+        }
+
+        .telescope-pinned-section {
+            padding: 0;
+            margin-bottom: 4px;
+        }
+
+        .telescope-pinned-header {
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #565f89;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            background-color: #1f2335;
+            border-bottom: 1px solid #414868;
+        }
+
+        /* Hide cursor class */
+        .hide-cursor {
+            cursor: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo-container">
+        <h1>Telescope Search Demo</h1>
+        <p>This is a demo of the Telescope Search functionality. You can open the search modal by clicking the button
+            below or by pressing <kbd>Ctrl</kbd> + <kbd>P</kbd> (or <kbd>⌘</kbd> + <kbd>P</kbd> on Mac).</p>
+
+        <button id="open-telescope">Open Search (Ctrl+P)</button>
+    </div>
+
+    <!-- Telescope Search Modal HTML Structure -->
+    <div id="telescope-modal-overlay" class="telescope-modal-overlay hidden">
+        <div class="telescope-modal">
+            <button class="telescope-close-button" id="telescope-close-button">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div class="telescope-tabs">
+                <button class="telescope-tab active" data-tab="search">Search</button>
+                <button class="telescope-tab" data-tab="recent">Recent</button>
+            </div>
+
+            <div class="telescope-search-header">
+                <input id="telescope-search-input" class="telescope-search-input" type="text"
+                    placeholder="Search pages..." autocomplete="off" spellcheck="false">
+            </div>
+
+            <div id="telescope-search-section" class="telescope-section active">
+                <div id="telescope-results" class="telescope-results">
+                    <!-- Search results will be populated here -->
+                </div>
+            </div>
+
+            <div id="telescope-recent-section" class="telescope-section">
+                <div id="telescope-recent-results" class="telescope-results">
+                    <!-- Recent results will be populated here -->
+                </div>
+            </div>
+
+            <div class="telescope-footer">
+                <div class="telescope-shortcuts">
+                    <span>↑↓ to navigate</span>
+                    <span>↵ to select</span>
+                    <span>Space to show recent</span>
+                    <span>Esc to close</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock pages data for demonstration
+        const mockPages = [
+            {
+                title: "Home Page",
+                path: "/",
+                description: "Main landing page with overview of the site",
+                tags: ["homepage", "main"]
+            },
+            {
+                title: "About Us",
+                path: "/about",
+                description: "Learn about our company and mission",
+                tags: ["about", "company"]
+            },
+            {
+                title: "Products",
+                path: "/products",
+                description: "Browse our complete product catalog",
+                tags: ["shop", "products"]
+            },
+            {
+                title: "Services",
+                path: "/services",
+                description: "Professional services we offer to clients",
+                tags: ["services", "professional"]
+            },
+            {
+                title: "Blog",
+                path: "/blog",
+                description: "Latest articles and industry insights",
+                tags: ["blog", "articles"]
+            },
+            {
+                title: "Contact",
+                path: "/contact",
+                description: "Get in touch with our team",
+                tags: ["contact", "support"]
+            },
+            {
+                title: "Pricing",
+                path: "/pricing",
+                description: "View our pricing plans and options",
+                tags: ["pricing", "plans"]
+            },
+            {
+                title: "Documentation",
+                path: "/docs",
+                description: "Technical documentation and guides",
+                tags: ["docs", "guide", "technical"]
+            },
+            {
+                title: "Pricing",
+                path: "/pricing",
+                description: "View our pricing plans and options",
+                tags: ["pricing", "plans"]
+            },
+            {
+                title: "Documentation",
+                path: "/docs",
+                description: "Technical documentation and guides",
+                tags: ["docs", "guide", "technical"]
+            },
+            {
+                title: "Pricing",
+                path: "/pricing",
+                description: "View our pricing plans and options",
+                tags: ["pricing", "plans"]
+            },
+            {
+                title: "Documentation",
+                path: "/docs",
+                description: "Technical documentation and guides",
+                tags: ["docs", "guide", "technical"]
+            },
+
+
+        ];
+
+        class TelescopeSearch {
+            constructor() {
+                this.isOpen = false;
+                this.searchQuery = '';
+                this.allPages = mockPages;
+                this.filteredPages = [];
+                this.selectedIndex = 0;
+                this.fuseInstance = null;
+                this.recentPages = this.loadRecentPages();
+                this.pinnedPages = this.loadPinnedPages();
+                this.currentTab = 'search';
+
+                // DOM elements
+                this.modalElement = document.getElementById('telescope-modal-overlay');
+                this.searchInputElement = document.getElementById('telescope-search-input');
+                this.resultsContainerElement = document.getElementById('telescope-results');
+                this.recentResultsContainerElement = document.getElementById('telescope-recent-results');
+                this.tabs = document.querySelectorAll('.telescope-tab');
+                this.closeButton = document.getElementById('telescope-close-button');
+
+                // Bind methods
+                this.handleKeyDown = this.handleKeyDown.bind(this);
+                this.handleSearchKeyDown = this.handleSearchKeyDown.bind(this);
+                this.handleSearchInput = this.handleSearchInput.bind(this);
+                this.close = this.close.bind(this);
+                this.switchTab = this.switchTab.bind(this);
+                this.togglePinPage = this.togglePinPage.bind(this);
+
+                // Initialize
+                this.initializeFuse();
+                this.setupListeners();
+            }
+
+            loadRecentPages() {
+                const recent = localStorage.getItem('telescopeRecentPages');
+                return recent ? JSON.parse(recent) : [];
+            }
+
+            loadPinnedPages() {
+                const pinned = localStorage.getItem('telescopePinnedPages');
+                return pinned ? JSON.parse(pinned) : [];
+            }
+
+            saveRecentPage(page) {
+                // Remove if already exists
+                this.recentPages = this.recentPages.filter(p => p.path !== page.path);
+                // Add to beginning
+                this.recentPages.unshift(page);
+                // Keep only last 5 items
+                this.recentPages = this.recentPages.slice(0, 5);
+                // Save to localStorage
+                localStorage.setItem('telescopeRecentPages', JSON.stringify(this.recentPages));
+            }
+
+            savePinnedPages() {
+                localStorage.setItem('telescopePinnedPages', JSON.stringify(this.pinnedPages));
+            }
+
+            isPagePinned(path) {
+                return this.pinnedPages.some(page => page.path === path);
+            }
+
+            togglePinPage(page) {
+                const pageIndex = this.pinnedPages.findIndex(p => p.path === page.path);
+
+                if (pageIndex > -1) {
+                    // Remove from pinned
+                    this.pinnedPages.splice(pageIndex, 1);
+                } else {
+                    // Add to pinned
+                    this.pinnedPages.push(page);
+                }
+
+                this.savePinnedPages();
+
+                // Refresh the UI
+                this.renderSearchResults();
+                this.renderRecentResults();
+            }
+
+            initializeFuse() {
+                // Only initialize if Fuse.js is available and we have pages
+                if (typeof Fuse !== 'undefined' && this.allPages.length > 0) {
+                    const options = {
+                        keys: [
+                            { name: 'title', weight: 1.0 },
+                            { name: 'headings', weight: 0.75 },
+                            { name: 'description', weight: 0.5 },
+                            { name: 'content', weight: 0.3 },
+                        ],
+                        threshold: 0.4,
+                        includeScore: true,
+                        ignoreLocation: true,
+                        useExtendedSearch: true,
+                        includeMatches: true,
+                        minMatchCharLength: 2
+                    };
+
+                    this.fuseInstance = new Fuse(this.allPages, options);
+                } else {
+                    console.warn('Fuse.js not available or no pages to index');
+                }
+            }
+
+            setupListeners() {
+                // Global keyboard shortcut
+                document.addEventListener('keydown', this.handleKeyDown);
+
+                // Add event listeners to the search input
+                if (this.searchInputElement) {
+                    this.searchInputElement.addEventListener('input', this.handleSearchInput);
+                    this.searchInputElement.addEventListener('keydown', this.handleSearchKeyDown);
+                }
+
+                // Add click handler to close when clicking overlay
+                if (this.modalElement) {
+                    this.modalElement.addEventListener('click', (event) => {
+                        if (event.target === this.modalElement) {
+                            this.close();
+                        }
+                    });
+                }
+
+                // Button to open telescope
+                const openButton = document.getElementById('open-telescope');
+                if (openButton) {
+                    openButton.addEventListener('click', () => this.open());
+                }
+
+                // Add tab switching listeners
+                this.tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        this.switchTab(tab.dataset.tab);
+                    });
+                });
+
+                // Add close button listener
+                if (this.closeButton) {
+                    this.closeButton.addEventListener('click', () => this.close());
+                }
+            }
+
+            handleKeyDown(event) {
+                // Ctrl+P or Cmd+P to open
+                if ((event.ctrlKey || event.metaKey) && event.key === 'p') {
+                    event.preventDefault();
+                    this.open();
+                }
+
+                // Space to show recent
+                if (event.key === ' ' && this.isOpen) {
+                    event.preventDefault();
+                    this.renderRecentResults();
+                }
+
+                // Escape to close
+                if (event.key === 'Escape' && this.isOpen) {
+                    this.close();
+                }
+            }
+
+            handleSearchKeyDown(event) {
+                if (!this.isOpen) return;
+
+                switch (event.key) {
+                    case 'ArrowDown':
+                        event.preventDefault();
+                        // Account for all items in the search view
+                        const pinnedCount = this.currentTab === 'search' ? this.pinnedPages.length : 0;
+                        const recentCount = this.currentTab === 'search'
+                            ? Math.min(this.recentPages.filter(p => !this.isPagePinned(p.path)).length, 5)
+                            : 0;
+                        const searchCount = this.currentTab === 'search'
+                            ? this.filteredPages.filter(p =>
+                                !this.pinnedPages.some(pp => pp.path === p.path) &&
+                                !this.recentPages.some(rp => rp.path === p.path)
+                            ).length
+                            : this.filteredPages.length;
+
+                        const totalItems = pinnedCount + recentCount + searchCount;
+                        this.selectedIndex = (this.selectedIndex + 1) % (totalItems || 1);
+                        this.updateSelectedResult();
+                        break;
+
+                    case 'ArrowUp':
+                        event.preventDefault();
+                        // Similar calculation for up arrow
+                        const pCount = this.currentTab === 'search' ? this.pinnedPages.length : 0;
+                        const rCount = this.currentTab === 'search'
+                            ? Math.min(this.recentPages.filter(p => !this.isPagePinned(p.path)).length, 5)
+                            : 0;
+                        const sCount = this.currentTab === 'search'
+                            ? this.filteredPages.filter(p =>
+                                !this.pinnedPages.some(pp => pp.path === p.path) &&
+                                !this.recentPages.some(rp => rp.path === p.path)
+                            ).length
+                            : this.filteredPages.length;
+
+                        const total = pCount + rCount + sCount;
+                        this.selectedIndex = (this.selectedIndex - 1 + (total || 1)) % (total || 1);
+                        this.updateSelectedResult();
+                        break;
+
+                    case 'Enter':
+                        event.preventDefault();
+                        this.selectCurrentItem();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            handleSearchInput(event) {
+                this.searchQuery = event.target.value;
+                if (this.currentTab === 'recent') {
+                    // Filter recent pages
+                    const filteredRecent = this.recentPages.filter(page =>
+                        page.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                        page.path.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                        (page.description && page.description.toLowerCase().includes(this.searchQuery.toLowerCase()))
+                    );
+                    this.filteredPages = filteredRecent;
+                    this.renderRecentResults();
+                } else {
+                    // Filter all pages
+                    this.filterPages();
+                }
+            }
+
+            filterPages() {
+                const query = this.searchQuery.trim();
+
+                if (!query) {
+                    this.filteredPages = [...this.allPages];
+                } else if (this.fuseInstance) {
+                    // Use Fuse.js for fuzzy search if available
+                    const searchResults = this.fuseInstance.search(query);
+                    this.filteredPages = searchResults.map(result => result.item);
+                } else {
+                    // Fallback to basic filtering if Fuse.js is not available
+                    const lowerQuery = query.toLowerCase();
+                    this.filteredPages = this.allPages.filter(page => {
+                        const title = (page.title || '').toLowerCase();
+                        const path = (page.path || '').toLowerCase();
+                        const description = (page.description || '').toLowerCase();
+
+                        return title.includes(lowerQuery) ||
+                            path.includes(lowerQuery) ||
+                            description.includes(lowerQuery);
+                    });
+                }
+
+                this.selectedIndex = 0;
+                this.renderResults();
+            }
+
+            updateSelectedResult() {
+                // Remove selection from all items
+                const items = document.querySelectorAll('.telescope-result-item');
+                items.forEach(item => item.classList.remove('telescope-selected'));
+
+                // Add selection to current item
+                const selectedItem = document.querySelector(`[data-index="${this.selectedIndex}"]`);
+                if (selectedItem) {
+                    selectedItem.classList.add('telescope-selected');
+
+                    // Scroll into view if needed
+                    selectedItem.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
+                }
+            }
+
+            navigateToPage(path) {
+                const page = this.allPages.find(p => p.path === path);
+                if (page) {
+                    this.saveRecentPage(page);
+                }
+                this.close();
+                // For demo, just alert instead of navigating
+                alert(`Navigating to: ${path}`);
+                // In a real app: window.location.href = path;
+            }
+
+            open() {
+                if (this.isOpen) return;
+
+                this.isOpen = true;
+                this.searchQuery = '';
+                this.selectedIndex = 0;
+                this.filteredPages = [...this.allPages];
+
+                if (this.modalElement) {
+                    this.modalElement.classList.remove('hidden');
+                    // Hide cursor when modal opens
+                    this.modalElement.classList.add('hide-cursor');
+
+                    // Switch to search tab by default
+                    this.switchTab('search');
+
+                    // Show cursor on mouse movement
+                    const handleMouseMove = () => {
+                        this.modalElement.classList.remove('hide-cursor');
+                        this.modalElement.removeEventListener('mousemove', handleMouseMove);
+                    };
+
+                    this.modalElement.addEventListener('mousemove', handleMouseMove);
+                }
+
+                // Render initial content
+                this.renderRecentResults();
+                this.renderSearchResults();
+
+                // Focus the search input - use multiple approaches to ensure focus
+                if (this.searchInputElement) {
+                    // Immediate focus
+                    this.searchInputElement.focus();
+
+                    // Backup focus with short delay
+                    setTimeout(() => {
+                        this.searchInputElement.focus();
+                        this.searchInputElement.value = '';
+
+                        // One more attempt with longer delay as fallback
+                        setTimeout(() => {
+                            this.searchInputElement.focus();
+                        }, 100);
+                    }, 50);
+                }
+            }
+
+            close() {
+                if (!this.isOpen) return;
+
+                this.isOpen = false;
+
+                // Hide the modal by adding the hidden class
+                if (this.modalElement) {
+                    this.modalElement.classList.add('hidden');
+                }
+            }
+
+            renderResults() {
+                if (!this.resultsContainerElement) return;
+
+                // Clear current results
+                this.resultsContainerElement.innerHTML = '';
+
+                // Show recent pages if no search query
+                if (!this.searchQuery.trim() && this.recentPages.length > 0) {
+                    const recentSection = document.createElement('div');
+                    recentSection.className = 'telescope-recent-section';
+
+                    const recentHeader = document.createElement('div');
+                    recentHeader.className = 'telescope-recent-header';
+                    recentHeader.textContent = 'Recently Visited';
+                    recentSection.appendChild(recentHeader);
+
+                    const recentList = document.createElement('ul');
+                    recentList.className = 'telescope-result-list';
+
+                    this.recentPages.forEach((page, index) => {
+                        const listItem = this.createResultItem(page, index, true);
+                        recentList.appendChild(listItem);
+                    });
+
+                    recentSection.appendChild(recentList);
+                    this.resultsContainerElement.appendChild(recentSection);
+                }
+
+                if (this.filteredPages.length === 0) {
+                    // Show no results message
+                    const noResults = document.createElement('div');
+                    noResults.className = 'telescope-no-results';
+                    noResults.textContent = 'No pages found matching your search';
+                    this.resultsContainerElement.appendChild(noResults);
+                    return;
+                }
+
+                // Create results list
+                const resultsList = document.createElement('ul');
+                resultsList.className = 'telescope-result-list';
+
+                this.filteredPages.forEach((page, index) => {
+                    const listItem = this.createResultItem(page, index, false);
+                    resultsList.appendChild(listItem);
+                });
+
+                this.resultsContainerElement.appendChild(resultsList);
+            }
+
+            createResultItem(page, index, isRecent) {
+                const listItem = document.createElement('li');
+                listItem.className = `telescope-result-item ${index === this.selectedIndex ? 'telescope-selected' : ''}`;
+                listItem.setAttribute('data-index', index);
+
+                // Add pin button
+                const isPinned = this.isPagePinned(page.path);
+                const pinButton = document.createElement('button');
+                pinButton.className = `telescope-pin-button ${isPinned ? 'pinned' : ''}`;
+                pinButton.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"></path>
+                </svg>`;
+                pinButton.title = isPinned ? 'Unpin page' : 'Pin page';
+
+                // Stop event propagation to prevent navigation and flickering
+                pinButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    this.togglePinPage(page);
+                });
+
+                // Prevent hover events from bubbling and causing flickering
+                pinButton.addEventListener('mouseenter', (event) => {
+                    event.stopPropagation();
+                });
+
+                pinButton.addEventListener('mouseleave', (event) => {
+                    event.stopPropagation();
+                });
+
+                // Title Column
+                const titleColumn = document.createElement('div');
+                titleColumn.className = 'telescope-result-title-column';
+
+                const titleDiv = document.createElement('div');
+                titleDiv.className = 'telescope-result-title';
+                titleDiv.textContent = page.title || '';
+
+                const pathDiv = document.createElement('div');
+                pathDiv.className = 'telescope-result-path';
+                pathDiv.textContent = page.path || '';
+
+                titleColumn.appendChild(titleDiv);
+                titleColumn.appendChild(pathDiv);
+
+                // Preview Column
+                const previewColumn = document.createElement('div');
+                previewColumn.className = 'telescope-result-preview-column';
+
+                if (page.description) {
+                    const descriptionDiv = document.createElement('div');
+                    descriptionDiv.className = 'telescope-result-description';
+                    descriptionDiv.textContent = page.description;
+                    previewColumn.appendChild(descriptionDiv);
+                }
+
+                if (page.tags && page.tags.length > 0) {
+                    const tagsDiv = document.createElement('div');
+                    tagsDiv.className = 'telescope-result-tags';
+
+                    page.tags.forEach(tag => {
+                        const tagSpan = document.createElement('span');
+                        tagSpan.className = 'telescope-tag';
+                        tagSpan.textContent = tag;
+                        tagsDiv.appendChild(tagSpan);
+                    });
+
+                    previewColumn.appendChild(tagsDiv);
+                }
+
+                // Add columns to list item
+                listItem.appendChild(titleColumn);
+                listItem.appendChild(previewColumn);
+                listItem.appendChild(pinButton);
+
+                // Add event listeners
+                listItem.addEventListener('click', () => {
+                    this.navigateToPage(page.path);
+                });
+
+                listItem.addEventListener('mouseenter', () => {
+                    this.selectedIndex = index;
+                    this.updateSelectedResult();
+                });
+
+                return listItem;
+            }
+
+            switchTab(tabName) {
+                this.currentTab = tabName;
+
+                // Update tab buttons
+                this.tabs.forEach(tab => {
+                    tab.classList.toggle('active', tab.dataset.tab === tabName);
+                });
+
+                // Update sections
+                document.querySelectorAll('.telescope-section').forEach(section => {
+                    section.classList.toggle('active', section.id === `telescope-${tabName}-section`);
+                });
+
+                // Update search input placeholder
+                this.searchInputElement.placeholder = tabName === 'recent' ? 'Filter recent pages...' : 'Search pages...';
+
+                // Render appropriate content
+                if (tabName === 'recent') {
+                    this.renderRecentResults();
+                } else {
+                    this.renderSearchResults();
+                }
+            }
+
+            renderRecentResults() {
+                if (!this.recentResultsContainerElement) return;
+
+                this.recentResultsContainerElement.innerHTML = '';
+
+                if (this.recentPages.length === 0) {
+                    const noResults = document.createElement('div');
+                    noResults.className = 'telescope-no-results';
+                    noResults.textContent = 'No recently visited pages';
+                    this.recentResultsContainerElement.appendChild(noResults);
+                    return;
+                }
+
+                const resultsList = document.createElement('ul');
+                resultsList.className = 'telescope-result-list';
+
+                this.recentPages.forEach((page, index) => {
+                    const listItem = this.createResultItem(page, index, true);
+                    resultsList.appendChild(listItem);
+                });
+
+                this.recentResultsContainerElement.appendChild(resultsList);
+            }
+
+            renderSearchResults() {
+                if (!this.resultsContainerElement) return;
+
+                this.resultsContainerElement.innerHTML = '';
+
+                // Show pinned pages section
+                if (this.pinnedPages.length > 0) {
+                    const pinnedSection = document.createElement('div');
+                    pinnedSection.className = 'telescope-pinned-section';
+
+                    const pinnedHeader = document.createElement('div');
+                    pinnedHeader.className = 'telescope-pinned-header';
+                    pinnedHeader.textContent = 'Pinned Pages';
+                    pinnedSection.appendChild(pinnedHeader);
+
+                    const pinnedList = document.createElement('ul');
+                    pinnedList.className = 'telescope-result-list';
+
+                    this.pinnedPages.forEach((page, index) => {
+                        const listItem = this.createResultItem(page, index, false);
+                        pinnedList.appendChild(listItem);
+                    });
+
+                    pinnedSection.appendChild(pinnedList);
+                    this.resultsContainerElement.appendChild(pinnedSection);
+                }
+
+                // Always show recent pages section at the top
+                if (this.recentPages.length > 0) {
+                    // Add a separator before recent if we have pinned pages
+                    if (this.pinnedPages.length > 0) {
+                        const separator = document.createElement('div');
+                        separator.className = 'telescope-section-separator';
+                        separator.textContent = 'Recently Visited';
+                        this.resultsContainerElement.appendChild(separator);
+                    } else {
+                        // Otherwise add a normal header
+                        const recentSection = document.createElement('div');
+                        recentSection.className = 'telescope-recent-section';
+
+                        const recentHeader = document.createElement('div');
+                        recentHeader.className = 'telescope-recent-header';
+                        recentHeader.textContent = 'Recently Visited';
+                        recentSection.appendChild(recentHeader);
+
+                        this.resultsContainerElement.appendChild(recentSection);
+                    }
+
+                    const recentList = document.createElement('ul');
+                    recentList.className = 'telescope-result-list';
+
+                    // Get recent pages that aren't pinned
+                    const nonPinnedRecent = this.recentPages.filter(
+                        page => !this.isPagePinned(page.path)
+                    );
+
+                    // Change from 3 to 5 recent items
+                    nonPinnedRecent.slice(0, 5).forEach((page, index) => {
+                        // Calculate real index to account for pinned pages
+                        const realIndex = this.pinnedPages.length + index;
+                        const listItem = this.createResultItem(page, realIndex, true);
+                        recentList.appendChild(listItem);
+                    });
+
+                    this.resultsContainerElement.appendChild(recentList);
+                }
+
+                // Add a separator if we have both recent/pinned pages and search results
+                if ((this.recentPages.length > 0 || this.pinnedPages.length > 0) &&
+                    this.filteredPages.length > 0) {
+                    const separator = document.createElement('div');
+                    separator.className = 'telescope-section-separator';
+                    separator.textContent = 'Search Results';
+                    this.resultsContainerElement.appendChild(separator);
+                }
+
+                // Show search results
+                if (this.filteredPages.length === 0) {
+                    // Show no results message
+                    const noResults = document.createElement('div');
+                    noResults.className = 'telescope-no-results';
+                    noResults.textContent = 'No pages found matching your search';
+                    this.resultsContainerElement.appendChild(noResults);
+                    return;
+                }
+
+                const resultsList = document.createElement('ul');
+                resultsList.className = 'telescope-result-list';
+
+                // Filter out pinned and recent pages from search results to avoid duplicates
+                const pinnedPaths = this.pinnedPages.map(p => p.path);
+                const recentPaths = this.recentPages.map(p => p.path);
+                const filteredResults = this.filteredPages.filter(
+                    page => !pinnedPaths.includes(page.path) && !recentPaths.includes(page.path)
+                );
+
+                filteredResults.forEach((page, index) => {
+                    // Calculate real index to account for pinned and recent items
+                    const pinnedCount = this.pinnedPages.length;
+                    const recentCount = Math.min(
+                        this.recentPages.filter(p => !this.isPagePinned(p.path)).length,
+                        5
+                    );
+
+                    const realIndex = pinnedCount + recentCount + index;
+                    const listItem = this.createResultItem(page, realIndex, false);
+                    resultsList.appendChild(listItem);
+                });
+
+                this.resultsContainerElement.appendChild(resultsList);
+            }
+
+            selectCurrentItem() {
+                if (this.currentTab === 'search') {
+                    const pinnedCount = this.pinnedPages.length;
+                    const nonPinnedRecentCount = Math.min(
+                        this.recentPages.filter(p => !this.isPagePinned(p.path)).length,
+                        5
+                    );
+
+                    if (this.selectedIndex < pinnedCount) {
+                        // Selected a pinned item
+                        this.navigateToPage(this.pinnedPages[this.selectedIndex].path);
+                    } else if (this.selectedIndex < (pinnedCount + nonPinnedRecentCount)) {
+                        // Selected a recent item
+                        const nonPinnedRecent = this.recentPages.filter(
+                            page => !this.isPagePinned(page.path)
+                        );
+                        const recentIndex = this.selectedIndex - pinnedCount;
+
+                        if (recentIndex < nonPinnedRecent.length) {
+                            this.navigateToPage(nonPinnedRecent[recentIndex].path);
+                        }
+                    } else {
+                        // Selected a regular search result
+                        const filteredResults = this.filteredPages.filter(
+                            page => !this.pinnedPages.some(p => p.path === page.path) &&
+                                   !this.recentPages.some(p => p.path === page.path)
+                        );
+
+                        const searchIndex = this.selectedIndex - pinnedCount - nonPinnedRecentCount;
+
+                        if (searchIndex < filteredResults.length) {
+                            this.navigateToPage(filteredResults[searchIndex].path);
+                        }
+                    }
+                } else {
+                    // Recent tab logic - remains the same
+                    if (this.selectedIndex < this.recentPages.length) {
+                        this.navigateToPage(this.recentPages[this.selectedIndex].path);
+                    }
+                }
+            }
+        }
+
+        // Initialize the TelescopeSearch when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new TelescopeSearch();
+        });
+    </script>
+</body>
+
+</html>

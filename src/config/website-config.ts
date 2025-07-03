@@ -5,7 +5,7 @@ export default {
   title: 'Cool Starlight',
 
   // The URI of the site. This is used in the <head> of the page.
-  url: 'https://frostybee.github.io/cool-starlight/',
+  siteURI: 'https://frostybee.github.io/cool-starlight/',
 
   // The base directory of the site. Don't include a trailing slash.
   baseDirectory: '/cool-starlight', // TODO: set the base path for the site if you are deploying to a subdirectory (recommended) on GitHub Pages. The directory name must match the name of the GitHub repo.

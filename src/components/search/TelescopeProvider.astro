@@ -1,0 +1,63 @@
+---
+// import TelescopeSearch from "./TelescopeSearch.astro"
+// <TelescopeSearch></TelescopeSearch>
+// Import the TelescopeSearch class
+ // import TelescopeSearch from './telescope-search.js';
+// The TelescopeSearch class automatically initializes itself
+ // when imported, so we don't need additional code here
+
+// Since this component is used as the Head component in astro.config.mjs,
+// we need to ensure it properly sets the character encoding
+const { head } = Astro.props;
+---
+
+<!-- Ensure proper character encoding -->
+<meta charset="UTF-8">
+{head}
+
+<!-- <link rel="stylesheet" href="/src/styles/telescope.css" /> -->
+
+<script>
+  import TelescopeSearch from './telescope-search.js';
+</script>
+
+    <!-- Telescope Search Modal HTML Structure -->
+    <div id="telescope-modal-overlay" class="telescope-modal-overlay hidden">
+        <div class="telescope-modal">
+            <button class="telescope-close-button" id="telescope-close-button">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div class="telescope-tabs">
+                <button class="telescope-tab active" data-tab="search">Search</button>
+                <button class="telescope-tab" data-tab="recent">Recent</button>
+            </div>
+
+            <div class="telescope-search-header">
+                <input id="telescope-search-input" class="telescope-search-input" type="text"
+                    placeholder="Search pages..." autocomplete="off" spellcheck="false">
+            </div>
+
+            <div id="telescope-search-section" class="telescope-section active">
+                <div id="telescope-results" class="telescope-results">
+                    <!-- Search results will be populated here -->
+                </div>
+            </div>
+
+            <div id="telescope-recent-section" class="telescope-section">
+                <div id="telescope-recent-results" class="telescope-results">
+                    <!-- Recent results will be populated here -->
+                </div>
+            </div>
+
+            <div class="telescope-footer">
+                <div class="telescope-shortcuts">
+                    <!-- Use HTML entities instead of direct Unicode characters -->
+                    <span>&uarr;&darr; to navigate</span>
+                    <span>&crarr; to select</span>
+                    <span>Esc to close</span>
+                </div>
+            </div>
+        </div>
+    </div>

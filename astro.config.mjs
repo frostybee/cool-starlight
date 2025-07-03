@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import { passthroughImageService } from 'astro/config';
 import starlight from '@astrojs/starlight';
 // import svelte from '@astrojs/svelte';
 import starlightImageZoom from 'starlight-image-zoom'
@@ -33,15 +34,15 @@ export default defineConfig({
     //TODO: add the head property.
     defaultLocale: "en",
 
-    // Load components overrides.
-    components: {
-      Header: './src/components/Header.astro',
-      // Pagination: './src/components/pages/NavigationArrows.astro',
-      // PageFrame: './src/components/pages/CustomPageFrame.astro',
-      // TableOfContents: './src/components/ui/CustomToC.astro',
-      // PageFrame: './src/components/pages/NavArrowsWithContainer.astro',
-      // TwoColumnContent: './src/components/pages/CustomTwoColumnContent.astro',
-    },
+      // Load components overrides.
+      components: {
+        Header: './src/components/Header.astro',
+        // Pagination: './src/components/pages/NavigationArrows.astro',
+        PageFrame: './src/components/pages/CustomPageFrame.astro',
+        // TableOfContents: './src/components/ui/CustomToC.astro',
+        // PageFrame: './src/components/pages/NavArrowsWithContainer.astro',
+        // TwoColumnContent: './src/components/pages/CustomTwoColumnContent.astro',
+      },
 
     // Load and apply the default custom styles.
     customCss: [
@@ -92,4 +93,7 @@ export default defineConfig({
       ],
     ],
   },
+  image: {
+    service: passthroughImageService()
+  }
 });
