@@ -190,6 +190,7 @@ export class BookmarkManager {
       isBookmarked ? 'Remove bookmark from this slide' : 'Bookmark this slide'
     );
 
+
     // Update bookmark count.
     const count = this.bookmarks.size;
     const countEl = this.bookmarkToggle.querySelector('.fb-slide__bookmark-count');

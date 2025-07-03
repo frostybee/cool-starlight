@@ -8,10 +8,10 @@
     right: 3.2rem;
     width: 3.5rem;
     height: 3.5rem;
-    background: var(--fb-bookmark-bg);
-    border: 2px solid var(--fb-bookmark-border);
+    background: var(--fb-component-bookmark-bg);
+    border: 2px solid var(--fb-component-bookmark-border);
     border-radius: 50%;
-    color: var(--fb-bookmark-text);
+    color: var(--fb-component-bookmark-text);
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
@@ -22,19 +22,13 @@
 
   .fb-slide__bookmark-btn:hover {
     background: var(--fb-surface-hover);
-    color: var(--fb-primary);
-    border-color: var(--fb-primary);
+    color: var(--fb-interactive-primary);
+    border-color: var(--fb-interactive-primary);
     transform: scale(1.5);
   }
 
-  .fb-slide__bookmark-btn.bookmarked {
-    background: var(--fb-primary);
-    color: var(--fb-btn-primary-text);
-    border-color: var(--fb-primary);
-  }
-
   .fb-slide__bookmark-btn.bookmarked:hover {
-    background: var(--fb-primary-hover);
+    background: var(--fb-interactive-primary-hover) !important;
   }
 
   .fb-slide__bookmark-btn svg {
@@ -46,8 +40,8 @@
   }
 
   .fb-slide__bookmark-btn.bookmarked svg {
-    fill: currentColor;
-    stroke: none;
+    fill: currentColor !important;
+    stroke: none !important;
   }
 
   /* Bookmark toggle button in toolbar */
@@ -67,8 +61,8 @@
     bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: var(--fb-surface);
-    color: var(--fb-text);
+    background-color: var(--fb-surface-elevated);
+    color: var(--fb-text-primary);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     font-size: 0.75rem;
@@ -79,7 +73,7 @@
     pointer-events: none;
     z-index: 10;
     margin-bottom: 0.8rem;
-    border: 1px solid var(--fb-border);
+    border: 1px solid var(--fb-border-primary);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   }
 
@@ -97,8 +91,8 @@
     position: absolute;
     top: -0.725rem;
     right: -0.635rem;
-    background: var(--fb-primary);
-    color: var(--fb-btn-primary-text);
+    background: var(--fb-interactive-primary);
+    color: var(--fb-component-btn-primary-text);
     border-radius: 0.75rem;
     padding: 0.225rem 0.475rem;
     font-size: 0.775rem;
@@ -106,7 +100,7 @@
     min-width: 1rem;
     text-align: center;
     line-height: 1.4;
-    border: 1px solid var(--fb-background);
+    border: 1px solid var(--fb-surface-background);
   }
 
   /* Bookmark panel */
@@ -116,8 +110,8 @@
     right: 0;
     width: 320px;
     height: 100vh;
-    background: var(--fb-background);
-    border-left: 1px solid var(--fb-border);
+    background: var(--fb-surface-background);
+    border-left: 1px solid var(--fb-border-primary);
     z-index: 1000;
     display: flex;
     flex-direction: column;
@@ -135,21 +129,21 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
-    border-bottom: 1px solid var(--fb-border);
-    background: var(--fb-surface);
+    border-bottom: 1px solid var(--fb-border-primary);
+    background: var(--fb-surface-elevated);
   }
 
   .fb-slide__bookmark-header h3 {
     margin: 0;
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--fb-text);
+    color: var(--fb-text-primary);
   }
 
   .fb-slide__bookmark-close {
     background: transparent;
     border: none;
-    color: var(--fb-text);
+    color: var(--fb-text-primary);
     cursor: pointer;
     padding: 0.5rem;
     border-radius: 0.25rem;
@@ -161,7 +155,7 @@
 
   .fb-slide__bookmark-close:hover {
     background: var(--fb-surface-hover);
-    color: var(--fb-primary);
+    color: var(--fb-interactive-primary);
   }
 
   .fb-slide__bookmark-close svg {
@@ -186,8 +180,8 @@
     align-items: flex-start;
     gap: 0.75rem;
     padding: 0.75rem;
-    background: var(--fb-surface);
-    border: 1px solid var(--fb-border);
+    background: var(--fb-surface-elevated);
+    border: 1px solid var(--fb-border-primary);
     border-radius: 0.5rem;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -196,7 +190,7 @@
 
   .fb-slide__bookmark-item:hover {
     background: var(--fb-surface-hover);
-    border-color: var(--fb-primary);
+    border-color: var(--fb-interactive-primary);
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
@@ -209,7 +203,7 @@
   .fb-slide__bookmark-number {
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--fb-primary);
+    color: var(--fb-interactive-primary);
     margin-bottom: 0.25rem;
   }
 
@@ -240,8 +234,8 @@
   }
 
   .fb-slide__bookmark-remove:hover {
-    background: color-mix(in srgb, var(--fb-error) 10%, transparent);
-    color: var(--fb-error);
+    background: color-mix(in srgb, var(--fb-semantic-error) 10%, transparent);
+    color: var(--fb-semantic-error);
     opacity: 1;
   }
 
@@ -320,12 +314,12 @@
   .fb-slide__bookmark-toggle:focus,
   .fb-slide__bookmark-close:focus,
   .fb-slide__bookmark-remove:focus {
-    outline: 2px solid var(--fb-primary);
+    outline: 2px solid var(--fb-interactive-primary);
     outline-offset: 2px;
   }
 
   .fb-slide__bookmark-item:focus {
-    outline: 2px solid var(--fb-primary);
+    outline: 2px solid var(--fb-interactive-primary);
     outline-offset: -2px;
   }
 
@@ -347,7 +341,7 @@
     right: 0.5rem;
     width: 1.5rem;
     height: 1.5rem;
-    background: var(--fb-primary);
+    background: var(--fb-interactive-primary);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -360,7 +354,7 @@
   .fb-slide__thumbnail-bookmark svg {
     width: 0.875rem;
     height: 0.875rem;
-    color: var(--fb-btn-primary-text);
+    color: var(--fb-component-btn-primary-text);
     fill: currentColor;
   }
 
@@ -384,7 +378,9 @@
   /* Enhanced bookmark states for different themes */
   .fb-slide__bookmark-btn.bookmarked {
     position: relative;
-    overflow: hidden;
+    background: var(--fb-interactive-primary) !important;
+    color: var(--fb-component-btn-primary-text) !important;
+    border-color: var(--fb-interactive-primary) !important;
   }
 
   .fb-slide__bookmark-btn.bookmarked::before {
@@ -403,11 +399,11 @@
 
   /* Enhanced hover effects */
   .fb-slide__bookmark-btn:hover {
-    box-shadow: 0 4px 20px var(--fb-primary-light);
+    box-shadow: 0 4px 20px var(--fb-interactive-primary-light);
   }
 
   .fb-slide__bookmark-btn.bookmarked:hover {
-    box-shadow: 0 6px 25px var(--fb-primary-light);
+    box-shadow: 0 6px 25px var(--fb-interactive-primary-light);
   }
 
   /* Bookmark panel scrollbar styling */
@@ -420,7 +416,7 @@
   }
 
   .fb-slide__bookmark-content::-webkit-scrollbar-thumb {
-    background: var(--fb-border);
+    background: var(--fb-border-primary);
     border-radius: 3px;
   }
 
@@ -441,7 +437,7 @@
     top: 0;
     bottom: 0;
     width: 3px;
-    background: var(--fb-primary);
+    background: var(--fb-interactive-primary);
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -483,12 +479,12 @@
     .fb-slide__bookmark-toggle:focus,
     .fb-slide__bookmark-close:focus,
     .fb-slide__bookmark-remove:focus {
-      outline: 3px solid var(--fb-text);
+      outline: 3px solid var(--fb-text-primary);
       outline-offset: 3px;
     }
 
     .fb-slide__bookmark-item:focus {
-      outline: 3px solid var(--fb-text);
+      outline: 3px solid var(--fb-text-primary);
       outline-offset: -3px;
     }
   }
