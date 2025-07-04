@@ -29,6 +29,7 @@ export default class TelescopeSearch {
     this.close = this.close.bind(this);
     this.switchTab = this.switchTab.bind(this);
     this.togglePinPage = this.togglePinPage.bind(this);
+    this.togglePinForSelectedItem = this.togglePinForSelectedItem.bind(this);
 
     // Initialize
     this.fetchPages();
@@ -99,6 +100,21 @@ export default class TelescopeSearch {
     // Refresh the UI
     this.renderSearchResults();
     this.renderRecentResults();
+  }
+
+  togglePinForSelectedItem() {
+    // Get the currently selected item from the DOM
+    const selectedItem = document.querySelector('.telescope-result-item.telescope-selected');
+    
+    if (selectedItem && selectedItem.hasAttribute('data-path')) {
+      const path = selectedItem.getAttribute('data-path');
+      const page = this.allPages.find(p => p.path === path) || 
+                   this.recentPages.find(p => p.path === path);
+      
+      if (page) {
+        this.togglePinPage(page);
+      }
+    }
   }
 
   initializeFuse() {
@@ -176,16 +192,16 @@ export default class TelescopeSearch {
   }
 
   handleKeyDown(event) {
-    // Ctrl+P or Cmd+P to open
+    // Ctrl+/ or Cmd+/ to open
     if ((event.ctrlKey || event.metaKey) && event.key === '/') {
       event.preventDefault();
       this.open();
     }
 
-    // Space to show recent
+    // Space to toggle pin for selected item
     if (event.key === ' ' && this.isOpen) {
       event.preventDefault();
-      this.renderRecentResults();
+      this.togglePinForSelectedItem();
     }
 
     // Escape to close
@@ -648,9 +664,10 @@ export default class TelescopeSearch {
       );
 
       // Change from 3 to 5 recent items
+      const pinnedCount = this.pinnedPages.length;
       nonPinnedRecent.slice(0, 5).forEach((page, index) => {
         // Calculate real index to account for pinned pages
-        const realIndex = this.pinnedPages.length + index;
+        const realIndex = pinnedCount + index;
         const listItem = this.createResultItem(page, realIndex, true);
         recentList.appendChild(listItem);
       });
