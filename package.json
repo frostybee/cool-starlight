@@ -18,7 +18,7 @@
     "@expressive-code/plugin-line-numbers": "^0.41.2",
     "@fontsource-variable/plus-jakarta-sans": "^5.2.6",
     "@fontsource-variable/roboto-flex": "^5.2.6",
-    "astro": "^5.10.1",
+    "astro": "^5.11.0",
     "fuse": "^0.12.1",
     "fuse.js": "^7.1.0",
     "prettier": "^3.6.2",
