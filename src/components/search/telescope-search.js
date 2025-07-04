@@ -198,11 +198,6 @@ export default class TelescopeSearch {
       this.open();
     }
 
-    // Space to toggle pin for selected item
-    if (event.key === ' ' && this.isOpen) {
-      event.preventDefault();
-      this.togglePinForSelectedItem();
-    }
 
     // Escape to close
     if (event.key === 'Escape' && this.isOpen) {
@@ -261,6 +256,15 @@ export default class TelescopeSearch {
       case 'Enter':
         event.preventDefault();
         this.selectCurrentItem();
+        break;
+
+      case ' ':
+        // Only handle space for bookmarking if the input is empty or we're at the start
+        if (event.target.value === '' || event.target.selectionStart === 0) {
+          event.preventDefault();
+          this.togglePinForSelectedItem();
+        }
+        // Otherwise, let the space be typed normally
         break;
 
       default:
