@@ -877,13 +877,40 @@
     padding-left: 0;
   }
 
-  .fb-slide__content ul li::before {
-    content: "▶";
+  .fb-slide__content ol {
+    list-style-type: none;
+    padding-left: 0;
+    counter-reset: list-counter;
+  }
+
+  .fb-slide__content ol li {
+    counter-increment: list-counter;
+    position: relative;
+    padding-left: 2em;
+  }
+
+  .fb-slide__content ol li::before {
+    content: counter(list-counter) ".";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: calc(2.5rem * var(--font-scale));
+    font-weight: 700;
     color: var(--fb-interactive-primary);
-    font-weight: bold;
+    line-height: 1;
+    min-width: 2.5em;
+    text-align: left;
+  }
+
+  .fb-slide__content ul li::before {
+    content: "";
+    background-color: var(--fb-interactive-primary);
+    width: 16px;
+    height: 16px;
     display: inline-block;
-    width: 1em;
-    margin-right: 0.5em;
+    margin-right: 0.8em;
+    vertical-align: middle;
+    flex-shrink: 0;
   }
 
   .fb-slide__content strong {

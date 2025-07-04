@@ -14,7 +14,39 @@ import SlideViewer from '../../../components/slides/SlideViewer.astro';
 
 # Slide Viewer Component
 
-The **Slide Viewer** is a powerful Astro component that automatically converts your page content into an interactive slide presentation system. It provides a rich set of features for navigation, customization, and content interaction through a modular architecture.
+The **Slide Viewer** is an Astro component that automatically converts your page content into an interactive slide presentation system. It provides a rich set of features for navigation, customization, and content interaction through a modular architecture.
+
+---
+## Getting Started
+
+### Basic Usage
+Simply add the component to any MDX page:
+
+```astro
+import SlideViewer from '../../../components/slides/SlideViewer.astro';
+
+<SlideViewer />
+```
+
+---
+
+### Content Optimization
+Structure your content for optimal slide generation:
+
+1. **Use clear headings** to define slide boundaries
+2. **Keep sections focused** - one main concept per slide  
+3. **Include visual elements** like code blocks and images
+4. **Write concise content** appropriate for presentation format
+
+---
+
+### Usage Recommendations
+- **Verify keyboard navigation** works smoothly across all features
+- **Check theme compatibility** with your site design
+- **Optimize content length** for slide format presentation
+- **Use bookmarks** to mark important slides for quick reference
+
+The Slide Viewer transforms any content page into a professional presentation experience with minimal setup while providing powerful customization options for advanced users.
 
 ---
 
@@ -205,37 +237,3 @@ The component is built with a modular system of specialized managers:
 - **Local Storage API** for preference persistence
 - **Canvas API** for laser pointer functionality
 - **Fullscreen API** for immersive presentations
-
----
-
-## Getting Started
-
-### Basic Usage
-Simply add the component to any MDX page:
-
-```astro
-import SlideViewer from '../../../components/slides/SlideViewer.astro';
-
-<SlideViewer />
-```
-
----
-
-### Content Optimization
-Structure your content for optimal slide generation:
-
-1. **Use clear headings** to define slide boundaries
-2. **Keep sections focused** - one main concept per slide  
-3. **Include visual elements** like code blocks and images
-4. **Write concise content** appropriate for presentation format
-
----
-
-### Best Practices
-- **Verify keyboard navigation** works smoothly across all features
-- **Check theme compatibility** with your site design
-- **Optimize content length** for slide format presentation
-- **Use bookmarks** to mark important slides for quick reference
-
-The Slide Viewer transforms any content page into a professional presentation experience with minimal setup while providing powerful customization options for advanced users.
-
