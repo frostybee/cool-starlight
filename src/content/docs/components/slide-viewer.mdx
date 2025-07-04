@@ -14,7 +14,7 @@ import SlideViewer from '../../../components/slides/SlideViewer.astro';
 
 # Slide Viewer Component
 
-The **Slide Viewer** is a powerful Astro component that automatically converts your page content into an interactive slide presentation system. It provides a rich set of features for navigation, customization, and content interaction.
+The **Slide Viewer** is a powerful Astro component that automatically converts your page content into an interactive slide presentation system. It provides a rich set of features for navigation, customization, and content interaction through a modular architecture.
 
 ---
 
@@ -27,6 +27,7 @@ The component intelligently parses your page content and creates slides based on
 2. **Content sections** - Logical content breaks are preserved
 3. **Code blocks and lists** - Special formatting is maintained
 4. **Image and media support** - Visual content is properly displayed
+5. **Content filtering** - Automatically excludes scripts, styles, and metadata
 
 ---
 
@@ -35,9 +36,9 @@ Navigate through your presentation using multiple methods:
 
 - **Keyboard shortcuts**: Arrow keys, Page Up/Down, Home/End
 - **Navigation buttons**: Previous/Next slide controls
-- **Direct slide access**: Go to any slide number instantly
-- **Mobile gestures**: Touch-friendly mobile navigation
-- **Progress tracking**: Visual progress bar shows presentation completion
+- **Direct slide access**: Click slide counter or press `G` for go-to modal
+- **Touch gestures**: Mobile-friendly navigation
+- **Progress tracking**: Visual progress bar shows completion
 
 ---
 
@@ -45,7 +46,7 @@ Navigate through your presentation using multiple methods:
 The component offers three distinct viewing experiences:
 
 1. **Slide Mode** - Traditional presentation view with one slide at a time
-2. **Reading Mode** - Continuous document view for in-depth reading
+2. **Reading Mode** - Continuous document view with original content structure
 3. **Overview Mode** - Thumbnail grid showing all slides at once
 
 ---
@@ -53,7 +54,7 @@ The component offers three distinct viewing experiences:
 ## Advanced Search & Discovery
 
 ### Real-time Search
-- **Instant search** across all slide content as you type
+- **Instant search** across all slide content with debounced input
 - **Highlighted matches** with search term emphasis
 - **Filtered results** showing only relevant slides
 - **Search persistence** across different viewing modes
@@ -61,103 +62,108 @@ The component offers three distinct viewing experiences:
 ---
 
 ### Search Modal
-Access the advanced search interface with enhanced features:
+Advanced search interface with enhanced features:
 
-1. **Debounced search** for smooth performance
-2. **Keyboard navigation** through search results
+1. **Modal interface** opened with `/` or `F` keys
+2. **Keyboard navigation** through search results with arrow keys
 3. **Content snippets** showing search context
-4. **Quick navigation** to matching slides
+4. **Reading mode support** with section-aware search
 
 ### Interactive Table of Contents
-- **Smart TOC generation** based on content structure
-- **Slide previews** on hover for quick content overview
-- **Reading time estimates** for each slide section
-- **Bookmark indicators** showing saved slides
-- **Collapsible sidebar** to maximize content space
+- **Smart TOC generation** based on slide headings or content structure
+- **Slide previews** with hover effects showing content summary
+- **Reading time estimates** calculated at 200 words per minute
+- **Bookmark indicators** showing saved slides with star icons
+- **Collapsible sidebar** with toggle and click-to-expand
 
 ---
 
 ## Interactive Tools & Features
 
 ### Laser Pointer System
-A sophisticated annotation tool with multiple drawing modes:
+Sophisticated annotation tool with multiple drawing modes:
 
-- **Freehand drawing** for natural sketching and highlighting
-- **Shape tools**: Circles, rectangles, and straight lines
-- **Customizable settings**:
-  1. Adjustable colors and thickness
-  2. Configurable fade duration (0.5-5 seconds)
-  3. Reverse fade animation options
-  4. Live preview of settings changes
+**Drawing Modes:**
+- **Freehand drawing** - Natural sketching with smooth curves
+- **Circle tool** - Perfect circles with drag-to-resize
+- **Rectangle tool** - Rectangular shapes with drag-to-resize
+- **Line tool** - Straight lines with precise endpoints
+
+**Settings:**
+- **Color picker** - Choose from any color
+- **Thickness control** - Adjustable from 1-10 pixels
+- **Fade duration** - Configurable from 0.5-5 seconds
+- **Reverse fade** - Lines can undraw from end back to start
+- **Persistent storage** - Settings saved to localStorage
 
 ---
 
 ### Bookmark Management
-Keep track of important slides with the bookmark system:
+Keep track of important slides:
 
-- **Quick bookmarking** with keyboard shortcuts (B key)
-- **Bookmark panel** showing all saved slides with previews
-- **Persistent storage** - bookmarks saved across sessions
-- **Visual indicators** in thumbnails and TOC
-- **Easy navigation** to bookmarked content
+- **Quick bookmarking** with `B` key or click bookmark button
+- **Bookmark panel** with `Shift+B` showing all saved slides
+- **Slide previews** with slide numbers and content excerpts
+- **Persistent storage** - Bookmarks saved per page URL
+- **Visual indicators** in thumbnails, TOC, and current slide
 
 ---
 
 ### Font Size Control
 Accessibility-focused text scaling:
 
-- **Dynamic font adjustment** with + and - controls
-- **Range**: 60% to 500% scaling
-- **Reset functionality** via double-click
-- **Persistent preferences** saved to local storage
-- **Mobile-optimized** controls for touch devices
+- **Dynamic font adjustment** with +/- buttons
+- **Range**: 60% to 500% scaling with validation
+- **Double-click reset** on decrease button
+- **Persistent preferences** saved to localStorage
 
 ---
 
 ## Customization & Themes
 
 ### Theme System
-Choose from 6 carefully designed themes:
+Choose from 6 carefully designed themes with light/dark variants:
 
-1. **Light** - Clean, minimal light theme
-2. **Dark** - Modern dark theme for low-light environments
-3. **Dracula** - Popular developer-friendly purple theme
-4. **GitHub** - Familiar GitHub-inspired design
-5. **Discord** - Gaming-community inspired dark theme
-6. **One Dark** - Atom editor's beloved color scheme
+1. **Default** - Clean, minimal theme
+2. **Dracula** - Popular developer-friendly purple theme
+3. **GitHub** - Familiar GitHub-inspired design
+4. **Discord** - Gaming-community inspired dark theme
+5. **One Dark** - Atom editor's beloved color scheme
+6. **Ocean** - Blue-toned theme with calming colors
+
+### Light/Dark Theme Toggle
+Independent light/dark toggle system:
+
+- **Independent toggle** - Works separately from Starlight's theme
+- **Persistent preference** - State saved to localStorage
+- **Visual feedback** - Sun/moon icons indicate current state
+- **Theme compatibility** - All themes have light/dark variants
 
 ---
 
 ### Smart Theme Compatibility
 - **Automatic conflict resolution** with Starlight themes
-- **Intelligent defaults** based on your site's theme
 - **Persistent theme selection** across sessions
-- **Theme cycling** with keyboard shortcuts
-
----
-
-### Responsive Design
-- **Desktop-optimized** toolbar with full feature access
-- **Mobile-responsive** interface with touch-friendly controls
-- **Adaptive layouts** that work on any screen size
-- **Progressive enhancement** for different device capabilities
+- **Theme cycling** with `T` keyboard shortcut
+- **Dropdown selector** with available themes
 
 ---
 
 ## Accessibility & Keyboard Support
 
 ### Comprehensive Keyboard Shortcuts
-Master these shortcuts for efficient navigation:
 
 #### Navigation
 - `←` `→` - Previous/Next slide
 - `Page Up` `Page Down` - Previous/Next slide  
 - `Home` - Go to first slide
 - `End` - Go to last slide
-- `G` - Go to specific slide number
+- `G` - Open go-to slide modal
 
 #### Search & Tools
 - `/` or `F` - Open search modal
+- `↑` `↓` - Navigate search results (in modal)
+- `Enter` - Select search result
 - `L` - Toggle laser pointer
 - `S` - Open laser pointer settings
 - `T` - Cycle through themes
@@ -165,14 +171,14 @@ Master these shortcuts for efficient navigation:
 - `Shift + B` - Toggle bookmarks panel
 
 #### General
-- `Esc` - Close slideshow or modal
-- `Shift + ?` - Show keyboard help
+- `Esc` - Close slideshow/modal/panel
+- `Shift + ?` - Show keyboard help modal
 
 ---
 
 ### Accessibility Features
 - **ARIA live regions** for screen reader announcements
-- **Keyboard focus management** with proper tab order
+- **Keyboard focus management** with proper tab order and focus trapping
 - **Screen reader optimized** labels and descriptions
 - **High contrast support** across all themes
 - **Semantic HTML structure** for assistive technologies
@@ -183,21 +189,6 @@ Master these shortcuts for efficient navigation:
 
 ### Modular Architecture
 The component is built with a modular system of specialized managers:
-
-- **SlideViewer.js** - Core presentation engine
-- **SearchManager.js** - Advanced search functionality
-- **LaserPointerManager.js** - Drawing and annotation tools
-- **BookmarkManager.js** - Slide bookmarking system
-- **ThemeManager.js** - Theme switching and compatibility
-- **TOCManager.js** - Table of contents generation
-- **KeyboardHelpManager.js** - Keyboard shortcut system
-- **FontManager.js** - Font size adjustment
-- **FullscreenManager.js** - Fullscreen presentation mode
-- **ReadingModeManager.js** - Alternative reading view
-- **ThumbnailManager.js** - Slide overview generation
-- **MobileMenuManager.js** - Mobile interface optimization
-
----
 
 ### Performance Optimizations
 - **Lazy content loading** for smooth performance
@@ -223,7 +214,7 @@ The component is built with a modular system of specialized managers:
 Simply add the component to any MDX page:
 
 ```astro
-import SlideViewer from '../../../components/SlideViewer.astro';
+import SlideViewer from '../../../components/slides/SlideViewer.astro';
 
 <SlideViewer />
 ```
@@ -241,10 +232,10 @@ Structure your content for optimal slide generation:
 ---
 
 ### Best Practices
-- **Test responsive behavior** on different screen sizes
-- **Verify keyboard navigation** works smoothly
+- **Verify keyboard navigation** works smoothly across all features
 - **Check theme compatibility** with your site design
 - **Optimize content length** for slide format presentation
+- **Use bookmarks** to mark important slides for quick reference
 
 The Slide Viewer transforms any content page into a professional presentation experience with minimal setup while providing powerful customization options for advanced users.
 
