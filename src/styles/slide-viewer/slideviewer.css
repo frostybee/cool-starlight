@@ -11,9 +11,9 @@
     align-items: center;
   }
 
-  .fb-slide__button {
-    background: var(--fb-component-btn-primary-bg);
-    color: var(--fb-component-btn-primary-text);
+  .fb-slide__button {    
+    background: var(--sl-color-accent, var(--fb-component-btn-primary-bg));
+    color: var(--sl-color-white, var(--fb-component-btn-primary-text));
     border: none;
     padding: var(--fb-space-md) var(--fb-space-2xl);
     border-radius: var(--fb-radius-lg);
@@ -29,9 +29,9 @@
   }
 
   .fb-slide__button:hover {
-    background: var(--fb-component-btn-primary-hover);
+    background: var(--sl-color-accent-high, --fb-component-btn-primary-hover);
     transform: translateY(-1px);
-    box-shadow: var(--fb-shadow-md);
+    box-shadow: var(--fb-shadow-md);    
   }
 
   /* Slide container Styles  */

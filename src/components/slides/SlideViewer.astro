@@ -1,11 +1,19 @@
 ---
 // SlideViewer.astro - A component that provides slide presentation functionality
 import '../../styles/slide-viewer/slideviewer-index.css';
+
+interface Props {
+  triggerText?: string;
+  title?: string;
+}
+
+const { triggerText = "View as Slides", title = "Content Slides" } = Astro.props;
+
 ---
 
 <div id="slide-viewer-trigger">
   <button id="start-slideshow" class="fb-slide__button">
-    📽️ View as Slides
+    📽️ {triggerText}
   </button>
 </div>
 
