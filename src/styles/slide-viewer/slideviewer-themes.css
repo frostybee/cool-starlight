@@ -530,15 +530,68 @@
     --fb-btn-primary-text: #0d1117;
   }
 
-  /* Fix code element readability in reading mode for dark themes */
-  [class*="fb-slide__theme-"] .fb-slide__reading-mode-content code {
+  /* Fix code blocks in reading mode to match slide mode styling */
+  [class*="fb-slide__theme-"] .fb-slide__reading-mode-content .expressive-code {
+    background-color: var(--fb-surface-elevated) !important;
+    border: 1px solid var(--fb-border-primary) !important;
+    border-radius: 0.5rem !important;
+    margin: 1.5rem 0 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    overflow: hidden !important;
+  }
+
+  [class*="fb-slide__theme-"] .fb-slide__reading-mode-content .expressive-code .frame {
+    background-color: var(--fb-surface-elevated) !important;
+    border: none !important;
+  }
+
+  [class*="fb-slide__theme-"] .fb-slide__reading-mode-content .expressive-code pre {
+    background-color: var(--fb-surface-elevated) !important;
+    color: var(--fb-text-primary) !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    overflow-x: auto !important;
+  }
+
+  [class*="fb-slide__theme-"] .fb-slide__reading-mode-content .expressive-code code {
+    background-color: transparent !important;
+    color: inherit !important;
+    border: none !important;
+    padding: 0 !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
+
+  /* Fix standalone pre blocks */
+  [class*="fb-slide__theme-"] .fb-slide__reading-mode-content pre:not(.expressive-code pre) {
+    background-color: var(--fb-surface-elevated) !important;
+    color: var(--fb-text-primary) !important;
+    border: 1px solid var(--fb-border-primary) !important;
+    padding: 1rem !important;
+    border-radius: 0.375rem !important;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    overflow-x: auto !important;
+    margin: 1rem 0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* Fix inline code elements */
+  [class*="fb-slide__theme-"] .fb-slide__reading-mode-content code:not(pre code):not(.expressive-code code) {
     background-color: var(--fb-surface-elevated) !important;
     color: var(--fb-text-primary) !important;
     border: 1px solid var(--fb-border-primary) !important;
     padding: 0.2rem 0.4rem !important;
     border-radius: 0.25rem !important;
     font-weight: 500 !important;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
   }
+
+
 
   /* Fix text color in reading mode for dark themes - Override Starlight inherited styles */
   [class*="fb-slide__theme-"] .fb-slide__reading-mode-content ol,

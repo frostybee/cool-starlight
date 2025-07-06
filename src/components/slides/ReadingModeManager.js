@@ -158,6 +158,7 @@ export class ReadingModeManager {
     this.slideViewer.slideContent.appendChild(readingContainer);
   }
 
+
   addReadingModeScrollListener() {
     if (this.scrollListener) {
       this.removeReadingModeScrollListener();
