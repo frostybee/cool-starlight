@@ -31,12 +31,33 @@ import SlideViewer from '../../../components/slides/SlideViewer.astro';
 ---
 
 ### Content Optimization
-Structure your content for optimal slide generation:
+Structure your MDX content using horizontal rules (`---`) to create explicit slide boundaries:
 
-1. **Use clear headings** to define slide boundaries
-2. **Keep sections focused** - one main concept per slide  
-3. **Include visual elements** like code blocks and images
-4. **Write concise content** appropriate for presentation format
+```mdx
+---
+title: My Presentation
+---
+
+# Introduction Slide
+This is the first slide content.
+
+---
+
+# Second Slide
+This is the second slide content.
+
+---
+
+# Third Slide
+This is the third slide content.
+```
+
+**Key Guidelines:**
+- **Use `---` separators** to create explicit slide breaks
+- **One main concept per slide** keep content focused and concise
+- **Start with a clear heading** on each slide for better navigation
+- **Include visual elements** like code blocks, images, and lists
+- **Write presentation-friendly content** avoid overly long paragraphs
 
 ---
 
@@ -46,8 +67,6 @@ Structure your content for optimal slide generation:
 - **Optimize content length** for slide format presentation
 - **Use bookmarks** to mark important slides for quick reference
 
-The Slide Viewer transforms any content page into a professional presentation experience with minimal setup while providing powerful customization options for advanced users.
-
 ---
 
 ## Core Presentation Features
@@ -55,11 +74,11 @@ The Slide Viewer transforms any content page into a professional presentation ex
 ### Automatic Slide Generation
 The component intelligently parses your page content and creates slides based on:
 
-1. **Heading-based divisions** - Each major heading starts a new slide
-2. **Content sections** - Logical content breaks are preserved
-3. **Code blocks and lists** - Special formatting is maintained
-4. **Image and media support** - Visual content is properly displayed
-5. **Content filtering** - Automatically excludes scripts, styles, and metadata
+1. **Heading-based divisions** Each major heading starts a new slide
+2. **Content sections** Logical content breaks are preserved
+3. **Code blocks and lists** Special formatting is maintained
+4. **Image and media support** Visual content is properly displayed
+5. **Content filtering** Automatically excludes scripts, styles, and metadata
 
 ---
 
@@ -68,7 +87,7 @@ Navigate through your presentation using multiple methods:
 
 - **Keyboard shortcuts**: Arrow keys, Page Up/Down, Home/End
 - **Navigation buttons**: Previous/Next slide controls
-- **Direct slide access**: Click slide counter or press `G` for go-to modal
+- **Direct slide access**: Click slide counter or press `G` or `Ctrl+G` for go-to modal
 - **Touch gestures**: Mobile-friendly navigation
 - **Progress tracking**: Visual progress bar shows completion
 
@@ -77,9 +96,9 @@ Navigate through your presentation using multiple methods:
 ### Viewing Modes
 The component offers three distinct viewing experiences:
 
-1. **Slide Mode** - Traditional presentation view with one slide at a time
-2. **Reading Mode** - Continuous document view with original content structure
-3. **Overview Mode** - Thumbnail grid showing all slides at once
+1. **Slide Mode**: Traditional presentation view with one slide at a time
+2. **Reading Mode**: Continuous document view with original content structure
+3. **Overview Mode**: Thumbnail grid showing all slides at once
 
 ---
 
@@ -116,17 +135,17 @@ Advanced search interface with enhanced features:
 Sophisticated annotation tool with multiple drawing modes:
 
 **Drawing Modes:**
-- **Freehand drawing** - Natural sketching with smooth curves
-- **Circle tool** - Perfect circles with drag-to-resize
-- **Rectangle tool** - Rectangular shapes with drag-to-resize
-- **Line tool** - Straight lines with precise endpoints
+- **Freehand drawing** : Natural sketching with smooth curves
+- **Circle tool** : Perfect circles with drag-to-resize
+- **Rectangle tool** : Rectangular shapes with drag-to-resize
+- **Line tool** : Straight lines with precise endpoints
 
 **Settings:**
-- **Color picker** - Choose from any color
-- **Thickness control** - Adjustable from 1-10 pixels
-- **Fade duration** - Configurable from 0.5-5 seconds
-- **Reverse fade** - Lines can undraw from end back to start
-- **Persistent storage** - Settings saved to localStorage
+- **Color picker** : Choose from any color
+- **Thickness control** : Adjustable from 1-10 pixels
+- **Fade duration** : Configurable from 0.5-5 seconds
+- **Reverse fade** : Lines can undraw from end back to start
+- **Persistent storage** : Settings saved to localStorage
 
 ---
 
@@ -136,7 +155,7 @@ Keep track of important slides:
 - **Quick bookmarking** with `B` key or click bookmark button
 - **Bookmark panel** with `Shift+B` showing all saved slides
 - **Slide previews** with slide numbers and content excerpts
-- **Persistent storage** - Bookmarks saved per page URL
+- **Persistent storage** : Bookmarks saved per page URL
 - **Visual indicators** in thumbnails, TOC, and current slide
 
 ---
@@ -156,20 +175,20 @@ Accessibility-focused text scaling:
 ### Theme System
 Choose from 6 carefully designed themes with light/dark variants:
 
-1. **Default** - Clean, minimal theme
-2. **Dracula** - Popular developer-friendly purple theme
-3. **GitHub** - Familiar GitHub-inspired design
-4. **Discord** - Gaming-community inspired dark theme
-5. **One Dark** - Atom editor's beloved color scheme
-6. **Ocean** - Blue-toned theme with calming colors
+1. **Default** : Clean, minimal theme
+2. **Dracula** : Popular developer-friendly purple theme
+3. **GitHub** : Familiar GitHub-inspired design
+4. **Discord** : Gaming-community inspired dark theme
+5. **One Dark** : Atom editor's beloved color scheme
+6. **Ocean** : Blue-toned theme with calming colors
 
 ### Light/Dark Theme Toggle
 Independent light/dark toggle system:
 
-- **Independent toggle** - Works separately from Starlight's theme
-- **Persistent preference** - State saved to localStorage
-- **Visual feedback** - Sun/moon icons indicate current state
-- **Theme compatibility** - All themes have light/dark variants
+- **Independent toggle** : Works separately from Starlight's theme
+- **Persistent preference** : State saved to localStorage
+- **Visual feedback** : Sun/moon icons indicate current state
+- **Theme compatibility** : All themes have light/dark variants
 
 ---
 
@@ -190,7 +209,7 @@ Independent light/dark toggle system:
 - `Page Up` `Page Down` - Previous/Next slide  
 - `Home` - Go to first slide
 - `End` - Go to last slide
-- `G` - Open go-to slide modal
+- `G` or `Ctrl+G` - Open go-to slide modal
 
 #### Search & Tools
 - `/` or `F` - Open search modal
@@ -218,9 +237,6 @@ Independent light/dark toggle system:
 ---
 
 ## Technical Implementation
-
-### Modular Architecture
-The component is built with a modular system of specialized managers:
 
 ### Performance Optimizations
 - **Lazy content loading** for smooth performance
