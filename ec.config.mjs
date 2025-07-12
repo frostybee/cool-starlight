@@ -2,6 +2,7 @@ import { definePlugin } from "@expressive-code/core";
 import { h } from "@expressive-code/core/hast";
 import fs from "node:fs";
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
+import { pluginFullscreen } from "./src/plugins/expressive-code-fullscreen.js";
 
 function sideBorder() {
   return definePlugin({
@@ -100,6 +101,7 @@ export default {
     sideBorder(),
     languageLabel(),
     pluginLineNumbers(),
+    pluginFullscreen(),
   ],
   defaultProps: {
     showLineNumbers: false,

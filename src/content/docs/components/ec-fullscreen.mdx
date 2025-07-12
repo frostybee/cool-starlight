@@ -1,0 +1,324 @@
+---
+title: EC Fullscreen Plugin
+description: A plugin for Expressive Code that adds fullscreen viewing capabilities to code blocks with customizable themes and accessibility features.
+sidebar:
+  label: 'EC Fullscreen Plugin'
+  order: 9
+---
+
+:::note[What does it do?]
+The EC Fullscreen Plugin enhances Expressive Code blocks by adding a fullscreen viewing mode with font size controls, keyboard navigation, and extensive customization options.
+:::
+
+## Features
+
+- **Fullscreen viewing** - View code blocks in a distraction-free fullscreen overlay
+- **Font size controls** - Adjust text size with intuitive +/- buttons
+- **Keyboard shortcuts** - Press `Esc` to exit, use Tab for navigation
+- **Accessibility** - Full ARIA support and screen reader compatibility
+- **Customizable themes** - Extensive styling options for colors and appearance
+- **Browser back button support** - Natural navigation experience
+- **Persistent font size** - Remembers your preferred font size
+
+## Installation
+
+:::danger[Not yet published]
+The plugin is not yet published. 
+:::
+
+## Basic Usage
+
+### Default Configuration
+
+The plugin works out of the box with sensible defaults:
+
+```js
+import { pluginFullscreen } from './src/plugins/expressive-code-fullscreen.js';
+
+export default {
+  plugins: [
+    pluginFullscreen(), // Uses all default options.
+  ],
+};
+```
+
+### Custom Configuration
+
+```js
+import { pluginFullscreen } from './src/plugins/expressive-code-fullscreen.js';
+
+export default {
+  plugins: [
+    pluginFullscreen({
+      enabled: true,
+      fullscreenButtonTooltip: 'View in fullscreen',
+      enableEscapeKey: true,
+      exitOnBrowserBack: true,
+      addToUntitledBlocks: true,
+      animationDuration: 300,
+      theme: {
+        containerBg: 'rgba(0, 0, 0, 0.9)',
+        toolbarBg: 'rgba(45, 45, 45, 0.95)',
+        buttonBg: 'rgba(70, 70, 70, 0.9)',
+        buttonText: '#ffffff',
+        buttonFocus: 'rgba(59, 130, 246, 0.6)',
+      },
+    }),
+  ],
+};
+```
+
+## Configuration Options
+
+### Core Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | `boolean` | `true` | Enable/disable the plugin |
+| `fullscreenButtonTooltip` | `string` | `'Toggle fullscreen view'` | Tooltip text for the fullscreen button |
+| `enableEscapeKey` | `boolean` | `true` | Allow Escape key to exit fullscreen |
+| `exitOnBrowserBack` | `boolean` | `true` | Exit fullscreen when browser back button is pressed |
+| `addToUntitledBlocks` | `boolean` | `true` | Add fullscreen button to code blocks without titles |
+| `animationDuration` | `number` | `200` | Animation duration in milliseconds |
+| `svgPathFullscreenOn` | `string` | Default expand icon | SVG path for the enter fullscreen icon |
+| `svgPathFullscreenOff` | `string` | Default compress icon | SVG path for the exit fullscreen icon |
+
+### Custom SVG Icons
+
+You can customize the fullscreen toggle icons:
+
+```js
+pluginFullscreen({
+  svgPathFullscreenOn: 'M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z',
+  svgPathFullscreenOff: 'M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z',
+})
+```
+
+
+## Accessibility Features
+
+The plugin includes comprehensive accessibility support:
+
+### Keyboard Navigation
+- **Escape** - Exit fullscreen mode
+- **Tab/Shift+Tab** - Navigate between interactive elements
+- **Enter/Space** - Activate buttons
+- **Double-click minus button** - Reset font size to default
+
+### Screen Reader Support
+- ARIA labels and descriptions
+- Live region announcements for font size changes
+- Proper focus management and trapping
+- Semantic HTML structure
+
+### Font Size Controls
+- Persistent font size settings (saved to localStorage)
+- Visual and auditory feedback
+- Accessible tooltips and instructions
+
+## Examples
+
+### Minimal Setup
+```js
+// Just enable with defaults.
+pluginFullscreen()
+```
+
+### Production Configuration
+```js
+pluginFullscreen({
+  enabled: true,
+  fullscreenButtonTooltip: 'View code in fullscreen',
+  enableEscapeKey: true,
+  exitOnBrowserBack: true,
+  animationDuration: 250,
+  theme: {
+    // Match your site's design system.
+    containerBg: 'rgba(var(--sl-color-bg), 0.95)',
+    buttonBg: 'rgba(var(--sl-color-accent), 0.9)',
+    buttonText: 'var(--sl-color-white)',
+    toolbarBg: 'rgba(var(--sl-color-bg-nav), 0.95)',
+    toolbarBorder: 'rgba(var(--sl-color-gray-5), 0.3)',
+    buttonBorder: 'rgba(var(--sl-color-gray-5), 0.2)',
+    buttonFocus: 'rgba(var(--sl-color-accent), 0.6)',
+  }
+})
+```
+
+### Disable for Untitled Blocks
+```js
+pluginFullscreen({
+  addToUntitledBlocks: false, // Only show on blocks with titles.
+})
+```
+
+The fullscreen button will appear in the top-right corner of your code blocks, providing users with an enhanced viewing experience for longer code snippets.
+
+# Fullscreen Plugin Theming System
+
+The Expressive Code Fullscreen Plugin now includes a comprehensive theming system that allows you to customize all visual aspects of the fullscreen interface.
+
+## Quick Start
+
+```javascript
+import { pluginFullscreen } from './src/plugins/expressive-code-fullscreen.js';
+
+// Use the plugin with custom theme
+const fullscreenPlugin = pluginFullscreen({
+  theme: {
+    toolbarBg: 'rgba(30, 30, 30, 0.95)',
+    buttonBg: 'rgba(20, 20, 20, 0.9)',
+    buttonText: '#e0e0e0',
+    // ... other theme options. 
+  }
+});
+```
+
+## Available Theme Options
+
+### Toolbar Styling
+- **`toolbarBg`**: Background color of the font controls toolbar
+  - Default: `'rgba(45, 45, 45, 0.95)'`
+  - Example: `'rgba(30, 30, 30, 0.95)'`, `'#2d2d2d'`
+
+- **`toolbarBorder`**: Border color around the toolbar
+  - Default: `'rgba(255, 255, 255, 0.1)'`
+  - Example: `'rgba(100, 149, 237, 0.3)'`, `'transparent'`
+
+### Button Styling
+- **`buttonBg`**: Default background color of toolbar buttons
+  - Default: `'rgba(35, 35, 35, 0.9)'`
+
+- **`buttonBgHover`**: Background color when hovering over buttons
+  - Default: `'rgba(65, 65, 65, 0.9)'`
+
+- **`buttonBgActive`**: Background color when buttons are pressed
+  - Default: `'rgba(25, 25, 25, 0.9)'`
+
+- **`buttonText`**: Text/icon color for buttons
+  - Default: `'#ffffff'`
+
+- **`buttonBorder`**: Border color for buttons
+  - Default: `'rgba(255, 255, 255, 0.2)'`
+
+- **`buttonFocus`**: Focus outline color for accessibility
+  - Default: `'rgba(74, 144, 226, 0.6)'`
+
+### Container & Effects
+- **`containerBg`**: Background color of the fullscreen overlay
+  - Default: `'rgba(0, 0, 0, 0.85)'`
+
+- **`contentShadow`**: Shadow color for elevated elements
+  - Default: `'rgba(0, 0, 0, 0.5)'`
+
+### Hints & Tooltips
+- **`hintBg`**: Background color for hint messages and tooltips
+  - Default: `'rgba(20, 20, 20, 0.95)'`
+
+- **`hintText`**: Text color for hints and tooltips
+  - Default: `'#ffffff'`
+
+- **`hintBorder`**: Border color for hint elements
+  - Default: `'rgba(255, 255, 255, 0.2)'`
+
+## Theme Examples
+
+### Dark Blue Theme
+```javascript
+pluginFullscreen({
+  theme: {
+    toolbarBg: 'rgba(25, 39, 52, 0.95)',
+    toolbarBorder: 'rgba(100, 149, 237, 0.3)',
+    buttonBg: 'rgba(15, 29, 42, 0.9)',
+    buttonBgHover: 'rgba(35, 49, 62, 0.9)',
+    buttonBgActive: 'rgba(5, 19, 32, 0.9)',
+    buttonText: '#e6f3ff',
+    buttonBorder: 'rgba(100, 149, 237, 0.4)',
+    buttonFocus: 'rgba(100, 149, 237, 0.8)',
+    containerBg: 'rgba(10, 25, 41, 0.9)',
+    contentShadow: 'rgba(0, 20, 40, 0.6)',
+    hintBg: 'rgba(15, 29, 42, 0.95)',
+    hintText: '#e6f3ff',
+    hintBorder: 'rgba(100, 149, 237, 0.3)',
+  }
+})
+```
+
+### Light Theme
+```javascript
+pluginFullscreen({
+  theme: {
+    toolbarBg: 'rgba(248, 249, 250, 0.95)',
+    toolbarBorder: 'rgba(0, 0, 0, 0.1)',
+    buttonBg: 'rgba(255, 255, 255, 0.9)',
+    buttonBgHover: 'rgba(243, 244, 246, 0.9)',
+    buttonBgActive: 'rgba(229, 231, 235, 0.9)',
+    buttonText: '#374151',
+    buttonBorder: 'rgba(0, 0, 0, 0.2)',
+    buttonFocus: 'rgba(59, 130, 246, 0.6)',
+    containerBg: 'rgba(255, 255, 255, 0.95)',
+    contentShadow: 'rgba(0, 0, 0, 0.1)',
+    hintBg: 'rgba(255, 255, 255, 0.95)',
+    hintText: '#374151',
+    hintBorder: 'rgba(0, 0, 0, 0.1)',
+  }
+})
+```
+
+### Custom Brand Colors
+```javascript
+pluginFullscreen({
+  theme: {
+    toolbarBg: 'rgba(67, 56, 202, 0.95)',
+    buttonBg: 'rgba(99, 102, 241, 0.9)',
+    buttonBgHover: 'rgba(129, 140, 248, 0.9)',
+    buttonText: '#ffffff',
+    buttonFocus: 'rgba(168, 85, 247, 0.6)',
+    containerBg: 'rgba(30, 27, 75, 0.9)',
+    hintBg: 'rgba(67, 56, 202, 0.95)',
+  }
+})
+```
+
+### Purple Theme
+```javascript
+pluginFullscreen({
+  theme: {
+    toolbarBg: 'rgba(76, 29, 149, 0.95)',
+    toolbarBorder: 'rgba(167, 139, 250, 0.3)',
+    buttonBg: 'rgba(59, 7, 100, 0.9)',
+    buttonBgHover: 'rgba(91, 33, 182, 0.9)',
+    buttonBgActive: 'rgba(49, 7, 90, 0.9)',
+    buttonText: '#f3e8ff',
+    buttonBorder: 'rgba(167, 139, 250, 0.4)',
+    buttonFocus: 'rgba(167, 139, 250, 0.8)',
+    containerBg: 'rgba(35, 7, 70, 0.9)',
+    contentShadow: 'rgba(76, 29, 149, 0.4)',
+    hintBg: 'rgba(59, 7, 100, 0.95)',
+    hintText: '#f3e8ff',
+    hintBorder: 'rgba(167, 139, 250, 0.3)',
+  }
+})
+```
+
+## CSS Custom Properties
+
+The theming system generates CSS custom properties that you can also override directly in your CSS:
+
+```css
+:root {
+  --cb-fs-toolbar-bg: your-custom-color;
+  --cb-fs-toolbar-border: your-border-color;
+  --cb-fs-button-bg: your-button-color;
+  --cb-fs-button-bg-hover: your-hover-color;
+  --cb-fs-button-bg-active: your-active-color;
+  --cb-fs-button-text: your-text-color;
+  --cb-fs-button-border: your-button-border;
+  --cb-fs-button-focus: your-focus-color;
+  --cb-fs-container-bg: your-container-bg;
+  --cb-fs-content-shadow: your-shadow-color;
+  --cb-fs-hint-bg: your-hint-bg;
+  --cb-fs-hint-text: your-hint-text;
+  --cb-fs-hint-border: your-hint-border;
+}
+```
